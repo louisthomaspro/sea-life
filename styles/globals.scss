@@ -1,0 +1,73 @@
+@import "reset.scss";
+
+@import "primereact/resources/themes/saga-blue/theme.css";
+@import "primereact/resources/primereact.min.css";
+@import "primeflex/primeflex.min.css";
+@import "primeicons/primeicons.css";
+@import "primereact-custom.scss";
+
+// @import "@fancyapps/ui/dist/fancybox.css";
+@import "fancybox.scss";
+
+@import "nprogress/nprogress.css";
+
+@import "react-toastify/dist/ReactToastify.min.css";
+
+:root {
+  font-size: 16px;
+  --font-family: "Nunito";
+  --primary-color: #427396;
+  --text-color-1: #3c3c3c;
+  --text-color-2: #595959;
+  --bg-grey: #f8f8f8;
+  --border-radius: 10px;
+  --global-padding: 22px;
+  --green: #638b59;
+
+  // React-toastify
+  --toastify-color-progress-light: var(--primary-color);
+}
+
+// Native
+
+body {
+  font-family: var(--font-family);
+  color: var(--text-color-1);
+  overscroll-behavior-y: contain;
+  background-color: #ffffff;
+  margin: 0;
+}
+
+a.link {
+  color: var(--primary-color);
+  text-decoration-line: underline;
+  cursor: pointer;
+}
+
+hr {
+  border-bottom: 1px solid var(--text-color-2);
+  width: 100%;
+  margin: 20px 0;
+}
+
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+// Custom classes
+
+.main-container {
+  position: relative;
+  padding: 0 var(--global-padding);
+  width: 100%;
+}
+
+svg.svg-icon {
+  path {
+    fill: var(--text-color-1);
+  }
+}

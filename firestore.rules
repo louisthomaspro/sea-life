@@ -1,0 +1,13 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  	// Default
+    match /{document=**} {
+      allow read, write: if true;
+    }
+    // Prevent duplicate ids
+    match /lives/{life} {
+      allow write: if request.resource.id != resource.id;
+    }
+  }
+}

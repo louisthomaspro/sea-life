@@ -12,22 +12,23 @@ import {
 import { firestore } from "../../firebase/clientApp";
 import { ITaxa, ITaxaResponse } from "../../types/INaturalist/TaxaResponse";
 import { ILife } from "../../types/Life";
+import { ISpecies } from "../../types/Species";
 import { uuidv4 } from "../helper";
 
 const collectionName = "species";
 
-export const getLife = (id: string) => {
+export const getSpecies = (id: string) => {
   const document = getDoc(doc(firestore, `${collectionName}/${id}`));
-  return document.then((doc) => doc.data()) as Promise<ILife>;
+  return document.then((doc) => doc.data()) as Promise<ISpecies>;
 };
 
 export const getAllSpecies = async (
   scientificName?: string
-): Promise<ILife[]> => {
+): Promise<ISpecies[]> => {
   const queryConstraints = [];
   if (scientificName) {
     queryConstraints.push(
-      where("taxonomy_scientific_name", "array-contains", scientificName)
+      where("taxonomy_ids", "array-contains", scientificName)
     );
   }
   const q = query.apply(null, [

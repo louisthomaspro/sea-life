@@ -7,8 +7,9 @@ import GbFlagSvg from "../../public/icons/flags/GB.svg";
 import styled from "styled-components";
 import { m } from "framer-motion";
 import { tapAnimationDuration } from "../../constants/config";
+import { ISpecies } from "../../types/Species";
 
-export default function SpeciesCard(props: { life: ILife }) {
+export default function SpeciesCard(props: { species: ISpecies }) {
   return (
     <m.div
       whileTap={{
@@ -17,47 +18,40 @@ export default function SpeciesCard(props: { life: ILife }) {
       }}
     >
       <Style>
-        <Link href={`/life/${props.life.id}`}>
-          <a
-          // onClick={() => {
-          //   setPageAnimation({ animation: "right", date: new Date() });
-          // }}
-          >
+        <Link href={`/species/${props.species.id}`}>
+          <a>
             <div className="img-wrapper">
-              {props.life?.photos?.[0]?.storage_path && (
+              {props.species?.photos?.[0]?.original_url && (
                 <Image
-                  loader={firebaseStorageLoader}
-                  src={props.life?.photos?.[0]?.storage_path}
+                  src={props.species?.photos?.[0]?.original_url}
                   layout="fill"
                   placeholder="blur"
                   blurDataURL={blurDataURL()}
                   objectFit="cover"
                   sizes="50vw"
-                  alt={
-                    props.life.french_common_name ?? props.life.scientific_name
-                  }
+                  alt={props.species.scientific_name}
                 />
               )}
             </div>
             <div className="content">
-              {props.life.french_common_name && (
+              {props.species.common_name.fr && (
                 <div className="title">
                   <div>
                     <FrFlagSvg width="12px" />
                   </div>
-                  <span className="ml-1">{props.life.french_common_name}</span>
+                  <span className="ml-1">{props.species.common_name.fr}</span>
                 </div>
               )}
-              {props.life.english_common_name && (
+              {props.species.common_name.en && (
                 <div className="title">
                   <div>
                     <GbFlagSvg width="12px" />
                   </div>
-                  <span className="ml-1">{props.life.english_common_name}</span>
+                  <span className="ml-1">{props.species.common_name.en}</span>
                 </div>
               )}
               <div className="scientific-name">
-                {props.life.scientific_name}
+                {props.species.scientific_name}
               </div>
             </div>
           </a>

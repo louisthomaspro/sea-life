@@ -20,7 +20,9 @@ Navigate to [http://localhost:3000](http://localhost:3000)
 
 ```bash
 npm install -g firebase-tools
+alias firebase="`npm config get prefix`/bin/firebase" (optional)
 firebase login
+firebase use sea-life-project (optional)
 ```
 
 ### Start emulation

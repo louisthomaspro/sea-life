@@ -1,14 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ILife } from "../../types/Life";
 import { blurDataURL, firebaseStorageLoader } from "../../utils/helper";
 import styled from "styled-components";
 import { m } from "framer-motion";
 import { tapAnimationDuration } from "../../constants/config";
+import { ISpecies } from "../../types/Species";
 import { IClassItem } from "../../types/Classification";
 import { useRouter } from "next/router";
 
-export default function GroupCard(props: { group: IClassItem }) {
+export default function GroupCardGrid(props: { group: IClassItem }) {
   const router = useRouter();
 
   // http://localhost:3000/explore/mediterranean-sea/fauna
@@ -25,26 +25,24 @@ export default function GroupCard(props: { group: IClassItem }) {
       <Style>
         <Link href={`/explore${slugUrl}/${props.group.permalink}`}>
           <a>
-            <div className="img-wrapper">
-              {/* {props.group?.photos?.[0]?.storage_path && (
-                <Image
-                  loader={firebaseStorageLoader}
-                  src={props.life?.photos?.[0]?.storage_path}
-                  layout="fill"
-                  placeholder="blur"
-                  blurDataURL={blurDataURL()}
-                  objectFit="cover"
-                  sizes="50vw"
-                  priority
-                  alt={
-                    props.life.french_common_name ?? props.life.scientific_name
-                  }
-                />
-              )} */}
+            <div className="grid grid-nogutter">
+              {[1, 2, 3, 4].map((i) => (
+                <div className="col-6 box" key={i}>
+                  <div className="img-container relative">
+                    <Image
+                      src="/img/no-image.png"
+                      layout="fill"
+                      objectFit="cover"
+                      priority
+                      alt={"no image"}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
             <div className="content">
-              <div className="title">{props.group.title.fr ?? "No title"}</div>
-              {Object.keys(props.group.subtitle ?? {}).length > 0 && (
+              <div className="title">{props.group.title.fr}</div>
+              {props.group.subtitle && (
                 <div className="subtitle">
                   (
                   <span className="ellipsis">
@@ -64,26 +62,24 @@ export default function GroupCard(props: { group: IClassItem }) {
 // Style
 const Style = styled.button`
   width: 100%;
-  background-color: var(--bg-grey);
-  border-radius: var(--border-radius);
 
-  a {
-    text-decoration: none;
-    color: var(--text-color-1);
-  }
+  .box {
+    padding: 2px;
 
-  .img-wrapper {
-    width: 100%;
-    position: relative;
-    padding-bottom: 70%;
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
-    overflow: hidden;
+    .img-container {
+      border-radius: 8px;
+      border: 1px solid black;
+      width: 100%;
+      position: relative;
+      padding-bottom: 70%;
+      overflow: hidden;
+    }
   }
 
   .content {
     padding: 4px 12px 6px 12px;
     text-align: center;
-    min-height: 46px;
+    min-height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;

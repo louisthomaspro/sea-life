@@ -16,13 +16,17 @@
 :root {
   font-size: 16px;
   --font-family: "Nunito";
-  --primary-color: #427396;
+  --primary-color: #ee3c06;
   --text-color-1: #3c3c3c;
   --text-color-2: #595959;
   --bg-grey: #f8f8f8;
+  --border-color: #c9c9c9;
+  --border-color-light: #e8e8e8;
   --border-radius: 10px;
-  --global-padding: 22px;
+  --global-padding: 20px;
   --green: #638b59;
+  --blue: #427396;
+  --red: #ce2020;
 
   // React-toastify
   --toastify-color-progress-light: var(--primary-color);
@@ -62,8 +66,12 @@ a {
 
 .main-container {
   position: relative;
-  padding: 0 var(--global-padding);
+  padding: 1rem var(--global-padding);
   width: 100%;
+  flex-direction: column;
+  display: flex;
+  flex: 1;
+  overflow: auto;
 }
 
 svg.svg-icon {

@@ -12,9 +12,7 @@ export default function Section(props: ISectionProps) {
           <h3 className="section-title divider-text">{props.title}</h3>
           <div className="divider-line"></div>
         </div>
-        <div>
-          {props.children}
-        </div>
+        <div>{props.children}</div>
       </div>
     </Style>
   );
@@ -30,6 +28,8 @@ const Style = styled.div`
       align-items: center;
       margin: 24px 0 10px 0;
       color: var(--text-color-2);
+      font-weight: 700;
+      font-size: 16px;
 
       .divider-text {
         margin-right: 10px;
@@ -38,7 +38,7 @@ const Style = styled.div`
       .divider-line {
         flex-grow: 1;
         height: 1px;
-        background-color: var(--text-color-2);
+        background-color: var(--border-color-light);
       }
     }
   }

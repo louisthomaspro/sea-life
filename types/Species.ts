@@ -1,5 +1,5 @@
 // [x: string | number | symbol]: unknown;
-export interface ILife {
+export interface ISpecies {
   id: string;
   // display: boolean;
 
@@ -13,34 +13,45 @@ export interface ILife {
   taxonomy?: ITaxonomy[]; // from inaturalist
 
   rarity?: string; // "rare", "uncommon", "common", "abundant"
-  // habitat?: string[]; //
-  // geographic_distributions?: string[];
-  // conservation_status?: string; // IUCN Red List authority
+  depth_min?: number;
+  depth_max?: number;
+  sizes?: ISpeciesSizes;
+
+  regions?: string[]; // "mediterranean"
+  biotopes?: string[]; // "open_sea", "reef" https://www.observatoire-marin.com/med_biotopes.htm
+  conservation_status?: string; // IUCN Red List authority (https://www.iucnredlist.org/) "DD", "LC", "NT", "VU", "EN", "CR", "EW", "EX", "NE"
+
   // body_shape?: string;
   // longevity?: string;
-  // common_depth_min?: number;
-  // common_depth_max?: number;
-  // common_length?: number;
-  // common_length_type?: string; // "TL", "SL", "WD"...
-  // max_length?: number;
-  // max_length_type?: string; // "TL", "SL", "WD"...
   // diameter?: number;
   // dangerous?: string; // "harmless"...
   // diet: string // or tropic_level: number
 }
 
+export interface ISpeciesSizes {
+  length_max?: number;
+  length_average?: number;
+  alga_length?: number;
+  leaf_diameter?: number;
+  alga_height?: number;
+  plume_diameter?: number;
+  colony_size?: number;
+  polyp_diameter?: number;
+  diameter?: number;
+}
+
 export interface ISpeciesPhoto {
-  id: string; // uuid generated on life creation
+  id: string;
+  storage_path: string;
   original_url: string; // ex: https://static.inaturalist.org/photos/1234567/original.jpg
   attribution: string;
 }
 
 export interface ITaxonomy {
-  id: string;
+  id: number;
   rank: string; // "kingdom", "phylum", "class", "order", "family", "genus", "species"
   scientific_name: string;
   common_name: {
-    fr: string;
-    en: string;
+    [lang: string]: string;
   };
 }

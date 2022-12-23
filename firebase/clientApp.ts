@@ -3,7 +3,7 @@ import {
   connectFirestoreEmulator,
   getFirestore,
 } from "firebase/firestore/lite";
-import { connectStorageEmulator, getStorage, ref } from "firebase/storage";
+import { connectStorageEmulator, getStorage } from "firebase/storage";
 
 const clientCredentials = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,

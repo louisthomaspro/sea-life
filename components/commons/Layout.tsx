@@ -42,17 +42,11 @@ export default function Layout({ children }: LayoutProps) {
     <>
       <NProgress />
       <OfflineToast />
-      <main style={{ maxWidth: "400px"}}>
+      <main style={{ maxWidth: "400px", border: "1px solid black" }}>
         <LazyMotion features={domAnimation}>
           <AnimatePresence initial={false} mode="sync">
-            <m.div
+            {/* <m.div
               key={router.asPath}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100%",
-                width: "100%",
-              }}
               initial="initial"
               animate="enter"
               exit="exit"
@@ -60,9 +54,18 @@ export default function Layout({ children }: LayoutProps) {
               transition={{
                 duration: 0.2,
               }}
+            > */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100vh",
+                width: "100%",
+              }}
             >
               {children}
-            </m.div>
+            </div>
+            {/* </m.div> */}
           </AnimatePresence>
         </LazyMotion>
       </main>

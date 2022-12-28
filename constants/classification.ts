@@ -1,6 +1,4 @@
-import { IClassItem } from "../types/Classification";
-
-export const classification: IClassItem[] = [
+export const classification: any[] = [
   {
     title: {
       fr: "Faune",

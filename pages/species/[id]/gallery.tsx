@@ -3,16 +3,16 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import Header from "../../../components/commons/Header";
-import { ILife } from "../../../types/Life";
-import { getLife } from "../../../utils/firestore/life.firestore";
 import { blurDataURL, firebaseStorageLoader } from "../../../utils/helper";
 
 import React from "react";
 
 import Fancybox from "../../../components/commons/Fancybox";
+import { ISpecies } from "../../../types/Species";
+import { getSpecies } from "../../../utils/firestore/species.firestore";
 
 const Gallery: NextPage<{
-  life: ILife;
+  life: ISpecies;
 }> = ({ life }) => {
   const router = useRouter();
   const { id } = router.query;
@@ -20,8 +20,7 @@ const Gallery: NextPage<{
   return (
     <Style>
       <Header
-        title={life?.french_common_name}
-        showHomeButton
+        title={life?.common_name?.fr[0]}
         showBackButton
         shadow
       />
@@ -57,11 +56,10 @@ const Gallery: NextPage<{
                 <Image
                   loader={firebaseStorageLoader}
                   src={photo.storage_path}
-                  layout="fill"
+                  fill
                   placeholder="blur"
                   blurDataURL={blurDataURL()}
-                  objectFit="cover"
-                  alt={life?.french_common_name}
+                  alt={life?.common_name?.fr[0]}
                 />
               </div>
             </a>
@@ -75,7 +73,7 @@ const Gallery: NextPage<{
 export const getStaticProps: GetStaticProps = async (context) => {
   const { id } = context.params;
 
-  const life: ILife = JSON.parse(JSON.stringify(await getLife(id.toString())));
+  const life: ISpecies = JSON.parse(JSON.stringify(await getSpecies(id.toString())));
 
   if (life) {
     return { props: { life } };

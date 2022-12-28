@@ -31,8 +31,7 @@ export default function SpeciesSlider(props: { species: ISpecies }) {
             blurDataURL={blurDataURL()}
             src={photo.original_url}
             alt={props.species.scientific_name}
-            layout="fill"
-            objectFit="cover"
+            fill
             priority={i === 0}
           />
         </div>

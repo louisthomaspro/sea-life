@@ -1,6 +1,6 @@
 import { ISpeciesPhoto } from "./Species";
 
-export interface IClassItem {
+export interface IGroup {
   id: string;
   title: {
     [lang: string]: string;
@@ -12,7 +12,6 @@ export interface IClassItem {
     [region: string]: ISpeciesPhoto;
   }
   permalink: string;
-  children?: IClassItem[];
   show_species?: boolean;
   species_count?: {
     [region: string]: number;

@@ -20,18 +20,19 @@ Navigate to [http://localhost:3000](http://localhost:3000)
 
 ```bash
 npm install -g firebase-tools
-alias firebase="`npm config get prefix`/bin/firebase" (optional)
-firebase login
-firebase use sea-life-project (optional)
+npx firebase login
+npx firebase use sea-life-app (optional)
 ```
 
 ### Start emulation
 
 ```bash
-firebase ext:export # Get current extension configuration (optional)
-npm run build:watch --prefix functions # Compile functions
+npx firebase init emulators # Select Authentication, Functions, Firestore, Storage
+npx firebase ext:export # Get current extension configuration (optional)
+
+npm run build:watch --prefix functions # Compile functions (open a new terminal)
 # Go to firebase/clientApp.ts and enable lines with "connectFirestoreEmulator" and "connectStorageEmulator"
-firebase emulators:start --import ../firebase_export/
+npx firebase emulators:start --import ./firebase_export/
 
 npm run serve:watch --prefix functions
 ```
@@ -39,20 +40,20 @@ npm run serve:watch --prefix functions
 ### Deploy functions
 
 ```bash
-firebase deploy --only functions
+npx firebase deploy --only functions
 ```
 
 ### Export current local data
 
 ```bash
-firebase emulators:export ./firebase_export
+npx firebase emulators:export ./firebase_export
 ```
 
 ### Other
 
 ```bash
 # Setup emulator Suite manually
-firebase init emulators # Select Authentication, Functions, Firestore, Storage
+npx firebase init emulators # Select Authentication, Functions, Firestore, Storage
 ```
 
 ## Images

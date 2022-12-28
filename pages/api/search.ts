@@ -1,7 +1,7 @@
 import { collection, getDocs, query, where } from "firebase/firestore/lite";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { firestore } from "../../firebase/clientApp";
-import { ILife } from "../../types/Life";
+import { ISpecies } from "../../types/Species";
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,13 +12,13 @@ export default async function handler(
     where("type", "==", "species")
   );
   const querySnapshot = await getDocs(q);
-  const results = await querySnapshot.docs.map((doc) => doc.data() as ILife);
+  const results = await querySnapshot.docs.map((doc) => doc.data() as ISpecies);
 
   const set = new Set();
 
   for (const result of results) {
-    set.add(result.common_length_type);
-    set.add(result.max_length_type);
+    // set.add(result.common_length_type);
+    // set.add(result.max_length_type);
   }
   // const formatted = results.map((result) => {
   //   return { id: result.id };

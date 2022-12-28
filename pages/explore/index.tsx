@@ -1,4 +1,4 @@
-import { GetStaticProps, NextPage } from "next";
+import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import BottomNavigation from "../../components/commons/BottomNavigation";
@@ -8,8 +8,9 @@ import PosidoniaImage from "../../public/img/categories/posidonia.png";
 import { m } from "framer-motion";
 import { tapAnimationDuration } from "../../constants/config";
 import styled from "styled-components";
-import { ISpecies } from "../../types/Species";
-import { getAllSpecies } from "../../utils/firestore/species.firestore";
+import RegionDropdown from "../../components/commons/RegionDropdown";
+import { useContext } from "react";
+import RegionContext from "../../context/region.context";
 
 const Explore: NextPage<{
   count: {
@@ -17,11 +18,14 @@ const Explore: NextPage<{
     flora: number;
   };
 }> = ({ count }) => {
+  const { userRegion } = useContext(RegionContext);
+
   return (
     <>
       <Header title="Explore" />
       <div className="main-container">
         <Style>
+          <RegionDropdown />
           <m.div
             whileTap={{
               scale: tapAnimationDuration,
@@ -29,23 +33,21 @@ const Explore: NextPage<{
             }}
           >
             {/* Categories */}
-            <Link href="explore/fauna">
-              <a>
-                <div className="category fauna">
-                  <div className="content">
-                    <div className="title">Faune</div>
-                    <div className="subtitle">{count?.fauna} espèces</div>
-                  </div>
-                  <div className="align-self-center text-center">
-                    <Image
-                      src={SeaTurtleImage}
-                      alt="Sea Turtle"
-                      width={200}
-                      height={90}
-                    />
-                  </div>
+            <Link href={`explore/${userRegion}/fauna`}>
+              <div className="category fauna">
+                <div className="content">
+                  <div className="title">Faune</div>
+                  <div className="subtitle">{count?.fauna} espèces</div>
                 </div>
-              </a>
+                <div className="align-self-center text-center">
+                  <Image
+                    src={SeaTurtleImage}
+                    alt="Sea Turtle"
+                    width={200}
+                    height={90}
+                  />
+                </div>
+              </div>
             </Link>
           </m.div>
 
@@ -55,23 +57,21 @@ const Explore: NextPage<{
               transition: { duration: 0.1, ease: "easeInOut" },
             }}
           >
-            <Link href="explore/flora">
-              <a>
-                <div className="category flora">
-                  <div className="content">
-                    <div className="title">Flore</div>
-                    <div className="subtitle">{count?.flora} espèces</div>
-                  </div>
-                  <div className="align-self-center text-center">
-                    <Image
-                      src={PosidoniaImage}
-                      alt="Posidonia"
-                      width={200}
-                      height={120}
-                    />
-                  </div>
+            <Link href={`explore/${userRegion}/flora`}>
+              <div className="category flora">
+                <div className="content">
+                  <div className="title">Flore</div>
+                  <div className="subtitle">{count?.flora} espèces</div>
                 </div>
-              </a>
+                <div className="align-self-center text-center">
+                  <Image
+                    src={PosidoniaImage}
+                    alt="Posidonia"
+                    width={200}
+                    height={120}
+                  />
+                </div>
+              </div>
             </Link>
           </m.div>
         </Style>
@@ -79,16 +79,6 @@ const Explore: NextPage<{
       <BottomNavigation />
     </>
   );
-};
-
-export const getStaticProps: GetStaticProps = async (context) => {
-  const fauna_count = (await getAllSpecies("animalia")).length;
-  const flora_count = (await getAllSpecies("plantae")).length;
-
-  return { props: { count: {
-    fauna: fauna_count,
-    flora: flora_count
-  } }, revalidate: 120 };
 };
 
 export default Explore;

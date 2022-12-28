@@ -48,7 +48,7 @@ export default function CustomInfiniteHits(props: UseInfiniteHitsProps) {
       <div className="grid mb-3 grid-nogutter" style={{ marginRight: "-0.25rem", marginLeft: "-0.25rem" }}>
         {hits?.map((life: any) => (
           <div className="col-6 p-1" key={life.id}>
-            <SpeciesCard life={life} />
+            <SpeciesCard species={life} />
           </div>
         ))}
         {/* Skeleton loading */}

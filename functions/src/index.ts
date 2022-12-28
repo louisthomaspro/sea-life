@@ -8,8 +8,10 @@ initializeApp();
 const speciesPhotos = require('./speciesPhotos');
 exports.speciesPhotos = speciesPhotos;
 
+const group = require('./group');
+exports.group = group;
+
 const db = getFirestore();
-const bucket = getStorage().bucket();
 
 // Export species as CSV
 exports.exportCsv = functions
@@ -27,6 +29,13 @@ exports.exportCsv = functions
         res.json(data);
       });
   });
+
+  // Ping
+exports.ping = functions
+.region("europe-west1")
+.https.onRequest((req, res) => {
+  res.json('pong')
+});
 
 ///////////////////////////////
 

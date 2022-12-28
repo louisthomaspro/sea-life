@@ -5,15 +5,15 @@ import styled from "styled-components";
 import { m } from "framer-motion";
 import { tapAnimationDuration } from "../../constants/config";
 import { ISpecies } from "../../types/Species";
-import { IClassItem } from "../../types/Classification";
+import { IGroup } from "../../types/Group";
 import { useRouter } from "next/router";
 
-export default function GroupCardGrid(props: { group: IClassItem }) {
+export default function GroupCardGrid(props: { group: IGroup }) {
   const router = useRouter();
+  const { region, groups } = router.query;
 
-  // http://localhost:3000/explore/mediterranean-sea/fauna
-  const slug = (router.query.slug as string[]) || []; // ["mediterranean-sea", "fauna"]
-  const slugUrl = slug.length > 0 ? "/" + slug.join("/") : ""; // "/mediterranean-sea/fauna"
+  // http://localhost:3000/explore/mediterranean-sea/fauna/mollusk
+  const groupsJoin = (groups as string[]).join("/") // fauna/mollusk
 
   return (
     <m.div
@@ -23,36 +23,34 @@ export default function GroupCardGrid(props: { group: IClassItem }) {
       }}
     >
       <Style>
-        <Link href={`/explore${slugUrl}/${props.group.permalink}`}>
-          <a>
-            <div className="grid grid-nogutter">
-              {[1, 2, 3, 4].map((i) => (
-                <div className="col-6 box" key={i}>
-                  <div className="img-container relative">
-                    <Image
-                      src="/img/no-image.png"
-                      layout="fill"
-                      objectFit="cover"
-                      priority
-                      alt={"no image"}
-                    />
-                  </div>
+        <Link href={`/explore/${region}/${groupsJoin}/${props.group.permalink}`}>
+          <div className="grid grid-nogutter">
+            {[1, 2, 3, 4].map((i) => (
+              <div className="col-6 box" key={i}>
+                <div className="img-container relative">
+                  <Image
+                    src="/img/no-image.png"
+                    fill
+                    style={{ objectFit: "cover" }}
+                    priority
+                    alt={"no image"}
+                  />
                 </div>
-              ))}
-            </div>
-            <div className="content">
-              <div className="title">{props.group.title.fr}</div>
-              {props.group.subtitle && (
-                <div className="subtitle">
-                  (
-                  <span className="ellipsis">
-                    {props.group.subtitle.fr ?? "No subtitle"}
-                  </span>
-                  )
-                </div>
-              )}
-            </div>
-          </a>
+              </div>
+            ))}
+          </div>
+          <div className="content">
+            <div className="title">{props.group.title.fr}</div>
+            {props.group.subtitle && (
+              <div className="subtitle">
+                (
+                <span className="ellipsis">
+                  {props.group.subtitle.fr ?? "No subtitle"}
+                </span>
+                )
+              </div>
+            )}
+          </div>
         </Link>
       </Style>
     </m.div>

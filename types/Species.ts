@@ -11,6 +11,7 @@ export interface ISpecies {
   photos: ISpeciesPhoto[];
   wikipedia_url?: string;
   taxonomy?: ITaxonomy[]; // from inaturalist
+  taxonomy_ids?: string[]; // only scientific names
 
   rarity?: string; // "rare", "uncommon", "common", "abundant"
   depth_min?: number;

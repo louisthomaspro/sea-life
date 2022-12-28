@@ -36,6 +36,7 @@ module.exports = {
           "./node_modules/primereact/menu/*.{js,jsx,ts,tsx}",
           "./node_modules/primereact/menuitem/*.{js,jsx,ts,tsx}",
           "./node_modules/primereact/tooltip/*.{js,jsx,ts,tsx}",
+          "./node_modules/primereact/skeleton/*.{js,jsx,ts,tsx}",
         ],
         defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
         safelist: {

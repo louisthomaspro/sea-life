@@ -1,4 +1,11 @@
-export const regions_dict: {
+export const storageKey = "userRegion";
+
+export const regionsList = [
+  { name: "Toutes les régions", code: "all" },
+  { name: "Mer Méditerranée", code: "mediterranean-sea" },
+];
+
+export const regionsDict: {
   [region: string]: {
     title: {
       [lang: string]: string;

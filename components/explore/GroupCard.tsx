@@ -1,14 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ILife } from "../../types/Life";
 import { blurDataURL, firebaseStorageLoader } from "../../utils/helper";
 import styled from "styled-components";
 import { m } from "framer-motion";
 import { tapAnimationDuration } from "../../constants/config";
-import { IClassItem } from "../../types/Classification";
 import { useRouter } from "next/router";
+import { IGroup } from "../../types/Group";
 
-export default function GroupCard(props: { group: IClassItem }) {
+export default function GroupCard(props: { group: IGroup }) {
   const router = useRouter();
 
   // http://localhost:3000/explore/mediterranean-sea/fauna
@@ -24,9 +23,8 @@ export default function GroupCard(props: { group: IClassItem }) {
     >
       <Style>
         <Link href={`/explore${slugUrl}/${props.group.permalink}`}>
-          <a>
-            <div className="img-wrapper">
-              {/* {props.group?.photos?.[0]?.storage_path && (
+          <div className="img-wrapper">
+            {/* {props.group?.photos?.[0]?.storage_path && (
                 <Image
                   loader={firebaseStorageLoader}
                   src={props.life?.photos?.[0]?.storage_path}
@@ -41,20 +39,19 @@ export default function GroupCard(props: { group: IClassItem }) {
                   }
                 />
               )} */}
-            </div>
-            <div className="content">
-              <div className="title">{props.group.title.fr ?? "No title"}</div>
-              {Object.keys(props.group.subtitle ?? {}).length > 0 && (
-                <div className="subtitle">
-                  (
-                  <span className="ellipsis">
-                    {props.group.subtitle.fr ?? "No subtitle"}
-                  </span>
-                  )
-                </div>
-              )}
-            </div>
-          </a>
+          </div>
+          <div className="content">
+            <div className="title">{props.group.title.fr ?? "No title"}</div>
+            {Object.keys(props.group.subtitle ?? {}).length > 0 && (
+              <div className="subtitle">
+                (
+                <span className="ellipsis">
+                  {props.group.subtitle.fr ?? "No subtitle"}
+                </span>
+                )
+              </div>
+            )}
+          </div>
         </Link>
       </Style>
     </m.div>
@@ -66,11 +63,6 @@ const Style = styled.button`
   width: 100%;
   background-color: var(--bg-grey);
   border-radius: var(--border-radius);
-
-  a {
-    text-decoration: none;
-    color: var(--text-color-1);
-  }
 
   .img-wrapper {
     width: 100%;

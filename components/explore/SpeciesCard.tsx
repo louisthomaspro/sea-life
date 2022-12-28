@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ILife } from "../../types/Life";
 import { blurDataURL, firebaseStorageLoader } from "../../utils/helper";
 import FrFlagSvg from "../../public/icons/flags/FR.svg";
 import GbFlagSvg from "../../public/icons/flags/GB.svg";
@@ -8,8 +7,22 @@ import styled from "styled-components";
 import { m } from "framer-motion";
 import { tapAnimationDuration } from "../../constants/config";
 import { ISpecies } from "../../types/Species";
+import { useInView } from "react-cool-inview";
+import { useState } from "react";
 
 export default function SpeciesCard(props: { species: ISpecies }) {
+  const [display, setDisplay] = useState(false);
+
+  const { observe } = useInView({
+    delay: 100,
+    onEnter: () => {
+      setDisplay(true);
+    },
+    onLeave: () => {
+      setDisplay(false);
+    },
+  });
+
   return (
     <m.div
       whileTap={{
@@ -18,16 +31,15 @@ export default function SpeciesCard(props: { species: ISpecies }) {
       }}
     >
       <Style>
-        <Link href={`/species/${props.species.id}`}>
-          <a>
+        <div className="useInView" ref={observe}></div>
+        {display ? (
+          <Link href={`/species/${props.species.id}`} className="container">
             <div className="img-wrapper">
               {props.species?.photos?.[0]?.original_url && (
                 <Image
                   src={props.species?.photos?.[0]?.original_url}
-                  layout="fill"
-                  placeholder="blur"
-                  blurDataURL={blurDataURL()}
-                  objectFit="cover"
+                  fill
+                  style={{ objectFit: "cover" }}
                   sizes="50vw"
                   alt={props.species.scientific_name}
                 />
@@ -54,54 +66,73 @@ export default function SpeciesCard(props: { species: ISpecies }) {
                 {props.species.scientific_name}
               </div>
             </div>
-          </a>
-        </Link>
+          </Link>
+        ) : (
+          <></>
+        )}
       </Style>
     </m.div>
   );
 }
 
 // Style
-const Style = styled.button`
+const Style = styled.div`
   width: 100%;
+  aspect-ratio: 2 / 2.3;
   background-color: var(--bg-grey);
   border-radius: var(--border-radius);
   padding: 6px;
+  position: relative;
 
-  a {
-    text-decoration: none;
-    color: var(--text-color-1);
+  .useInView {
+    border: red 1px solid;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
   }
 
-  .img-wrapper {
-    width: 100%;
-    position: relative;
-    padding-bottom: 60%;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 
-  .content {
-    padding: 0px 6px;
-    margin-top: 4px;
+    .img-wrapper {
+      /* flex-grow: 1; */
+      width: 100%;
+      position: relative;
+      height: 100%;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+    }
 
-    .title {
-      font-size: 13px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
+    .content {
+      padding: 0px 6px;
+      margin-top: 4px;
 
-      > span {
+      .title {
+        font-size: 13px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+
+        > span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+
+      .scientific-name {
+        font-size: 12px;
+        font-style: italic;
+        color: var(--text-color-2);
+
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
-    }
-
-    .scientific-name {
-      font-size: 12px;
-      font-style: italic;
-      color: var(--text-color-2);
     }
   }
 `;

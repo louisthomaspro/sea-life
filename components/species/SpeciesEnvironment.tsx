@@ -6,7 +6,7 @@ import HouseBlankSvg from "../../public/icons/fontawesome/light/house-blank.svg"
 import EarthAmericasSvg from "../../public/icons/fontawesome/light/earth-americas.svg";
 import ShieldExclamationSvg from "../../public/icons/fontawesome/light/shield-exclamation.svg";
 import { conservation_status_dict } from "../../constants/conservation_status_dict";
-import { regions_dict } from "../../constants/regions_dict";
+import { regionsDict } from "../../constants/regions";
 import { biotopes_dict } from "../../constants/biotopes_dict";
 
 export default function SpeciesEnvironment(props: { species: ISpecies }) {
@@ -17,8 +17,8 @@ export default function SpeciesEnvironment(props: { species: ISpecies }) {
   // format regions
   let formatted_regions_list = [];
   for (const i in regions) {
-    if (regions[i] in regions_dict) {
-      formatted_regions_list.push(regions_dict[regions[i]].title.fr);
+    if (regions[i] in regionsDict) {
+      formatted_regions_list.push(regionsDict[regions[i]].title.fr);
     }
   }
   const formatted_regions = formatted_regions_list.join(", ");

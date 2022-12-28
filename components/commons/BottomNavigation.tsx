@@ -27,50 +27,44 @@ export default function BottomNavigation(props: IBottomNavigation) {
       <div className="grid grid-nogutter h-full align-items-center container">
         <Link href="/explore">
           <div className="col item">
-            <a>
-              <RoundButton
-                ariaLabel="Favorite"
-                className={activeMenu === "explore" && "active"}
-              >
-                <Grid2Svg
-                  aria-label="explore"
-                  className="svg-icon"
-                  style={{ width: "18px", marginLeft: "1px" }}
-                />
-              </RoundButton>
-            </a>
+            <RoundButton
+              ariaLabel="Favorite"
+              className={activeMenu === "explore" && "active"}
+            >
+              <Grid2Svg
+                aria-label="explore"
+                className="svg-icon"
+                style={{ width: "18px", marginLeft: "1px" }}
+              />
+            </RoundButton>
           </div>
         </Link>
         <Link href="/search">
           <div className="col item">
-            <a>
-              <RoundButton
-                ariaLabel="Favorite"
-                className={activeMenu === "search" && "active"}
-              >
-                <MagnifyingGlassSvg
-                  aria-label="search"
-                  className="svg-icon"
-                  style={{ width: "18px", marginLeft: "1px" }}
-                />
-              </RoundButton>
-            </a>
+            <RoundButton
+              ariaLabel="Favorite"
+              className={activeMenu === "search" && "active"}
+            >
+              <MagnifyingGlassSvg
+                aria-label="search"
+                className="svg-icon"
+                style={{ width: "18px", marginLeft: "1px" }}
+              />
+            </RoundButton>
           </div>
         </Link>
         <Link href="/profile">
           <div className="col item">
-            <a>
-              <RoundButton
-                ariaLabel="Favorite"
-                className={activeMenu === "profile" && "active"}
-              >
-                <UserSvg
-                  aria-label="profile"
-                  className="svg-icon"
-                  style={{ width: "17px", marginLeft: "1px" }}
-                />
-              </RoundButton>
-            </a>
+            <RoundButton
+              ariaLabel="Favorite"
+              className={activeMenu === "profile" && "active"}
+            >
+              <UserSvg
+                aria-label="profile"
+                className="svg-icon"
+                style={{ width: "17px", marginLeft: "1px" }}
+              />
+            </RoundButton>
           </div>
         </Link>
       </div>
@@ -90,7 +84,10 @@ const Style = styled.nav<IBottomNavigation>`
 
   .container {
     max-width: 400px;
-    margin: auto;
+
+    a {
+      margin: auto;
+    }
 
     .item {
       display: flex;

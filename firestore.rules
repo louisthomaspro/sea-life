@@ -1,13 +1,9 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-  	// Default
     match /{document=**} {
-      allow read, write: if true;
-    }
-    // Prevent duplicate ids
-    match /lives/{life} {
-      allow write: if request.resource.id != resource.id;
+      allow read, write: if
+          request.time < timestamp.date(2023, 1, 8);
     }
   }
 }

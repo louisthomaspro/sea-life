@@ -48,17 +48,17 @@ exports.syncPhotosOnUpdate = functions
   });
 
 /**
- * On species creation, sync photos
+ * On species creation, update ids
  */
-exports.syncPhotosOnCreate = functions
+exports.updatePhotoIdsOnCreate = functions
   .region("europe-west1")
   .firestore.document("species/{id}")
   .onCreate(async (snap, context) => {
-    await syncPhotos(snap);
+    // return updateIds(snap); // this will trigger syncPhotosOnUpdate
   });
 
 /**
- * Add ids to photos
+ * Manually add ids to photos
  */
 exports.updateAllPhotosIds = functions
   .region("europe-west1")
@@ -68,39 +68,12 @@ exports.updateAllPhotosIds = functions
     );
     return db
       .collection("/species")
-      .where("parent_ids", "array-contains", data.parent_id)
+      .where("taxonomy_ids", "array-contains", data.parent_id)
       .get()
       .then((snapshot) => {
         const promises: Promise<any>[] = [];
         snapshot.forEach((doc) => {
-          let photos = doc.data().photos;
-          for (const photo of photos) {
-            photo.id = uuidv4();
-            photo.storage_path = null;
-          }
-          promises.push(doc.ref.update({ photos, updatePhotos: true }));
-        });
-        return Promise.all(promises);
-      });
-  });
-
-/**
- * Upload photos of id
- */
-exports.syncAllPhotos = functions
-  .region("europe-west1")
-  .https.onCall((data, context) => {
-    functions.logger.info(
-      `Updating all documents from parent ${data.parent_id}`
-    );
-    return db
-      .collection("/species")
-      .where("parent_ids", "array-contains", data.parent_id)
-      .get()
-      .then((snapshot) => {
-        const promises: Promise<any>[] = [];
-        snapshot.forEach((doc) => {
-          promises.push(syncPhotos(doc));
+          promises.push(updateIds(doc));
         });
         return Promise.all(promises);
       });
@@ -140,6 +113,19 @@ const syncPhotos = async (
   functions.logger.info(`[${species.id}] - Sync photos finished`);
 
   return species.id;
+};
+
+const updateIds = async (
+  speciesSnap: functions.firestore.QueryDocumentSnapshot
+) => {
+  const species = speciesSnap.data();
+  functions.logger.info(`[${species.id}] - Update ids started`);
+  const promises: Promise<any>[] = [];
+  for (const photo of species.photos) {
+    photo.id = uuidv4();
+    photo.storage_path = null;
+  }
+  return speciesSnap.ref.update({ photos: species.photos });
 };
 
 const uuidv4 = (): string => {
@@ -220,6 +206,13 @@ const uploadSpeciesPhotos = async (
   for (const photo of photos) {
     const fileName = photo.id;
 
+    if (!photo.id) {
+      functions.logger.error(
+        `[${species.id}] - Photo id is undefined. Skipping...`
+      );
+      continue;
+    }
+
     try {
       // Step 1: Download mediaUrl to temporary directory
       const { tempFilePath, fileNameWithExt }: any =
@@ -254,7 +247,7 @@ const uploadSpeciesPhotos = async (
 const deleteStorageFiles = async (directory: string) => {
   const files = await bucket
     .getFiles({
-      directory,
+      prefix: directory,
     })
     .then((res) => res[0]);
   const promises: Promise<any>[] = [];

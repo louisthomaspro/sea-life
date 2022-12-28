@@ -6,6 +6,7 @@ import Head from "next/head";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import { HistoryContextProvider } from "../context/history.context";
 import { getAllSpecies } from "../utils/firestore/species.firestore";
+import { RegionContextProvider } from "../context/region.context";
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   return (
@@ -17,18 +18,20 @@ function MyApp({ Component, pageProps, router }: AppProps) {
           content="width=device-width, initial-scale=1.0, user-scalable=no"
         />
       </Head>
-      <AuthContextProvider>
-        <HistoryContextProvider>
-          <ToastContainer
-            position={toast.POSITION.BOTTOM_CENTER}
-            transition={Slide}
-            hideProgressBar={true}
-          />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </HistoryContextProvider>
-      </AuthContextProvider>
+      <RegionContextProvider>
+        <AuthContextProvider>
+          <HistoryContextProvider>
+            <ToastContainer
+              position={toast.POSITION.BOTTOM_CENTER}
+              transition={Slide}
+              hideProgressBar={true}
+            />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </HistoryContextProvider>
+        </AuthContextProvider>
+      </RegionContextProvider>
     </>
   );
 }

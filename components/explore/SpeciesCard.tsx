@@ -85,7 +85,7 @@ const Style = styled.div`
   position: relative;
 
   .useInView {
-    border: red 1px solid;
+    border: transparent 1px solid;
     position: absolute;
     height: 100%;
     top: 0;

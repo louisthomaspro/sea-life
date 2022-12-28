@@ -55,8 +55,8 @@ function startEmulators() {
   }
 }
 
-// if (process.env.NEXT_PUBLIC_FIREBASE_EMULATOR === "true") {
+if (process.env.NEXT_PUBLIC_FIREBASE_EMULATOR === "true") {
   startEmulators();
-// }
+}
 
 export { firebase, firestore, storage };

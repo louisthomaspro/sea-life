@@ -23,24 +23,27 @@ export default function GroupCardGrid(props: { group: IGroup }) {
       }}
     >
       <Style>
-        <Link
-          href={`/explore/${region}/${groupsJoin}/${props.group.id}`}
-        >
+        <Link href={`/explore/${region}/${groupsJoin}/${props.group.id}`}>
           <div className="grid grid-nogutter relative">
-            {[1, 2, 3, 4].map((i) => (
+            {[0, 1, 2, 3].map((i) => (
               <div className="col-6 box" key={i}>
                 <div className="img-container relative">
                   <Image
-                    src="/img/no-image.png"
+                    placeholder="blur"
+                    blurDataURL={blurDataURL()}
+                    src={props.group.photos?.[i]?.original_url ?? "/img/no-image.svg"}
                     fill
+                    sizes="30vw"
                     style={{ objectFit: "cover" }}
                     priority
-                    alt={"no image"}
+                    alt={props.group.title.fr ?? "No title"}
                   />
                 </div>
               </div>
             ))}
-            <div className="badge">{props.group.species_count[(region as string)]}</div>
+            <div className="badge">
+              {props.group.species_count[region as string]}
+            </div>
           </div>
           <div className="content">
             <div className="title">{props.group.title.fr}</div>
@@ -68,7 +71,7 @@ const Style = styled.button`
     position: absolute;
     bottom: 0;
     right: 0;
-    background: #5a91b2;
+    background: var(--blue);
     color: white;
     border-radius: 10px;
     padding: 2px 5px;
@@ -76,14 +79,14 @@ const Style = styled.button`
   }
 
   .box {
-    padding: 2px;
+    padding: 1px;
 
     .img-container {
       border-radius: 8px;
-      border: 1px solid black;
+      /* border: 1px solid black; */
       width: 100%;
       position: relative;
-      padding-bottom: 70%;
+      aspect-ratio: 2/1.6;
       overflow: hidden;
     }
   }

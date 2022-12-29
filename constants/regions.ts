@@ -13,16 +13,16 @@ export const regionsDict: {
       en: "All regions",
     },
   },
-  "red-sea": {
-    title: {
-      fr: "Mer Rouge",
-      en: "Red Sea",
-    },
-  },
   "mediterranean-sea": {
     title: {
       fr: "Méditerranée",
       en: "Mediterranean Sea",
+    },
+  },
+  "red-sea": {
+    title: {
+      fr: "Mer Rouge",
+      en: "Red Sea",
     },
   },
   "indian-ocean": {

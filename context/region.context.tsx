@@ -8,15 +8,17 @@ interface IRegionContext {
   setUserRegion(data: string): void;
 }
 
+const defaultRegion = "mediterranean-sea"
+
 const RegionContext = createContext({} as IRegionContext);
 export function RegionContextProvider({ children }: any) {
-  const [userRegion, _setUserRegion] = useState<string>("all");
+  const [userRegion, _setUserRegion] = useState<string>(defaultRegion);
   const setUserRegion = (regionCode: string) => {
     window.localStorage.setItem(storageKey, regionCode);
     _setUserRegion(regionCode);
   };
 
-  const [urlRegion, setUrlRegion] = useState<string>("all");
+  const [urlRegion, setUrlRegion] = useState<string>(defaultRegion);
 
   const { asPath, push, pathname, isReady } = useRouter();
 
@@ -27,10 +29,10 @@ export function RegionContextProvider({ children }: any) {
       if (regionsList.find((region) => region.code === storedRegion)) {
         setUserRegion(storedRegion);
       } else {
-        setUserRegion(regionsList[0].code);
+        setUserRegion(defaultRegion);
       }
     } else {
-      setUserRegion(regionsList[0].code);
+      setUserRegion(defaultRegion);
     }
 
     if (isReady) {

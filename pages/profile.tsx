@@ -12,10 +12,11 @@ const Profile = () => {
 
   return (
     <>
-      <Header title="Profile" fixed/>
+      <Header title="Profile" fixed />
       <div className="main-container">
         <Style>
-          <RegionDropdown />
+          Contenu de profile
+          {/* <RegionDropdown /> */}
           {/* <div className="mb-3 mt-3">
           {userData && <>Hello {userSession.displayName} </>}
         </div>

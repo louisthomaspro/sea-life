@@ -8,13 +8,11 @@ export interface IGroup {
   subtitle?: {
     [lang: string]: string;
   };
-  photos?: {
-    [region: string]: ISpeciesPhoto;
-  }
+  photos?: ISpeciesPhoto[];
   includes: string[];
   show_species?: boolean;
   species_count?: {
     [region: string]: number;
-  }
+  };
   parent_id?: string;
 }

@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { m } from "framer-motion";
 
 // Svg
-import ArrowLeftSvg from "../../public/icons/fontawesome/light/arrow-left.svg";
 import HomeSvg from "../../public/icons/fontawesome/light/home.svg";
 
 import { whileTapAnimationIconButton } from "../../constants/config";
 import { useHistory } from "../../context/history.context";
 import Link from "next/link";
+import BackButton from "./BackButton";
 
 interface IHeaderProps {
   children?: React.ReactNode;
@@ -19,32 +19,13 @@ interface IHeaderProps {
   fixed?: boolean;
 }
 export default function Header(props: IHeaderProps) {
-  const router = useRouter();
-  const { history, back } = useHistory();
-
-  const backClick = () => {
-    if (history.length > 1) {
-      back();
-    } else {
-      router.push("/");
-    }
-  };
 
   return (
     <Style {...props}>
       <div className="flex" style={{ width: "42px" }}>
         {props.showBackButton && (
           <>
-            <m.button
-              whileTap={whileTapAnimationIconButton}
-              onClick={backClick}
-            >
-              <ArrowLeftSvg
-                aria-label="Back"
-                className="svg-icon"
-                style={{ height: "22px" }}
-              />
-            </m.button>
+            <BackButton />
             <div>{props.children}</div>
           </>
         )}

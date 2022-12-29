@@ -45,7 +45,7 @@ export default function Layout({ children }: LayoutProps) {
         <OfflineToast />
         <LazyMotion features={domAnimation}>
           {/* <AnimatePresence initial={false} mode="wait"> */}
-            {/* <m.div
+          {/* <m.div
               key={router.asPath}
               initial="initial"
               animate="enter"
@@ -55,14 +55,8 @@ export default function Layout({ children }: LayoutProps) {
                 duration: 0.2,
               }}
             > */}
-            <div
-              style={{
-                display: "block",
-              }}
-            >
-              {children}
-            </div>
-            {/* </m.div> */}
+          {children}
+          {/* </m.div> */}
           {/* </AnimatePresence> */}
         </LazyMotion>
       </main>

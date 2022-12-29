@@ -1,10 +1,14 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
+import { useInView } from "react-cool-inview";
+import styled from "styled-components";
+import BackButton from "../../../components/commons/BackButton";
 import BottomNavigation from "../../../components/commons/BottomNavigation";
 import Header from "../../../components/commons/Header";
 import GroupCardGrid from "../../../components/explore/GroupCardGrid";
 import SpeciesCard from "../../../components/explore/SpeciesCard";
+import { regionsDict } from "../../../constants/regions";
 import RegionContext from "../../../context/region.context";
 import { IGroup } from "../../../types/Group";
 import { ISpecies } from "../../../types/Species";
@@ -23,15 +27,39 @@ const Explore: NextPage<{
   speciesList: ISpecies[];
 }> = ({ currentGroup, childrenGroups, speciesList }) => {
   const router = useRouter();
+  const region = router.query.region as string;
+
+  const [showSecondHeader, setShowSecondHeader] = useState(false);
+  const { observe, unobserve, inView, scrollDirection, entry } = useInView({
+    rootMargin: "20px 0px",
+    onEnter: ({ scrollDirection, entry, observe, unobserve }) => {
+      setShowSecondHeader(false);
+    },
+    onLeave: ({ scrollDirection, entry, observe, unobserve }) => {
+      setShowSecondHeader(true);
+    },
+  });
 
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
 
   return (
-    <>
+    <Style>
       {/* <Scrollbar> */}
-      <Header title={currentGroup?.title?.fr} showBackButton shadow fixed />
+      <div className="header">
+        <div className="back-button" ref={observe}>
+          <Header showBackButton noBackground />
+        </div>
+        <div className="content">
+          <div className="title">{currentGroup?.title?.fr}</div>
+          <div className="region-info">{regionsDict[region].title.fr}</div>
+        </div>
+      </div>
+      {showSecondHeader && (
+        <Header title={currentGroup?.title?.fr} showBackButton fixed />
+      )}
+
       <div className="main-container">
         {currentGroup?.show_species ? (
           <div className="grid">
@@ -54,7 +82,7 @@ const Explore: NextPage<{
       </div>
       <BottomNavigation />
       {/* </Scrollbar> */}
-    </>
+    </Style>
   );
 };
 
@@ -117,3 +145,27 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export default Explore;
+
+// Style
+const Style = styled.div`
+  position: relative;
+  margin-top: -60px;
+
+  .header {
+    position: relative;
+
+    .content {
+      text-align: center;
+      padding-bottom: 14px;
+
+      .title {
+        font-size: 2rem;
+      }
+
+      .region-info {
+        font-weight: 400;
+        font-style: italic;
+      }
+    }
+  }
+`;

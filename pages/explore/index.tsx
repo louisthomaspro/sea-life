@@ -26,7 +26,7 @@ const Explore: NextPage<{
       <Header title="Explore" fixed />
       <div className="main-container">
         <Style>
-          <RegionDropdown />
+          {/* <RegionDropdown /> */}
           <m.div
             whileTap={{
               scale: tapAnimationDuration,

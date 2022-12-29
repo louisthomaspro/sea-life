@@ -32,6 +32,7 @@ export default function SpeciesSlider(props: { species: ISpecies }) {
             src={photo.original_url}
             alt={props.species.scientific_name}
             fill
+            sizes="100vw"
             priority={i === 0}
           />
         </div>
@@ -43,7 +44,7 @@ export default function SpeciesSlider(props: { species: ISpecies }) {
 // Style
 const Style = styled.div`
   position: relative;
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  border-radius: var(--border-radius);
   overflow: hidden;
 
   .img-wrapper {

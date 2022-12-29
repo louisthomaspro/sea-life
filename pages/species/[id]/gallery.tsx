@@ -38,10 +38,10 @@ const Gallery: NextPage<{
             Hash: false,
           }}
         >
-          {species?.photos?.map((photo) => (
+          {species?.photos?.map((photo, index) => (
             <a
-              id={photo.id}
-              key={photo.id}
+              id={String(index)}
+              key={String(index)}
               data-fancybox="gallery"
               href={photo.original_url}
             >

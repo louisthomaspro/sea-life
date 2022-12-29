@@ -15,9 +15,6 @@ const Species: NextPage<{
 }> = ({ species }) => {
   const router = useRouter();
   const [showSecondHeader, setShowSecondHeader] = useState(false);
-
-  const { userData } = useContext(AuthContext);
-
   const { observe, unobserve, inView, scrollDirection, entry } = useInView({
     rootMargin: "100px 0px",
     onEnter: ({ scrollDirection, entry, observe, unobserve }) => {
@@ -34,15 +31,20 @@ const Species: NextPage<{
 
   return (
     <Style>
-      <>
-        <div className="header" ref={observe}>
-          <Header showBackButton noBackground>
-            <SpeciesHeader species={species} />
-          </Header>
-        </div>
-        {showSecondHeader && <Header showBackButton fixed shadow title={species.common_name?.fr[0]}/>}
-        <SpeciesInformation species={species} />
-      </>
+      <div className="header" ref={observe}>
+        <Header showBackButton noBackground>
+          <SpeciesHeader species={species} />
+        </Header>
+      </div>
+      {showSecondHeader && (
+        <Header
+          showBackButton
+          fixed
+          shadow
+          title={species.common_name?.fr[0]}
+        />
+      )}
+      <SpeciesInformation species={species} />
     </Style>
   );
 };

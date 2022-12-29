@@ -19,7 +19,6 @@ export default function SpeciesInformation(props: { species: ISpecies }) {
   return (
     <>
       <Style>
-        <SpeciesHeader species={props.species} />
         <Link href={`/species/${props.species.id}/gallery`}>
           <SpeciesSlider species={props.species} />
         </Link>

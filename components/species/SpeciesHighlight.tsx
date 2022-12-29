@@ -85,10 +85,10 @@ const getSizes = (sizes: any) => {
   for (const type in dict_sizes_icon) {
     if (type in sizes) {
       result.push(
-        <div className="col item">
+        <>
           <div className="icon">{dict_sizes_icon[type].icon}</div>
           <div className="text">{sizes[type]} cm</div>
-        </div>
+        </>
       );
     }
   }
@@ -107,10 +107,10 @@ const getSizes = (sizes: any) => {
     }
 
     result.push(
-      <div className="col item">
+      <>
         <div className="icon">{ruler_h_icon}</div>
         <div className="text">{text} cm</div>
-      </div>
+      </>
     );
   }
 
@@ -121,7 +121,11 @@ export default function SpeciesHighlight(props: { species: ISpecies }) {
   return (
     <Style>
       <div className="grid grid-nogutter">
-        {getSizes(props.species.sizes)}
+        {getSizes(props.species.sizes).map((el, index) => (
+          <div className="col item" key={index}>
+            {el}
+          </div>
+        ))}
         {props.species.depth_min !== null &&
           props.species.depth_max !== null && (
             <div className="col item">
@@ -138,7 +142,7 @@ export default function SpeciesHighlight(props: { species: ISpecies }) {
             </div>
           )}
         {props.species.rarity && (
-          <div className="col item rarity-tooltip">
+          <div className="col item">
             <div className="icon">
               <GemSvg
                 aria-label="rarity"

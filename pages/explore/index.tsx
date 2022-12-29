@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import BottomNavigation from "../../components/commons/BottomNavigation";
@@ -11,18 +11,19 @@ import styled from "styled-components";
 import RegionDropdown from "../../components/commons/RegionDropdown";
 import { useContext } from "react";
 import RegionContext from "../../context/region.context";
+import { getGroupByPermalink } from "../../utils/firestore/group.firestore";
+import { IGroup } from "../../types/Group";
+import { useRouter } from "next/router";
 
 const Explore: NextPage<{
-  count: {
-    fauna: number;
-    flora: number;
-  };
-}> = ({ count }) => {
+  faunaGroup: IGroup;
+  floraGroup: IGroup;
+}> = ({ faunaGroup, floraGroup }) => {
   const { userRegion } = useContext(RegionContext);
 
   return (
     <>
-      <Header title="Explore" />
+      <Header title="Explore" fixed />
       <div className="main-container">
         <Style>
           <RegionDropdown />
@@ -37,7 +38,7 @@ const Explore: NextPage<{
               <div className="category fauna">
                 <div className="content">
                   <div className="title">Faune</div>
-                  <div className="subtitle">{count?.fauna} espèces</div>
+                  <div className="subtitle">{faunaGroup.species_count?.[userRegion]} espèces</div>
                 </div>
                 <div className="align-self-center text-center">
                   <Image
@@ -61,7 +62,7 @@ const Explore: NextPage<{
               <div className="category flora">
                 <div className="content">
                   <div className="title">Flore</div>
-                  <div className="subtitle">{count?.flora} espèces</div>
+                  <div className="subtitle">{floraGroup.species_count?.[userRegion]} espèces</div>
                 </div>
                 <div className="align-self-center text-center">
                   <Image
@@ -79,6 +80,25 @@ const Explore: NextPage<{
       <BottomNavigation />
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+
+  const faunaGroup: IGroup = JSON.parse(
+    JSON.stringify(await getGroupByPermalink("fauna"))
+  );
+
+  const floraGroup: IGroup = JSON.parse(
+    JSON.stringify(await getGroupByPermalink("flora"))
+  );
+
+  if (faunaGroup && floraGroup) {
+    return {
+      props: { faunaGroup, floraGroup },
+    };
+  } else {
+    return { notFound: true };
+  }
 };
 
 export default Explore;

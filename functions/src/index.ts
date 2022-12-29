@@ -1,14 +1,14 @@
 import * as functions from "firebase-functions";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
-import { getStorage } from "firebase-admin/storage";
+// import { getStorage } from "firebase-admin/storage";
 
 initializeApp();
 
-const speciesPhotos = require('./speciesPhotos');
-exports.speciesPhotos = speciesPhotos;
+// const speciesPhotos = require('./speciesPhotos');
+// exports.speciesPhotos = speciesPhotos;
 
-const group = require('./group');
+const group = require("./group");
 exports.group = group;
 
 const db = getFirestore();
@@ -30,13 +30,9 @@ exports.exportCsv = functions
       });
   });
 
-  // Ping
-exports.ping = functions
-.region("europe-west1")
-.https.onRequest((req, res) => {
-  res.json('pong')
+// Ping
+exports.ping = functions.region("europe-west1").https.onRequest((req, res) => {
+  res.json("pong");
 });
 
 ///////////////////////////////
-
-

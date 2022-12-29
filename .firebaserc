@@ -1,19 +1,5 @@
 {
   "projects": {
     "default": "sea-life-app"
-  },
-  "targets": {},
-  "etags": {
-    "sea-guide": {
-      "extensionInstances": {
-        "firestore-algolia-search": "b506a426f1a81020caef002f514726baf1e280545d95ed7160590f5ee3f60851",
-        "storage-resize-images": "ee67fc7ab55077fcb3da69c68aceeb82858af3830f1d760019551a8aacd0d0fb"
-      }
-    },
-    "sea-life-app": {
-      "extensionInstances": {
-        "storage-resize-images": "67196f1231ec703c26150277693dd05f9ff3dc7ab513683e51c3f9964dfdb71e"
-      }
-    }
   }
 }

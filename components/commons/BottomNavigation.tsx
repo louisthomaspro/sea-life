@@ -74,9 +74,13 @@ export default function BottomNavigation(props: IBottomNavigation) {
 
 // Style
 const Style = styled.nav<IBottomNavigation>`
-  border-top: 1px solid #eaeaea;
   height: 60px;
+  position: fixed;
+  bottom: 0;
+  z-index: 101;
   width: 100%;
+
+  border-top: 1px solid #eaeaea;
   padding-left: var(--global-padding);
   padding-right: var(--global-padding);
   background-color: #ffffff;

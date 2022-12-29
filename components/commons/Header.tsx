@@ -11,10 +11,12 @@ import { useHistory } from "../../context/history.context";
 import Link from "next/link";
 
 interface IHeaderProps {
+  children?: React.ReactNode;
   title?: string;
   showBackButton?: boolean;
   noBackground?: boolean;
   shadow?: boolean;
+  fixed?: boolean;
 }
 export default function Header(props: IHeaderProps) {
   const router = useRouter();
@@ -43,6 +45,7 @@ export default function Header(props: IHeaderProps) {
                 style={{ height: "22px" }}
               />
             </m.button>
+            <div>{props.children}</div>
           </>
         )}
       </div>
@@ -57,14 +60,18 @@ export default function Header(props: IHeaderProps) {
 // Style
 const Style = styled.header<IHeaderProps>`
   height: 60px;
+  position: ${({ fixed }) => (fixed ? "fixed" : "relative")};
   top: 0;
+  z-index: 100;
+  width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
   padding-left: var(--global-padding);
   padding-right: var(--global-padding);
-  border-bottom: ${({ shadow }) => (shadow ? "1px solid var(--border-color-light)" : "none")};
+  border-bottom: ${({ shadow }) =>
+    shadow ? "1px solid var(--border-color-light)" : "none"};
   background-color: ${({ noBackground }) =>
     noBackground ? "transparent" : " #ffffff"};
 

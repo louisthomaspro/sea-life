@@ -12,7 +12,7 @@ const Profile = () => {
 
   return (
     <>
-      <Header title="Profile" />
+      <Header title="Profile" fixed/>
       <div className="main-container">
         <Style>
           <RegionDropdown />

@@ -8,21 +8,23 @@ import { useContext, useState } from "react";
 import AuthContext from "../../context/auth.context";
 import { getSpecies } from "../../utils/firestore/species.firestore";
 import { ISpecies } from "../../types/Species";
+import SpeciesHeader from "../../components/species/SpeciesHeader";
 
 const Species: NextPage<{
   species: ISpecies;
 }> = ({ species }) => {
   const router = useRouter();
-  const [displayFixedHeader, setDisplayFixedHeader] = useState(false);
+  const [showSecondHeader, setShowSecondHeader] = useState(false);
 
   const { userData } = useContext(AuthContext);
 
   const { observe, unobserve, inView, scrollDirection, entry } = useInView({
+    rootMargin: "100px 0px",
     onEnter: ({ scrollDirection, entry, observe, unobserve }) => {
-      setDisplayFixedHeader(false);
+      setShowSecondHeader(false);
     },
     onLeave: ({ scrollDirection, entry, observe, unobserve }) => {
-      setDisplayFixedHeader(true);
+      setShowSecondHeader(true);
     },
   });
 
@@ -33,9 +35,12 @@ const Species: NextPage<{
   return (
     <Style>
       <>
-        <div className="absolute z-1 w-full">
-          <Header showBackButton noBackground />
+        <div className="header" ref={observe}>
+          <Header showBackButton noBackground>
+            <SpeciesHeader species={species} />
+          </Header>
         </div>
+        {showSecondHeader && <Header showBackButton fixed shadow title={species.common_name?.fr[0]}/>}
         <SpeciesInformation species={species} />
       </>
     </Style>
@@ -76,10 +81,12 @@ const Style = styled.div`
   width: 100%;
   overflow: auto;
   position: relative;
+  margin-top: -60px;
 
-  .fixedHeader {
-    position: fixed;
-    z-index: 1;
+  .header {
+    position: absolute;
+    top: 0;
+    z-index: 2;
     width: 100%;
   }
 `;

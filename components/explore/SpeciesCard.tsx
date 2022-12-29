@@ -14,6 +14,9 @@ export default function SpeciesCard(props: { species: ISpecies }) {
   const [display, setDisplay] = useState(false);
 
   const { observe } = useInView({
+    rootMargin: "100% 0px",
+    // threshold: 1,
+    root: null,
     delay: 100,
     onEnter: () => {
       setDisplay(true);
@@ -31,7 +34,7 @@ export default function SpeciesCard(props: { species: ISpecies }) {
       }}
     >
       <Style>
-        <div className="useInView" ref={observe}></div>
+        <div className="useInView" id="use" ref={observe}></div>
         {display ? (
           <Link href={`/species/${props.species.id}`} className="container">
             <div className="img-wrapper">
@@ -42,6 +45,8 @@ export default function SpeciesCard(props: { species: ISpecies }) {
                   style={{ objectFit: "cover" }}
                   sizes="50vw"
                   alt={props.species.scientific_name}
+                  placeholder="blur"
+                  blurDataURL={blurDataURL()}
                 />
               )}
             </div>
@@ -84,6 +89,15 @@ const Style = styled.div`
   padding: 6px;
   position: relative;
 
+  @keyframes append-animate {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   .useInView {
     border: transparent 1px solid;
     position: absolute;
@@ -97,6 +111,8 @@ const Style = styled.div`
     display: flex;
     flex-direction: column;
     height: 100%;
+    opacity: 1;
+    animation: append-animate 0.1s linear;
 
     .img-wrapper {
       /* flex-grow: 1; */
@@ -105,6 +121,10 @@ const Style = styled.div`
       height: 100%;
       border-radius: var(--border-radius);
       overflow: hidden;
+
+      img {
+        animation: append-animate 0.1s linear;
+      }
     }
 
     .content {

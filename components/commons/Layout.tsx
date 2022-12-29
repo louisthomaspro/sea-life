@@ -40,9 +40,9 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <>
-      <NProgress />
-      <OfflineToast />
-      <main style={{ maxWidth: "400px", border: "1px solid black" }}>
+      <main style={{ padding: "60px 0" }}>
+        <NProgress />
+        <OfflineToast />
         <LazyMotion features={domAnimation}>
           <AnimatePresence initial={false} mode="sync">
             {/* <m.div
@@ -57,10 +57,7 @@ export default function Layout({ children }: LayoutProps) {
             > */}
             <div
               style={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100vh",
-                width: "100%",
+                display: "block",
               }}
             >
               {children}

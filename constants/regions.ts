@@ -12,37 +12,37 @@ export const regionsDict: {
     };
   };
 } = {
-  red_sea: {
+  'red-sea': {
     title: {
       fr: "Mer Rouge",
       en: "Red Sea",
     },
   },
-  mediterranean_sea: {
+  'mediterranean-sea': {
     title: {
       fr: "Méditerranée",
       en: "Mediterranean Sea",
     },
   },
-  indian_ocean: {
+  'indian-ocean': {
     title: {
       fr: "Océan Indien",
       en: "Indian Ocean",
     },
   },
-  tropical_atlantic: {
+  'tropical-atlantic': {
     title: {
       fr: "Atlantique tropical",
       en: "Tropical Atlantic",
     },
   },
-  temperate_atlantic: {
+  'temperate-atlantic': {
     title: {
       fr: "Atlantique tempéré",
       en: "Temperate Atlantic",
     },
   },
-  tropical_pacific: {
+  'tropical-pacific': {
     title: {
       fr: "Pacifique tropical",
       en: "Tropical Pacific",

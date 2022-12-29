@@ -4,7 +4,7 @@ import Header from "../components/commons/Header";
 const Search = () => {
   return (
     <>
-      <Header title="Rechercher"/>
+      <Header title="Rechercher" fixed/>
       <div className="main-container">
         Contenu de rechercher
       </div>

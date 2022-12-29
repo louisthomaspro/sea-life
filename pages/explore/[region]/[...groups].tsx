@@ -37,7 +37,7 @@ const Explore: NextPage<{
   return (
     <>
       {/* <Scrollbar> */}
-      <Header title={currentGroup?.title?.fr} showBackButton shadow />
+      <Header title={currentGroup?.title?.fr} showBackButton shadow fixed/>
       <div className="main-container">
         {currentGroup?.show_species ? (
           <div className="grid">
@@ -66,7 +66,7 @@ const Explore: NextPage<{
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const { groups } = context.params;
+  const { groups, region } = context.params;
 
   const id = groups[groups.length - 1];
 
@@ -74,21 +74,28 @@ export const getStaticProps: GetStaticProps = async (context) => {
     JSON.stringify(await getGroupByPermalink(id))
   );
 
-  const childrenGroups: IGroup[] = JSON.parse(
+  let childrenGroups: IGroup[] = JSON.parse(
     JSON.stringify(await getChildrenGroups(currentGroup?.id))
+  );
+  childrenGroups = childrenGroups.filter(
+    (group) => group.species_count?.[(region as string)] > 0
   );
 
   let speciesList: any[] = null;
   if (currentGroup?.show_species) {
-    const speciesListAllProperties = await getAllSpecies(currentGroup.id);
+    let speciesListAllProperties = await getAllSpecies(currentGroup.id);
     speciesList = speciesListAllProperties.map(
       ({ id, scientific_name, common_name, regions, photos }) => ({
         id,
         scientific_name,
         common_name,
         regions,
-        photos: [photos[0]],
+        photos: photos[0] ? [photos[0]] : [],
       })
+    );
+
+    speciesList.filter(
+      (species) => species.regions.includes(region)
     );
   }
 

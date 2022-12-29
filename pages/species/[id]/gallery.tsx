@@ -12,18 +12,14 @@ import { ISpecies } from "../../../types/Species";
 import { getSpecies } from "../../../utils/firestore/species.firestore";
 
 const Gallery: NextPage<{
-  life: ISpecies;
-}> = ({ life }) => {
+  species: ISpecies;
+}> = ({ species }) => {
   const router = useRouter();
   const { id } = router.query;
 
   return (
     <Style>
-      <Header
-        title={life?.common_name?.fr[0]}
-        showBackButton
-        shadow
-      />
+      <Header title={species?.common_name?.fr[0]} showBackButton shadow fixed />
 
       <div className="main-container">
         <Fancybox
@@ -42,24 +38,20 @@ const Gallery: NextPage<{
             Hash: false,
           }}
         >
-          {life?.photos?.map((photo) => (
+          {species?.photos?.map((photo) => (
             <a
               id={photo.id}
               key={photo.id}
               data-fancybox="gallery"
-              href={firebaseStorageLoader({
-                src: photo.storage_path,
-                width: 1200,
-              })}
+              href={photo.original_url}
             >
               <div className="img-wrapper">
                 <Image
-                  loader={firebaseStorageLoader}
-                  src={photo.storage_path}
+                  src={photo.original_url}
                   fill
                   placeholder="blur"
                   blurDataURL={blurDataURL()}
-                  alt={life?.common_name?.fr[0]}
+                  alt={species?.common_name?.fr[0]}
                 />
               </div>
             </a>
@@ -73,10 +65,12 @@ const Gallery: NextPage<{
 export const getStaticProps: GetStaticProps = async (context) => {
   const { id } = context.params;
 
-  const life: ISpecies = JSON.parse(JSON.stringify(await getSpecies(id.toString())));
+  const species: ISpecies = JSON.parse(
+    JSON.stringify(await getSpecies(id.toString()))
+  );
 
-  if (life) {
-    return { props: { life } };
+  if (species) {
+    return { props: { species } };
   } else {
     return { notFound: true };
   }

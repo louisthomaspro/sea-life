@@ -1,10 +1,5 @@
 export const storageKey = "userRegion";
 
-export const regionsList = [
-  { name: "Toutes les régions", code: "all" },
-  { name: "Mer Méditerranée", code: "mediterranean-sea" },
-];
-
 export const regionsDict: {
   [region: string]: {
     title: {
@@ -12,40 +7,56 @@ export const regionsDict: {
     };
   };
 } = {
-  'red-sea': {
+  all: {
+    title: {
+      fr: "Toutes les régions",
+      en: "All regions",
+    },
+  },
+  "red-sea": {
     title: {
       fr: "Mer Rouge",
       en: "Red Sea",
     },
   },
-  'mediterranean-sea': {
+  "mediterranean-sea": {
     title: {
       fr: "Méditerranée",
       en: "Mediterranean Sea",
     },
   },
-  'indian-ocean': {
+  "indian-ocean": {
     title: {
       fr: "Océan Indien",
       en: "Indian Ocean",
     },
   },
-  'tropical-atlantic': {
+  "tropical-atlantic": {
     title: {
       fr: "Atlantique tropical",
       en: "Tropical Atlantic",
     },
   },
-  'temperate-atlantic': {
+  "temperate-atlantic": {
     title: {
       fr: "Atlantique tempéré",
       en: "Temperate Atlantic",
     },
   },
-  'tropical-pacific': {
+  "tropical-pacific": {
     title: {
       fr: "Pacifique tropical",
       en: "Tropical Pacific",
     },
   },
 };
+
+export const regionsList: any[] = [];
+for (const region of Object.keys(regionsDict)) {
+  regionsList.push(
+    {
+      code: region,
+      name: regionsDict[region].title.fr,
+    }
+  );
+}

@@ -11,7 +11,7 @@ import styled from "styled-components";
 import RegionDropdown from "../../components/commons/RegionDropdown";
 import { useContext } from "react";
 import RegionContext from "../../context/region.context";
-import { getGroupByPermalink } from "../../utils/firestore/group.firestore";
+import { getGroup } from "../../utils/firestore/group.firestore";
 import { IGroup } from "../../types/Group";
 import { useRouter } from "next/router";
 
@@ -38,7 +38,9 @@ const Explore: NextPage<{
               <div className="category fauna">
                 <div className="content">
                   <div className="title">Faune</div>
-                  <div className="subtitle">{faunaGroup.species_count?.[userRegion]} espèces</div>
+                  <div className="subtitle">
+                    {faunaGroup.species_count?.[userRegion]} espèces
+                  </div>
                 </div>
                 <div className="align-self-center text-center">
                   <Image
@@ -62,7 +64,9 @@ const Explore: NextPage<{
               <div className="category flora">
                 <div className="content">
                   <div className="title">Flore</div>
-                  <div className="subtitle">{floraGroup.species_count?.[userRegion]} espèces</div>
+                  <div className="subtitle">
+                    {floraGroup.species_count?.[userRegion]} espèces
+                  </div>
                 </div>
                 <div className="align-self-center text-center">
                   <Image
@@ -83,13 +87,12 @@ const Explore: NextPage<{
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-
   const faunaGroup: IGroup = JSON.parse(
-    JSON.stringify(await getGroupByPermalink("fauna"))
+    JSON.stringify(await getGroup("fauna"))
   );
 
   const floraGroup: IGroup = JSON.parse(
-    JSON.stringify(await getGroupByPermalink("flora"))
+    JSON.stringify(await getGroup("flora"))
   );
 
   if (faunaGroup && floraGroup) {

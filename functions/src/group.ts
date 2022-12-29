@@ -1,5 +1,8 @@
 import * as functions from "firebase-functions";
 import { getFirestore } from "firebase-admin/firestore";
+// import { regionsDict } from "../../constants/regions";
+
+const regionsList = ["all", "red-sea", "mediterranean-sea", "indian-ocean", "tropical-atlantic", "temperate-atlantic", "tropical-pacific"]
 
 const db = getFirestore();
 
@@ -10,7 +13,6 @@ exports.updateCountOnGroupCreate = functions
   .region("europe-west1")
   .firestore.document("group/{id}")
   .onWrite(async (change, context) => {
-
     if (!change.after.exists) {
       functions.logger.info(
         "Group deleted, skipping species count update",
@@ -22,7 +24,7 @@ exports.updateCountOnGroupCreate = functions
     functions.logger.info(
       "Updating species count for group",
       context.params.id
-    );    
+    );
 
     return updateCount(context.params.id);
   });
@@ -78,19 +80,24 @@ async function updateCount(taxonomyId: string) {
   if (group.exists) {
     const allChildSpecies = await db
       .collection("/species")
-      .where("taxonomy_ids", "array-contains", taxonomyId)
+      .where("taxonomy_ids", "array-contains-any", group.data().includes)
       .get();
 
-    functions.logger.info(`Group ${taxonomyId} has ${allChildSpecies.size} species`)
-
-    const allCount = allChildSpecies.size;
-    const mediterraneanSeaCount = allChildSpecies.docs.filter((doc) =>
-      doc.data().regions.includes("mediterranean-sea")
-    ).length;
-
     let currentSpeciesCount = group.data()?.species_count || {};
-    currentSpeciesCount["mediterranean-sea"] = mediterraneanSeaCount;
-    currentSpeciesCount["all"] = allCount;
+    currentSpeciesCount["all"] = allChildSpecies.size;
+    
+    // For each region
+    for (const region of regionsList) {
+      functions.logger.info(`Updating count for region ${region}`)
+
+      if (region === "all") continue;
+
+      const regionCount = allChildSpecies.docs.filter((doc) =>
+        doc.data().regions.includes(region)
+      ).length;
+
+      currentSpeciesCount[region] = regionCount;
+    }
 
     return group.ref.update({
       species_count: currentSpeciesCount,

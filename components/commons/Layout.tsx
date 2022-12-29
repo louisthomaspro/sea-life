@@ -44,7 +44,7 @@ export default function Layout({ children }: LayoutProps) {
         <NProgress />
         <OfflineToast />
         <LazyMotion features={domAnimation}>
-          <AnimatePresence initial={false} mode="sync">
+          {/* <AnimatePresence initial={false} mode="wait"> */}
             {/* <m.div
               key={router.asPath}
               initial="initial"
@@ -63,7 +63,7 @@ export default function Layout({ children }: LayoutProps) {
               {children}
             </div>
             {/* </m.div> */}
-          </AnimatePresence>
+          {/* </AnimatePresence> */}
         </LazyMotion>
       </main>
     </>

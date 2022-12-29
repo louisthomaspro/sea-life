@@ -11,7 +11,7 @@ export interface IGroup {
   photos?: {
     [region: string]: ISpeciesPhoto;
   }
-  permalink: string;
+  includes: string[];
   show_species?: boolean;
   species_count?: {
     [region: string]: number;

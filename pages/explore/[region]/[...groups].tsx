@@ -1,24 +1,21 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import BottomNavigation from "../../../components/commons/BottomNavigation";
 import Header from "../../../components/commons/Header";
-import Spinner from "../../../components/commons/Spinner";
 import GroupCardGrid from "../../../components/explore/GroupCardGrid";
 import SpeciesCard from "../../../components/explore/SpeciesCard";
-import { classification } from "../../../constants/classification";
-import { speciesList } from "../../../constants/species";
 import RegionContext from "../../../context/region.context";
 import { IGroup } from "../../../types/Group";
 import { ISpecies } from "../../../types/Species";
-import { Skeleton } from "primereact/skeleton";
 import {
   getChildrenGroups,
-  getGroupByPermalink,
+  getGroup,
 } from "../../../utils/firestore/group.firestore";
-import { getAllSpecies } from "../../../utils/firestore/species.firestore";
-import { searchTreeClassification } from "../../../utils/helper";
-import Scrollbar from "../../../components/explore/Scrollbar";
+import {
+  getAllSpecies,
+  getAllSpeciesByGroupList,
+} from "../../../utils/firestore/species.firestore";
 
 const Explore: NextPage<{
   currentGroup: IGroup;
@@ -27,9 +24,6 @@ const Explore: NextPage<{
 }> = ({ currentGroup, childrenGroups, speciesList }) => {
   const router = useRouter();
 
-  const { urlRegion } = useContext(RegionContext);
-  const [species, setSpecies] = useState<ISpecies[]>([]);
-
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
@@ -37,7 +31,7 @@ const Explore: NextPage<{
   return (
     <>
       {/* <Scrollbar> */}
-      <Header title={currentGroup?.title?.fr} showBackButton shadow fixed/>
+      <Header title={currentGroup?.title?.fr} showBackButton shadow fixed />
       <div className="main-container">
         {currentGroup?.show_species ? (
           <div className="grid">
@@ -49,10 +43,9 @@ const Explore: NextPage<{
               ))}
           </div>
         ) : (
-          // <DynamicSpeciesListFromAncestorId ancestorId={life.id} />
           <div className="grid">
             {childrenGroups?.map((group: any) => (
-              <div className="col-6" key={group.permalink}>
+              <div className="col-6" key={group.id}>
                 <GroupCardGrid group={group} />
               </div>
             ))}
@@ -70,20 +63,20 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const id = groups[groups.length - 1];
 
-  const currentGroup: IGroup = JSON.parse(
-    JSON.stringify(await getGroupByPermalink(id))
-  );
+  const currentGroup: IGroup = JSON.parse(JSON.stringify(await getGroup(id)));
 
   let childrenGroups: IGroup[] = JSON.parse(
     JSON.stringify(await getChildrenGroups(currentGroup?.id))
   );
   childrenGroups = childrenGroups.filter(
-    (group) => group.species_count?.[(region as string)] > 0
+    (group) => group.species_count?.[region as string] > 0
   );
 
   let speciesList: any[] = null;
   if (currentGroup?.show_species) {
-    let speciesListAllProperties = await getAllSpecies(currentGroup.id);
+    let speciesListAllProperties = await getAllSpeciesByGroupList(
+      currentGroup.includes
+    );
     speciesList = speciesListAllProperties.map(
       ({ id, scientific_name, common_name, regions, photos }) => ({
         id,
@@ -94,9 +87,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
       })
     );
 
-    speciesList.filter(
-      (species) => species.regions.includes(region)
-    );
+    if (region !== "all") {
+      speciesList = speciesList.filter((species) =>
+        species.regions.includes(region)
+      );
+    }
   }
 
   if (currentGroup) {

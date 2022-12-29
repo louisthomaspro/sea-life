@@ -41,6 +41,7 @@ npm run serve:watch --prefix functions
 
 ```bash
 npx firebase deploy --only functions
+npx firebase deploy --only functions:group-updateCountOnGroupCreate
 ```
 
 ### Export current local data

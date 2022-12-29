@@ -37,3 +37,22 @@ export const getAllSpecies = async (
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map((doc) => doc.data() as any);
 };
+
+
+
+export const getAllSpeciesByGroupList = async (
+  taxaId: string[]
+): Promise<ISpecies[]> => {
+  const queryConstraints = [];
+  if (taxaId) {
+    queryConstraints.push(
+      where("taxonomy_ids", "array-contains-any", taxaId)
+    );
+  }
+  const q = query.apply(null, [
+    collection(firestore, collectionName),
+    ...queryConstraints,
+  ]);
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map((doc) => doc.data() as any);
+};

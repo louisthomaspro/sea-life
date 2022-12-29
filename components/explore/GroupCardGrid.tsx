@@ -13,7 +13,7 @@ export default function GroupCardGrid(props: { group: IGroup }) {
   const { region, groups } = router.query;
 
   // http://localhost:3000/explore/mediterranean-sea/fauna/mollusk
-  const groupsJoin = (groups as string[]).join("/") // fauna/mollusk
+  const groupsJoin = ((groups as string[]) ?? []).join("/"); // fauna/mollusk
 
   return (
     <m.div
@@ -23,8 +23,10 @@ export default function GroupCardGrid(props: { group: IGroup }) {
       }}
     >
       <Style>
-        <Link href={`/explore/${region}/${groupsJoin}/${props.group.permalink}`}>
-          <div className="grid grid-nogutter">
+        <Link
+          href={`/explore/${region}/${groupsJoin}/${props.group.id}`}
+        >
+          <div className="grid grid-nogutter relative">
             {[1, 2, 3, 4].map((i) => (
               <div className="col-6 box" key={i}>
                 <div className="img-container relative">
@@ -38,6 +40,7 @@ export default function GroupCardGrid(props: { group: IGroup }) {
                 </div>
               </div>
             ))}
+            <div className="badge">{props.group.species_count[(region as string)]}</div>
           </div>
           <div className="content">
             <div className="title">{props.group.title.fr}</div>
@@ -60,6 +63,17 @@ export default function GroupCardGrid(props: { group: IGroup }) {
 // Style
 const Style = styled.button`
   width: 100%;
+
+  .badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #5a91b2;
+    color: white;
+    border-radius: 10px;
+    padding: 2px 5px;
+    font-size: 12px;
+  }
 
   .box {
     padding: 2px;

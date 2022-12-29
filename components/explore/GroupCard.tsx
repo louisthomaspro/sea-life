@@ -22,7 +22,7 @@ export default function GroupCard(props: { group: IGroup }) {
       }}
     >
       <Style>
-        <Link href={`/explore${slugUrl}/${props.group.permalink}`}>
+        <Link href={`/explore${slugUrl}/${props.group.id}`}>
           <div className="img-wrapper">
             {/* {props.group?.photos?.[0]?.storage_path && (
                 <Image

@@ -17,6 +17,11 @@ import { uuidv4 } from "../helper";
 
 const collectionName = "group";
 
+export const getGroup = (id: string) => {
+  const document = getDoc(doc(firestore, `${collectionName}/${id}`));
+  return document.then((doc) => doc.data()) as Promise<IGroup>;
+};
+
 export const getGroupByPermalink = (permalink: string) => {
   const q = query(
     collection(firestore, collectionName),

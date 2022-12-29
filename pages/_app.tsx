@@ -28,7 +28,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
             />
             <Layout>
               <Component {...pageProps} />
-              <Analytics />
+              {/* <Analytics /> */}
             </Layout>
           </HistoryContextProvider>
         </AuthContextProvider>

@@ -18,6 +18,7 @@
     "@types/estree": "^0.0.47",
     "@types/fancybox": "^3.5.3",
     "@types/react-instantsearch-dom": "^6.12.3",
+    "@vercel/analytics": "^0.1.6",
     "algoliasearch": "^4.13.1",
     "cross-env": "^7.0.3",
     "firebase": "^9.9.1",

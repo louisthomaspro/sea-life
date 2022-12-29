@@ -5,8 +5,8 @@ import { AuthContextProvider } from "../context/auth.context";
 import Head from "next/head";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import { HistoryContextProvider } from "../context/history.context";
-import { getAllSpecies } from "../utils/firestore/species.firestore";
 import { RegionContextProvider } from "../context/region.context";
+import { Analytics } from '@vercel/analytics/react';
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   return (
@@ -28,6 +28,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
             />
             <Layout>
               <Component {...pageProps} />
+              <Analytics />
             </Layout>
           </HistoryContextProvider>
         </AuthContextProvider>

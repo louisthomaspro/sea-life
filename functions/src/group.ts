@@ -22,7 +22,7 @@ exports.updateCountOnGroupCreate = functions
     functions.logger.info(
       "Updating species count for group",
       context.params.id
-    );
+    );    
 
     return updateCount(context.params.id);
   });
@@ -80,6 +80,8 @@ async function updateCount(taxonomyId: string) {
       .collection("/species")
       .where("taxonomy_ids", "array-contains", taxonomyId)
       .get();
+
+    functions.logger.info(`Group ${taxonomyId} has ${allChildSpecies.size} species`)
 
     const allCount = allChildSpecies.size;
     const mediterraneanSeaCount = allChildSpecies.docs.filter((doc) =>

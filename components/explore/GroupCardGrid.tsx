@@ -31,7 +31,10 @@ export default function GroupCardGrid(props: { group: IGroup }) {
                   <Image
                     placeholder="blur"
                     blurDataURL={blurDataURL()}
-                    src={props.group.photos?.[i]?.original_url ?? "/img/no-image.svg"}
+                    src={
+                      props.group.photos?.[i]?.original_url ??
+                      "/img/no-image.svg"
+                    }
                     fill
                     sizes="30vw"
                     style={{ objectFit: "cover" }}
@@ -49,11 +52,7 @@ export default function GroupCardGrid(props: { group: IGroup }) {
             <div className="title">{props.group.title.fr}</div>
             {props.group.subtitle && (
               <div className="subtitle">
-                (
-                <span className="ellipsis">
-                  {props.group.subtitle.fr ?? "No subtitle"}
-                </span>
-                )
+                {props.group.subtitle.fr ?? "No subtitle"}
               </div>
             )}
           </div>
@@ -111,6 +110,7 @@ const Style = styled.button`
       display: flex;
       width: 100%;
       justify-content: center;
+      font-style: italic;
 
       span {
         overflow: hidden;

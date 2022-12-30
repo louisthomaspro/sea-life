@@ -1,16 +1,20 @@
 import { useSearchBox, UseSearchBoxProps } from "react-instantsearch-hooks-web";
 import styled from "styled-components";
-import SearchSvg from "../../public/icons/primeicons/search.svg";
+import SearchSvg from "../../public/icons/fontawesome/light/magnifying-glass.svg";
 
 export default function CustomSearchBox(props: UseSearchBoxProps) {
   const { refine, clear, query } = useSearchBox(props);
 
   return (
     <Style>
-      <SearchSvg className="svg-icon" />
+      <SearchSvg
+        aria-label="right"
+        style={{ width: "18px" }}
+        className="svg-icon"
+      />
       <input
         type="text"
-        placeholder="Common name or scientific name"
+        placeholder="Nom commun ou scientific"
         onChange={(e) => refine(e.currentTarget.value)}
       />
     </Style>
@@ -35,9 +39,8 @@ const Style = styled.div`
 
   svg {
     position: absolute;
-    top: 25%;
-    margin-left: 0.75rem;
-    width: 22px;
+    top: 30%;
+    margin-left: 1rem;
 
     path {
       fill: var(--text-color-1);

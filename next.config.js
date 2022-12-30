@@ -4,6 +4,9 @@ const withBundleAnalyzer = require("@next/bundle-analyzer");
 const runtimeCaching = require("next-pwa/cache");
 
 const nextConfig = {
+  // experimental: {
+  //   scrollRestoration: true,
+  // },
   swcMinify: true,
   reactStrictMode: false,
   pwa: {

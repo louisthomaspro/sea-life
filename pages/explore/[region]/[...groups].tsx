@@ -47,7 +47,7 @@ const Explore: NextPage<{
   }
 
   return (
-    <Style>
+    <Style className="no-header">
       {/* <Scrollbar> */}
       <div className="header">
         <div className="back-button" ref={observe}>
@@ -74,19 +74,17 @@ const Explore: NextPage<{
           </div>
         ) : (
           <div className="grid">
-            {childrenGroups?.map((group: any) => (
-              <>
-                {isFirstLevelGroup ? (
-                  <div className="col-6" key={group.id}>
-                    <GroupCardGrid group={group} />
-                  </div>
-                ) : (
-                  <div className="col-12" key={group.id}>
-                    <GroupListItem group={group} />
-                  </div>
-                )}
-              </>
-            ))}
+            {childrenGroups?.map((group: IGroup, i) =>
+              isFirstLevelGroup ? (
+                <div className="col-6" key={group.id}>
+                  <GroupCardGrid group={group} />
+                </div>
+              ) : (
+                <div className="col-12" key={group.id}>
+                  <GroupListItem group={group} />
+                </div>
+              )
+            )}
           </div>
         )}
       </div>
@@ -159,7 +157,6 @@ export default Explore;
 // Style
 const Style = styled.div`
   position: relative;
-  margin-top: -60px;
 
   .header {
     position: relative;

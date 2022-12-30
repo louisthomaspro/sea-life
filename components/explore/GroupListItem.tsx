@@ -49,7 +49,7 @@ export default function GroupListItem(props: { group: IGroup }) {
               </div>
             )}
             <div className="badge">
-              {props.group.species_count[region as string]} éspèces
+              {props.group.species_count[region as string]} espèces
             </div>
           </div>
           <div className="chevron">

@@ -13,11 +13,12 @@ export default function BackButton(props: IBackButtonProps) {
   const { history, back } = useHistory();
 
   const backClick = () => {
-    if (history.length > 1) {
-      back();
-    } else {
-      router.push("/");
-    }
+    router.back();
+    // if (history.length > 1) {
+    //   back();
+    // } else {
+    //   router.push("/");
+    // }
   };
 
   return (

@@ -30,7 +30,7 @@ const Species: NextPage<{
   }
 
   return (
-    <Style>
+    <Style className="no-header">
       <div className="header" ref={observe}>
         <Header showBackButton noBackground>
           <SpeciesHeader species={species} />
@@ -83,7 +83,6 @@ const Style = styled.div`
   width: 100%;
   overflow: auto;
   position: relative;
-  margin-top: -60px;
 
   .header {
     position: absolute;

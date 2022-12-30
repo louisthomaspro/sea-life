@@ -4,6 +4,7 @@ import { ISpecies } from "../../types/Species";
 // svg
 import FrFlagSvg from "../../public/icons/flags/FR.svg";
 import GbFlagSvg from "../../public/icons/flags/GB.svg";
+import { capitalizeFirstLetter } from "../../utils/helper";
 
 export default function SpeciesTitle(props: { species: ISpecies }) {
   return (
@@ -24,7 +25,9 @@ export default function SpeciesTitle(props: { species: ISpecies }) {
           <span className="ml-2">{props.species.common_name.en}</span>
         </div>
       )}
-      <div className="scientific-name">{props.species.scientific_name}</div>
+      <div className="scientific-name">
+        {capitalizeFirstLetter(props.species.scientific_name)}
+      </div>
     </Style>
   );
 }

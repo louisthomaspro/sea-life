@@ -82,17 +82,18 @@ Synchronize Algolia data
 > Download service account key file: https://console.firebase.google.com/u/0/project/sea-guide/settings/serviceaccounts/adminsdk
 
 ```bash
+npm install -g firestore-algolia-search
 npx firestore-algolia-search
 
 What is the Region? europe-west1
-What is the Project Id? sea-guide
-What is the Algolia App Id? R2SCM7OOVG
+What is the Project Id? sea-life
+What is the Algolia App Id? TIXD5TTYDU
 What is the Algolia Api Key? { ALGOLIA_SEARCH_ADMIN_KEY }
-What is the Algolia Index Name? sea-guide
-What is the Collection Path? lives
-What are the Fields to extract? { empty }
+What is the Algolia Index Name? species
+What is the Collection Path? species
+What are the Fields to extract? id,scientific_name,common_name,photos
 What is the Transform Function? { empty }
-What is the path to the Google Application Credential File? ./sea-guide-firebase-adminsdk.json
+What is the path to the Google Application Credential File? ./sea-life-app-firebase-adminsdk.json
 ```
 
 Change extracted field in **firestore extension**.

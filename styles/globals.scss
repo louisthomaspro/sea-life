@@ -50,7 +50,7 @@ a.link {
 }
 
 hr {
-  border-bottom: 1px solid var(--text-color-2);
+  border-bottom: 1px solid var(--border-color);
   width: 100%;
   margin: 20px 0;
 }
@@ -75,4 +75,8 @@ svg.svg-icon {
   path {
     fill: var(--text-color-1);
   }
+}
+
+.no-header {
+  margin-top: -60px;
 }

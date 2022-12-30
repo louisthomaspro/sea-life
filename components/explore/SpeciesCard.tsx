@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { blurDataURL, firebaseStorageLoader } from "../../utils/helper";
+import { blurDataURL, capitalizeFirstLetter, firebaseStorageLoader } from "../../utils/helper";
 import FrFlagSvg from "../../public/icons/flags/FR.svg";
 import GbFlagSvg from "../../public/icons/flags/GB.svg";
 import styled from "styled-components";
@@ -68,7 +68,7 @@ export default function SpeciesCard(props: { species: ISpecies }) {
                 </div>
               )}
               <div className="scientific-name">
-                {props.species.scientific_name}
+                {capitalizeFirstLetter(props.species.scientific_name)}
               </div>
             </div>
           </Link>

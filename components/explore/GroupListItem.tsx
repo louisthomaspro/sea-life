@@ -4,11 +4,12 @@ import { blurDataURL, firebaseStorageLoader } from "../../utils/helper";
 import styled from "styled-components";
 import { m } from "framer-motion";
 import { tapAnimationDuration } from "../../constants/config";
-import { ISpecies } from "../../types/Species";
-import { IGroup } from "../../types/Group";
 import { useRouter } from "next/router";
+import { IGroup } from "../../types/Group";
+import ArrowRightSvg from "../../public/icons/fontawesome/light/arrow-right.svg";
+import ChevronRightSvg from "../../public/icons/fontawesome/light/chevron-right.svg";
 
-export default function GroupCardGrid(props: { group: IGroup }) {
+export default function GroupListItem(props: { group: IGroup }) {
   const router = useRouter();
   const { region, groups } = router.query;
 
@@ -24,29 +25,20 @@ export default function GroupCardGrid(props: { group: IGroup }) {
     >
       <Style>
         <Link href={`/explore/${region}/${groupsJoin}/${props.group.id}`}>
-          <div className="grid grid-nogutter relative">
-            {[0, 1, 2, 3].map((i) => (
-              <div className="col-6 box" key={i}>
-                <div className="img-container relative">
-                  <Image
-                    placeholder="blur"
-                    blurDataURL={blurDataURL()}
-                    src={props.group.photos?.[i]?.original_url ?? "/img/no-image.svg"}
-                    fill
-                    sizes="30vw"
-                    style={{ objectFit: "cover" }}
-                    priority
-                    alt={props.group.title.fr ?? "No title"}
-                  />
-                </div>
-              </div>
-            ))}
-            <div className="badge">
-              {props.group.species_count[region as string]}
-            </div>
+          <div className="img-wrapper">
+            <Image
+              placeholder="blur"
+              blurDataURL={blurDataURL()}
+              src={props.group.photos?.[0]?.original_url ?? "/img/no-image.svg"}
+              fill
+              sizes="50vw"
+              style={{ objectFit: "cover" }}
+              priority
+              alt={props.group.title.fr ?? "No title"}
+            />
           </div>
           <div className="content">
-            <div className="title">{props.group.title.fr}</div>
+            <div className="title">{props.group.title.fr ?? "No title"}</div>
             {props.group.subtitle && (
               <div className="subtitle">
                 (
@@ -56,6 +48,16 @@ export default function GroupCardGrid(props: { group: IGroup }) {
                 )
               </div>
             )}
+            <div className="badge">
+              {props.group.species_count[region as string]} éspèces
+            </div>
+          </div>
+          <div className="chevron">
+            <ChevronRightSvg
+              aria-label="right"
+              className="svg-icon"
+              style={{ width: "14px" }}
+            />
           </div>
         </Link>
       </Style>
@@ -66,37 +68,34 @@ export default function GroupCardGrid(props: { group: IGroup }) {
 // Style
 const Style = styled.button`
   width: 100%;
+  /* background-color: var(--bg-grey); */
+
+  a {
+    display: flex;
+  }
 
   .badge {
-    position: absolute;
-    bottom: -2px;
-    right: -2px;
     background: var(--blue);
     color: white;
     border-radius: 10px;
     padding: 2px 5px;
     font-size: 12px;
+    margin-right: auto;
+    margin-top: 6px;
   }
 
-  .box {
-    padding: 1px;
-
-    .img-container {
-      border-radius: 8px;
-      /* border: 1px solid black; */
-      width: 100%;
-      position: relative;
-      aspect-ratio: 2/1.6;
-      overflow: hidden;
-    }
+  .img-wrapper {
+    width: 25%;
+    position: relative;
+    aspect-ratio: 1/1;
+    border-radius: var(--border-radius);
+    overflow: hidden;
   }
 
   .content {
+    flex-grow: 1;
     padding: 4px 12px 6px 12px;
-    text-align: center;
-    min-height: 48px;
     display: flex;
-    align-items: center;
     justify-content: center;
     flex-direction: column;
 
@@ -110,7 +109,6 @@ const Style = styled.button`
       font-size: 12px;
       display: flex;
       width: 100%;
-      justify-content: center;
 
       span {
         overflow: hidden;
@@ -118,5 +116,10 @@ const Style = styled.button`
         white-space: nowrap;
       }
     }
+  }
+
+  .chevron {
+    display: flex;
+    padding: 0 6px;
   }
 `;

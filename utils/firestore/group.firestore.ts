@@ -8,6 +8,7 @@ import {
   where,
   deleteDoc,
   updateDoc,
+  orderBy,
 } from "firebase/firestore/lite";
 import { firestore } from "../../firebase/clientApp";
 import { IGroup } from "../../types/Group";
@@ -43,7 +44,7 @@ export const getChildrenGroups = async (
 ): Promise<ISpecies[]> => {
   const queryConstraints = [];
   if (parentId) {
-    queryConstraints.push(where("parent_id", "==", parentId));
+    queryConstraints.push(where("parent_id", "==", parentId), orderBy("order"));
   }
   const q = query.apply(null, [
     collection(firestore, collectionName),

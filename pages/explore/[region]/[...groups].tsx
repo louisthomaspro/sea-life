@@ -7,6 +7,7 @@ import BackButton from "../../../components/commons/BackButton";
 import BottomNavigation from "../../../components/commons/BottomNavigation";
 import Header from "../../../components/commons/Header";
 import GroupCardGrid from "../../../components/explore/GroupCardGrid";
+import GroupListItem from "../../../components/explore/GroupListItem";
 import SpeciesCard from "../../../components/explore/SpeciesCard";
 import { regionsDict } from "../../../constants/regions";
 import RegionContext from "../../../context/region.context";
@@ -28,6 +29,7 @@ const Explore: NextPage<{
 }> = ({ currentGroup, childrenGroups, speciesList }) => {
   const router = useRouter();
   const region = router.query.region as string;
+  const isFirstLevelGroup = router.query.groups?.length === 1;
 
   const [showSecondHeader, setShowSecondHeader] = useState(false);
   const { observe, unobserve, inView, scrollDirection, entry } = useInView({
@@ -73,9 +75,17 @@ const Explore: NextPage<{
         ) : (
           <div className="grid">
             {childrenGroups?.map((group: any) => (
-              <div className="col-6" key={group.id}>
-                <GroupCardGrid group={group} />
-              </div>
+              <>
+                {isFirstLevelGroup ? (
+                  <div className="col-6" key={group.id}>
+                    <GroupCardGrid group={group} />
+                  </div>
+                ) : (
+                  <div className="col-12" key={group.id}>
+                    <GroupListItem group={group} />
+                  </div>
+                )}
+              </>
             ))}
           </div>
         )}

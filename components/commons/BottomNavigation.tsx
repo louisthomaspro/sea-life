@@ -88,6 +88,7 @@ const Style = styled.nav<IBottomNavigation>`
 
   .container {
     max-width: 400px;
+    margin: auto;
 
     a {
       margin: auto;

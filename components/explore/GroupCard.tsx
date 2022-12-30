@@ -9,10 +9,10 @@ import { IGroup } from "../../types/Group";
 
 export default function GroupCard(props: { group: IGroup }) {
   const router = useRouter();
+  const { region, groups } = router.query;
 
-  // http://localhost:3000/explore/mediterranean-sea/fauna
-  const slug = (router.query.slug as string[]) || []; // ["mediterranean-sea", "fauna"]
-  const slugUrl = slug.length > 0 ? "/" + slug.join("/") : ""; // "/mediterranean-sea/fauna"
+  // http://localhost:3000/explore/mediterranean-sea/fauna/mollusk
+  const groupsJoin = ((groups as string[]) ?? []).join("/"); // fauna/mollusk
 
   return (
     <m.div
@@ -22,27 +22,22 @@ export default function GroupCard(props: { group: IGroup }) {
       }}
     >
       <Style>
-        <Link href={`/explore${slugUrl}/${props.group.id}`}>
+        <Link href={`/explore/${region}/${groupsJoin}/${props.group.id}`}>
           <div className="img-wrapper">
-            {/* {props.group?.photos?.[0]?.storage_path && (
-                <Image
-                  loader={firebaseStorageLoader}
-                  src={props.life?.photos?.[0]?.storage_path}
-                  layout="fill"
-                  placeholder="blur"
-                  blurDataURL={blurDataURL()}
-                  objectFit="cover"
-                  sizes="50vw"
-                  priority
-                  alt={
-                    props.life.french_common_name ?? props.life.scientific_name
-                  }
-                />
-              )} */}
+            <Image
+              placeholder="blur"
+              blurDataURL={blurDataURL()}
+              src={props.group.photos?.[0]?.original_url ?? "/img/no-image.svg"}
+              fill
+              sizes="50vw"
+              style={{ objectFit: "cover" }}
+              priority
+              alt={props.group.title.fr ?? "No title"}
+            />
           </div>
           <div className="content">
             <div className="title">{props.group.title.fr ?? "No title"}</div>
-            {Object.keys(props.group.subtitle ?? {}).length > 0 && (
+            {props.group.subtitle && (
               <div className="subtitle">
                 (
                 <span className="ellipsis">

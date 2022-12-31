@@ -41,7 +41,7 @@ export default function CustomInfiniteHits(props: UseInfiniteHitsProps) {
   };
 
   useEffect(() => {
-    initObserverForInfiniteScroll();
+    // initObserverForInfiniteScroll();
   }, [element]);
 
   return (

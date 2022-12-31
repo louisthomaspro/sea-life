@@ -58,6 +58,7 @@ const Style = styled.header<IHeaderProps>`
 
   .title {
     font-size: 24px;
+    line-height: 24px;
     font-weight: bold;
     color: var(--text-color-1);
   }

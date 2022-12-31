@@ -5,6 +5,10 @@ import SearchSvg from "../../public/icons/fontawesome/light/magnifying-glass.svg
 export default function CustomSearchBox(props: UseSearchBoxProps) {
   const { refine, clear, query } = useSearchBox(props);
 
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    refine(e.target.value);
+  };
+
   return (
     <Style>
       <SearchSvg
@@ -14,8 +18,8 @@ export default function CustomSearchBox(props: UseSearchBoxProps) {
       />
       <input
         type="text"
-        placeholder="Nom commun ou scientific"
-        onChange={(e) => refine(e.currentTarget.value)}
+        placeholder="Nom commun ou scientifique"
+        onChange={onChange}
       />
     </Style>
   );

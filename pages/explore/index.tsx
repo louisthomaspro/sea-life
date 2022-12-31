@@ -18,12 +18,15 @@ import { Configure, InstantSearch } from "react-instantsearch-hooks-web";
 import CustomSearchBox from "../../components/search/CustomSearchBox";
 import CustomInfiniteHits from "../../components/search/CustomInfiniteHits";
 import { algolia } from "../../algolia/clientApp";
+import Button from "../../components/commons/Button";
+import _ from "lodash";
 
 const Explore: NextPage<{
   faunaGroup: IGroup;
   floraGroup: IGroup;
 }> = ({ faunaGroup, floraGroup }) => {
   const { userRegion } = useContext(RegionContext);
+  const router = useRouter();
 
   const [algoliaFilter, setAlgoliaFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState(null);
@@ -37,17 +40,30 @@ const Explore: NextPage<{
     // setAlgoliaFilter(filter);
   }, [categoryFilter]);
 
-  const handleQueryHook = (query: string, search: (value: string) => void) => {
-    if (query !== "") {
-      setShowSearchResults(true);
-      setTimeout(() => {
-        // Fix "first search" query bug
-        search(query);
-      }, 1);
-    } else {
-      setShowSearchResults(false);
-    }
-  };
+  const handleQueryHook = _.debounce(
+    async (query: string, search: (value: string) => void) => {
+      router.push(
+        {
+          pathname: "/explore",
+          query: { search: query },
+        },
+        undefined,
+        { shallow: true }
+      );
+     
+      if (query !== "") {
+        setShowSearchResults(true);
+
+        setTimeout(() => {
+          // Fix "first search" query bug
+          search(query);
+        }, 1);
+      } else {
+        setShowSearchResults(false);
+      }
+    },
+    500
+  );
 
   return (
     <>
@@ -57,6 +73,11 @@ const Explore: NextPage<{
           <Configure filters={algoliaFilter} />
           {/* Search */}
           <CustomSearchBox queryHook={handleQueryHook} />
+          <Link href="/search" passHref legacyBehavior>
+            <Button style={{ width: "100%", marginTop: "10px" }}>
+              Recherche avancée
+            </Button>
+          </Link>
 
           <hr />
           {showSearchResults ? <CustomInfiniteHits /> : <></>}

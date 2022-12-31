@@ -90,6 +90,7 @@ const Style = styled.button`
     aspect-ratio: 1/1;
     border-radius: var(--border-radius);
     overflow: hidden;
+    flex: none; 
   }
 
   .content {

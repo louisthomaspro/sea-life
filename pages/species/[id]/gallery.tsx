@@ -3,19 +3,20 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import Header from "../../../components/commons/Header";
-import { blurDataURL, firebaseStorageLoader } from "../../../utils/helper";
 
 import React from "react";
 
 import Fancybox from "../../../components/commons/Fancybox";
 import { ISpecies } from "../../../types/Species";
 import { getSpecies } from "../../../utils/firestore/species.firestore";
+import { BlurhashCanvas } from "react-blurhash";
+import { getPlaiceholder } from "plaiceholder";
+import { defaultBlurhashOptions } from "../../../constants/config";
 
 const Gallery: NextPage<{
   species: ISpecies;
 }> = ({ species }) => {
   const router = useRouter();
-  const { id } = router.query;
 
   return (
     <Style>
@@ -46,11 +47,24 @@ const Gallery: NextPage<{
               href={photo.original_url}
             >
               <div className="img-wrapper">
+                {photo.blurhash && (
+                  <BlurhashCanvas
+                    {...photo.blurhash}
+                    punch={1}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                )}
                 <Image
                   src={photo.original_url}
                   fill
-                  placeholder="blur"
-                  blurDataURL={blurDataURL()}
                   alt={species?.common_name?.fr[0]}
                 />
               </div>
@@ -68,6 +82,18 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const species: ISpecies = JSON.parse(
     JSON.stringify(await getSpecies(id.toString()))
   );
+
+  // Generate bluhash for each image
+  if (process.env.NEXT_PUBLIC_SKIP_BLURHASH !== "true") {
+    await Promise.all(
+      species.photos.map(async (photo) => {
+        const { blurhash, img } = await getPlaiceholder(photo.original_url, {
+          ...defaultBlurhashOptions,
+        });
+        photo.blurhash = blurhash;
+      })
+    );
+  }
 
   if (species) {
     return { props: { species } };

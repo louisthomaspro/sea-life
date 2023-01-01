@@ -5,6 +5,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { ISpecies } from "../../types/Species";
 import { blurDataURL } from "../../utils/helper";
+import { BlurhashCanvas } from "react-blurhash";
 
 export default function SpeciesSlider(props: { species: ISpecies }) {
   const [currentSlide, setCurrentSlide] = useState(0); // keenSlider
@@ -25,10 +26,22 @@ export default function SpeciesSlider(props: { species: ISpecies }) {
           key={props.species.id + i}
           onClick={() => {}}
         >
+          {photo.blurhash && (
+            <BlurhashCanvas
+              {...photo.blurhash}
+              punch={1}
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
+            />
+          )}
           <Image
-            // loader={firebaseStorageLoader}
-            placeholder="blur"
-            blurDataURL={blurDataURL()}
             src={photo.original_url}
             alt={props.species.scientific_name}
             fill

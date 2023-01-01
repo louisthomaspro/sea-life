@@ -27,9 +27,9 @@ export default function GroupListItem(props: { group: IGroup }) {
       <Style>
         <Link href={`/explore/${region}/${groupsJoin}/${props.group.id}`}>
           <div className="img-wrapper">
-            {props.group?.photos?.[0].original_url && (
+            {props.group?.photos?.[0]?.blurhash && (
               <BlurhashCanvas
-                {...props.group?.photos?.[0]?.blurhash}
+                {...props.group.photos[0].blurhash}
                 punch={1}
                 style={{
                   position: "absolute",

@@ -9,6 +9,8 @@ import AuthContext from "../../context/auth.context";
 import { getSpecies } from "../../utils/firestore/species.firestore";
 import { ISpecies } from "../../types/Species";
 import SpeciesHeader from "../../components/species/SpeciesHeader";
+import { getPlaiceholder } from "plaiceholder";
+import { defaultBlurhashOptions } from "../../constants/config";
 
 const Species: NextPage<{
   species: ISpecies;
@@ -56,6 +58,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
     JSON.stringify(await getSpecies(id.toString()))
   );
 
+  // Generate bluhash for each image
+  if (process.env.NEXT_PUBLIC_SKIP_BLURHASH !== "true") {
+    await Promise.all(
+      species.photos.map(async (photo) => {
+        const { blurhash } = await getPlaiceholder(
+          photo.original_url,
+          defaultBlurhashOptions
+        );
+        photo.blurhash = blurhash;
+      })
+    );
+  }
+
   if (species) {
     return { props: { species }, revalidate: 120 };
   } else {
@@ -72,7 +87,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return {
     // paths: process.env.SKIP_BUILD_STATIC_GENERATION ? [] : paths,
     paths: [],
-    fallback: 'blocking',
+    fallback: "blocking",
   };
 };
 

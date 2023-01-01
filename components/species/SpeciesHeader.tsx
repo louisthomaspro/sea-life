@@ -10,13 +10,13 @@ import ShareNodesSvg from "../../public/icons/fontawesome/light/share-nodes.svg"
 export default function SpeciesHeader(props: { species: ISpecies }) {
   return (
     <Style>
-      <m.button whileTap={whileTapAnimationIconButton} onClick={() => {}}>
+      {/* <m.button whileTap={whileTapAnimationIconButton} onClick={() => {}}>
         <HeartSvg
           aria-label="favorite"
           className="svg-icon"
           style={{ width: "21px", marginLeft: "1px" }}
         />
-      </m.button>
+      </m.button> */}
       <m.button
         whileTap={whileTapAnimationIconButton}
         onClick={() => {

@@ -10,6 +10,7 @@ import Header from "../../../components/commons/Header";
 import GroupCardGrid from "../../../components/explore/GroupCardGrid";
 import GroupListItem from "../../../components/explore/GroupListItem";
 import SpeciesCard from "../../../components/explore/SpeciesCard";
+import { defaultBlurhashOptions } from "../../../constants/config";
 import { regionsDict } from "../../../constants/regions";
 import RegionContext from "../../../context/region.context";
 import { IGroup } from "../../../types/Group";
@@ -111,18 +112,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     (group) => group.species_count?.[region as string] > 0
   );
 
-  // Generate blurhash for each group
-  await Promise.all(
-    childrenGroups.map(async (child) => {
-      for (let i = 0; i < child.photos.length; i++) {
-        const { blurhash } = await getPlaiceholder(
-          child.photos[i].original_url
-        );
-        child.photos[i].blurhash = blurhash;
-      }
-    })
-  );
-
   // Get speciesList
   let speciesList: any[] = [];
   if (currentGroup?.show_species) {
@@ -146,17 +135,33 @@ export const getStaticProps: GetStaticProps = async (context) => {
     }
   }
 
-  // Generate blurhash for each species
-  await Promise.all(
-    speciesList.map(async (species) => {
-      if (species.photos[0]) {
-        const { blurhash } = await getPlaiceholder(
-          species.photos[0].original_url
-        );
-        species.photos[0].blurhash = blurhash;
-      }
-    })
-  );
+  // Generate blurhash for each group and species
+
+  if (process.env.NEXT_PUBLIC_SKIP_BLURHASH !== "true") {
+    await Promise.all(
+      childrenGroups.map(async (child) => {
+        for (let i = 0; i < child.photos.length; i++) {
+          const { blurhash } = await getPlaiceholder(
+            child.photos[i].original_url,
+            defaultBlurhashOptions
+          );
+          child.photos[i].blurhash = blurhash;
+        }
+      })
+    );
+
+    await Promise.all(
+      speciesList.map(async (species) => {
+        if (species.photos[0]) {
+          const { blurhash } = await getPlaiceholder(
+            species.photos[0].original_url,
+            defaultBlurhashOptions
+          );
+          species.photos[0].blurhash = blurhash;
+        }
+      })
+    );
+  }
 
   if (currentGroup) {
     return {

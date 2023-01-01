@@ -43,9 +43,9 @@ export default function SpeciesCard(props: { species: ISpecies }) {
         {display ? (
           <Link href={`/species/${props.species.id}`} className="container">
             <div className="img-wrapper">
-              {props.species?.photos?.[0].original_url && (
+              {props.species?.photos?.[0]?.blurhash && (
                 <BlurhashCanvas
-                  {...props.species?.photos?.[0]?.blurhash}
+                  {...props.species.photos[0].blurhash}
                   punch={1}
                   style={{
                     position: "absolute",

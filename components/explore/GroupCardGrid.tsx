@@ -13,8 +13,6 @@ export default function GroupCardGrid(props: { group: IGroup }) {
   const router = useRouter();
   const { region, groups } = router.query;
 
-  console.log("GroupCardGrid", props.group.photos);
-
   // http://localhost:3000/explore/mediterranean-sea/fauna/mollusk
   const groupsJoin = ((groups as string[]) ?? []).join("/"); // fauna/mollusk
 
@@ -31,10 +29,9 @@ export default function GroupCardGrid(props: { group: IGroup }) {
             {[0, 1, 2, 3].map((i) => (
               <div className="col-6 box" key={i}>
                 <div className="img-container relative">
-                  {props.group.photos?.[i]?.original_url && (
+                  {props.group.photos?.[i]?.blurhash && (
                     <BlurhashCanvas
-                      {...props.group.photos?.[i]?.blurhash}
-                      hash={props.group.photos?.[i]?.blurhash.hash}
+                      {...props.group.photos[i].blurhash}
                       punch={1}
                       style={{
                         position: "absolute",

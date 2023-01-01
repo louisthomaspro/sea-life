@@ -46,6 +46,7 @@ export interface ISpeciesPhoto {
   storage_path: string;
   original_url: string; // ex: https://static.inaturalist.org/photos/1234567/original.jpg
   attribution: string;
+  blurhash: any;
 }
 
 export interface ITaxonomy {

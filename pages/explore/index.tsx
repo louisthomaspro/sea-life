@@ -9,7 +9,7 @@ import { m } from "framer-motion";
 import { tapAnimationDuration } from "../../constants/config";
 import styled from "styled-components";
 import RegionDropdown from "../../components/commons/RegionDropdown";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import RegionContext from "../../context/region.context";
 import { getGroup } from "../../utils/firestore/group.firestore";
 import { IGroup } from "../../types/Group";

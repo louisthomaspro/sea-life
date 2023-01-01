@@ -7,10 +7,13 @@ import { tapAnimationDuration } from "../../constants/config";
 import { ISpecies } from "../../types/Species";
 import { IGroup } from "../../types/Group";
 import { useRouter } from "next/router";
+import { BlurhashCanvas } from "react-blurhash";
 
 export default function GroupCardGrid(props: { group: IGroup }) {
   const router = useRouter();
   const { region, groups } = router.query;
+
+  console.log("GroupCardGrid", props.group.photos);
 
   // http://localhost:3000/explore/mediterranean-sea/fauna/mollusk
   const groupsJoin = ((groups as string[]) ?? []).join("/"); // fauna/mollusk
@@ -28,9 +31,23 @@ export default function GroupCardGrid(props: { group: IGroup }) {
             {[0, 1, 2, 3].map((i) => (
               <div className="col-6 box" key={i}>
                 <div className="img-container relative">
+                  {props.group.photos?.[i]?.original_url && (
+                    <BlurhashCanvas
+                      {...props.group.photos?.[i]?.blurhash}
+                      hash={props.group.photos?.[i]?.blurhash.hash}
+                      punch={1}
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    />
+                  )}
                   <Image
-                    placeholder="blur"
-                    blurDataURL={blurDataURL()}
                     src={
                       props.group.photos?.[i]?.original_url ??
                       "/img/no-image.svg"

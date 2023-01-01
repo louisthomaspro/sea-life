@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
+import { getPlaiceholder } from "plaiceholder";
 import { useContext, useState } from "react";
 import { useInView } from "react-cool-inview";
 import styled from "styled-components";
@@ -96,11 +97,13 @@ const Explore: NextPage<{
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const { groups, region } = context.params;
-
+  const isFirstLevelGroup = groups?.length === 1;
   const id = groups[groups.length - 1];
 
+  // Get currentGroup
   const currentGroup: IGroup = JSON.parse(JSON.stringify(await getGroup(id)));
 
+  // Get childrenGroups
   let childrenGroups: IGroup[] = JSON.parse(
     JSON.stringify(await getChildrenGroups(currentGroup?.id))
   );
@@ -108,6 +111,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
     (group) => group.species_count?.[region as string] > 0
   );
 
+  // Generate blurhash for each group
+  await Promise.all(
+    childrenGroups.map(async (child) => {
+      for (let i = 0; i < child.photos.length; i++) {
+        const { blurhash } = await getPlaiceholder(
+          child.photos[i].original_url
+        );
+        child.photos[i].blurhash = blurhash;
+      }
+    })
+  );
+
+  // Get speciesList
   let speciesList: any[] = null;
   if (currentGroup?.show_species) {
     let speciesListAllProperties = await getAllSpeciesByGroupList(
@@ -130,9 +146,26 @@ export const getStaticProps: GetStaticProps = async (context) => {
     }
   }
 
+  // Generate blurhash for each species
+  await Promise.all(
+    speciesList.map(async (species) => {
+      if (species.photos[0]) {
+        const { blurhash } = await getPlaiceholder(
+          species.photos[0].original_url
+        );
+        species.photos[0].blurhash = blurhash;
+      }
+    })
+  );
+
   if (currentGroup) {
     return {
-      props: { currentGroup, childrenGroups, speciesList, key: groups },
+      props: {
+        currentGroup,
+        childrenGroups,
+        speciesList,
+        key: groups,
+      },
     };
   } else {
     return { notFound: true };
@@ -148,7 +181,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return {
     // paths: process.env.SKIP_BUILD_STATIC_GENERATION ? [] : paths,
     paths: [],
-    fallback: 'blocking',
+    fallback: "blocking",
   };
 };
 

@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { IGroup } from "../../types/Group";
 import ArrowRightSvg from "../../public/icons/fontawesome/light/arrow-right.svg";
 import ChevronRightSvg from "../../public/icons/fontawesome/light/chevron-right.svg";
+import { BlurhashCanvas } from "react-blurhash";
 
 export default function GroupListItem(props: { group: IGroup }) {
   const router = useRouter();
@@ -26,14 +27,26 @@ export default function GroupListItem(props: { group: IGroup }) {
       <Style>
         <Link href={`/explore/${region}/${groupsJoin}/${props.group.id}`}>
           <div className="img-wrapper">
+            {props.group?.photos?.[0].original_url && (
+              <BlurhashCanvas
+                {...props.group?.photos?.[0]?.blurhash}
+                punch={1}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+            )}
             <Image
-              placeholder="blur"
-              blurDataURL={blurDataURL()}
               src={props.group.photos?.[0]?.original_url ?? "/img/no-image.svg"}
               fill
               sizes="50vw"
               style={{ objectFit: "cover" }}
-              priority
               alt={props.group.title.fr ?? "No title"}
             />
           </div>
@@ -90,7 +103,7 @@ const Style = styled.button`
     aspect-ratio: 1/1;
     border-radius: var(--border-radius);
     overflow: hidden;
-    flex: none; 
+    flex: none;
   }
 
   .content {

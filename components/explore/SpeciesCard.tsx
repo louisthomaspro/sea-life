@@ -1,6 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { blurDataURL, capitalizeFirstLetter, firebaseStorageLoader } from "../../utils/helper";
+import {
+  blurDataURL,
+  capitalizeFirstLetter,
+  firebaseStorageLoader,
+} from "../../utils/helper";
 import FrFlagSvg from "../../public/icons/flags/FR.svg";
 import GbFlagSvg from "../../public/icons/flags/GB.svg";
 import styled from "styled-components";
@@ -9,6 +13,7 @@ import { tapAnimationDuration } from "../../constants/config";
 import { ISpecies } from "../../types/Species";
 import { useInView } from "react-cool-inview";
 import { useState } from "react";
+import { BlurhashCanvas } from "react-blurhash";
 
 export default function SpeciesCard(props: { species: ISpecies }) {
   const [display, setDisplay] = useState(false);
@@ -38,17 +43,31 @@ export default function SpeciesCard(props: { species: ISpecies }) {
         {display ? (
           <Link href={`/species/${props.species.id}`} className="container">
             <div className="img-wrapper">
-              {props.species?.photos?.[0]?.original_url && (
-                <Image
-                  src={props.species?.photos?.[0]?.original_url}
-                  fill
-                  style={{ objectFit: "cover" }}
-                  sizes="50vw"
-                  alt={props.species.scientific_name}
-                  placeholder="blur"
-                  blurDataURL={blurDataURL()}
+              {props.species?.photos?.[0].original_url && (
+                <BlurhashCanvas
+                  {...props.species?.photos?.[0]?.blurhash}
+                  punch={1}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                  }}
                 />
               )}
+              <Image
+                src={
+                  props.species?.photos?.[0]?.original_url ??
+                  "/img/no-image.svg"
+                }
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="50vw"
+                alt={props.species.scientific_name}
+              />
             </div>
             <div className="content">
               {props.species.common_name.fr && (

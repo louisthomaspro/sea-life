@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const withPWA = require("next-pwa");
+const { withPlaiceholder } = require("@plaiceholder/next");
 const withBundleAnalyzer = require("@next/bundle-analyzer");
 const runtimeCaching = require("next-pwa/cache");
 
@@ -44,4 +45,5 @@ const nextConfig = {
 };
 
 module.exports = withPWA(nextConfig);
+module.exports = withPlaiceholder(nextConfig);
 // module.exports = withBundleAnalyzer(nextConfig);

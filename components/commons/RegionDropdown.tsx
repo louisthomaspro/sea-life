@@ -1,5 +1,5 @@
 import { Dropdown } from "primereact/dropdown";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import { regionsList } from "../../constants/regions";
 import RegionContext from "../../context/region.context";

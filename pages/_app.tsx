@@ -7,7 +7,6 @@ import { ToastContainer, toast, Slide } from "react-toastify";
 import { HistoryContextProvider } from "../context/history.context";
 import { RegionContextProvider } from "../context/region.context";
 import { Analytics } from "@vercel/analytics/react";
-import { useEffect } from "react";
 import { useScrollRestoration } from "../utils/saveScrollPos";
 
 function MyApp({ Component, pageProps, router }: AppProps) {

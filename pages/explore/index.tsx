@@ -32,25 +32,8 @@ const Explore: NextPage<{
   const [categoryFilter, setCategoryFilter] = useState(null);
   const [showSearchResults, setShowSearchResults] = useState(false);
 
-  useEffect(() => {
-    // let filter = "type:species";
-    // if (categoryFilter) {
-    //   filter += " AND parent_ids:" + categoryFilter;
-    // }
-    // setAlgoliaFilter(filter);
-  }, [categoryFilter]);
-
   const handleQueryHook = _.debounce(
     async (query: string, search: (value: string) => void) => {
-      router.push(
-        {
-          pathname: "/explore",
-          query: { search: query },
-        },
-        undefined,
-        { shallow: true }
-      );
-     
       if (query !== "") {
         setShowSearchResults(true);
 

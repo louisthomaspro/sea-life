@@ -1,16 +1,7 @@
-import { useRouter } from "next/router";
 import styled from "styled-components";
-import { m } from "framer-motion";
-
-// Svg
-import HomeSvg from "../../public/icons/fontawesome/light/home.svg";
-
-import { whileTapAnimationIconButton } from "../../constants/config";
-import { useHistory } from "../../context/history.context";
-import Link from "next/link";
 import BackButton from "./BackButton";
 
-interface IHeaderProps {
+interface IHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   title?: string;
   showBackButton?: boolean;

@@ -124,7 +124,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   );
 
   // Get speciesList
-  let speciesList: any[] = null;
+  let speciesList: any[] = [];
   if (currentGroup?.show_species) {
     let speciesListAllProperties = await getAllSpeciesByGroupList(
       currentGroup.includes

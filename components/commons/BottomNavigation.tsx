@@ -53,7 +53,7 @@ export default function BottomNavigation(props: IBottomNavigation) {
             </RoundButton>
           </div>
         </Link>
-        <Link href="/profile">
+        {/* <Link href="/profile">
           <div className="col item">
             <RoundButton
               ariaLabel="Favorite"
@@ -66,7 +66,7 @@ export default function BottomNavigation(props: IBottomNavigation) {
               />
             </RoundButton>
           </div>
-        </Link>
+        </Link> */}
       </div>
     </Style>
   );

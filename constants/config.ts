@@ -14,5 +14,5 @@ export const serverUrl = dev
   : "https://sea-guide.vercel.app";
 
 export const defaultBlurhashOptions = {
-  size: 20,
+  size: 25,
 };

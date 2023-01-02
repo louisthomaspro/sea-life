@@ -140,13 +140,15 @@ export const getStaticProps: GetStaticProps = async (context) => {
   if (process.env.NEXT_PUBLIC_SKIP_BLURHASH !== "true") {
     await Promise.all(
       childrenGroups.map(async (child) => {
-        for (let i = 0; i < child.photos.length; i++) {
-          const { blurhash } = await getPlaiceholder(
-            child.photos[i].original_url,
-            defaultBlurhashOptions
-          );
-          child.photos[i].blurhash = blurhash;
-        }
+        await Promise.all(
+          child.photos.map(async (photo) => {
+            const { blurhash } = await getPlaiceholder(
+              photo.original_url,
+              defaultBlurhashOptions
+            );
+            photo.blurhash = blurhash;
+          })
+        );
       })
     );
 

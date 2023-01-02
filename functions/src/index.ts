@@ -8,6 +8,9 @@ initializeApp();
 // const speciesPhotos = require('./speciesPhotos');
 // exports.speciesPhotos = speciesPhotos;
 
+// const blurhashGeneration = require("./blurhashGeneration");
+// exports.blurhashGeneration = blurhashGeneration;
+
 const group = require("./group");
 exports.group = group;
 
@@ -34,21 +37,5 @@ exports.exportCsv = functions
 exports.ping = functions.region("europe-west1").https.onRequest((req, res) => {
   res.json("pong");
 });
-
-// Blurhash
-exports.generateBlurhash = functions
-  .region("europe-west1")
-  .firestore.document("species/{id}")
-  .onWrite(async (change, context) => {
-    if (!change.after.exists) {
-      functions.logger.info(
-        "Species deleted, not generating blurhash for species",
-        context.params.id
-      );
-      return null;
-    }
-
-    
-  });
 
 ///////////////////////////////

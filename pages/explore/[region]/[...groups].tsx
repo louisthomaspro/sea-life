@@ -138,19 +138,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
   // Generate blurhash for each group and species
 
   if (process.env.NEXT_PUBLIC_SKIP_BLURHASH !== "true") {
-    await Promise.all(
-      childrenGroups.map(async (child) => {
-        await Promise.all(
-          child.photos.map(async (photo) => {
-            const { blurhash } = await getPlaiceholder(
-              photo.original_url,
-              defaultBlurhashOptions
-            );
-            photo.blurhash = blurhash;
-          })
-        );
-      })
-    );
+    // await Promise.all(
+    //   childrenGroups.map(async (child) => {
+    //     await Promise.all(
+    //       child.photos.map(async (photo) => {
+    //         const { blurhash } = await getPlaiceholder(
+    //           photo.original_url,
+    //           defaultBlurhashOptions
+    //         );
+    //         photo.blurhash = blurhash;
+    //       })
+    //     );
+    //   })
+    // );
 
     await Promise.all(
       speciesList.map(async (species) => {

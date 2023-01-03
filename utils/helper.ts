@@ -56,7 +56,10 @@ export const revalidateId = (id: string) => {
   });
 };
 
-export const searchTreeClassification = (element: any, matchingSlug: any): any => {
+export const searchTreeClassification = (
+  element: any,
+  matchingSlug: any
+): any => {
   if (element?.permalink == matchingSlug) {
     return element;
   } else if (element.children != null) {
@@ -72,4 +75,12 @@ export const searchTreeClassification = (element: any, matchingSlug: any): any =
 
 export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+export const capitalizeWords = (string: string) => {
+  const words = string.split(" ");
+  const capitalizedWords = words.map(
+    (word) => word[0].toUpperCase() + word.slice(1)
+  );
+  return capitalizedWords.join(" ");
 }

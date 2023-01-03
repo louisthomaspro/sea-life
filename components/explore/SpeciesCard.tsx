@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   blurDataURL,
   capitalizeFirstLetter,
+  capitalizeWords,
   firebaseStorageLoader,
 } from "../../utils/helper";
 import FrFlagSvg from "../../public/icons/flags/FR.svg";
@@ -17,6 +18,8 @@ import { BlurhashCanvas } from "react-blurhash";
 
 export default function SpeciesCard(props: { species: ISpecies }) {
   const [display, setDisplay] = useState(false);
+
+  console.log(props.species)
 
   const { observe } = useInView({
     rootMargin: "100% 0px",
@@ -70,20 +73,20 @@ export default function SpeciesCard(props: { species: ISpecies }) {
               />
             </div>
             <div className="content">
-              {props.species.common_names?.fr && (
+              {props.species.common_names?.fr?.length > 0 && (
                 <div className="title">
                   <div>
                     <FrFlagSvg width="12px" />
                   </div>
-                  <span className="ml-1">{props.species.common_names.fr}</span>
+                  <span className="ml-1">{capitalizeWords(props.species.common_names.fr[0])}</span>
                 </div>
               )}
-              {props.species.common_names?.en && (
+              {props.species.common_names?.en?.length > 0 && (
                 <div className="title">
                   <div>
                     <GbFlagSvg width="12px" />
                   </div>
-                  <span className="ml-1">{props.species.common_names.en}</span>
+                  <span className="ml-1">{capitalizeWords(props.species.common_names.en[0])}</span>
                 </div>
               )}
               <div className="scientific-name">

@@ -57,7 +57,7 @@ const Explore: NextPage<{
         </div>
         <div className="content">
           <div className="title">{currentGroup?.title?.fr}</div>
-          <div className="region-info">{regionsDict[region].title.fr}</div>
+          <div className="region-info">{regionsDict[region].name.fr}</div>
         </div>
       </div>
       {showSecondHeader && (
@@ -119,10 +119,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
       currentGroup.includes
     );
     speciesList = speciesListAllProperties.map(
-      ({ id, scientific_name, common_names: common_name, regions, photos }) => ({
+      ({ id, scientific_name, common_names, regions, photos }) => ({
         id,
         scientific_name,
-        common_name,
+        common_names,
         regions,
         photos: photos[0] ? [photos[0]] : [],
       })

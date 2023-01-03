@@ -20,8 +20,8 @@ export default function RegionDropdown(props: IRegionDropdown) {
           value={userRegion}
           options={regionsList}
           onChange={onRegionChange}
-          optionLabel="name"
-          optionValue="code"
+          optionLabel="name.fr"
+          optionValue="id"
           placeholder="Selectionnez une région"
         />
       </div>
@@ -34,6 +34,6 @@ const Style = styled.div`
   .field {
     display: flex;
     flex-direction: column;
-    max-width: 250px;
+    /* max-width: 250px; */
   }
 `;

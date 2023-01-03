@@ -60,19 +60,23 @@ const dict_sizes_icon: any = {
   //   icon: leaf_icon,
   //   description: "Longueur de la feuille",
   // },
-  colony_size: {
+  max_colony_size: {
     icon: ruler_h_grid_svg,
     description: "Taille de la colonie",
   },
-  plume_diameter: {
+  common_colony_size: {
+    icon: ruler_h_grid_svg,
+    description: "Taille de la colonie",
+  },
+  common_plume_diameter: {
     icon: diameter_icon,
     description: "Diamètre de la plume",
   },
-  polyp_diameter: {
+  max_polyp_diameter: {
     icon: diameter_icon,
     description: "Diamètre du polype",
   },
-  diameter: {
+  common_diameter: {
     icon: diameter_icon,
     description: "Diamètre de ... ... ...",
   },
@@ -95,15 +99,15 @@ const getSizes = (sizes: any) => {
 
   // Handle complex sizes (min-max)
   let text = "";
-  if ("length_max" in sizes || "length_average" in sizes) {
-    if ("length_max" in sizes) {
-      text = "< " + sizes.length_max;
+  if ("max_length" in sizes || "common_length" in sizes) {
+    if ("max_length" in sizes) {
+      text = "< " + sizes.max_length;
     }
-    if ("length_average" in sizes) {
-      text = sizes.length_average;
+    if ("common_length" in sizes) {
+      text = sizes.common_length;
     }
-    if ("length_average" in sizes && "length_max" in sizes) {
-      text = sizes.length_average + "-" + sizes.length_max;
+    if ("common_length" in sizes && "max_length" in sizes) {
+      text = sizes.common_length + "-" + sizes.max_length;
     }
 
     result.push(

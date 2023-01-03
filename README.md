@@ -78,7 +78,7 @@ What is the Algolia App Id? TIXD5TTYDU
 What is the Algolia Api Key? { ALGOLIA_SEARCH_ADMIN_KEY }
 What is the Algolia Index Name? species
 What is the Collection Path? species
-What are the Fields to extract? id,scientific_name,common_name,photos
+What are the Fields to extract? id,scientific_name,common_names,photos
 What is the Transform Function? { empty }
 What is the path to the Google Application Credential File? ./sea-life-app-firebase-adminsdk.json
 ```

@@ -18,7 +18,7 @@ export default function SpeciesEnvironment(props: { species: ISpecies }) {
   let formatted_regions_list = [];
   for (const i in regions) {
     if (regions[i] in regionsDict) {
-      formatted_regions_list.push(regionsDict[regions[i]].title.fr);
+      formatted_regions_list.push(regionsDict[regions[i]].name.fr);
     }
   }
   const formatted_regions = formatted_regions_list.join(", ");

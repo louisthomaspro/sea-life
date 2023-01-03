@@ -70,20 +70,20 @@ export default function SpeciesCard(props: { species: ISpecies }) {
               />
             </div>
             <div className="content">
-              {props.species.common_name.fr && (
+              {props.species.common_names?.fr && (
                 <div className="title">
                   <div>
                     <FrFlagSvg width="12px" />
                   </div>
-                  <span className="ml-1">{props.species.common_name.fr}</span>
+                  <span className="ml-1">{props.species.common_names.fr}</span>
                 </div>
               )}
-              {props.species.common_name.en && (
+              {props.species.common_names?.en && (
                 <div className="title">
                   <div>
                     <GbFlagSvg width="12px" />
                   </div>
-                  <span className="ml-1">{props.species.common_name.en}</span>
+                  <span className="ml-1">{props.species.common_names.en}</span>
                 </div>
               )}
               <div className="scientific-name">
@@ -131,7 +131,7 @@ const Style = styled.div`
     flex-direction: column;
     height: 100%;
     opacity: 1;
-    animation: append-animate 0.1s linear;
+    /* animation: append-animate 0.1s linear; */
 
     .img-wrapper {
       /* flex-grow: 1; */

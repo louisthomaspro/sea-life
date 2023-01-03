@@ -26,7 +26,7 @@ export function RegionContextProvider({ children }: any) {
     // Set user region
     const storedRegion = window.localStorage.getItem(storageKey);
     if (storedRegion) {
-      if (regionsList.find((region) => region.code === storedRegion)) {
+      if (regionsList.find((region) => region.id === storedRegion)) {
         setUserRegion(storedRegion);
       } else {
         setUserRegion(defaultRegion);

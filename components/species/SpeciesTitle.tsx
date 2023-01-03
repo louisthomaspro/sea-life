@@ -9,20 +9,20 @@ import { capitalizeFirstLetter } from "../../utils/helper";
 export default function SpeciesTitle(props: { species: ISpecies }) {
   return (
     <Style>
-      {props.species.common_name.fr && (
+      {props.species.common_names?.fr && (
         <div className="title">
           <div>
             <FrFlagSvg width="16px" />
           </div>
-          <span className="ml-2">{props.species.common_name.fr}</span>
+          <span className="ml-2">{props.species.common_names.fr}</span>
         </div>
       )}
-      {props.species.common_name.en && (
+      {props.species.common_names?.en && (
         <div className="title">
           <div>
             <GbFlagSvg width="16px" />
           </div>
-          <span className="ml-2">{props.species.common_name.en}</span>
+          <span className="ml-2">{props.species.common_names.en}</span>
         </div>
       )}
       <div className="scientific-name">

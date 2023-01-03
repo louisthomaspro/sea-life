@@ -3,8 +3,13 @@ export interface ISpecies {
   id: string;
   // display: boolean;
 
+  external_ids?: {
+    inaturalist?: string;
+    iucn?: string;
+  }
+
   scientific_name: string;
-  common_name: {
+  common_names: {
     fr: string[];
     en: string[];
   };
@@ -30,15 +35,17 @@ export interface ISpecies {
 }
 
 export interface ISpeciesSizes {
-  length_max?: number;
-  length_average?: number;
+  max_length?: number;
+  common_length?: number;
   alga_length?: number;
   leaf_diameter?: number;
   alga_height?: number;
-  plume_diameter?: number;
-  colony_size?: number;
-  polyp_diameter?: number;
-  diameter?: number;
+  common_diameter?: number;
+  common_colony_size?: number;
+  max_colony_size? : number;
+  common_polyp_diameter?: number;
+  max_polyp_diameter?: number;
+  common_plume_diameter?: number;
 }
 
 export interface ISpeciesPhoto {

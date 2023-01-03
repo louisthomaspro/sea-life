@@ -119,7 +119,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       currentGroup.includes
     );
     speciesList = speciesListAllProperties.map(
-      ({ id, scientific_name, common_name, regions, photos }) => ({
+      ({ id, scientific_name, common_names: common_name, regions, photos }) => ({
         id,
         scientific_name,
         common_name,

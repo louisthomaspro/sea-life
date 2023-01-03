@@ -45,4 +45,4 @@ yarn-error.log*
 **/public/fallback-*.js
 
 # Credentials
-sea-guide-firebase-adminsdk*.json
+sea-life-app-firebase-adminsdk*.json

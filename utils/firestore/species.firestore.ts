@@ -38,8 +38,6 @@ export const getAllSpecies = async (
   return querySnapshot.docs.map((doc) => doc.data() as any);
 };
 
-
-
 export const getAllSpeciesByGroupList = async (
   taxaId: string[]
 ): Promise<ISpecies[]> => {

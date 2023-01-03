@@ -20,7 +20,7 @@ const Gallery: NextPage<{
 
   return (
     <Style>
-      <Header title={species?.common_name?.fr[0]} showBackButton shadow fixed />
+      <Header title={species?.common_names?.fr[0]} showBackButton shadow fixed />
 
       <div className="main-container">
         <Fancybox
@@ -65,7 +65,7 @@ const Gallery: NextPage<{
                 <Image
                   src={photo.original_url}
                   fill
-                  alt={species?.common_name?.fr[0]}
+                  alt={species?.common_names?.fr[0]}
                 />
               </div>
             </a>

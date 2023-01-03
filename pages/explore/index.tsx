@@ -69,7 +69,7 @@ const Explore: NextPage<{
         <Style>
           {!showSearchResults && (
             <>
-              {/* <RegionDropdown /> */}
+              <RegionDropdown />
               <m.div
                 whileTap={{
                   scale: tapAnimationDuration,

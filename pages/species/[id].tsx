@@ -43,7 +43,7 @@ const Species: NextPage<{
           showBackButton
           fixed
           shadow
-          title={species.common_name?.fr[0]}
+          title={species.common_names?.fr[0]}
         />
       )}
       <SpeciesInformation species={species} />

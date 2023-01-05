@@ -62,7 +62,6 @@ const Style = styled.div`
     position: relative;
     cursor: pointer;
 
-    font-family: "Nunito";
     font-style: normal;
     font-weight: 700;
     font-size: 14px;

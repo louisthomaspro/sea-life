@@ -8,6 +8,8 @@ import { HistoryContextProvider } from "../context/history.context";
 import { RegionContextProvider } from "../context/region.context";
 import { Analytics } from "@vercel/analytics/react";
 import { useScrollRestoration } from "../utils/saveScrollPos";
+import { Nunito } from "@next/font/google";
+const nunito = Nunito({ subsets: ["latin"] });
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   useScrollRestoration();
@@ -21,21 +23,23 @@ function MyApp({ Component, pageProps, router }: AppProps) {
           content="width=device-width, initial-scale=1.0, user-scalable=no"
         />
       </Head>
-      <RegionContextProvider>
-        <AuthContextProvider>
-          <HistoryContextProvider>
-            <ToastContainer
-              position={toast.POSITION.BOTTOM_CENTER}
-              transition={Slide}
-              hideProgressBar={true}
-            />
-            <Layout>
-              <Component {...pageProps} />
-              {/* <Analytics /> */}
-            </Layout>
-          </HistoryContextProvider>
-        </AuthContextProvider>
-      </RegionContextProvider>
+      <main className={nunito.className}>
+        <RegionContextProvider>
+          <AuthContextProvider>
+            <HistoryContextProvider>
+              <ToastContainer
+                position={toast.POSITION.BOTTOM_CENTER}
+                transition={Slide}
+                hideProgressBar={true}
+              />
+              <Layout>
+                <Component {...pageProps} />
+                {/* <Analytics /> */}
+              </Layout>
+            </HistoryContextProvider>
+          </AuthContextProvider>
+        </RegionContextProvider>
+      </main>
     </>
   );
 }

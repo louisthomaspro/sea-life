@@ -91,6 +91,7 @@ const Explore: NextPage<{
                         alt="Sea Turtle"
                         width={200}
                         height={90}
+                        priority
                       />
                     </div>
                   </div>
@@ -117,6 +118,7 @@ const Explore: NextPage<{
                         alt="Posidonia"
                         width={200}
                         height={120}
+                        priority
                       />
                     </div>
                   </div>

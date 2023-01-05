@@ -14,26 +14,22 @@ export default function RegionDropdown(props: IRegionDropdown) {
 
   return (
     <Style>
-      <div className="field">
-        <label>Région</label>
-        <Dropdown
-          value={userRegion}
-          options={regionsList}
-          onChange={onRegionChange}
-          optionLabel="name.fr"
-          optionValue="id"
-          placeholder="Selectionnez une région"
-        />
-      </div>
+      <Dropdown
+        value={userRegion}
+        options={regionsList}
+        onChange={onRegionChange}
+        optionLabel="name.fr"
+        optionValue="id"
+        placeholder="Selectionnez une région"
+        className="dropdown-region"
+        panelClassName="dropdown-region-panel"
+        style={{ width: "100%" }}
+      />
     </Style>
   );
 }
 
 // Style
 const Style = styled.div`
-  .field {
-    display: flex;
-    flex-direction: column;
-    /* max-width: 250px; */
-  }
+  margin-bottom: 16px;
 `;

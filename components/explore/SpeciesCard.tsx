@@ -16,7 +16,7 @@ import { useInView } from "react-cool-inview";
 import { useState } from "react";
 import { BlurhashCanvas } from "react-blurhash";
 
-export default function SpeciesCard(props: { species: ISpecies }) {
+export default function SpeciesCard(props: { species: ISpecies, index?: number }) {
   const [display, setDisplay] = useState(false);
 
   console.log(props.species)
@@ -70,6 +70,7 @@ export default function SpeciesCard(props: { species: ISpecies }) {
                 style={{ objectFit: "cover" }}
                 sizes="50vw"
                 alt={props.species.scientific_name}
+                priority={props.index < 6}
               />
             </div>
             <div className="content">

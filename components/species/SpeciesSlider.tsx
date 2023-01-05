@@ -45,6 +45,7 @@ export default function SpeciesSlider(props: { species: ISpecies }) {
             src={photo.original_url}
             alt={props.species.scientific_name}
             fill
+            style={{ objectFit: "cover" }}
             sizes="100vw"
             priority={i === 0}
           />

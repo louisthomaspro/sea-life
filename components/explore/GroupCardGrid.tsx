@@ -9,7 +9,10 @@ import { IGroup } from "../../types/Group";
 import { useRouter } from "next/router";
 import { BlurhashCanvas } from "react-blurhash";
 
-export default function GroupCardGrid(props: { group: IGroup }) {
+export default function GroupCardGrid(props: {
+  group: IGroup;
+  index?: number;
+}) {
   const router = useRouter();
   const { region, groups } = router.query;
 
@@ -52,8 +55,8 @@ export default function GroupCardGrid(props: { group: IGroup }) {
                     fill
                     sizes="30vw"
                     style={{ objectFit: "cover" }}
-                    priority
                     alt={props.group.title.fr ?? "No title"}
+                    priority={props.index < 4}
                   />
                 </div>
               </div>

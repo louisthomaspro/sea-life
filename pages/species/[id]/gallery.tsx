@@ -12,6 +12,7 @@ import { getSpecies } from "../../../utils/firestore/species.firestore";
 import { BlurhashCanvas } from "react-blurhash";
 import { getPlaiceholder } from "plaiceholder";
 import { defaultBlurhashOptions } from "../../../constants/config";
+import { capitalizeWords } from "../../../utils/helper";
 
 const Gallery: NextPage<{
   species: ISpecies;
@@ -20,7 +21,12 @@ const Gallery: NextPage<{
 
   return (
     <Style>
-      <Header title={species?.common_names?.fr[0]} showBackButton shadow fixed />
+      <Header
+        title={capitalizeWords(species?.common_names?.fr[0])}
+        showBackButton
+        shadow
+        fixed
+      />
 
       <div className="main-container">
         <Fancybox
@@ -65,7 +71,9 @@ const Gallery: NextPage<{
                 <Image
                   src={photo.original_url}
                   fill
+                  style={{ objectFit: "cover" }}
                   alt={species?.common_names?.fr[0]}
+                  priority={index < 3}
                 />
               </div>
             </a>

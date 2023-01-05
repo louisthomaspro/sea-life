@@ -82,3 +82,17 @@ svg.svg-icon {
 .no-header {
   margin-top: -60px;
 }
+
+.dropdown-region {
+  width: 100%;
+  height: 50px;
+  align-items: center;
+  border-radius: 100px;
+  padding: 0 12px;
+}
+
+.dropdown-region-panel {
+  .p-dropdown-item {
+    padding: 1rem 1rem !important;
+  }
+}

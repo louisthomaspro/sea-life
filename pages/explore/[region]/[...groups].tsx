@@ -68,22 +68,22 @@ const Explore: NextPage<{
         {currentGroup?.show_species ? (
           <div className="grid">
             {speciesList &&
-              speciesList.map((s) => (
+              speciesList.map((s, index) => (
                 <div className="col-6" key={s.id}>
-                  <SpeciesCard species={s} />
+                  <SpeciesCard species={s} index={index} />
                 </div>
               ))}
           </div>
         ) : (
           <div className="grid">
-            {childrenGroups?.map((group: IGroup, i) =>
+            {childrenGroups?.map((group: IGroup, index) =>
               isFirstLevelGroup ? (
                 <div className="col-6" key={group.id}>
-                  <GroupCardGrid group={group} />
+                  <GroupCardGrid group={group} index={index} />
                 </div>
               ) : (
                 <div className="col-12" key={group.id}>
-                  <GroupListItem group={group} />
+                  <GroupListItem group={group} index={index} />
                 </div>
               )
             )}

@@ -78,6 +78,7 @@ export const capitalizeFirstLetter = (string: string) => {
 };
 
 export const capitalizeWords = (string: string) => {
+  if (typeof string !== "string") return "";
   const words = string.split(" ");
   const capitalizedWords = words.map(
     (word) => word[0].toUpperCase() + word.slice(1)

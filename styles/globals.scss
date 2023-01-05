@@ -15,7 +15,6 @@
 
 :root {
   font-size: 16px;
-  --font-family: "Nunito";
   --primary-color: #ee3c06;
   --text-color-1: #3c3c3c;
   --text-color-2: #595959;
@@ -36,9 +35,7 @@
 }
 
 // Native
-
 body {
-  font-family: var(--font-family);
   color: var(--text-color-1);
   overscroll-behavior-y: contain;
   background-color: #ffffff;

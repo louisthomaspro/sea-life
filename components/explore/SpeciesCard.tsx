@@ -19,8 +19,6 @@ import { BlurhashCanvas } from "react-blurhash";
 export default function SpeciesCard(props: { species: ISpecies, index?: number }) {
   const [display, setDisplay] = useState(false);
 
-  console.log(props.species)
-
   const { observe } = useInView({
     rootMargin: "100% 0px",
     // threshold: 1,

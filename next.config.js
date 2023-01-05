@@ -8,7 +8,7 @@ const nextConfig = {
   // experimental: {
   //   scrollRestoration: true,
   // },
-  swcMinify: true,
+  swcMinify: false,
   reactStrictMode: false,
   pwa: {
     dest: "public",

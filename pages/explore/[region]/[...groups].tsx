@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { getPlaiceholder } from "plaiceholder";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useInView } from "react-cool-inview";
 import styled from "styled-components";
 import BackButton from "../../../components/commons/BackButton";
@@ -33,15 +33,8 @@ const Explore: NextPage<{
   const region = router.query.region as string;
   const isFirstLevelGroup = router.query.groups?.length === 1;
 
-  const [showSecondHeader, setShowSecondHeader] = useState(false);
-  const { observe, unobserve, inView, scrollDirection, entry } = useInView({
+  const { observe, unobserve, inView } = useInView({
     rootMargin: "20px 0px",
-    onEnter: ({ scrollDirection, entry, observe, unobserve }) => {
-      setShowSecondHeader(false);
-    },
-    onLeave: ({ scrollDirection, entry, observe, unobserve }) => {
-      setShowSecondHeader(true);
-    },
   });
 
   if (router.isFallback) {
@@ -60,7 +53,7 @@ const Explore: NextPage<{
           <div className="region-info">{regionsDict[region].name.fr}</div>
         </div>
       </div>
-      {showSecondHeader && (
+      {!inView && (
         <Header title={currentGroup?.title?.fr} showBackButton fixed />
       )}
 

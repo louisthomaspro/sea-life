@@ -16,6 +16,11 @@ function MyApp({ Component, pageProps, router }: AppProps) {
 
   return (
     <>
+      <style jsx global>{`
+        :root {
+          font-family: ${nunito.style.fontFamily};
+        }
+      `}</style>
       <Head>
         <title>Sea Life</title>
         <meta
@@ -23,7 +28,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
           content="width=device-width, initial-scale=1.0, user-scalable=no"
         />
       </Head>
-      <main className={nunito.className}>
+      <div className={nunito.className}>
         <RegionContextProvider>
           <AuthContextProvider>
             <HistoryContextProvider>
@@ -39,7 +44,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
             </HistoryContextProvider>
           </AuthContextProvider>
         </RegionContextProvider>
-      </main>
+      </div>
     </>
   );
 }

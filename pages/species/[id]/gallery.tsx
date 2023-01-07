@@ -117,7 +117,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   // get all life ids...
   return {
     paths: [],
-    fallback: true,
+    fallback: "blocking",
   };
 };
 

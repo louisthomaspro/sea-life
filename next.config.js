@@ -4,12 +4,22 @@ const { withPlaiceholder } = require("@plaiceholder/next");
 const withBundleAnalyzer = require("@next/bundle-analyzer");
 const runtimeCaching = require("next-pwa/cache");
 
-const nextConfig = {
+let nextConfig = {
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/i,
+      issuer: /\.[jt]sx?$/,
+      use: ["@svgr/webpack"],
+    });
+
+    return config;
+  },
+
   // experimental: {
   //   scrollRestoration: true,
   // },
-  swcMinify: false,
-  reactStrictMode: false,
+  swcMinify: true,
+  reactStrictMode: true,
   pwa: {
     dest: "public",
     register: true,
@@ -34,16 +44,14 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-  webpack(config, options) {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ["@svgr/webpack"],
-    });
-
-    return config;
-  },
 };
 
-module.exports = withPWA(nextConfig);
-module.exports = withPlaiceholder(nextConfig);
-// module.exports = withBundleAnalyzer(nextConfig);
+// withBundleAnalyzer is not working well with next-pwa and svgr/webpack
+if (process.env.ANALYZE) {
+  nextConfig = withBundleAnalyzer(nextConfig);
+} else {
+  nextConfig = withPWA(nextConfig);
+  nextConfig = withPlaiceholder(nextConfig);
+}
+
+module.exports = nextConfig;

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useSearchBox, UseSearchBoxProps } from "react-instantsearch-hooks-web";
 import styled from "styled-components";
 import SearchSvg from "../../public/icons/fontawesome/light/magnifying-glass.svg";
@@ -10,7 +11,7 @@ export default function CustomSearchBox(props: UseSearchBoxProps) {
   };
 
   return (
-    <Style>
+    <Style> 
       <SearchSvg
         aria-label="right"
         style={{ width: "18px" }}

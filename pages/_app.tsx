@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
       </Head>
       <div className={nunito.className}>
         <RegionContextProvider>
-          <AuthContextProvider>
+          {/* <AuthContextProvider> */}
             <HistoryContextProvider>
               <ToastContainer
                 position={toast.POSITION.BOTTOM_CENTER}
@@ -42,7 +42,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                 {/* <Analytics /> */}
               </Layout>
             </HistoryContextProvider>
-          </AuthContextProvider>
+          {/* </AuthContextProvider> */}
         </RegionContextProvider>
       </div>
     </>

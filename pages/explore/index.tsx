@@ -19,7 +19,8 @@ import CustomSearchBox from "../../components/search/CustomSearchBox";
 import CustomInfiniteHits from "../../components/search/CustomInfiniteHits";
 import { algolia } from "../../algolia/clientApp";
 import Button from "../../components/commons/Button";
-import _ from "lodash";
+import { debounce } from "lodash";
+import dynamic from "next/dynamic";
 
 const Explore: NextPage<{
   faunaGroup: IGroup;
@@ -32,7 +33,7 @@ const Explore: NextPage<{
   const [categoryFilter, setCategoryFilter] = useState(null);
   const [showSearchResults, setShowSearchResults] = useState(false);
 
-  const handleQueryHook = _.debounce(
+  const handleQueryHook = debounce(
     async (query: string, search: (value: string) => void) => {
       if (query !== "") {
         setShowSearchResults(true);
@@ -56,11 +57,11 @@ const Explore: NextPage<{
           <Configure filters={algoliaFilter} />
           {/* Search */}
           <CustomSearchBox queryHook={handleQueryHook} />
-          <Link href="/search" passHref legacyBehavior>
+          {/* <Link href="/search" passHref legacyBehavior>
             <Button style={{ width: "100%", marginTop: "10px" }}>
               Recherche avancée
             </Button>
-          </Link>
+          </Link> */}
 
           <hr />
           {showSearchResults ? <CustomInfiniteHits /> : <></>}
@@ -88,7 +89,8 @@ const Explore: NextPage<{
                     <div className="align-self-center text-center">
                       <Image
                         unoptimized={
-                          process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
+                          process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION ===
+                          "true"
                         }
                         src={SeaTurtleImage}
                         alt="Sea Turtle"
@@ -118,7 +120,8 @@ const Explore: NextPage<{
                     <div className="align-self-center text-center">
                       <Image
                         unoptimized={
-                          process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
+                          process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION ===
+                          "true"
                         }
                         src={PosidoniaImage}
                         alt="Posidonia"

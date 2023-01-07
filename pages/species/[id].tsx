@@ -16,21 +16,9 @@ import { capitalizeWords } from "../../utils/helper";
 const Species: NextPage<{
   species: ISpecies;
 }> = ({ species }) => {
-  const router = useRouter();
-  const [showSecondHeader, setShowSecondHeader] = useState(false);
   const { observe, unobserve, inView, scrollDirection, entry } = useInView({
     rootMargin: "100px 0px",
-    onEnter: ({ scrollDirection, entry, observe, unobserve }) => {
-      setShowSecondHeader(false);
-    },
-    onLeave: ({ scrollDirection, entry, observe, unobserve }) => {
-      setShowSecondHeader(true);
-    },
   });
-
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <Style className="no-header">
@@ -39,7 +27,7 @@ const Species: NextPage<{
           <SpeciesHeader species={species} />
         </Header>
       </div>
-      {showSecondHeader && (
+      {!inView && (
         <Header
           showBackButton
           fixed

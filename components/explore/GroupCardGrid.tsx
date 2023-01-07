@@ -56,7 +56,7 @@ export default function GroupCardGrid(props: {
                       "/img/no-image.svg"
                     }
                     fill
-                    sizes="30vw"
+                    sizes="20vw"
                     style={{ objectFit: "cover" }}
                     alt={props.group.title.fr ?? "No title"}
                     // priority={props.index < 4}

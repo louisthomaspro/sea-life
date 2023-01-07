@@ -6,6 +6,7 @@ import RoundButton from "./RoundButton";
 import Grid2Svg from "../../public/icons/fontawesome/light/grid-2.svg";
 import MagnifyingGlassSvg from "../../public/icons/fontawesome/light/magnifying-glass.svg";
 import UserSvg from "../../public/icons/fontawesome/light/user.svg";
+import HomeSvg from "../../public/icons/fontawesome/light/home.svg";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -28,18 +29,17 @@ export default function BottomNavigation(props: IBottomNavigation) {
         <Link href="/explore">
           <div className="col item">
             <RoundButton
-              ariaLabel="Favorite"
+              ariaLabel="Home"
               className={activeMenu === "explore" && "active"}
             >
-              <Grid2Svg
-                aria-label="explore"
+              <HomeSvg
                 className="svg-icon"
-                style={{ width: "18px", marginLeft: "1px" }}
+                style={{ width: "25px", marginLeft: "1px" }}
               />
             </RoundButton>
           </div>
         </Link>
-        <Link href="/search">
+        {/* <Link href="/search">
           <div className="col item">
             <RoundButton
               ariaLabel="Favorite"
@@ -52,7 +52,7 @@ export default function BottomNavigation(props: IBottomNavigation) {
               />
             </RoundButton>
           </div>
-        </Link>
+        </Link> */}
         {/* <Link href="/profile">
           <div className="col item">
             <RoundButton

@@ -54,6 +54,7 @@ npx firebase deploy --only functions:group-updateCountOnGroupCreate # single fun
 ```
 
 ### Export current local data
+
 Save the current local data to be able to restore it later.
 
 ```bash
@@ -85,6 +86,14 @@ What is the path to the Google Application Credential File? ./sea-life-app-fireb
 
 Change extracted field in **firestore extension** :
 https://console.firebase.google.com/project/sea-life-app/extensions/instances/firestore-algolia-search?tab=config
+
+## Analyze performances
+
+# Bundle Analyzer
+
+```bash
+ANALYZE=true yarn build
+```
 
 ## Features
 

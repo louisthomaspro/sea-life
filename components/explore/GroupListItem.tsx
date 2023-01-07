@@ -51,7 +51,7 @@ export default function GroupListItem(props: {
               }
               src={props.group.photos?.[0]?.original_url ?? "/img/no-image.svg"}
               fill
-              sizes="50vw"
+              sizes="25vw"
               style={{ objectFit: "cover" }}
               alt={props.group.title.fr ?? "No title"}
               // priority={props.index < 5}

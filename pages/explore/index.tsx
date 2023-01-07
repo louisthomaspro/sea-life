@@ -87,6 +87,9 @@ const Explore: NextPage<{
                     </div>
                     <div className="align-self-center text-center">
                       <Image
+                        unoptimized={
+                          process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
+                        }
                         src={SeaTurtleImage}
                         alt="Sea Turtle"
                         width={200}
@@ -114,6 +117,9 @@ const Explore: NextPage<{
                     </div>
                     <div className="align-self-center text-center">
                       <Image
+                        unoptimized={
+                          process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
+                        }
                         src={PosidoniaImage}
                         alt="Posidonia"
                         width={200}

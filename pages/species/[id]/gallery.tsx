@@ -69,6 +69,9 @@ const Gallery: NextPage<{
                   />
                 )}
                 <Image
+                  unoptimized={
+                    process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
+                  }
                   src={photo.original_url}
                   fill
                   style={{ objectFit: "cover" }}

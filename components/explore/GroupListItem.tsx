@@ -10,7 +10,10 @@ import ArrowRightSvg from "../../public/icons/fontawesome/light/arrow-right.svg"
 import ChevronRightSvg from "../../public/icons/fontawesome/light/chevron-right.svg";
 import { BlurhashCanvas } from "react-blurhash";
 
-export default function GroupListItem(props: { group: IGroup, index?: number }) {
+export default function GroupListItem(props: {
+  group: IGroup;
+  index?: number;
+}) {
   const router = useRouter();
   const { region, groups } = router.query;
 
@@ -43,12 +46,15 @@ export default function GroupListItem(props: { group: IGroup, index?: number }) 
               />
             )}
             <Image
+              unoptimized={
+                process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
+              }
               src={props.group.photos?.[0]?.original_url ?? "/img/no-image.svg"}
               fill
               sizes="50vw"
               style={{ objectFit: "cover" }}
               alt={props.group.title.fr ?? "No title"}
-              priority={props.index < 5}
+              // priority={props.index < 5}
             />
           </div>
           <div className="content">

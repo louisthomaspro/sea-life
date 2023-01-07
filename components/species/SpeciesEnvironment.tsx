@@ -73,7 +73,7 @@ export default function SpeciesEnvironment(props: { species: ISpecies }) {
                 <span className="iucn">
                   {" "}
                   (Source:{" "}
-                  <a href="https://www.iucnredlist.org/" className="iucn-link">
+                  <a href={`https://apiv3.iucnredlist.org/api/v3/taxonredirect/${props.species.external_ids?.iucn}`} className="iucn-link">
                     IUCN Red List
                   </a>
                   )

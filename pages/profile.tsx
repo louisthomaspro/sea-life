@@ -9,7 +9,7 @@ import styled from "styled-components";
 import RegionDropdown from "../components/commons/RegionDropdown";
 
 const Profile: NextPage = () => {
-  const { userSession, userData } = useContext(AuthContext);
+  // const { userSession, userData } = useContext(AuthContext);
 
   return (
     <>

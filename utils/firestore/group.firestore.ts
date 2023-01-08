@@ -23,19 +23,14 @@ export const getGroup = (id: string) => {
   return document.then((doc) => doc.data()) as Promise<IGroup>;
 };
 
-export const getGroupByPermalink = (permalink: string) => {
+export const getGroupByScientificNameList = (scientificNameList: string[]) => {
   const q = query(
     collection(firestore, collectionName),
-    where("permalink", "==", permalink)
+    where("includes", "array-contains-any", scientificNameList)
   );
   const querySnapshot = getDocs(q);
   return querySnapshot.then((doc) => {
-    if (doc.empty) {
-      console.log("No matching documents for group: ", permalink);
-      return null;
-    } else {
-      return doc.docs[0].data() as IGroup;
-    }
+    return doc.docs.map((doc) => doc.data()) as IGroup[];
   });
 };
 

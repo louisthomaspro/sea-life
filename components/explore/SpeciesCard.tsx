@@ -63,7 +63,6 @@ export default function SpeciesCard(props: {
                 style={{ objectFit: "cover" }}
                 sizes="50vw"
                 alt={props.species.scientific_name}
-                // priority={props.index < 6}
               />
             </div>
             <div className="content">

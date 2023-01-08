@@ -8,6 +8,7 @@ import ShieldExclamationSvg from "../../public/icons/fontawesome/light/shield-ex
 import { conservation_status_dict } from "../../constants/conservation_status_dict";
 import { regionsDict } from "../../constants/regions";
 import { biotopes_dict } from "../../constants/biotopes_dict";
+import Link from "next/link";
 
 export default function SpeciesEnvironment(props: { species: ISpecies }) {
   const conservation_status = props.species.conservation_status;
@@ -73,9 +74,13 @@ export default function SpeciesEnvironment(props: { species: ISpecies }) {
                 <span className="iucn">
                   {" "}
                   (Source:{" "}
-                  <a href={`https://apiv3.iucnredlist.org/api/v3/taxonredirect/${props.species.external_ids?.iucn}`} className="iucn-link">
+                  <Link
+                    href={`https://apiv3.iucnredlist.org/api/v3/taxonredirect/${props.species.external_ids?.iucn}`}
+                    target="_blank"
+                    className="iucn-link"
+                  >
                     IUCN Red List
-                  </a>
+                  </Link>
                   )
                 </span>
               </div>

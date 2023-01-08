@@ -7,8 +7,12 @@ import { ISpecies } from "../../types/Species";
 import { blurDataURL } from "../../utils/helper";
 import { BlurhashCanvas } from "react-blurhash";
 
+const loadNeighborsRange = 2;
+
 export default function SpeciesSlider(props: { species: ISpecies }) {
   const [currentSlide, setCurrentSlide] = useState(0); // keenSlider
+  const [loadNeighbors, setLoadNeighbors] = useState(false); // next/image
+
   const [sliderRef] = useKeenSlider({
     slideChanged(slider) {
       setCurrentSlide(slider.track.details.rel);
@@ -42,12 +46,20 @@ export default function SpeciesSlider(props: { species: ISpecies }) {
             />
           )}
           <Image
+            unoptimized={
+              process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
+            }
             src={photo.original_url}
             alt={props.species.scientific_name}
             fill
             style={{ objectFit: "cover" }}
             sizes="100vw"
-            priority={i === 0}
+            priority={
+              loadNeighbors ? i <= currentSlide + loadNeighborsRange : i === 0
+            }
+            onLoad={() => {
+              setLoadNeighbors(true);
+            }}
           />
         </div>
       ))}

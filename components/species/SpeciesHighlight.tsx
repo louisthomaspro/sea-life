@@ -11,9 +11,9 @@ import RulerHGridSvg from "../../public/icons/custom/ruler-h-grid.svg";
 
 const dict_rarity: any = {
   rare: "Rare",
-  uncommon: "Peu commune",
-  common: "Commune",
-  abundant: "Très commune",
+  uncommon: "Peu commun",
+  common: "Commun",
+  abundant: "Très commun",
 };
 
 const ruler_h_icon = (

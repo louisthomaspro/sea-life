@@ -76,7 +76,7 @@ const Gallery: NextPage<{
                   fill
                   style={{ objectFit: "cover" }}
                   alt={species?.common_names?.fr[0]}
-                  priority={index < 3}
+                  sizes="100vw"
                 />
               </div>
             </a>

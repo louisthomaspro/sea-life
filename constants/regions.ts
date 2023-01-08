@@ -16,22 +16,22 @@ export const regionsList: {
   {
     id: "tropical-pacific",
     name: {
-      en: "The Tropical Pacific",
-      fr: "Le Pacifique tropical",
+      en: "Tropical Pacific",
+      fr: "Pacifique tropical",
     },
   },
   {
     id: "indian-ocean",
     name: {
-      en: "The Indian Ocean",
-      fr: "L'Océan Indien",
+      en: "Indian Ocean",
+      fr: "Océan Indien",
     },
   },
   {
     id: "mediterranean-sea",
     name: {
-      en: "The Mediterranean Sea",
-      fr: "La Mer Méditerranée",
+      en: "Mediterranean Sea",
+      fr: "Mer Méditerranée",
     },
   },
 ];

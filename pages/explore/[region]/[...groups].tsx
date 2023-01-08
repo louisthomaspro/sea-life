@@ -33,8 +33,14 @@ const Explore: NextPage<{
   const region = router.query.region as string;
   const isFirstLevelGroup = router.query.groups?.length === 1;
 
-  const { observe, unobserve, inView } = useInView({
+  const [displaySecondHeader, setDisplaySecondHeader] = useState(false);
+
+  const { observe, unobserve, inView = true } = useInView({
     rootMargin: "20px 0px",
+
+    onChange: ({ inView }) => {
+      setDisplaySecondHeader(!inView);
+    }
   });
 
   if (router.isFallback) {
@@ -53,7 +59,7 @@ const Explore: NextPage<{
           <div className="region-info">{regionsDict[region].name.fr}</div>
         </div>
       </div>
-      {!inView && (
+      {displaySecondHeader && (
         <Header title={currentGroup?.title?.fr} showBackButton fixed />
       )}
 
@@ -131,19 +137,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
   // Generate blurhash for each group and species
 
   if (process.env.NEXT_PUBLIC_SKIP_BLURHASH !== "true") {
-    // await Promise.all(
-    //   childrenGroups.map(async (child) => {
-    //     await Promise.all(
-    //       child.photos.map(async (photo) => {
-    //         const { blurhash } = await getPlaiceholder(
-    //           photo.original_url,
-    //           defaultBlurhashOptions
-    //         );
-    //         photo.blurhash = blurhash;
-    //       })
-    //     );
-    //   })
-    // );
+    await Promise.all(
+      childrenGroups.map(async (child) => {
+        await Promise.all(
+          child.photos.map(async (photo) => {
+            const { blurhash } = await getPlaiceholder(
+              photo.original_url,
+              defaultBlurhashOptions
+            );
+            photo.blurhash = blurhash;
+          })
+        );
+      })
+    );
 
     await Promise.all(
       speciesList.map(async (species) => {

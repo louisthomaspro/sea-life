@@ -15,4 +15,5 @@ export interface IGroup {
     [region: string]: number;
   };
   parent_id?: string;
+  url?: string;
 }

@@ -14,7 +14,7 @@ import SpeciesHighlight from "./SpeciesHighlight";
 import SpeciesEnvironment from "./SpeciesEnvironment";
 
 export default function SpeciesInformation(props: { species: ISpecies }) {
-  const { userData } = useContext(AuthContext);
+  // const { userData } = useContext(AuthContext);
 
   return (
     <>

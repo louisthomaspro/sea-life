@@ -4,7 +4,6 @@ import {
   getFirestore,
 } from "firebase/firestore/lite";
 import { connectStorageEmulator, getStorage } from "firebase/storage";
-import { once } from "lodash";
 
 const clientCredentials = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,

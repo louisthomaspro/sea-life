@@ -54,7 +54,6 @@ export default function GroupListItem(props: {
               sizes="25vw"
               style={{ objectFit: "cover" }}
               alt={props.group.title.fr ?? "No title"}
-              // priority={props.index < 5}
             />
           </div>
           <div className="content">

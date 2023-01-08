@@ -1,10 +1,32 @@
 import { cloneDeep } from "lodash";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { taxonomyRankDict } from "../../constants/taxonomy_rank_dict";
 import { ISpecies, ITaxonomy } from "../../types/Species";
+import { getGroupByScientificNameList } from "../../utils/firestore/group.firestore";
 import { capitalizeFirstLetter } from "../../utils/helper";
 
 export default function SpeciesTaxonomy(props: { species: ISpecies }) {
+  // useEffect(() => {
+  //   let linkDict: any = {};
+  //   let scientificNameSet = new Set<string>();
+  //   props.species.taxonomy.forEach((taxa) => {
+  //     scientificNameSet.add(taxa.scientific_name);
+  //   });
+  //   getGroupByScientificNameList(Array.from(scientificNameSet)).then(
+  //     (groups) => {
+  //       Array.from(scientificNameSet).forEach((scientificName) => {
+  //         groups.forEach((group) => {
+  //           if (group.includes.includes(scientificName)) {
+  //             linkDict[scientificName] = group.url;
+  //           }
+  //         });
+  //       });
+  //       console.log(linkDict)
+  //     }
+  //   );
+  // }, []);
+
   const taxonomyTemplate = (taxonomy: ITaxonomy[]) => {
     if (taxonomy.length === 0) {
       return "";

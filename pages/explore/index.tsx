@@ -86,7 +86,7 @@ const Explore: NextPage<{
                         {faunaGroup.species_count?.[userRegion]} espèces
                       </div>
                     </div>
-                    <div className="align-self-center text-center">
+                    <div className="img-wrapper">
                       <Image
                         unoptimized={
                           process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION ===
@@ -94,9 +94,7 @@ const Explore: NextPage<{
                         }
                         src={SeaTurtleImage}
                         alt="Sea Turtle"
-                        width={200}
-                        height={90}
-                        priority
+                        style={{ objectFit: "contain", maxHeight: "100px" }}
                       />
                     </div>
                   </div>
@@ -117,7 +115,7 @@ const Explore: NextPage<{
                         {floraGroup.species_count?.[userRegion]} espèces
                       </div>
                     </div>
-                    <div className="align-self-center text-center">
+                    <div className="img-wrapper">
                       <Image
                         unoptimized={
                           process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION ===
@@ -125,9 +123,7 @@ const Explore: NextPage<{
                         }
                         src={PosidoniaImage}
                         alt="Posidonia"
-                        width={200}
-                        height={120}
-                        priority
+                        style={{ objectFit: "contain", maxHeight: "120px" }}
                       />
                     </div>
                   </div>
@@ -165,6 +161,12 @@ export default Explore;
 // Style
 const Style = styled.div`
   width: 100%;
+
+  .img-wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
 
   .category {
     &.fauna {

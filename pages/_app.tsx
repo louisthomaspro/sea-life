@@ -32,11 +32,11 @@ function MyApp({ Component, pageProps, router }: AppProps) {
         <RegionContextProvider>
           {/* <AuthContextProvider> */}
             <HistoryContextProvider>
-              <ToastContainer
+              {/* <ToastContainer
                 position={toast.POSITION.BOTTOM_CENTER}
                 transition={Slide}
                 hideProgressBar={true}
-              />
+              /> */}
               <Layout>
                 <Component {...pageProps} />
                 {/* <Analytics /> */}

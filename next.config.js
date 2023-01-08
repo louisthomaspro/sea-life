@@ -1,9 +1,9 @@
-/** @type {import('next').NextConfig} */
 const withPWA = require("next-pwa");
 const { withPlaiceholder } = require("@plaiceholder/next");
 const withBundleAnalyzer = require("@next/bundle-analyzer");
 const runtimeCaching = require("next-pwa/cache");
 
+/** @type {import('next').NextConfig} */
 let nextConfig = {
   webpack(config) {
     config.module.rules.push({
@@ -36,6 +36,7 @@ let nextConfig = {
       "static.inaturalist.org",
     ],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840], // include 384x384 in storage-resize-images extension (when sizes="50vw")
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     // loader: "imgix",
     // path: "https://sea-guide.imgix.net/",
     // loader: "cloudinary",

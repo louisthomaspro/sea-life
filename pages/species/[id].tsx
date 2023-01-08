@@ -1,16 +1,11 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { useRouter } from "next/router";
 import styled from "styled-components";
 import Header from "../../components/commons/Header";
 import SpeciesInformation from "../../components/species/SpeciesInformation";
 import { useInView } from "react-cool-inview";
-import { useContext, useState } from "react";
-import AuthContext from "../../context/auth.context";
 import { getSpecies } from "../../utils/firestore/species.firestore";
 import { ISpecies } from "../../types/Species";
-import SpeciesHeader from "../../components/species/SpeciesHeader";
-import { getPlaiceholder } from "plaiceholder";
-import { defaultBlurhashOptions } from "../../constants/config";
+import SpeciesHeader from "../../components/species/SpeciesHeader"
 import { capitalizeWords } from "../../utils/helper";
 
 const Species: NextPage<{
@@ -46,19 +41,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const species: ISpecies = JSON.parse(
     JSON.stringify(await getSpecies(id.toString()))
   );
-
-  // Generate bluhash for each image
-  if (process.env.NEXT_PUBLIC_SKIP_BLURHASH !== "true") {
-    await Promise.all(
-      species.photos.map(async (photo) => {
-        const { blurhash } = await getPlaiceholder(
-          photo.original_url,
-          defaultBlurhashOptions
-        );
-        photo.blurhash = blurhash;
-      })
-    );
-  }
 
   if (species) {
     return { props: { species }, revalidate: 120 };

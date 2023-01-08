@@ -14,7 +14,6 @@ import { firestore } from "../../firebase/clientApp";
 import { IGroup } from "../../types/Group";
 import { ITaxa, ITaxaResponse } from "../../types/INaturalist/TaxaResponse";
 import { ISpecies } from "../../types/Species";
-import { uuidv4 } from "../helper";
 
 const collectionName = "group";
 

@@ -1,5 +1,4 @@
 import { ImageLoaderProps } from "next/image";
-const getRandomValues = require("get-random-values");
 export const shader = require("shader");
 
 export const blurDataURL = () => {
@@ -35,14 +34,6 @@ export const firebaseStorageLoader = ({
   const fullPath = `${url}${encodeURIComponent(src)}`;
   const prefix = ".webp?alt=media";
   return `${fullPath}_${width}x${width}${prefix}`;
-};
-
-export const uuidv4 = (): string => {
-  // @ts-ignore
-  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
-    // tslint:disable-next-line:no-bitwise
-    (c ^ (getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)
-  );
 };
 
 export const revalidateId = (id: string) => {

@@ -12,7 +12,6 @@ import {
 import { firestore } from "../../firebase/clientApp";
 import { ITaxa, ITaxaResponse } from "../../types/INaturalist/TaxaResponse";
 import { ISpecies } from "../../types/Species";
-import { uuidv4 } from "../helper";
 
 const collectionName = "species";
 

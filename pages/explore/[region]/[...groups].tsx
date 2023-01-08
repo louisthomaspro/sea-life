@@ -1,28 +1,21 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { getPlaiceholder } from "plaiceholder";
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { useInView } from "react-cool-inview";
 import styled from "styled-components";
-import BackButton from "../../../components/commons/BackButton";
 import BottomNavigation from "../../../components/commons/BottomNavigation";
 import Header from "../../../components/commons/Header";
 import GroupCardGrid from "../../../components/explore/GroupCardGrid";
 import GroupListItem from "../../../components/explore/GroupListItem";
 import SpeciesCard from "../../../components/explore/SpeciesCard";
-import { defaultBlurhashOptions } from "../../../constants/config";
 import { regionsDict } from "../../../constants/regions";
-import RegionContext from "../../../context/region.context";
 import { IGroup } from "../../../types/Group";
 import { ISpecies } from "../../../types/Species";
 import {
   getChildrenGroups,
   getGroup,
 } from "../../../utils/firestore/group.firestore";
-import {
-  getAllSpecies,
-  getAllSpeciesByGroupList,
-} from "../../../utils/firestore/species.firestore";
+import { getAllSpeciesByGroupList } from "../../../utils/firestore/species.firestore";
 
 const Explore: NextPage<{
   currentGroup: IGroup;
@@ -35,12 +28,16 @@ const Explore: NextPage<{
 
   const [displaySecondHeader, setDisplaySecondHeader] = useState(false);
 
-  const { observe, unobserve, inView = true } = useInView({
+  const {
+    observe,
+    unobserve,
+    inView,
+  } = useInView({
     rootMargin: "20px 0px",
 
     onChange: ({ inView }) => {
       setDisplaySecondHeader(!inView);
-    }
+    },
   });
 
   if (router.isFallback) {
@@ -97,7 +94,6 @@ const Explore: NextPage<{
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const { groups, region } = context.params;
-  const isFirstLevelGroup = groups?.length === 1;
   const id = groups[groups.length - 1];
 
   // Get currentGroup
@@ -132,36 +128,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
         species.regions.includes(region)
       );
     }
-  }
-
-  // Generate blurhash for each group and species
-
-  if (process.env.NEXT_PUBLIC_SKIP_BLURHASH !== "true") {
-    await Promise.all(
-      childrenGroups.map(async (child) => {
-        await Promise.all(
-          child.photos.map(async (photo) => {
-            const { blurhash } = await getPlaiceholder(
-              photo.original_url,
-              defaultBlurhashOptions
-            );
-            photo.blurhash = blurhash;
-          })
-        );
-      })
-    );
-
-    await Promise.all(
-      speciesList.map(async (species) => {
-        if (species.photos[0]) {
-          const { blurhash } = await getPlaiceholder(
-            species.photos[0].original_url,
-            defaultBlurhashOptions
-          );
-          species.photos[0].blurhash = blurhash;
-        }
-      })
-    );
   }
 
   if (currentGroup) {

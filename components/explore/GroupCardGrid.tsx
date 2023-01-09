@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { blurDataURL, firebaseStorageLoader } from "../../utils/helper";
 import styled from "styled-components";
 import { m } from "framer-motion";
 import { tapAnimationDuration } from "../../constants/config";
-import { ISpecies } from "../../types/Species";
 import { IGroup } from "../../types/Group";
 import { useRouter } from "next/router";
 import { BlurhashCanvas } from "react-blurhash";
+import { useInView } from "react-cool-inview";
+import { useState } from "react";
 
 export default function GroupCardGrid(props: {
   group: IGroup;
@@ -15,6 +15,15 @@ export default function GroupCardGrid(props: {
 }) {
   const router = useRouter();
   const { region, groups } = router.query;
+
+  const [loaded, setLoaded] = useState(false);
+  const { observe, inView } = useInView({
+    rootMargin: "50% 0px",
+    unobserveOnEnter: true,
+    onEnter() {
+      setLoaded(true);
+    },
+  });
 
   // http://localhost:3000/explore/mediterranean-sea/fauna/mollusk
   const groupsJoin = ((groups as string[]) ?? []).join("/"); // fauna/mollusk
@@ -25,6 +34,7 @@ export default function GroupCardGrid(props: {
         scale: tapAnimationDuration,
         transition: { duration: 0.1, ease: "easeInOut" },
       }}
+      ref={observe}
     >
       <Style>
         <Link href={`/explore/${region}/${groupsJoin}/${props.group.id}`}>
@@ -47,19 +57,23 @@ export default function GroupCardGrid(props: {
                       }}
                     />
                   )}
-                  <Image
-                    unoptimized={
-                      process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
-                    }
-                    src={
-                      props.group.photos?.[i]?.original_url ??
-                      "/img/no-image.svg"
-                    }
-                    fill
-                    sizes="20vw"
-                    style={{ objectFit: "cover" }}
-                    alt={props.group.title.fr ?? "No title"}
-                  />
+                  {(inView || loaded) && (
+                    <Image
+                      unoptimized={
+                        process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION ===
+                        "true"
+                      }
+                      src={
+                        props.group.photos?.[i]?.original_url ??
+                        "/img/no-image.svg"
+                      }
+                      priority={inView}
+                      fill
+                      sizes="20vw"
+                      style={{ objectFit: "cover" }}
+                      alt={props.group.title.fr ?? "No title"}
+                    />
+                  )}
                 </div>
               </div>
             ))}

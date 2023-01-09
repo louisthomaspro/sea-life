@@ -29,7 +29,7 @@ let nextConfig = {
     disable: process.env.NODE_ENV === "development",
   },
   images: {
-    minimumCacheTTL: 60,
+    minimumCacheTTL: 31536000,
     domains: [
       "firebasestorage.googleapis.com",
       "inaturalist-open-data.s3.amazonaws.com",

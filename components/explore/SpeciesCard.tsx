@@ -1,11 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  blurDataURL,
-  capitalizeFirstLetter,
-  capitalizeWords,
-  firebaseStorageLoader,
-} from "../../utils/helper";
+import { capitalizeFirstLetter, capitalizeWords } from "../../utils/helper";
 import FrFlagSvg from "../../public/icons/flags/FR.svg";
 import GbFlagSvg from "../../public/icons/flags/GB.svg";
 import styled from "styled-components";
@@ -20,9 +15,13 @@ export default function SpeciesCard(props: {
   species: ISpecies;
   index?: number;
 }) {
+  const [loaded, setLoaded] = useState(false);
   const { observe, inView } = useInView({
     rootMargin: "50% 0px",
-    delay: 100,
+    unobserveOnEnter: true,
+    onEnter() {
+      setLoaded(true);
+    },
   });
 
   return (
@@ -31,26 +30,27 @@ export default function SpeciesCard(props: {
         scale: tapAnimationDuration,
         transition: { duration: 0.1, ease: "easeInOut" },
       }}
+      ref={observe}
     >
-      <Style ref={observe}>
-        {/* {inView && ( */}
-          <Link href={`/species/${props.species.id}`} className="container">
-            <div className="img-wrapper">
-              {props.species?.photos?.[0]?.blurhash && (
-                <BlurhashCanvas
-                  {...props.species.photos[0].blurhash}
-                  punch={1}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                  }}
-                />
-              )}
+      <Style>
+        <Link href={`/species/${props.species.id}`} className="container">
+          <div className="img-wrapper">
+            {props.species?.photos?.[0]?.blurhash && (
+              <BlurhashCanvas
+                {...props.species.photos[0].blurhash}
+                punch={1}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+            )}
+            {(inView || loaded) && (
               <Image
                 unoptimized={
                   process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
@@ -59,39 +59,40 @@ export default function SpeciesCard(props: {
                   props.species?.photos?.[0]?.original_url ??
                   "/img/no-image.svg"
                 }
+                priority={inView}
                 fill
                 style={{ objectFit: "cover" }}
                 sizes="50vw"
                 alt={props.species.scientific_name}
               />
-            </div>
-            <div className="content">
-              {props.species.common_names?.fr?.length > 0 && (
-                <div className="title">
-                  <div>
-                    <FrFlagSvg width="12px" />
-                  </div>
-                  <span className="ml-1">
-                    {capitalizeWords(props.species.common_names.fr[0])}
-                  </span>
+            )}
+          </div>
+          <div className="content">
+            {props.species.common_names?.fr?.length > 0 && (
+              <div className="title">
+                <div>
+                  <FrFlagSvg width="12px" />
                 </div>
-              )}
-              {props.species.common_names?.en?.length > 0 && (
-                <div className="title">
-                  <div>
-                    <GbFlagSvg width="12px" />
-                  </div>
-                  <span className="ml-1">
-                    {capitalizeWords(props.species.common_names.en[0])}
-                  </span>
-                </div>
-              )}
-              <div className="scientific-name">
-                {capitalizeFirstLetter(props.species.scientific_name)}
+                <span className="ml-1">
+                  {capitalizeWords(props.species.common_names.fr[0])}
+                </span>
               </div>
+            )}
+            {props.species.common_names?.en?.length > 0 && (
+              <div className="title">
+                <div>
+                  <GbFlagSvg width="12px" />
+                </div>
+                <span className="ml-1">
+                  {capitalizeWords(props.species.common_names.en[0])}
+                </span>
+              </div>
+            )}
+            <div className="scientific-name">
+              {capitalizeFirstLetter(props.species.scientific_name)}
             </div>
-          </Link>
-        {/* )} */}
+          </div>
+        </Link>
       </Style>
     </m.div>
   );

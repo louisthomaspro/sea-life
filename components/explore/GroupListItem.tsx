@@ -1,14 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { blurDataURL, firebaseStorageLoader } from "../../utils/helper";
 import styled from "styled-components";
 import { m } from "framer-motion";
 import { tapAnimationDuration } from "../../constants/config";
 import { useRouter } from "next/router";
 import { IGroup } from "../../types/Group";
-import ArrowRightSvg from "../../public/icons/fontawesome/light/arrow-right.svg";
 import ChevronRightSvg from "../../public/icons/fontawesome/light/chevron-right.svg";
 import { BlurhashCanvas } from "react-blurhash";
+import { useState } from "react";
+import { useInView } from "react-cool-inview";
 
 export default function GroupListItem(props: {
   group: IGroup;
@@ -16,6 +16,15 @@ export default function GroupListItem(props: {
 }) {
   const router = useRouter();
   const { region, groups } = router.query;
+
+  const [loaded, setLoaded] = useState(false);
+  const { observe, inView } = useInView({
+    rootMargin: "50% 0px",
+    unobserveOnEnter: true,
+    onEnter() {
+      setLoaded(true);
+    },
+  });
 
   // http://localhost:3000/explore/mediterranean-sea/fauna/mollusk
   const groupsJoin = ((groups as string[]) ?? []).join("/"); // fauna/mollusk
@@ -26,6 +35,7 @@ export default function GroupListItem(props: {
         scale: tapAnimationDuration,
         transition: { duration: 0.1, ease: "easeInOut" },
       }}
+      ref={observe}
     >
       <Style>
         <Link href={`/explore/${region}/${groupsJoin}/${props.group.id}`}>
@@ -45,16 +55,21 @@ export default function GroupListItem(props: {
                 }}
               />
             )}
-            <Image
-              unoptimized={
-                process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
-              }
-              src={props.group.photos?.[0]?.original_url ?? "/img/no-image.svg"}
-              fill
-              sizes="25vw"
-              style={{ objectFit: "cover" }}
-              alt={props.group.title.fr ?? "No title"}
-            />
+            {(inView || loaded) && (
+              <Image
+                unoptimized={
+                  process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
+                }
+                src={
+                  props.group.photos?.[0]?.original_url ?? "/img/no-image.svg"
+                }
+                priority={inView}
+                fill
+                sizes="25vw"
+                style={{ objectFit: "cover" }}
+                alt={props.group.title.fr ?? "No title"}
+              />
+            )}
           </div>
           <div className="content">
             <div className="title">{props.group.title.fr ?? "No title"}</div>

@@ -74,6 +74,7 @@ const Gallery: NextPage<{
                   }
                   src={photo.original_url}
                   fill
+                  priority={index === 0  || index === 1}
                   style={{ objectFit: "cover" }}
                   alt={species?.common_names?.fr[0]}
                   sizes="100vw"

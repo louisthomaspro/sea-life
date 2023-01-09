@@ -62,7 +62,7 @@ export default function SpeciesCard(props: {
                 priority={inView}
                 fill
                 style={{ objectFit: "cover" }}
-                sizes="50vw"
+                sizes="40vw"
                 alt={props.species.scientific_name}
               />
             )}

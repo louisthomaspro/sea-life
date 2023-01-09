@@ -18,6 +18,7 @@ export default function SpeciesHeader(props: { species: ISpecies }) {
         />
       </m.button> */}
       <m.button
+        aria-label="share"
         whileTap={whileTapAnimationIconButton}
         onClick={() => {
           if (navigator.share) {

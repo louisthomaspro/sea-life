@@ -47,7 +47,7 @@ export default function SpeciesTaxonomy(props: { species: ISpecies }) {
               : ""}
           </div>
         </li>
-        {taxonomyTemplate(taxonomy)}
+        <li>{taxonomyTemplate(taxonomy)}</li>
       </ul>
     );
   };
@@ -62,7 +62,7 @@ const Style = styled.div`
     margin-left: 14px;
 
     li {
-      margin-top: 8px;
+      margin-top: 4px;
       display: flex;
       flex-direction: column;
       position: relative;
@@ -77,7 +77,7 @@ const Style = styled.div`
         font-size: 14px;
       }
 
-      &:before {
+      &:first-child:before {
         content: "";
         top: 7px;
         position: absolute;

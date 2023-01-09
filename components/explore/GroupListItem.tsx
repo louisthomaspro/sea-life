@@ -55,7 +55,7 @@ export default function GroupListItem(props: {
                 }}
               />
             )}
-            {(inView || loaded) && (
+            {/* {(inView || loaded) && ( */}
               <Image
                 unoptimized={
                   process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
@@ -69,7 +69,7 @@ export default function GroupListItem(props: {
                 style={{ objectFit: "cover" }}
                 alt={props.group.title.fr ?? "No title"}
               />
-            )}
+            {/* )} */}
           </div>
           <div className="content">
             <div className="title">{props.group.title.fr ?? "No title"}</div>

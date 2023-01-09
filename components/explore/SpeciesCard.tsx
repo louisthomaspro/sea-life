@@ -50,7 +50,7 @@ export default function SpeciesCard(props: {
                 }}
               />
             )}
-            {(inView || loaded) && (
+            {/* {(inView || loaded) && ( */}
               <Image
                 unoptimized={
                   process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
@@ -65,7 +65,7 @@ export default function SpeciesCard(props: {
                 sizes="40vw"
                 alt={props.species.scientific_name}
               />
-            )}
+            {/* )} */}
           </div>
           <div className="content">
             {props.species.common_names?.fr?.length > 0 && (

@@ -5,6 +5,22 @@ const runtimeCaching = require("next-pwa/cache");
 
 /** @type {import('next').NextConfig} */
 let nextConfig = {
+  // Workaround for minimumCacheTTL
+  async headers() {
+    return [
+      {
+        source: "/:all*(svg|jpg|png)",
+        locale: false,
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, must-revalidate",
+          },
+        ],
+      },
+    ];
+  },
+
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,

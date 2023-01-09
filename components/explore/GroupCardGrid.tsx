@@ -67,7 +67,7 @@ export default function GroupCardGrid(props: {
                         props.group.photos?.[i]?.original_url ??
                         "/img/no-image.svg"
                       }
-                      // priority={inView}
+                      priority={inView}
                       fill
                       sizes="20vw"
                       style={{ objectFit: "cover" }}

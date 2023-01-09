@@ -15,6 +15,7 @@ export default function RegionDropdown(props: IRegionDropdown) {
   return (
     <Style>
       <Dropdown
+        aria-label="region-dropdown"
         value={userRegion}
         options={regionsList}
         onChange={onRegionChange}

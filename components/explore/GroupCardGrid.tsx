@@ -57,7 +57,7 @@ export default function GroupCardGrid(props: {
                       }}
                     />
                   )}
-                  {(inView || loaded) && (
+                  {/* {(inView || loaded) && ( */}
                     <Image
                       unoptimized={
                         process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION ===
@@ -73,7 +73,7 @@ export default function GroupCardGrid(props: {
                       style={{ objectFit: "cover" }}
                       alt={props.group.title.fr ?? "No title"}
                     />
-                  )}
+                  {/* )} */}
                 </div>
               </div>
             ))}

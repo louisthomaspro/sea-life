@@ -13,152 +13,85 @@ import { useContext, useState } from "react";
 import RegionContext from "../../context/region.context";
 import { getGroup } from "../../utils/firestore/group.firestore";
 import { IGroup } from "../../types/Group";
-import { useRouter } from "next/router";
-import {
-  Configure,
-  InstantSearch,
-  useInstantSearch,
-} from "react-instantsearch-hooks-web";
 import CustomSearchBox from "../../components/search/CustomSearchBox";
-import CustomInfiniteHits from "../../components/search/CustomInfiniteHits";
-import { algolia } from "../../algolia/clientApp";
-import Button from "../../components/commons/Button";
-import { debounce } from "lodash";
-import dynamic from "next/dynamic";
-import Spinner from "../../components/commons/Spinner";
 
 const Explore: NextPage<{
   faunaGroup: IGroup;
   floraGroup: IGroup;
 }> = ({ faunaGroup, floraGroup }) => {
   const { userRegion } = useContext(RegionContext);
-  const router = useRouter();
-
-  const [algoliaFilter, setAlgoliaFilter] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState(null);
-  const [showSearchResults, setShowSearchResults] = useState(false);
-
-  const ExploreButtons = (
-    <Style>
-      <RegionDropdown />
-      <m.div
-        whileTap={{
-          scale: tapAnimationDuration,
-          transition: { duration: 0.1, ease: "easeInOut" },
-        }}
-      >
-        {/* Categories */}
-        <Link href={`explore/${userRegion}/fauna`}>
-          <div className="category fauna">
-            <div className="content">
-              <div className="title">Faune</div>
-              <div className="subtitle">
-                {faunaGroup.species_count?.[userRegion]} espèces
-              </div>
-            </div>
-            <div className="img-wrapper">
-              <Image
-                unoptimized={
-                  process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
-                }
-                priority
-                src={SeaTurtleImage}
-                alt="Sea Turtle"
-                style={{ objectFit: "contain", maxHeight: "100px" }}
-              />
-            </div>
-          </div>
-        </Link>
-      </m.div>
-
-      <m.div
-        whileTap={{
-          scale: tapAnimationDuration,
-          transition: { duration: 0.1, ease: "easeInOut" },
-        }}
-      >
-        <Link href={`explore/${userRegion}/flora`}>
-          <div className="category flora">
-            <div className="content">
-              <div className="title">Flore</div>
-              <div className="subtitle">
-                {floraGroup.species_count?.[userRegion]} espèces
-              </div>
-            </div>
-            <div className="img-wrapper">
-              <Image
-                unoptimized={
-                  process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
-                }
-                src={PosidoniaImage}
-                alt="Posidonia"
-                style={{ objectFit: "contain", maxHeight: "120px" }}
-              />
-            </div>
-          </div>
-        </Link>
-      </m.div>
-    </Style>
-  );
-
-  const handleQueryHook = debounce(
-    async (query: string, search: (value: string) => void) => {
-      // update request with filter
-      search(query);
-    },
-    300
-  );
-
-  function EmptyQueryBoundary({ children, fallback }: any) {
-    const { indexUiState } = useInstantSearch();
-    if (!indexUiState.query) {
-      return fallback;
-    }
-    return children;
-  }
-
-  function LoadingIndicator({ children }: any) {
-    const { status } = useInstantSearch();
-    if (status === "loading" || status === "stalled") {
-      return (
-        <div className="flex align-item-center">
-          <Spinner />
-        </div>
-      );
-    }
-    return children;
-  }
 
   return (
-    <>
-      <Header title="Explore" fixed />
+    <Style>
       <div className="main-container">
-        <InstantSearch
-          // searchFunction={handleSearchFunction}
-          indexName="species"
-          searchClient={algolia}
+        <div className="header">
+          <div className="content">
+            <div className="title">Explore</div>
+          </div>
+        </div>
+        <div className="sm:hidden my-3">
+          <CustomSearchBox />
+        </div>
+        <RegionDropdown />
+        <m.div
+          whileTap={{
+            scale: tapAnimationDuration,
+            transition: { duration: 0.1, ease: "easeInOut" },
+          }}
         >
-          <Configure filters={algoliaFilter} hitsPerPage={20} />
-          {/* Search */}
-          <CustomSearchBox queryHook={handleQueryHook} />
-          {/* <Link href="/search" passHref legacyBehavior>
-            <Button style={{ width: "100%", marginTop: "10px" }}>
-              Recherche avancée
-            </Button>
-          </Link> */}
+          {/* Categories */}
+          <Link href={`explore/${userRegion}/fauna`}>
+            <div className="category fauna">
+              <div className="content">
+                <div className="title">Faune</div>
+                <div className="subtitle">
+                  {faunaGroup.species_count?.[userRegion]} espèces
+                </div>
+              </div>
+              <div className="img-wrapper">
+                <Image
+                  unoptimized={
+                    process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
+                  }
+                  priority
+                  src={SeaTurtleImage}
+                  alt="Sea Turtle"
+                  style={{ objectFit: "contain", maxHeight: "100px" }}
+                />
+              </div>
+            </div>
+          </Link>
+        </m.div>
 
-          <hr />
-
-          <EmptyQueryBoundary fallback={ExploreButtons}>
-            <LoadingIndicator>
-              <CustomInfiniteHits />
-            </LoadingIndicator>
-          </EmptyQueryBoundary>
-          {/* </QueryBoundary> */}
-        </InstantSearch>
+        <m.div
+          whileTap={{
+            scale: tapAnimationDuration,
+            transition: { duration: 0.1, ease: "easeInOut" },
+          }}
+        >
+          <Link href={`explore/${userRegion}/flora`}>
+            <div className="category flora">
+              <div className="content">
+                <div className="title">Flore</div>
+                <div className="subtitle">
+                  {floraGroup.species_count?.[userRegion]} espèces
+                </div>
+              </div>
+              <div className="img-wrapper">
+                <Image
+                  unoptimized={
+                    process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
+                  }
+                  src={PosidoniaImage}
+                  alt="Posidonia"
+                  style={{ objectFit: "contain", maxHeight: "120px" }}
+                />
+              </div>
+            </div>
+          </Link>
+        </m.div>
       </div>
-      <BottomNavigation />
-    </>
+    </Style>
   );
 };
 
@@ -185,6 +118,20 @@ export default Explore;
 // Style
 const Style = styled.div`
   width: 100%;
+
+  .header {
+    position: relative;
+    margin-top: 30px;
+
+    .content {
+      text-align: center;
+      padding-bottom: 14px;
+
+      .title {
+        font-size: 2rem;
+      }
+    }
+  }
 
   .img-wrapper {
     height: 100%;

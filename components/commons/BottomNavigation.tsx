@@ -24,7 +24,7 @@ export default function BottomNavigation(props: IBottomNavigation) {
   }, [router.asPath]);
 
   return (
-    <Style {...props}>
+    <Style {...props} className="sm:hidden">
       <div className="grid grid-nogutter h-full align-items-center container">
         <Link href="/explore">
           <div className="col item">

@@ -16,7 +16,7 @@ const Species: NextPage<{
   });
 
   return (
-    <Style className="no-header">
+    <Style>
       <div className="header" ref={observe}>
         <Header showBackButton noBackground>
           <SpeciesHeader species={species} />

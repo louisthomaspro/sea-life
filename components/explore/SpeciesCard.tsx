@@ -101,7 +101,7 @@ export default function SpeciesCard(props: {
 // Style
 const Style = styled.div`
   width: 100%;
-  aspect-ratio: 2 / 2.3;
+  /* aspect-ratio: 2 / 2.3; */
   background-color: var(--bg-grey);
   border-radius: var(--border-radius);
   padding: 6px;
@@ -127,7 +127,7 @@ const Style = styled.div`
       /* flex-grow: 1; */
       width: 100%;
       position: relative;
-      height: 100%;
+      aspect-ratio: 2/1.6;
       border-radius: var(--border-radius);
       overflow: hidden;
 

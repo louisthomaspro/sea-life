@@ -16,13 +16,15 @@ yarn dev
 
 Navigate to [http://localhost:3000](http://localhost:3000)
 
+---
+<br>
+
 ## Firebase
 
 Firebase is used for authentication and database and functions.
 We can use the emulator to test locally.
 
-### Init Firebase and emulator
-
+### Installation
 ```bash
 npm install -g firebase-tools
 npx firebase login
@@ -32,38 +34,35 @@ npx firebase use sea-life-app # (optional)
 npx firebase init emulators
 # Get current extension configuration
 npx firebase ext:export # (optional)
-
-# Update env variable NEXT_PUBLIC_FIREBASE_EMULATOR to true
 ```
 
-### Enable emulator
+### Functions
 
 ```bash
-# Compile functions automatically
+# Compile functions automatically to test in local
 npm run build:watch --prefix functions # (open a separate terminal window)
 
-# Start emulator with existing local data
-npx firebase emulators:start --import ./firebase_export/
-```
-
-### Deploy functions to cloud
-
-```bash
+# Deploy to cloud
 npx firebase deploy --only functions # all functions
 npx firebase deploy --only functions:group-updateCountOnGroupCreate # single function
 ```
 
-### Export current local data
-
-Save the current local data to be able to restore it later.
+### Database
 
 ```bash
+# Update env variable
+# NEXT_PUBLIC_FIREBASE_EMULATOR=true
+
+# Start emulator with existing local data
+npx firebase emulators:start --import ./firebase_export/
+
+# Save the current local data to be able to restore it later
 npx firebase emulators:export ./firebase_export
 ```
 
 ## Algolia
 
-Synchronize Algolia data
+### Synchronize Algolia data
 
 > **Prerequisites** <br>
 > Download service account key file: https://console.firebase.google.com/u/0/project/sea-guide/settings/serviceaccounts/adminsdk <br>
@@ -87,12 +86,12 @@ What is the path to the Google Application Credential File? ./sea-life-app-fireb
 Change extracted field in **firestore extension** :
 https://console.firebase.google.com/project/sea-life-app/extensions/instances/firestore-algolia-search?tab=config
 
-## Analyze performances
+## Performances
 
-# Bundle Analyzer
+### Bundle Analyzer
 
 ```bash
-ANALYZE=true yarn build
+yarn analyze
 ```
 
 ## Features
@@ -111,7 +110,7 @@ ANALYZE=true yarn build
 - Etoile de mer rouge doesnt appear in group:faune and type:species ?
 - Rules for storage and firestore (prevent auth null)
 
-# Other commands
+## Other commands
 
 ```bash
 npx kill-port 8080

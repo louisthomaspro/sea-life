@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import NProgress from "./NProgress";
 import OfflineToast from "./OfflineToast";
+import WebHeader from "./WebHeader";
 
 interface LayoutProps {
   children: ReactNode;
@@ -40,10 +41,11 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <>
-      <main style={{ padding: "60px 0" }}>
+      <main className="sm:py-0">
         <NProgress />
         <OfflineToast />
         <LazyMotion features={domAnimation}>
+          <WebHeader className="hidden sm:block" />
           {/* <AnimatePresence initial={false} mode="wait"> */}
           {/* <m.div
               key={router.asPath}

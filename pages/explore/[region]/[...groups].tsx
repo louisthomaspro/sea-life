@@ -26,18 +26,8 @@ const Explore: NextPage<{
   const region = router.query.region as string;
   const isFirstLevelGroup = router.query.groups?.length === 1;
 
-  const [displaySecondHeader, setDisplaySecondHeader] = useState(false);
-
-  const {
-    observe,
-    unobserve,
-    inView,
-  } = useInView({
-    rootMargin: "20px 0px",
-
-    onChange: ({ inView }) => {
-      setDisplaySecondHeader(!inView);
-    },
+  const { observe, unobserve, inView } = useInView({
+    rootMargin: "40px 0px",
   });
 
   if (router.isFallback) {
@@ -45,7 +35,7 @@ const Explore: NextPage<{
   }
 
   return (
-    <Style className="no-header">
+    <Style className="bottom-navigation">
       {/* <Scrollbar> */}
       <div className="header">
         <div className="back-button" ref={observe}>
@@ -56,16 +46,24 @@ const Explore: NextPage<{
           <div className="region-info">{regionsDict[region].name.fr}</div>
         </div>
       </div>
-      {displaySecondHeader && (
-        <Header title={currentGroup?.title?.fr} showBackButton fixed />
-      )}
+      <Header
+        title={currentGroup?.title?.fr}
+        showBackButton
+        fixed
+        className={`transition sm:hidden opacity-0 ${
+          !inView ? "opacity-100" : "opacity-0"
+        }`}
+      />
 
-      <div className="main-container">
+      <div
+        className="main-container"
+        style={{ maxWidth: "800px", margin: "auto" }}
+      >
         {currentGroup?.show_species ? (
           <div className="grid">
             {speciesList &&
               speciesList.map((s, index) => (
-                <div className="col-6" key={s.id}>
+                <div className="col-6 sm:col-3" key={s.id}>
                   <SpeciesCard species={s} index={index} />
                 </div>
               ))}
@@ -74,12 +72,16 @@ const Explore: NextPage<{
           <div className="grid">
             {childrenGroups?.map((group: IGroup, index) =>
               isFirstLevelGroup ? (
-                <div className="col-6" key={group.id}>
-                  <GroupCardGrid group={group} index={index} />
+                <div className="col-6 sm:col-4" key={group.id}>
+                  <div className="sm:p-2">
+                    <GroupCardGrid group={group} index={index} />
+                  </div>
                 </div>
               ) : (
-                <div className="col-12" key={group.id}>
-                  <GroupListItem group={group} index={index} />
+                <div className="col-12 sm:col-3" key={group.id}>
+                  <div className="sm:p-2">
+                    <GroupListItem group={group} />
+                  </div>
                 </div>
               )
             )}
@@ -162,6 +164,10 @@ export default Explore;
 // Style
 const Style = styled.div`
   position: relative;
+
+  .transition {
+    transition: all 0.1s ease-in-out;
+  }
 
   .header {
     position: relative;

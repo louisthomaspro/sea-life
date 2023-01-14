@@ -38,24 +38,25 @@ export default function GroupListItem(props: {
       ref={observe}
     >
       <Style>
-        <Link href={`/explore/${region}/${groupsJoin}/${props.group.id}`}>
-          <div className="img-wrapper">
-            {props.group?.photos?.[0]?.blurhash && (
-              <BlurhashCanvas
-                {...props.group.photos[0].blurhash}
-                punch={1}
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                }}
-              />
-            )}
-            {/* {(inView || loaded) && ( */}
+        <Link href={`/explore/${region}/${groupsJoin}/${props.group.id}`} className="sm:flex-column">
+          <div className="img-container sm:w-full">
+            <div className="img-wrapper">
+              {props.group?.photos?.[0]?.blurhash && (
+                <BlurhashCanvas
+                  {...props.group.photos[0].blurhash}
+                  punch={1}
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                  }}
+                />
+              )}
+              {/* {(inView || loaded) && ( */}
               <Image
                 unoptimized={
                   process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
@@ -69,9 +70,13 @@ export default function GroupListItem(props: {
                 style={{ objectFit: "cover" }}
                 alt={props.group.title.fr ?? "No title"}
               />
-            {/* )} */}
+              {/* )} */}
+            </div>
+            <div className="badge hidden sm:block">
+              {props.group.species_count[region as string]}
+            </div>
           </div>
-          <div className="content">
+          <div className="content sm:text-center">
             <div className="title">{props.group.title.fr ?? "No title"}</div>
             {props.group.subtitle && (
               <div className="subtitle">
@@ -82,11 +87,11 @@ export default function GroupListItem(props: {
                 )
               </div>
             )}
-            <div className="badge">
+            <div className="badge-text sm:hidden">
               {props.group.species_count[region as string]} espèces
             </div>
           </div>
-          <div className="chevron">
+          <div className="chevron sm:hidden">
             <ChevronRightSvg
               aria-label="right"
               className="svg-icon"
@@ -108,7 +113,7 @@ const Style = styled.button`
     display: flex;
   }
 
-  .badge {
+  .badge-text {
     background: var(--blue);
     color: white;
     border-radius: 10px;
@@ -118,13 +123,31 @@ const Style = styled.button`
     margin-top: 6px;
   }
 
-  .img-wrapper {
+  .badge {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: var(--blue);
+    color: white;
+    border-radius: 10px;
+    padding: 2px 5px;
+    font-size: 12px;
+  }
+
+  .img-container {
     width: 25%;
     position: relative;
-    aspect-ratio: 1/1;
-    border-radius: var(--border-radius);
-    overflow: hidden;
+    aspect-ratio: 1;
+    margin-bottom: auto;
     flex: none;
+
+    .img-wrapper {
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      position: inherit;
+    }
   }
 
   .content {

@@ -1,10 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
-import CustomSearchBox from "../search/CustomSearchBox";
+import dynamic from "next/dynamic";
 
 import UserSvg from "../../public/icons/fontawesome/light/user.svg";
 import GlobeSvg from "../../public/icons/fontawesome/light/globe.svg";
+
+const DynamicCustomSearchBox = dynamic(
+  () => import("../../components/search/CustomSearchBox")
+);
 
 interface IHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
 export default function WebHeader(props: IHeaderProps) {
@@ -28,7 +32,7 @@ export default function WebHeader(props: IHeaderProps) {
           </ul>
         </div>
 
-        <CustomSearchBox />
+        <DynamicCustomSearchBox />
 
         <div>
           {/* <GlobeSvg

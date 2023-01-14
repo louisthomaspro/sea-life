@@ -13,7 +13,7 @@ module.exports = {
         },
       },
     ],
-    process.env.NEXT_PUBLIC_SKIP_PURGE_CSS !== 'true' && [
+    process.env.NEXT_PUBLIC_SKIP_PURGE_CSS !== "true" && [
       "@fullhuman/postcss-purgecss",
       {
         content: [
@@ -36,7 +36,7 @@ module.exports = {
           // "./node_modules/primereact/menu/*.{js,jsx,ts,tsx}",
           // "./node_modules/primereact/menuitem/*.{js,jsx,ts,tsx}",
           // "./node_modules/primereact/tooltip/*.{js,jsx,ts,tsx}",
-          "./node_modules/primereact/skeleton/*.{js,jsx,ts,tsx}",
+          // "./node_modules/primereact/skeleton/*.{js,jsx,ts,tsx}",
         ],
         defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
         safelist: {

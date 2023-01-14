@@ -16,8 +16,8 @@ const Species: NextPage<{
   });
 
   return (
-    <Style>
-      <div className="header" ref={observe}>
+    <Style className="max-width-800">
+      <div className="header sm:relative" ref={observe}>
         <Header showBackButton noBackground>
           <SpeciesHeader species={species} />
         </Header>

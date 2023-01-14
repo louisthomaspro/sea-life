@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Configure,
   InstantSearch,
+  SearchBox,
   useInstantSearch,
 } from "react-instantsearch-hooks-web";
 import styled from "styled-components";
@@ -39,7 +40,7 @@ export default function CustomSearchBox() {
     inputRef.current.value = "";
   };
 
-  function LoadingIndicator({ children }: any) {
+  function LoadingIndicator() {
     const { status } = useInstantSearch();
     if (status === "loading" || status === "stalled") {
       return (
@@ -48,7 +49,7 @@ export default function CustomSearchBox() {
         </div>
       );
     }
-    return children;
+    return null;
   }
 
   const debouncedChangeHandler = useMemo(
@@ -69,18 +70,20 @@ export default function CustomSearchBox() {
             // transition={openModal ? searchBoxTransition : { duration: 0 }}
           >
             <div className="main-container">
-              <div className="close flex justify-content-end">
-                <XmarkSvg
-                  onClick={() => setOpenModal(false)}
-                  aria-label="search-icon"
-                  style={{ width: "26px" }}
-                  className="svg-icon relative"
-                />
+              <div className="search-header">
+                <div className="close">
+                  <XmarkSvg
+                    onClick={() => setOpenModal(false)}
+                    aria-label="search-icon"
+                    style={{ width: "26px" }}
+                    className="svg-icon relative"
+                  />
+                </div>
               </div>
               <motion.div
                 // layoutId="search-input"
-                className="input-container"
                 transition={searchBoxTransition}
+                className="input-container sm:max-w-20rem"
               >
                 <SearchSvg
                   aria-label="search-icon"
@@ -96,12 +99,13 @@ export default function CustomSearchBox() {
                   onChange={debouncedChangeHandler}
                 />
                 {inputRef.current?.value && (
-                  <XmarkSvg
-                    onClick={() => clearInput()}
-                    aria-label="search-icon"
-                    style={{ width: "14px" }}
-                    className="svg-icon icon-right"
-                  />
+                  <div className="icon-right" onClick={() => clearInput()}>
+                    <XmarkSvg
+                      aria-label="search-icon"
+                      style={{ width: "14px" }}
+                      className="svg-icon"
+                    />
+                  </div>
                 )}
               </motion.div>
               <InstantSearch
@@ -109,21 +113,23 @@ export default function CustomSearchBox() {
                 indexName="species"
                 searchClient={algolia}
               >
+                {/* <SearchBox /> */}
                 <Configure hitsPerPage={10} />
                 <SearchBoxWorkaround query={searchValue} />
                 <hr />
-
-                <LoadingIndicator>
+                <LoadingIndicator />
+                <div className="max-width-800">
                   <CustomInfiniteHits />
-                </LoadingIndicator>
+                </div>
               </InstantSearch>
             </div>
           </motion.div>
         )}
         <motion.div
           // layoutId="search-input"
-          className="input-container"
+          className="input-container fake-input"
           transition={searchBoxTransition}
+          onClick={() => setOpenModal(true)}
         >
           <SearchSvg
             aria-label="search-icon"
@@ -131,7 +137,6 @@ export default function CustomSearchBox() {
             className="svg-icon icon-left"
           />
           <input
-            onClick={() => setOpenModal(true)}
             aria-label="Search"
             type="text"
             placeholder="Rechercher une espèce"
@@ -148,7 +153,6 @@ const Style = styled.div`
   position: relative;
 
   .input-container {
-    max-width: 300px;
     margin: auto;
     position: relative;
   }
@@ -183,25 +187,43 @@ const Style = styled.div`
     }
   }
 
+  .fake-input {
+    cursor: text;
+  }
+
   .icon-left {
+    position: absolute;
     top: 0;
     bottom: 0;
-    margin: auto 1rem;
     left: 0;
+    margin: auto 1rem;
   }
 
   .icon-right {
+    position: absolute;
     top: 0;
     bottom: 0;
-    margin: auto 1rem;
     right: 0;
+    padding: 0 1rem;
+    display: flex;
+    cursor: pointer;
   }
 
   .svg-icon {
-    position: absolute;
-
     path {
       fill: var(--text-color-1);
+    }
+  }
+
+  .search-header {
+    display: flex;
+    justify-content: end;
+
+    .close {
+      padding: 0 0.5rem;
+      cursor: pointer;
+      display: flex;
+      margin-bottom: 1rem;
     }
   }
 `;

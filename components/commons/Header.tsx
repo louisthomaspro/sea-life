@@ -10,9 +10,8 @@ interface IHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   fixed?: boolean;
 }
 export default function Header(props: IHeaderProps) {
-
   return (
-    <Style {...props}>
+    <Style {...props} className={`${props.className} sm:px-0`}>
       <div className="flex" style={{ width: "42px" }}>
         {props.showBackButton && (
           <>

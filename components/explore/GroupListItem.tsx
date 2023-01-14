@@ -79,7 +79,7 @@ export default function GroupListItem(props: {
           <div className="content sm:text-center">
             <div className="title">{props.group.title.fr ?? "No title"}</div>
             {props.group.subtitle && (
-              <div className="subtitle">
+              <div className="subtitle sm:justify-content-center">
                 (
                 <span className="ellipsis">
                   {props.group.subtitle.fr ?? "No subtitle"}

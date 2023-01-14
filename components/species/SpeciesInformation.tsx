@@ -19,13 +19,20 @@ export default function SpeciesInformation(props: { species: ISpecies }) {
   return (
     <>
       <Style>
-        <Link href={`/species/${props.species.id}/gallery`}>
-          <SpeciesSlider species={props.species} />
-        </Link>
+        <div className="grid">
+          <div className="col-12 sm:col-6">
+            <SpeciesSlider species={props.species} />
+          </div>
+          <div className="col-12 sm:col-6">
+            <div className="main-container pt-0">
+              <SpeciesTitle species={props.species} />
+              <SpeciesHighlight species={props.species} />
+            </div>
+            {/* <SpeciesAnecdote species={props.species} /> */}
+          </div>
+        </div>
+
         <div className="main-container pt-0">
-          <SpeciesTitle species={props.species} />
-          <SpeciesHighlight species={props.species} />
-          {/* <SpeciesAnecdote species={props.species} /> */}
           <Section title="ENVRIONNEMENT">
             <SpeciesEnvironment species={props.species} />
           </Section>

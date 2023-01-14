@@ -23,7 +23,7 @@ const Explore: NextPage<{
 
   return (
     <Style>
-      <div className="main-container">
+      <div className="main-container max-width-500">
         <div className="header">
           <div className="content">
             <div className="title">Explore</div>

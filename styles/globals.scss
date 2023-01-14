@@ -22,7 +22,7 @@
   --border-color: #c9c9c9;
   --border-color-light: #e8e8e8;
   --border-radius: 10px;
-  --global-padding: 20px;
+  --global-padding: 1rem;
   --green: #638b59;
   --blue: #427396;
   --red: #ce2020;
@@ -92,4 +92,18 @@ svg.svg-icon {
   .p-dropdown-item {
     padding: 1rem 1rem !important;
   }
+}
+
+.max-width-800 {
+  max-width: 800px;
+  margin: 0 auto;
+
+  @media (min-width: 576px) {
+    padding: 0 1rem;
+  }
+}
+
+.max-width-500 {
+  max-width: 500px;
+  margin: 0 auto;
 }

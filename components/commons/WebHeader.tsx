@@ -22,7 +22,7 @@ export default function WebHeader(props: IHeaderProps) {
 
   return (
     <Style {...props}>
-      <div className="content">
+      <div className="content max-width-800">
         <div className="left">
           <Link href="/" className="flex">
             <Image
@@ -70,8 +70,6 @@ const Style = styled.header<IHeaderProps>`
   border-bottom: 1px solid var(--border-color-light);
 
   > .content {
-    max-width: 800px;
-    margin: auto;
     display: flex;
     height: 100%;
     width: 100%;

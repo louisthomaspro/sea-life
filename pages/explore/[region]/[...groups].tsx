@@ -35,7 +35,7 @@ const Explore: NextPage<{
   }
 
   return (
-    <Style className="bottom-navigation">
+    <Style className="bottom-navigation max-width-800">
       {/* <Scrollbar> */}
       <div className="header">
         <div className="back-button" ref={observe}>
@@ -56,7 +56,7 @@ const Explore: NextPage<{
       />
 
       <div
-        className="main-container"
+        className="sm:p-0 p-3"
         style={{ maxWidth: "800px", margin: "auto" }}
       >
         {currentGroup?.show_species ? (

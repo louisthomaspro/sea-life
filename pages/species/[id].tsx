@@ -21,7 +21,7 @@ const Species: NextPage<{
       <ScrollHeader title={capitalizeWords(species.common_names?.fr[0])} />
       <Style className="max-width-800 sm:mt-4">
         <BackButton className="pt-2 sm:hidden global-padding absolute top-0 z-1" />
-        <div className="grid">
+        <div className="grid grid-nogutter">
           <div className="col-12 sm:col-6">
             <SpeciesSlider species={species} />
           </div>

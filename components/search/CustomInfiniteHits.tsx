@@ -13,7 +13,6 @@ export default function CustomInfiniteHits(props: UseInfiniteHitsProps) {
             <SpeciesCard species={s} index={index} />
           </div>
         ))}
-        {hits?.length === 0 && <>Aucune espèce trouvée :(</>}
       </div>
     </>
   );

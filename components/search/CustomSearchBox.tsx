@@ -42,13 +42,16 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
   };
 
   const LoadingIndicator = () => {
-    const { status } = useInstantSearch();
+    const { status, results } = useInstantSearch();
     if (status === "loading" || status === "stalled") {
       return (
         <div className="flex align-item-center">
           <Spinner />
         </div>
       );
+    }
+    if (!results.__isArtificial && results.nbHits === 0) {
+      return <>Aucune espèce trouvée :(</>;
     }
     return null;
   };

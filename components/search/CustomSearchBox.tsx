@@ -16,14 +16,18 @@ import SearchBoxWorkaround from "./SearchBoxWorkaround";
 
 const searchBoxTransition = { duration: 0.3 };
 
-interface ICustomSearchBox extends React.HTMLAttributes<HTMLDivElement> {}
+interface ICustomSearchBox extends React.HTMLAttributes<HTMLDivElement> {
+  screen?: "web" | "mobile";
+}
 export default function CustomSearchBox(props: ICustomSearchBox) {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const [id, setId] = useState<string>("id");
 
   useEffect(() => {
-    // Escape key to close modal
+    setId("id" + Math.random());
+
     const handleEsc = (event: any) => {
       if (event.keyCode === 27) {
         setOpenModal(false);
@@ -65,13 +69,13 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
   );
 
   return (
-    <Style {...props}>
-      <AnimatePresence>
+    <AnimatePresence>
+      <Style {...props}>
         {openModal && (
-          <motion.div
+          <div
             className="search-modal"
             // animate={{ backgroundColor: "rgba(255, 255, 255, 1)" }}
-            // transition={openModal ? searchBoxTransition : { duration: 0 }}
+            // transition={searchBoxTransition}
           >
             <div className="global-padding max-width-800">
               <div className="search-header">
@@ -85,7 +89,8 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
                 </div>
               </div>
               <motion.div
-                // layoutId="search-input"
+                layoutId={id}
+                key={id}
                 transition={searchBoxTransition}
                 className="input-container sm:max-w-20rem"
               >
@@ -112,11 +117,7 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
                   </div>
                 )}
               </motion.div>
-              <InstantSearch
-                // searchFunction={handleSearchFunction}
-                indexName="species"
-                searchClient={algolia}
-              >
+              <InstantSearch indexName="species" searchClient={algolia}>
                 {/* <SearchBox /> */}
                 <Configure hitsPerPage={10} />
                 <SearchBoxWorkaround query={searchValue} />
@@ -125,10 +126,12 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
                 <CustomInfiniteHits />
               </InstantSearch>
             </div>
-          </motion.div>
+          </div>
         )}
+
         <motion.div
-          // layoutId="search-input"
+          layoutId={id}
+          key={id}
           className="input-container fake-input"
           transition={searchBoxTransition}
           onClick={() => setOpenModal(true)}
@@ -145,8 +148,8 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
             readOnly
           />
         </motion.div>
-      </AnimatePresence>
-    </Style>
+      </Style>
+    </AnimatePresence>
   );
 }
 
@@ -157,6 +160,13 @@ const Style = styled.div`
   .input-container {
     margin: auto;
     position: relative;
+
+    @media (min-width: 576px) {
+      /* transform-origin: unset !important;
+      transform: none !important;
+      opacity: 1 !important;
+      pointer-events: initial !important; */
+    }
   }
 
   .search-modal {
@@ -227,5 +237,12 @@ const Style = styled.div`
       display: flex;
       margin-bottom: 1rem;
     }
+  }
+
+  .cancel-transform {
+    transform-origin: unset !important;
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: initial !important;
   }
 `;

@@ -27,8 +27,8 @@ export const Explore: NextPage<{
     <Style>
       <div className="global-padding max-width-500">
         <div className="explore-header mt-5 mb-4">Explore</div>
-        <DynamicCustomSearchBox className="sm:hidden my-3" />
-        <RegionDropdown className="mb-4"/>
+        <DynamicCustomSearchBox screen="mobile" className="sm:hidden my-3" />
+        <RegionDropdown className="mb-4" />
 
         <m.div
           whileTap={{

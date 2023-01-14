@@ -32,7 +32,7 @@ export default function WebHeader(props: IHeaderProps) {
           </ul>
         </div>
 
-        <DynamicCustomSearchBox />
+        <DynamicCustomSearchBox screen="web" />
 
         <div>
           {/* <GlobeSvg

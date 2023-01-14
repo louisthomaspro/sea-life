@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Configure,
   InstantSearch,
-  SearchBox,
   useInstantSearch,
 } from "react-instantsearch-hooks-web";
 import styled from "styled-components";
@@ -17,12 +16,14 @@ import SearchBoxWorkaround from "./SearchBoxWorkaround";
 
 const searchBoxTransition = { duration: 0.3 };
 
-export default function CustomSearchBox() {
+interface ICustomSearchBox extends React.HTMLAttributes<HTMLDivElement> {}
+export default function CustomSearchBox(props: ICustomSearchBox) {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    // Escape key to close modal
     const handleEsc = (event: any) => {
       if (event.keyCode === 27) {
         setOpenModal(false);
@@ -40,7 +41,7 @@ export default function CustomSearchBox() {
     inputRef.current.value = "";
   };
 
-  function LoadingIndicator() {
+  const LoadingIndicator = () => {
     const { status } = useInstantSearch();
     if (status === "loading" || status === "stalled") {
       return (
@@ -50,7 +51,7 @@ export default function CustomSearchBox() {
       );
     }
     return null;
-  }
+  };
 
   const debouncedChangeHandler = useMemo(
     () =>
@@ -61,17 +62,17 @@ export default function CustomSearchBox() {
   );
 
   return (
-    <AnimatePresence>
-      <Style>
+    <Style {...props}>
+      <AnimatePresence>
         {openModal && (
           <motion.div
             className="search-modal"
             // animate={{ backgroundColor: "rgba(255, 255, 255, 1)" }}
             // transition={openModal ? searchBoxTransition : { duration: 0 }}
           >
-            <div className="main-container">
+            <div className="global-padding max-width-800">
               <div className="search-header">
-                <div className="close">
+                <div className="close pt-2">
                   <XmarkSvg
                     onClick={() => setOpenModal(false)}
                     aria-label="search-icon"
@@ -118,9 +119,7 @@ export default function CustomSearchBox() {
                 <SearchBoxWorkaround query={searchValue} />
                 <hr />
                 <LoadingIndicator />
-                <div className="max-width-800">
-                  <CustomInfiniteHits />
-                </div>
+                <CustomInfiniteHits />
               </InstantSearch>
             </div>
           </motion.div>
@@ -143,8 +142,8 @@ export default function CustomSearchBox() {
             readOnly
           />
         </motion.div>
-      </Style>
-    </AnimatePresence>
+      </AnimatePresence>
+    </Style>
   );
 }
 

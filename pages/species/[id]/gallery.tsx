@@ -20,12 +20,10 @@ const Gallery: NextPage<{
   const router = useRouter();
 
   return (
-    <Style className="pt-7">
+    <Style>
       <Header
         title={capitalizeWords(species?.common_names?.fr[0])}
         showBackButton
-        shadow
-        fixed
       />
 
       <div className="main-container">

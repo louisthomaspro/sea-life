@@ -1,21 +1,23 @@
 import { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import BottomNavigation from "../../components/commons/BottomNavigation";
-import Header from "../../components/commons/Header";
 import SeaTurtleImage from "../../public/img/categories/sea-turtle.png";
 import PosidoniaImage from "../../public/img/categories/posidonia.png";
 import { m } from "framer-motion";
 import { tapAnimationDuration } from "../../constants/config";
 import styled from "styled-components";
 import RegionDropdown from "../../components/commons/RegionDropdown";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import RegionContext from "../../context/region.context";
 import { getGroup } from "../../utils/firestore/group.firestore";
 import { IGroup } from "../../types/Group";
-import CustomSearchBox from "../../components/search/CustomSearchBox";
+import dynamic from "next/dynamic";
 
-const Explore: NextPage<{
+const DynamicCustomSearchBox = dynamic(
+  () => import("../../components/search/CustomSearchBox")
+);
+
+export const Explore: NextPage<{
   faunaGroup: IGroup;
   floraGroup: IGroup;
 }> = ({ faunaGroup, floraGroup }) => {
@@ -23,16 +25,11 @@ const Explore: NextPage<{
 
   return (
     <Style>
-      <div className="main-container max-width-500">
-        <div className="header">
-          <div className="content">
-            <div className="title">Explore</div>
-          </div>
-        </div>
-        <div className="sm:hidden my-3">
-          <CustomSearchBox />
-        </div>
-        <RegionDropdown />
+      <div className="global-padding max-width-500">
+        <div className="explore-header mt-5 mb-4">Explore</div>
+        <DynamicCustomSearchBox className="sm:hidden my-3" />
+        <RegionDropdown className="mb-4"/>
+
         <m.div
           whileTap={{
             scale: tapAnimationDuration,
@@ -94,43 +91,24 @@ const Explore: NextPage<{
     </Style>
   );
 };
+export default Explore;
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const faunaGroup: IGroup = JSON.parse(
-    JSON.stringify(await getGroup("fauna"))
-  );
+  const [faunaGroup, floraGroup] = await Promise.all([
+    getGroup("fauna"),
+    getGroup("flora"),
+  ]);
 
-  const floraGroup: IGroup = JSON.parse(
-    JSON.stringify(await getGroup("flora"))
-  );
-
-  if (faunaGroup && floraGroup) {
-    return {
-      props: { faunaGroup, floraGroup },
-    };
-  } else {
-    return { notFound: true };
-  }
+  return {
+    props: { faunaGroup, floraGroup },
+  };
 };
-
-export default Explore;
 
 // Style
 const Style = styled.div`
-  width: 100%;
-
-  .header {
-    position: relative;
-    margin-top: 30px;
-
-    .content {
-      text-align: center;
-      padding-bottom: 14px;
-
-      .title {
-        font-size: 2rem;
-      }
-    }
+  .explore-header {
+    text-align: center;
+    font-size: 2rem;
   }
 
   .img-wrapper {

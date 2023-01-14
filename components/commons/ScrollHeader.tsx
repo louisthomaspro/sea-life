@@ -4,12 +4,8 @@ import BackButton from "./BackButton";
 
 interface IHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;
-  showBackButton?: boolean;
-
-  hideMainHeader?: boolean;
-  showOnScroll?: boolean;
 }
-export default function Header(props: IHeaderProps) {
+export default function ScrollHeader(props: IHeaderProps) {
   const [showScrollHeader, setShowScrollHeader] = useState(false);
 
   const handleScroll = () => {
@@ -21,47 +17,27 @@ export default function Header(props: IHeaderProps) {
   };
 
   useEffect(() => {
-    if (props.showOnScroll) {
-      window.addEventListener("scroll", handleScroll);
-    }
+    window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
-    <>
-      {props.showOnScroll && (
-        <Header
-          title={props.title}
-          showBackButton
-          className={`transition fixed sm:hidden ${
-            showScrollHeader ? "opacity-100 z-5" : "opacity-0 z-0"
-          }`}
-          style={{
-            borderBottom: "border-bottom: 1px solid var(--border-color-light);",
-          }}
-        />
-      )}
-      <Style
-        {...props}
-        className={`${props.className} sm:px-0 z-1 ${
-          props.hideMainHeader ? "hidden" : ""
-        }`}
-      >
-        <div className="flex" style={{ width: "42px" }}>
-          {props.showBackButton && (
-            <>
-              <BackButton />
-            </>
-          )}
-        </div>
-        <div className="title flex align-items-center justify-content-center">
-          {props.title}
-        </div>
-        <div className="flex" style={{ width: "42px" }}></div>
-      </Style>
-    </>
+    <Style
+      {...props}
+      className={`${props.className} transition fixed sm:hidden ${
+        showScrollHeader ? "opacity-100 z-5" : "opacity-0 z-0"
+      }`}
+    >
+      <div className="flex" style={{ width: "42px" }}>
+        <BackButton />
+      </div>
+      <div className="title flex align-items-center justify-content-center">
+        {props.title}
+      </div>
+      <div className="flex" style={{ width: "42px" }}></div>
+    </Style>
   );
 }
 

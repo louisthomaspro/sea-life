@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { regionsList } from "../../constants/regions";
 import RegionContext from "../../context/region.context";
 
-interface IRegionDropdown {}
+interface IRegionDropdown extends React.HTMLAttributes<HTMLDivElement> {}
 export default function RegionDropdown(props: IRegionDropdown) {
   const { userRegion, setUserRegion } = useContext(RegionContext);
 
@@ -13,7 +13,7 @@ export default function RegionDropdown(props: IRegionDropdown) {
   };
 
   return (
-    <Style>
+    <Style {...props}>
       <Dropdown
         aria-label="region-dropdown"
         value={userRegion}
@@ -22,9 +22,8 @@ export default function RegionDropdown(props: IRegionDropdown) {
         optionLabel="name.fr"
         optionValue="id"
         placeholder="Selectionnez une région"
-        className="dropdown-region"
+        className="dropdown-region w-full"
         panelClassName="dropdown-region-panel"
-        style={{ width: "100%" }}
       />
     </Style>
   );
@@ -32,5 +31,13 @@ export default function RegionDropdown(props: IRegionDropdown) {
 
 // Style
 const Style = styled.div`
-  margin-bottom: 16px;
+  .dropdown-region {
+    width: 100%;
+    height: 50px;
+    align-items: center;
+    border-radius: 100px;
+    padding: 0 12px;
+  }
+
+  /* .dropdown-region-panel is style in global.css */
 `;

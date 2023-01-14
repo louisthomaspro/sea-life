@@ -64,10 +64,8 @@ a {
 
 // Custom classes
 
-.main-container {
-  position: relative;
-  padding: 1rem var(--global-padding);
-  width: 100%;
+.global-padding {
+  padding: 0 var(--global-padding);
 }
 
 svg.svg-icon {
@@ -78,14 +76,6 @@ svg.svg-icon {
 
 .bottom-navigation {
   padding-bottom: 60px;
-}
-
-.dropdown-region {
-  width: 100%;
-  height: 50px;
-  align-items: center;
-  border-radius: 100px;
-  padding: 0 12px;
 }
 
 .dropdown-region-panel {

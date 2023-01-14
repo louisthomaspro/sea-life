@@ -1,37 +1,53 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import styled from "styled-components";
-import Header from "../../components/commons/Header";
-import SpeciesInformation from "../../components/species/SpeciesInformation";
 import { useInView } from "react-cool-inview";
 import { getSpecies } from "../../utils/firestore/species.firestore";
 import { ISpecies } from "../../types/Species";
-import SpeciesHeader from "../../components/species/SpeciesHeader"
 import { capitalizeWords } from "../../utils/helper";
+import BackButton from "../../components/commons/BackButton";
+import ScrollHeader from "../../components/commons/ScrollHeader";
+import SpeciesEnvironment from "../../components/species/SpeciesEnvironment";
+import Section from "../../components/commons/Section";
+import SpeciesSlider from "../../components/species/SpeciesSlider";
+import SpeciesTitle from "../../components/species/SpeciesTitle";
+import SpeciesHighlight from "../../components/species/SpeciesHighlight";
+import SpeciesTaxonomy from "../../components/species/SpeciesTaxonomy";
 
 const Species: NextPage<{
   species: ISpecies;
 }> = ({ species }) => {
-  const { observe, unobserve, inView, scrollDirection, entry } = useInView({
-    rootMargin: "100px 0px",
-  });
-
   return (
-    <Style className="max-width-800">
-      <div className="header sm:relative" ref={observe}>
-        <Header showBackButton noBackground>
-          <SpeciesHeader species={species} />
-        </Header>
-      </div>
-      {!inView && (
-        <Header
-          showBackButton
-          fixed
-          shadow
-          title={capitalizeWords(species.common_names?.fr[0])}
-        />
-      )}
-      <SpeciesInformation species={species} />
-    </Style>
+    <>
+      <ScrollHeader title={capitalizeWords(species.common_names?.fr[0])} />
+      <Style className="max-width-800 sm:mt-4">
+        <BackButton className="pt-2 sm:hidden global-padding absolute top-0 z-1" />
+        <div className="grid">
+          <div className="col-12 sm:col-6">
+            <SpeciesSlider species={species} />
+          </div>
+          <div className="col-12 sm:col-6">
+            <div className="global-padding pt-0">
+              <SpeciesTitle species={species} />
+              <SpeciesHighlight species={species} />
+            </div>
+            {/* <SpeciesAnecdote species={props.species} /> */}
+          </div>
+        </div>
+
+        <div className="global-padding pt-0">
+          <Section title="ENVRIONNEMENT">
+            <SpeciesEnvironment species={species} />
+          </Section>
+          <Section title="MODE DE VIE ET COMPORTEMENT">
+            Prochainement...
+          </Section>
+          <Section title="MORPHOLOGIE">Prochainement...</Section>
+          <Section title="TAXONOMIE">
+            <SpeciesTaxonomy species={species} />
+          </Section>
+        </div>
+      </Style>
+    </>
   );
 };
 
@@ -65,15 +81,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export default Species;
 
 // Style
-const Style = styled.div`
-  width: 100%;
-  overflow: auto;
-  position: relative;
-
-  .header {
-    position: absolute;
-    top: 0;
-    z-index: 2;
-    width: 100%;
-  }
-`;
+const Style = styled.div``;

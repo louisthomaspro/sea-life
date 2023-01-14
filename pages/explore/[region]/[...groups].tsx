@@ -1,10 +1,9 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { useInView } from "react-cool-inview";
 import styled from "styled-components";
 import BottomNavigation from "../../../components/commons/BottomNavigation";
-import Header from "../../../components/commons/Header";
+import BackButton from "../../../components/commons/BackButton";
 import GroupCardGrid from "../../../components/explore/GroupCardGrid";
 import GroupListItem from "../../../components/explore/GroupListItem";
 import SpeciesCard from "../../../components/explore/SpeciesCard";
@@ -16,17 +15,19 @@ import {
   getGroup,
 } from "../../../utils/firestore/group.firestore";
 import { getAllSpeciesByGroupList } from "../../../utils/firestore/species.firestore";
+import ScrollHeader from "../../../components/commons/ScrollHeader";
 
-const Explore: NextPage<{
+interface IExploreProps {
   currentGroup: IGroup;
   childrenGroups: IGroup[];
   speciesList: ISpecies[];
-}> = ({ currentGroup, childrenGroups, speciesList }) => {
+}
+const Explore: NextPage<IExploreProps> = (props) => {
   const router = useRouter();
   const region = router.query.region as string;
   const isFirstLevelGroup = router.query.groups?.length === 1;
 
-  const { observe, unobserve, inView } = useInView({
+  const { inView } = useInView({
     rootMargin: "40px 0px",
   });
 
@@ -35,62 +36,53 @@ const Explore: NextPage<{
   }
 
   return (
-    <Style className="bottom-navigation max-width-800">
-      {/* <Scrollbar> */}
-      <div className="header">
-        <div className="back-button" ref={observe}>
-          <Header showBackButton noBackground />
-        </div>
-        <div className="content">
-          <div className="title">{currentGroup?.title?.fr}</div>
-          <div className="region-info">{regionsDict[region].name.fr}</div>
-        </div>
-      </div>
-      <Header
-        title={currentGroup?.title?.fr}
-        showBackButton
-        fixed
-        className={`transition sm:hidden opacity-0 ${
-          !inView ? "opacity-100" : "opacity-0"
-        }`}
-      />
-
-      <div
-        className="sm:p-0 p-3"
-        style={{ maxWidth: "800px", margin: "auto" }}
-      >
-        {currentGroup?.show_species ? (
-          <div className="grid">
-            {speciesList &&
-              speciesList.map((s, index) => (
-                <div className="col-6 sm:col-3" key={s.id}>
-                  <SpeciesCard species={s} index={index} />
-                </div>
-              ))}
-          </div>
-        ) : (
-          <div className="grid">
-            {childrenGroups?.map((group: IGroup, index) =>
-              isFirstLevelGroup ? (
-                <div className="col-6 sm:col-4" key={group.id}>
-                  <div className="sm:p-2">
-                    <GroupCardGrid group={group} index={index} />
-                  </div>
-                </div>
-              ) : (
-                <div className="col-12 sm:col-3" key={group.id}>
-                  <div className="sm:p-2">
-                    <GroupListItem group={group} />
-                  </div>
-                </div>
-              )
-            )}
-          </div>
-        )}
-      </div>
+    <>
+      <ScrollHeader title={props.currentGroup?.title?.fr} />
       <BottomNavigation />
-      {/* </Scrollbar> */}
-    </Style>
+      <Style className="bottom-navigation max-width-800 global-padding">
+        {/* <Scrollbar> */}
+
+        <BackButton className="pt-2" />
+        <div className="header">
+          <div className="content">
+            <div className="title">{props.currentGroup?.title?.fr}</div>
+            <div className="region-info">{regionsDict[region].name.fr}</div>
+          </div>
+        </div>
+
+        <div className="sm:p-0" style={{ maxWidth: "800px", margin: "auto" }}>
+          {props.currentGroup?.show_species ? (
+            <div className="grid">
+              {props.speciesList &&
+                props.speciesList.map((s) => (
+                  <div className="col-6 sm:col-3" key={s.id}>
+                    <SpeciesCard species={s} />
+                  </div>
+                ))}
+            </div>
+          ) : (
+            <div className="grid">
+              {props.childrenGroups?.map((group: IGroup) =>
+                isFirstLevelGroup ? (
+                  <div className="col-6 sm:col-4" key={group.id}>
+                    <div className="sm:p-2">
+                      <GroupCardGrid group={group} />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="col-12 sm:col-3" key={group.id}>
+                    <div className="sm:p-2">
+                      <GroupListItem group={group} />
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          )}
+        </div>
+        {/* </Scrollbar> */}
+      </Style>
+    </>
   );
 };
 
@@ -165,12 +157,9 @@ export default Explore;
 const Style = styled.div`
   position: relative;
 
-  .transition {
-    transition: all 0.1s ease-in-out;
-  }
-
   .header {
     position: relative;
+    margin-bottom: 1rem;
 
     .content {
       text-align: center;

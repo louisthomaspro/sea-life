@@ -5,12 +5,12 @@ import { whileTapAnimationIconButton } from "../../constants/config";
 import { useRouter } from "next/router";
 import { useHistory } from "../../context/history.context";
 
-interface IBackButtonProps {
+interface IBackButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
 }
 export default function BackButton(props: IBackButtonProps) {
   const router = useRouter();
-  const { history, back } = useHistory();
+  // const { history, back } = useHistory();
 
   const backClick = () => {
     router.back();
@@ -22,7 +22,7 @@ export default function BackButton(props: IBackButtonProps) {
   };
 
   return (
-    <Style>
+    <Style {...props}>
       <m.button whileTap={whileTapAnimationIconButton} onClick={backClick}>
         <ArrowLeftSvg
           aria-label="Back"

@@ -130,10 +130,6 @@ const Style = styled.div`
       aspect-ratio: 2/1.6;
       border-radius: var(--border-radius);
       overflow: hidden;
-
-      img {
-        animation: append-animate 0.1s linear;
-      }
     }
 
     .content {

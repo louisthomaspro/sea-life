@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { debounce } from "lodash";
+import { debounce, delay } from "lodash";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Configure,
@@ -24,6 +24,7 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
   const [searchValue, setSearchValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [id, setId] = useState<string>("id");
+  const [showResults, setShowResults] = useState<boolean>(false);
 
   useEffect(() => {
     setId("id" + Math.random());
@@ -39,6 +40,10 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
       window.removeEventListener("keydown", handleEsc);
     };
   }, []);
+
+  useEffect(() => {
+    if (!openModal) setShowResults(false);
+  }, [openModal]);
 
   const clearInput = () => {
     setSearchValue("");
@@ -69,7 +74,7 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
   );
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       <Style {...props}>
         {openModal && (
           <div
@@ -93,6 +98,7 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
                 key={id}
                 transition={searchBoxTransition}
                 className="input-container sm:max-w-20rem"
+                onLayoutAnimationComplete={() => setShowResults(true)}
               >
                 <SearchSvg
                   aria-label="search-icon"
@@ -117,14 +123,16 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
                   </div>
                 )}
               </motion.div>
-              <InstantSearch indexName="species" searchClient={algolia}>
-                {/* <SearchBox /> */}
-                <Configure hitsPerPage={10} />
-                <SearchBoxWorkaround query={searchValue} />
-                <hr />
-                <LoadingIndicator />
-                <CustomInfiniteHits />
-              </InstantSearch>
+              {showResults && (
+                <InstantSearch indexName="species" searchClient={algolia}>
+                  {/* <SearchBox /> */}
+                  <Configure hitsPerPage={10} />
+                  <SearchBoxWorkaround query={searchValue} />
+                  <hr />
+                  <LoadingIndicator />
+                  <CustomInfiniteHits />
+                </InstantSearch>
+              )}
             </div>
           </div>
         )}

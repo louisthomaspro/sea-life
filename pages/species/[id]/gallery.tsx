@@ -20,13 +20,13 @@ const Gallery: NextPage<{
   const router = useRouter();
 
   return (
-    <Style>
+    <Style className="max-width-800">
       <Header
         title={capitalizeWords(species?.common_names?.fr[0])}
         showBackButton
       />
 
-      <div className="main-container">
+      <div>
         <Fancybox
           options={{
             Toolbar: {

@@ -123,7 +123,7 @@ const getSizes = (sizes: any) => {
 
 export default function SpeciesHighlight(props: { species: ISpecies }) {
   return (
-    <Style className="border-none">
+    <Style className="sm:border-none">
       <div className="grid grid-nogutter highlight-item-grid">
         {getSizes(props.species.sizes).map((el, index) => (
           <div className="col item" key={index}>

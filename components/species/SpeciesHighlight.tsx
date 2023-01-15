@@ -123,7 +123,7 @@ const getSizes = (sizes: any) => {
 
 export default function SpeciesHighlight(props: { species: ISpecies }) {
   return (
-    <Style>
+    <Style className="border-none">
       <div className="grid grid-nogutter highlight-item-grid">
         {getSizes(props.species.sizes).map((el, index) => (
           <div className="col item" key={index}>
@@ -164,10 +164,8 @@ export default function SpeciesHighlight(props: { species: ISpecies }) {
 
 // Style
 const Style = styled.div`
-  @media (max-width: 575px) {
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-  }
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 
   .highlight-item-grid {
     @media (min-width: 576px) {

@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { debounce, delay } from "lodash";
+import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Configure,
@@ -20,6 +21,7 @@ interface ICustomSearchBox extends React.HTMLAttributes<HTMLDivElement> {
   screen?: "web" | "mobile";
 }
 export default function CustomSearchBox(props: ICustomSearchBox) {
+  const router = useRouter();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -42,8 +44,23 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
   }, []);
 
   useEffect(() => {
-    if (!openModal) setShowResults(false);
+    if (!openModal) {
+      setShowResults(false);
+      setSearchValue("");
+    }
   }, [openModal]);
+
+  useEffect(() => {
+    const handleRouteComplete = () => {
+      setOpenModal(false);
+    };
+    router.events.on("routeChangeComplete", handleRouteComplete);
+    return () => {
+      router.events.off("routeChangeStart", handleRouteComplete);
+    };
+  }, []);
+
+  useEffect(() => {}, []);
 
   const clearInput = () => {
     setSearchValue("");

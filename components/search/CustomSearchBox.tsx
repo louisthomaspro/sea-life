@@ -98,7 +98,10 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
                 key={`${id}-layout`}
                 transition={searchBoxTransition}
                 className="input-container sm:max-w-20rem"
-                onLayoutAnimationComplete={() => setShowResults(true)}
+                onLayoutAnimationComplete={() => {
+                  setShowResults(true);
+                  inputRef.current?.focus();
+                }}
               >
                 <SearchSvg
                   aria-label="search-icon"
@@ -107,7 +110,6 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
                 />
                 <input
                   ref={inputRef}
-                  autoFocus={showResults}
                   aria-label="Search"
                   type="text"
                   placeholder="Rechercher une espèce"

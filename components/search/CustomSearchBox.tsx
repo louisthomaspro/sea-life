@@ -206,10 +206,6 @@ const Style = styled.div`
     &::placeholder {
       color: var(--text-color-2);
     }
-
-    &:focus::placeholder {
-      color: transparent;
-    }
   }
 
   .fake-input {

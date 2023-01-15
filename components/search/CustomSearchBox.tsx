@@ -94,8 +94,8 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
                 </div>
               </div>
               <motion.div
-                layoutId={id}
-                key={id}
+                layoutId={`${id}-layout`}
+                key={`${id}-layout`}
                 transition={searchBoxTransition}
                 className="input-container sm:max-w-20rem"
                 onLayoutAnimationComplete={() => setShowResults(true)}
@@ -107,7 +107,7 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
                 />
                 <input
                   ref={inputRef}
-                  autoFocus
+                  autoFocus={showResults}
                   aria-label="Search"
                   type="text"
                   placeholder="Rechercher une espèce"
@@ -123,23 +123,26 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
                   </div>
                 )}
               </motion.div>
-              {showResults && (
-                <InstantSearch indexName="species" searchClient={algolia}>
-                  {/* <SearchBox /> */}
-                  <Configure hitsPerPage={10} />
-                  <SearchBoxWorkaround query={searchValue} />
-                  <hr />
-                  <LoadingIndicator />
-                  <CustomInfiniteHits />
-                </InstantSearch>
-              )}
+
+              <InstantSearch indexName="species" searchClient={algolia}>
+                {showResults && (
+                  <>
+                    {/* <SearchBox /> */}
+                    <Configure hitsPerPage={10} />
+                    <SearchBoxWorkaround query={searchValue} />
+                    <hr />
+                    <LoadingIndicator />
+                    <CustomInfiniteHits />
+                  </>
+                )}
+              </InstantSearch>
             </div>
           </div>
         )}
 
         <motion.div
-          layoutId={id}
-          key={id}
+          layoutId={`${id}-layout`}
+          key={`${id}-layout`}
           className="input-container fake-input"
           transition={searchBoxTransition}
           onClick={() => setOpenModal(true)}

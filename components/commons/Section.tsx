@@ -10,7 +10,7 @@ export default function Section(props: ISectionProps) {
       <div className="section">
         <div className="divider-header">
           <h3 className="section-title divider-text">{props.title}</h3>
-          <div className="divider-line"></div>
+          <div className="divider-line sm:hidden"></div>
         </div>
         <div>{props.children}</div>
       </div>

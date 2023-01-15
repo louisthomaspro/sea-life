@@ -21,7 +21,7 @@ const Species: NextPage<{
       <ScrollHeader title={capitalizeWords(species.common_names?.fr[0])} />
       <Style className="max-width-800 sm:mt-4">
         <BackButton className="pt-2 sm:hidden global-padding absolute top-0 z-1" />
-        <div className="grid grid-nogutter">
+        <div className="grid grid-nogutter sm:mb-1">
           <div className="col-12 sm:col-6">
             <SpeciesSlider species={species} />
           </div>
@@ -34,14 +34,22 @@ const Species: NextPage<{
           </div>
         </div>
 
-        <div className="global-padding pt-0">
-          <Section title="ENVRIONNEMENT">
-            <SpeciesEnvironment species={species} />
-          </Section>
-          <Section title="MODE DE VIE ET COMPORTEMENT">
-            Prochainement...
-          </Section>
-          <Section title="MORPHOLOGIE">Prochainement...</Section>
+        <div className="global-padding">
+          <div className="grid web-divider sm:mb-5">
+            <div className="col-12 sm:col-4 sm:pr-3">
+              <Section title="ENVRIONNEMENT">
+                <SpeciesEnvironment species={species} />
+              </Section>
+            </div>
+            <div className="col-12 sm:col-4 sm:pr-3">
+              <Section title="MODE DE VIE ET COMPORTEMENT">
+                Prochainement...
+              </Section>
+            </div>
+            <div className="col-12 sm:col-4 sm:pr-3">
+              <Section title="MORPHOLOGIE">Prochainement...</Section>
+            </div>
+          </div>
           <Section title="TAXONOMIE">
             <SpeciesTaxonomy species={species} />
           </Section>
@@ -81,4 +89,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export default Species;
 
 // Style
-const Style = styled.div``;
+const Style = styled.div`
+  padding-bottom: 1rem;
+
+  @media (min-width: 576px) {
+    .web-divider > div:not(:last-child) > div {
+      border-right: 1px solid var(--border-color-light);
+    }
+  }
+`;

@@ -173,13 +173,6 @@ const Style = styled.div`
   .input-container {
     margin: auto;
     position: relative;
-
-    @media (min-width: 576px) {
-      /* transform-origin: unset !important;
-      transform: none !important;
-      opacity: 1 !important;
-      pointer-events: initial !important; */
-    }
   }
 
   .search-modal {

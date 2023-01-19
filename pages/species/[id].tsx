@@ -12,6 +12,7 @@ import SpeciesSlider from "../../components/species/SpeciesSlider";
 import SpeciesTitle from "../../components/species/SpeciesTitle";
 import SpeciesHighlight from "../../components/species/SpeciesHighlight";
 import SpeciesTaxonomy from "../../components/species/SpeciesTaxonomy";
+import SpeciesBehavior from "../../components/species/SpeciesBehavior";
 
 const Species: NextPage<{
   species: ISpecies;
@@ -43,7 +44,7 @@ const Species: NextPage<{
             </div>
             <div className="col-12 sm:col-4 sm:pr-3">
               <Section title="MODE DE VIE ET COMPORTEMENT">
-                Prochainement...
+                <SpeciesBehavior species={species} />
               </Section>
             </div>
             <div className="col-12 sm:col-4 sm:pr-3">

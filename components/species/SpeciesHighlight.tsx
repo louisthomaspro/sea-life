@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ISpecies, ISpeciesSizes } from "../../types/Species";
+import { ISpecies } from "../../types/Species";
 
 // svg
 import RulerHorizontalSvg from "../../public/icons/fontawesome/light/ruler-horizontal.svg";

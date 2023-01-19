@@ -7,13 +7,14 @@ import EarthAmericasSvg from "../../public/icons/fontawesome/light/earth-america
 import ShieldExclamationSvg from "../../public/icons/fontawesome/light/shield-exclamation.svg";
 import { conservation_status_dict } from "../../constants/conservation_status_dict";
 import { regionsDict } from "../../constants/regions";
-import { biotopes_dict } from "../../constants/biotopes_dict";
+import { habitats_dict } from "../../constants/habitats_dict";
 import Link from "next/link";
 
 export default function SpeciesEnvironment(props: { species: ISpecies }) {
   const conservation_status = props.species.conservation_status;
   const regions = props.species.regions;
-  const biotopes = props.species.biotopes;
+  const habitats_1 = props.species.habitats_1 ?? [];
+  const habitats_2 = props.species.habitats_2 ?? [];
 
   // format regions
   let formatted_regions_list = [];
@@ -24,19 +25,22 @@ export default function SpeciesEnvironment(props: { species: ISpecies }) {
   }
   const formatted_regions = formatted_regions_list.join(", ");
 
-  // format biotopes
-  let formatted_biotopes_list = [];
-  for (const i in biotopes) {
-    if (biotopes[i] in biotopes_dict) {
-      formatted_biotopes_list.push(biotopes_dict[biotopes[i]].title.fr);
-    }
-  }
-  const formatted_biotopes = formatted_biotopes_list.join(", ");
+  // format habitats_1
+  const formatted_habitats_1 = habitats_1
+    .filter((habitat) => habitat in habitats_dict)
+    .map((habitat) => habitats_dict[habitat].title.fr)
+    .join(", ");
+
+  // format habitats_2
+  const formatted_habitats_2 = habitats_2
+    .filter((habitat) => habitat in habitats_dict)
+    .map((habitat) => habitats_dict[habitat].title.fr)
+    .join(", ");
 
   return (
     <Style>
       <ul>
-        {formatted_biotopes && (
+        {(formatted_habitats_1 || formatted_habitats_2) && (
           <li className="item">
             <div className="svg-container">
               <HouseBlankSvg
@@ -45,7 +49,10 @@ export default function SpeciesEnvironment(props: { species: ISpecies }) {
                 style={{ width: "26px" }}
               />
             </div>
-            <div className="text">Récif, pleine mer</div>
+            <div className="text">
+              <div className="habitat-1">{formatted_habitats_1}</div>
+              <div className="habitat-2">{formatted_habitats_2}</div>
+            </div>
           </li>
         )}
 
@@ -101,6 +108,13 @@ const Style = styled.div`
     .text {
       font-weight: 600;
       font-size: 14px;
+      padding-right: 8px;
+
+      .habitat-1 {
+      }
+      .habitat-2 {
+        font-weight: 400;
+      }
     }
 
     .svg-container {

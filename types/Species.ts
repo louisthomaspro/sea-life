@@ -6,7 +6,8 @@ export interface ISpecies {
   external_ids?: {
     inaturalist?: string;
     iucn?: string;
-  }
+    fishbase?: string;
+  };
 
   scientific_name: string;
   common_names: {
@@ -24,7 +25,9 @@ export interface ISpecies {
   sizes?: ISpeciesSizes;
 
   regions?: string[]; // "mediterranean"
-  biotopes?: string[]; // "open_sea", "reef" https://www.observatoire-marin.com/med_biotopes.htm
+  habitats_1?: string[]; // "open_sea", "reef", "seagrass_algae"...
+  habitats_2?: string[]; // "cavity_crevices", "corals", "hidden", "surface"...
+  sociability?: string;
   conservation_status?: string; // IUCN Red List authority (https://www.iucnredlist.org/) "DD", "LC", "NT", "VU", "EN", "CR", "EW", "EX", "NE"
 
   // body_shape?: string;
@@ -35,17 +38,25 @@ export interface ISpecies {
 }
 
 export interface ISpeciesSizes {
-  max_length?: number;
+  // fishes
+  // icon: ruler_h
   common_length?: number;
-  alga_length?: number;
-  leaf_diameter?: number;
-  alga_height?: number;
+  max_length?: number;
+
+  // sea urchins (without spines), starfishes
+  // icon: diameter
   common_diameter?: number;
+  max_diameter?: number;
+
   common_colony_size?: number;
-  max_colony_size? : number;
+  max_colony_size?: number;
   common_polyp_diameter?: number;
   max_polyp_diameter?: number;
   common_plume_diameter?: number;
+
+  // alga_length?: number;
+  // leaf_diameter?: number;
+  // alga_height?: number;
 }
 
 export interface ISpeciesPhoto {

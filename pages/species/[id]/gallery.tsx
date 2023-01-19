@@ -17,8 +17,6 @@ import { capitalizeWords } from "../../../utils/helper";
 const Gallery: NextPage<{
   species: ISpecies;
 }> = ({ species }) => {
-  const router = useRouter();
-
   return (
     <Style className="max-width-800">
       <Header

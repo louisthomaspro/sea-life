@@ -70,7 +70,7 @@ npx firebase emulators:export ./firebase_export
 ### Synchronize Algolia data
 
 > **Prerequisites** <br>
-> Download service account key file: https://console.firebase.google.com/u/0/project/sea-guide/settings/serviceaccounts/adminsdk <br>
+> Download service account key file: https://console.firebase.google.com/u/0/project/sea-life-app/settings/serviceaccounts/adminsdk <br>
 > Upload the file to the root of the project and rename it to `sea-life-app-firebase-adminsdk.json`
 
 ```bash

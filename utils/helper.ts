@@ -30,7 +30,7 @@ export const firebaseStorageLoader = ({
   quality,
 }: ImageLoaderProps) => {
   const url =
-    "https://firebasestorage.googleapis.com/v0/b/sea-guide.appspot.com/o/";
+    "https://firebasestorage.googleapis.com/v0/b/sea-life-app.appspot.com/o/";
   const fullPath = `${url}${encodeURIComponent(src)}`;
   const prefix = ".webp?alt=media";
   return `${fullPath}_${width}x${width}${prefix}`;

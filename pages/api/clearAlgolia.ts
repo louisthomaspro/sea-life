@@ -5,7 +5,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  await algoliaAdmin.initIndex("sea-guide").clearObjects();
+  await algoliaAdmin.initIndex("sea-life").clearObjects();
   res.status(200).json({ message: "Algolia cleared" });
 }
 

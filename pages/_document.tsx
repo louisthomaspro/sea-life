@@ -51,7 +51,6 @@ export default class MyDocument extends Document {
           />
 
           {/* <link href={nunito} rel="stylesheet" /> */}
-          <link rel="preconnect" href="https://sea-guide.firebaseapp.com" />
         </Head>
         <body>
           <Main />

@@ -4,8 +4,8 @@
   "display": "standalone",
   "orientation": "portrait",
   "start_url": "/",
-  "name": "Sea Guide",
-  "short_name": "Sea Guide",
+  "name": "Sea Life",
+  "short_name": "Sea Life",
   "icons": [
     {
       "src": "/icon-192x192.png",

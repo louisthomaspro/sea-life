@@ -3,7 +3,7 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "app.vercel.sea_life",
+      "package_name": "app.vercel.sea_life.twa",
       "sha256_cert_fingerprints":
         ["9E:55:11:49:77:11:26:31:C5:8F:A4:CF:94:AF:7F:B7:F0:DC:27:9E:DA:A5:11:D6:B4:EC:CB:CC:2C:D5:2F:4C"]
     }

@@ -19,6 +19,17 @@
 /android
 /ios
 
+# bubblewrap
+/app
+/gradle
+/app-release-*.*
+/build.gradle
+/gradle*
+/manifest-checksum.txt
+/settings.gradle
+/store_icon.png
+.gradle
+
 # misc
 .DS_Store
 *.pem

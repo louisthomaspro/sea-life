@@ -24,17 +24,20 @@ export interface ISpecies {
   depth_max?: number;
   sizes?: ISpeciesSizes;
 
+  conservation_status?: string; // IUCN Red List authority (https://www.iucnredlist.org/) "DD", "LC", "NT", "VU", "EN", "CR", "EW", "EX", "NE"
   regions?: string[]; // "mediterranean"
   habitats_1?: string[]; // "open_sea", "reef", "seagrass_algae"...
   habitats_2?: string[]; // "cavity_crevices", "corals", "hidden", "surface"...
-  sociability?: string;
-  conservation_status?: string; // IUCN Red List authority (https://www.iucnredlist.org/) "DD", "LC", "NT", "VU", "EN", "CR", "EW", "EX", "NE"
+  sociability?: string; // "solitary", "couple", "group", "shoal"
+  behavior?: string; // "aggressive"
+  diet?: string; // "carnivore", "herbivore", "omnivore"
+  feeding_type?: string[]; // "filter_feeder", "parasite", 
+  
 
   // body_shape?: string;
   // longevity?: string;
   // diameter?: number;
   // dangerous?: string; // "harmless"...
-  // diet: string // or tropic_level: number
 }
 
 export interface ISpeciesSizes {

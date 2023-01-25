@@ -34,13 +34,14 @@ export default function SpeciesTaxonomy(props: { species: ISpecies }) {
     const taxa = taxonomy[0];
     taxonomy.shift();
     return (
-      <ul>
+      <Taxa>
         <li>
           <div className="name">
             {taxa.common_name.fr
               ? capitalizeFirstLetter(taxa.common_name.fr)
               : capitalizeFirstLetter(taxa.scientific_name)}
           </div>
+          {/* Rank */}
           <div className="rank">
             {taxa.rank in taxonomyRankDict
               ? taxonomyRankDict[taxa.rank].fr
@@ -48,7 +49,7 @@ export default function SpeciesTaxonomy(props: { species: ISpecies }) {
           </div>
         </li>
         <li>{taxonomyTemplate(taxonomy)}</li>
-      </ul>
+      </Taxa>
     );
   };
 
@@ -56,40 +57,41 @@ export default function SpeciesTaxonomy(props: { species: ISpecies }) {
 }
 
 // Style
-const Style = styled.div`
-  ul {
-    list-style: none;
-    margin-left: 14px;
+const Style = styled.div``;
 
-    li {
-      margin-top: 4px;
-      display: flex;
-      flex-direction: column;
-      position: relative;
+const Taxa = styled.ul`
+  list-style: none;
+  margin-left: 14px;
 
-      .name {
-        font-size: 16px;
-        /* font-weight: 500; */
-      }
+  > li {
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 
-      .rank {
-        font-style: italic;
-        font-size: 14px;
-      }
+    > .name {
+      font-size: 16px;
+      /* font-weight: 500; */
+    }
 
-      &:first-child:before {
-        content: "";
-        top: 7px;
-        position: absolute;
-        color: #ee3c06;
-        background: red;
-        width: 8px;
-        height: 8px;
-        border-radius: 10px;
-        display: inline-block;
-        margin-left: -1em;
-        margin-right: 12px;
-      }
+    // Rank
+    > .rank {
+      font-style: italic;
+      font-size: 14px;
+    }
+
+    &:first-child:before {
+      content: "";
+      top: 7px;
+      position: absolute;
+      color: #ee3c06;
+      background: red;
+      width: 8px;
+      height: 8px;
+      border-radius: 10px;
+      display: inline-block;
+      margin-left: -1em;
+      margin-right: 12px;
     }
   }
 `;

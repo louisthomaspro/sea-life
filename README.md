@@ -17,6 +17,7 @@ yarn dev
 Navigate to [http://localhost:3000](http://localhost:3000)
 
 ---
+
 <br>
 
 ## Firebase
@@ -25,6 +26,7 @@ Firebase is used for authentication and database and functions.
 We can use the emulator to test locally.
 
 ### Installation
+
 ```bash
 npm install -g firebase-tools
 npx firebase login
@@ -55,6 +57,9 @@ npx firebase deploy --only functions:group-updateCountOnGroupCreate # single fun
 
 # Start emulator with existing local data
 npx firebase emulators:start --import ./firebase_export/
+
+# Start emulator without cloud function and UI to make it work in offline
+npx firebase emulators:start --only firestore --import ./firebase_export/
 
 # Save the current local data to be able to restore it later
 npx firebase emulators:export ./firebase_export
@@ -92,6 +97,26 @@ https://console.firebase.google.com/project/sea-life-app/extensions/instances/fi
 
 ```bash
 yarn analyze
+```
+
+## Build for Android or IOS
+
+```bash
+# Build
+yarn build-mobile
+
+# Run on Android
+# export CAPACITOR_ANDROID_STUDIO_PATH='/mnt/c/Program Files/Android/Android Studio/bin/studio64.exe'
+# export CAPACITOR_ANDROID_STUDIO_PATH='/usr/local/android-studio/bin/studio.sh'
+# sudo rm -rf /mnt/c/Users/louis/OneDrive/Documents/git/sea-life/out
+# sudo cp -R ./out /mnt/c/Users/louis/OneDrive/Documents/git/sea-life/out
+# sudo cp ./capacitor.config.ts /mnt/c/Users/louis/OneDrive/Documents/git/sea-life/capacitor.config.ts
+# sudo cp ./package.json /mnt/c/Users/louis/OneDrive/Documents/git/sea-life/package.json
+# npx cap sync
+# npx cap open android
+
+sudo rm -rf /mnt/c/Users/louis/OneDrive/Documents/git/sea-life/android
+sudo cp -R ./android /mnt/c/Users/louis/OneDrive/Documents/git/sea-life/android
 ```
 
 ## Features

@@ -22,6 +22,11 @@ export const getGroup = (id: string) => {
   return document.then((doc) => doc.data()) as Promise<IGroup>;
 };
 
+export const getAllGroup = () => {
+  const documents = getDocs(collection(firestore, collectionName));
+  return documents.then((doc) => doc.docs.map((doc) => doc.data())) as Promise<IGroup[]>;
+};
+
 export const getGroupByScientificNameList = (scientificNameList: string[]) => {
   const q = query(
     collection(firestore, collectionName),

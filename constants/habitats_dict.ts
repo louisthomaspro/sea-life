@@ -50,7 +50,7 @@ export const habitats_dict: {
   },
   seagrass_algae: {
     title: {
-      fr: "Herbiers marins et algues",
+      fr: "Herbiers",
       en: "Seagrass and Algae",
     },
     description: {

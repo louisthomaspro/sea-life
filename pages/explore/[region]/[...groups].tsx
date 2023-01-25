@@ -7,15 +7,35 @@ import BackButton from "../../../components/commons/BackButton";
 import GroupCardGrid from "../../../components/explore/GroupCardGrid";
 import GroupListItem from "../../../components/explore/GroupListItem";
 import SpeciesCard from "../../../components/explore/SpeciesCard";
-import { regionsDict } from "../../../constants/regions";
+import { regionsDict, regionsList } from "../../../constants/regions";
 import { IGroup } from "../../../types/Group";
 import { ISpecies } from "../../../types/Species";
 import {
+  getAllGroup,
   getChildrenGroups,
   getGroup,
 } from "../../../utils/firestore/group.firestore";
 import { getAllSpeciesByGroupList } from "../../../utils/firestore/species.firestore";
 import ScrollHeader from "../../../components/commons/ScrollHeader";
+import { useEffect } from "react";
+
+function getPaths(list: any, currentItem: any, currentPath: any, result: any) {
+  currentPath.push(currentItem);
+  if (!currentItem.parent_id) {
+    result.push(currentPath);
+    return;
+  }
+  let parentItem = list.find((item: any) => item.id === currentItem.parent_id);
+  getPaths(list, parentItem, currentPath.slice(), result);
+}
+
+function allPaths(list: any) {
+  let result: any = [];
+  list.forEach((item: any) => {
+    getPaths(list, item, [], result);
+  });
+  return result;
+}
 
 interface IExploreProps {
   currentGroup: IGroup;
@@ -139,14 +159,29 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // const speciesList = await getAllSpecies();
-  // const paths = speciesList.map((species) => ({
-  //   params: { id: species.id },
-  // }));
+  const groupPaths = await getAllGroup().then((groups) => {
+    let allPathsResult = allPaths(groups);
+    return allPathsResult.map((path: any) => {
+      return path.map((item: any) => item.id).reverse();
+    });
+  });
+
+  const regionPaths = regionsList.map((region) => region.id);
+
+  let paths = [];
+  for (let regionPath of regionPaths) {
+    for (let groupPath of groupPaths) {
+      paths.push({
+        params: {
+          region: regionPath,
+          groups: groupPath,
+        },
+      });
+    }
+  }
 
   return {
-    // paths: process.env.SKIP_BUILD_STATIC_GENERATION ? [] : paths,
-    paths: [],
+    paths: process.env.SKIP_BUILD_STATIC_GENERATION === "true" ? paths : [],
     fallback: "blocking",
   };
 };

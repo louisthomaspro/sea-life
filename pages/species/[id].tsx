@@ -1,7 +1,9 @@
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import styled from "styled-components";
-import { useInView } from "react-cool-inview";
-import { getSpecies } from "../../utils/firestore/species.firestore";
+import {
+  getAllSpecies,
+  getSpecies,
+} from "../../utils/firestore/species.firestore";
 import { ISpecies } from "../../types/Species";
 import { capitalizeWords } from "../../utils/helper";
 import BackButton from "../../components/commons/BackButton";
@@ -75,14 +77,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // const speciesList = await getAllSpecies();
-  // const paths = speciesList.map((species) => ({
-  //   params: { id: species.id },
-  // }));
+  const speciesPaths = await getAllSpecies().then((species) => {
+    return species.map((s) => {
+      return {
+        params: {
+          id: s.id,
+        },
+      };
+    });
+  });
 
   return {
-    // paths: process.env.SKIP_BUILD_STATIC_GENERATION ? [] : paths,
-    paths: [],
+    paths:
+      process.env.SKIP_BUILD_STATIC_GENERATION === "true" ? speciesPaths : [],
     fallback: "blocking",
   };
 };

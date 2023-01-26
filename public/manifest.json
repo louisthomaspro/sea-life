@@ -6,6 +6,42 @@
   "start_url": "/",
   "name": "Sea Life",
   "short_name": "Sea Life",
+  "description": "Explorez les profondeurs de l'océan et découvrez la diversité de la vie marine.",
+  "dir": "ltr",
+  "lang": "fr",
+  "categories": ["education"],
+  "screenshots": [
+    {
+      "src": "/screenshot/1.jpg",
+      "sizes": "1080x2280",
+      "type": "image/jpg"
+    },
+    {
+      "src": "/screenshot/2.jpg",
+      "sizes": "1080x2280",
+      "type": "image/jpg"
+    },
+    {
+      "src": "/screenshot/3.jpg",
+      "sizes": "1080x2280",
+      "type": "image/jpg"
+    },
+    {
+      "src": "/screenshot/4.jpg",
+      "sizes": "1080x2280",
+      "type": "image/jpg"
+    },
+    {
+      "src": "/screenshot/5.jpg",
+      "sizes": "1080x2280",
+      "type": "image/jpg"
+    },
+    {
+      "src": "/screenshot/6.jpg",
+      "sizes": "1080x2280",
+      "type": "image/jpg"
+    }
+  ],
   "icons": [
     {
       "src": "/icon-192x192.png",

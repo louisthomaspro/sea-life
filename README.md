@@ -1,5 +1,16 @@
 # Vie Marine
 
+## Description
+
+PWA built with Next.js, React, Firestore and Algolia. The app allows users to explore marine life and its features include species profiles, search filters and categories.
+
+<div>
+<img src="public/screenshots/2.jpg" width="200"/>
+<img src="public/screenshots/1.jpg" width="200"/>
+<img src="public/screenshots/3.jpg" width="200"/>
+<img src="public/screenshots/4.jpg" width="200"/>
+</div>
+
 ## Getting Started
 
 > **Prerequisites** <br>

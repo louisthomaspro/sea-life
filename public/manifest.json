@@ -4,6 +4,7 @@
   "display": "standalone",
   "orientation": "portrait",
   "start_url": "/",
+  "scope": "/",
   "name": "Sea Life",
   "short_name": "Sea Life",
   "description": "Explorez les profondeurs de l'océan et découvrez la diversité de la vie marine.",
@@ -16,8 +17,8 @@
       "url": "/explore",
       "icons": [
         {
-          "src": "/icon-192x192.png",
-          "sizes": "192x192",
+          "src": "/icon-96x96.png",
+          "sizes": "96x96",
           "type": "image/png"
         }
       ]
@@ -89,7 +90,6 @@
       "purpose": "any"
     }
   ],
-  "prefer_related_applications": false,
   "related_applications": [
     {
       "platform": "play",
@@ -97,5 +97,5 @@
       "id": "app.vercel.sea_life.twa"
     }
   ],
-  "scope": "/"
+  "prefer_related_applications": false
 }

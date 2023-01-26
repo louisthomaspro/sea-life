@@ -89,7 +89,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths:
-      process.env.SKIP_BUILD_STATIC_GENERATION === "true" ? speciesPaths : [],
+      process.env.SKIP_BUILD_STATIC_GENERATION === "true" ? [] : speciesPaths,
     fallback: "blocking",
   };
 };

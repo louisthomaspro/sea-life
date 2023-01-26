@@ -14,10 +14,6 @@
   "startUrl": "/",
   "iconUrl": "https://sea-life.vercel.app/icon-512x512.png",
   "splashScreenFadeOutDuration": 300,
-  "signingKey": {
-    "path": "/home/louis/git/sea-life/android.keystore",
-    "alias": "android"
-  },
   "appVersionName": "1",
   "appVersionCode": 1,
   "shortcuts": [],

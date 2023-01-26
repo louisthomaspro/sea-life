@@ -28,6 +28,7 @@
 /manifest-checksum.txt
 /settings.gradle
 /store_icon.png
+/android.keystore
 .gradle
 
 # misc

@@ -79,6 +79,7 @@ export const Explore: NextPage<{
                   unoptimized={
                     process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
                   }
+                  priority
                   src={PosidoniaImage}
                   alt="Posidonia"
                   style={{ objectFit: "contain", maxHeight: "120px" }}

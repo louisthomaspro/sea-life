@@ -9,7 +9,8 @@
     "lint": "next lint",
     "analyze": "cross-env ANALYZE=true next build",
     "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
-    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
+    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build",
+    "build-mobile": "next build && next export && cap sync"
   },
   "dependencies": {
     "@fancyapps/ui": "^4.0.31",

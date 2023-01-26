@@ -99,25 +99,52 @@ https://console.firebase.google.com/project/sea-life-app/extensions/instances/fi
 yarn analyze
 ```
 
-## Build for Android or IOS
+## Build and publish for Google Play Store
+
+### 1. Build using Bubblewrap (recommended)
+
+```bash
+# Install bubblewrap
+npm install -g @bubblewrap/cli
+
+mkdir sea-life-android
+cd sea-life-android
+bubblewrap init --manifest=https://sea-life.vercel.app/manifest.json
+bubblewrap build
+```
+
+### Other ways to build:
+
+**Using [pwabuilder.com](https://pwabuilder.com)**
+
+- Enter the URL of the PWA (https://sea-life.vercel.app/)
+- Click on "Package For Stores" and "Android"
+
+**Using capacitor (only static pages)**
 
 ```bash
 # Build
 yarn build-mobile
 
-# Run on Android
-# export CAPACITOR_ANDROID_STUDIO_PATH='/mnt/c/Program Files/Android/Android Studio/bin/studio64.exe'
-# export CAPACITOR_ANDROID_STUDIO_PATH='/usr/local/android-studio/bin/studio.sh'
-# sudo rm -rf /mnt/c/Users/louis/OneDrive/Documents/git/sea-life/out
-# sudo cp -R ./out /mnt/c/Users/louis/OneDrive/Documents/git/sea-life/out
-# sudo cp ./capacitor.config.ts /mnt/c/Users/louis/OneDrive/Documents/git/sea-life/capacitor.config.ts
-# sudo cp ./package.json /mnt/c/Users/louis/OneDrive/Documents/git/sea-life/package.json
-# npx cap sync
-# npx cap open android
-
+# If you are on WSL2, you need to copy the build folder to your windows partition and open the folder with Android Studio
 sudo rm -rf /mnt/c/Users/louis/OneDrive/Documents/git/sea-life/android
 sudo cp -R ./android /mnt/c/Users/louis/OneDrive/Documents/git/sea-life/android
+
+# If you are on windows, just execute the following command
+npx cap sync
+npx cap open android
 ```
+
+### 2. Publish on Google Play Store
+
+- Go to https://play.google.com/console/developers
+- Select sea-life
+- Go to "Release" > "Production" > "Create new release"
+- Upload aab file and fill the form
+
+<br>
+
+# Other
 
 ## Features
 

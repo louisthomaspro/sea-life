@@ -39,7 +39,7 @@ export default class MyDocument extends Document {
           <meta name="theme-color" content="#ffffff" />
           <meta name="referrer" content={"strict-origin"} />
 
-          <link rel="manifest" href="/twa-manifest.json" />
+          <link rel="manifest" href="/manifest.json" />
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
           <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
           <link rel="apple-touch-icon" href="/favicon-512x512.png" />

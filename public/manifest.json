@@ -97,5 +97,5 @@
       "id": "app.vercel.sea_life.twa"
     }
   ],
-  "scope": "https://sea-life.vercel.app/"
+  "scope": "/"
 }

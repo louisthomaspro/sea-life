@@ -1,6 +1,6 @@
 const Fallback = () => (
   <>
-    <h1>You are offline</h1>
+    <h1>Vous êtes hors ligne</h1>
   </>
 );
 

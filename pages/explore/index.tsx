@@ -14,6 +14,7 @@ import { IGroup } from "../../types/Group";
 import dynamic from "next/dynamic";
 import BottomNavigation from "../../components/commons/BottomNavigation";
 import NewspaperSvg from "../../public/icons/fontawesome/light/newspaper.svg";
+import Head from "next/head";
 
 const DynamicCustomSearchBox = dynamic(
   () => import("../../components/search/CustomSearchBox")

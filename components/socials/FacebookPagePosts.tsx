@@ -38,7 +38,7 @@ const FacebookPagePosts = () => {
         </div>
       </div>
     );
-  if (error) return <div>No post available</div>;
+  if (error) return <div>Posts indisponibles</div>;
 
   return (
     <Style>

@@ -1,5 +1,5 @@
 export interface IUser {
   email: string;
-  favorites: string[];
-  isAdmin: boolean;
+  admin?: boolean;
+  // favorites: string[];
 }

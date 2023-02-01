@@ -28,13 +28,16 @@ export function AuthContextProvider({ children }: any) {
         if (!userData) {
           const newUserData: IUser = {
             email: userSession.email,
-            favorites: [],
-            isAdmin: false,
           };
+
+          // Create user in firestore
           await createUser(newUserData, userSession.email);
+
+          // Set context data
           await setUserData(newUserData);
         } else {
-          await setUserData(userData);
+          const token = await userSession.getIdTokenResult();
+          await setUserData({ ...userData, admin: token.claims.admin });
         }
         setUserSession(userSession);
       } else {

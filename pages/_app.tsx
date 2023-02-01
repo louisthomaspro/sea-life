@@ -19,6 +19,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
       <style jsx global>{`
         :root {
           font-family: ${nunito.style.fontFamily};
+          --font-family: ${nunito.style.fontFamily};
         }
       `}</style>
       <Head>
@@ -30,7 +31,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
       </Head>
       <div className={nunito.className}>
         <RegionContextProvider>
-          {/* <AuthContextProvider> */}
+          <AuthContextProvider>
             <HistoryContextProvider>
               {/* <ToastContainer
                 position={toast.POSITION.BOTTOM_CENTER}
@@ -42,7 +43,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
                 {/* <Analytics /> */}
               </Layout>
             </HistoryContextProvider>
-          {/* </AuthContextProvider> */}
+          </AuthContextProvider>
         </RegionContextProvider>
       </div>
     </>

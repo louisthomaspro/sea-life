@@ -5,6 +5,8 @@ import dynamic from "next/dynamic";
 
 import UserSvg from "../../public/icons/fontawesome/light/user.svg";
 import GlobeSvg from "../../public/icons/fontawesome/light/globe.svg";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const DynamicCustomSearchBox = dynamic(
   () => import("../../components/search/CustomSearchBox")
@@ -12,6 +14,16 @@ const DynamicCustomSearchBox = dynamic(
 
 interface IHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
 export default function WebHeader(props: IHeaderProps) {
+  const router = useRouter();
+  const [activeMenu, setActiveMenu] = useState<string>();
+
+  useEffect(() => {
+    const slug = router.asPath.split("/")[1];
+    if (["explore", "search", "profile"].includes(slug)) {
+      setActiveMenu(slug);
+    }
+  }, [router.asPath]);
+
   return (
     <Style {...props}>
       <div className="web-header-container max-width-800">
@@ -26,8 +38,11 @@ export default function WebHeader(props: IHeaderProps) {
             />
           </Link>
           <ul className="nav-links">
-            <li>
-              <Link href="/explore">Explore</Link>
+            <li className={activeMenu === "explore" ? "active" : null}>
+              <Link href="/explore">Accueil</Link>
+            </li>
+            <li className={activeMenu === "profile" ? "active" : null}>
+              <Link href="/profile">Compte</Link>
             </li>
           </ul>
         </div>
@@ -72,9 +87,17 @@ const Style = styled.header<IHeaderProps>`
     }
   }
 
-  .nav-links li {
-    text-decoration: underline;
-    font-weight: 600;
+  .nav-links {
+    display: flex;
+    gap: 16px;
+
+    li {
+      font-weight: 600;
+
+      &.active {
+        text-decoration: underline;
+      }
+    }
   }
 
   .profile-button {

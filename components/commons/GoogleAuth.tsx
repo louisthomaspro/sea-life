@@ -22,7 +22,11 @@ export function GoogleSignIn() {
 }
 
 export function GoogleSignOut() {
-  return <Button onClick={logOut}>Se déconnecter</Button>;
+  return (
+    <Button outline onClick={logOut}>
+      Se déconnecter
+    </Button>
+  );
 }
 
 // Style

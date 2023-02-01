@@ -15,18 +15,19 @@
 
 :root {
   font-size: 16px;
-  --primary-color: #ee3c06;
+  --primary-color: #2c5776;
   --text-color-1: #3c3c3c;
   --text-color-2: #595959;
   --bg-grey: #f8f8f8;
   --border-color: #c9c9c9;
   --border-color-light: #e8e8e8;
   --border-radius: 10px;
-  --global-padding: 1rem;
+  --global-padding: 1.2rem;
   --green: #638b59;
-  --blue: #427396;
+  --blue: #2c5776;
   --red: #ce2020;
   --grey: #c9c9c9;
+  --bottom-navigation-height: 60px;
 
   --button-primary-color: #3386cd;
 
@@ -75,12 +76,20 @@ svg.svg-icon {
 }
 
 .bottom-navigation {
-  padding-bottom: 60px;
+  padding-bottom: var(--bottom-navigation-height);
 }
 
 .dropdown-region-panel {
+  margin-top: 6px;
+
   .p-dropdown-item {
-    padding: 1rem 1rem !important;
+    padding: 0.8rem 1rem !important;
+  }
+  .p-dropdown-item {
+    text-align: center;
+  }
+  .p-dropdown-items-wrapper {
+    max-height: 300px !important;
   }
 }
 

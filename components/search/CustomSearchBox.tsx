@@ -207,7 +207,7 @@ const Style = styled.div`
     width: 100%;
     padding: 12px 50px;
     background: var(--bg-grey);
-    border-radius: var(--border-radius);
+    border-radius: 100px;
 
     &[placeholder] {
       text-overflow: ellipsis;

@@ -33,10 +33,25 @@ export default function RegionDropdown(props: IRegionDropdown) {
 const Style = styled.div`
   .dropdown-region {
     width: 100%;
-    height: 50px;
+    height: 42px;
     align-items: center;
-    border-radius: 100px;
     padding: 0 12px;
+    justify-content: center;
+    border: none;
+    background-color: #ebf1f7;
+
+    .p-dropdown-label, .p-dropdown-trigger {
+      font-weight: 600;
+      color: var(--primary-color);
+      font-family: var(--font-family);
+    }
+
+    .p-dropdown-label {
+      flex: none;
+      width: auto;
+    }
+
+    box-shadow: none !important;
   }
 
   /* .dropdown-region-panel is style in global.css */

@@ -29,7 +29,7 @@
     "keen-slider": "^6.7.0",
     "lodash": "^4.17.21",
     "next": "^13.1.1",
-    "next-pwa": "5.5.4",
+    "next-pwa": "^5.6.0",
     "nprogress": "^0.2.0",
     "plaiceholder": "^2.5.0",
     "primeflex": "^3.2.1",

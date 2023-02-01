@@ -1,7 +1,15 @@
-const withPWA = require("next-pwa");
 const { withPlaiceholder } = require("@plaiceholder/next");
 const withBundleAnalyzer = require("@next/bundle-analyzer");
 const runtimeCaching = require("next-pwa/cache");
+
+const withPWA = require("next-pwa")({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  runtimeCaching,
+  // buildExcludes: [/middleware-manifest.json$/],
+  disable: process.env.NODE_ENV === "development",
+});
 
 /** @type {import('next').NextConfig} */
 let nextConfig = {
@@ -36,14 +44,6 @@ let nextConfig = {
   // },
   swcMinify: true,
   reactStrictMode: true,
-  pwa: {
-    dest: "public",
-    register: true,
-    skipWaiting: true,
-    runtimeCaching,
-    // buildExcludes: [/middleware-manifest.json$/],
-    disable: process.env.NODE_ENV === "development",
-  },
   images: {
     minimumCacheTTL: 31536000,
     domains: [

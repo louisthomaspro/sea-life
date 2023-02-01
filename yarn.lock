@@ -4850,9 +4850,9 @@
   "version" "1.0.1"
 
 "json5@^1.0.1":
-  "integrity" "sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow=="
-  "resolved" "https://registry.npmjs.org/json5/-/json5-1.0.1.tgz"
-  "version" "1.0.1"
+  "integrity" "sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA=="
+  "resolved" "https://registry.npmjs.org/json5/-/json5-1.0.2.tgz"
+  "version" "1.0.2"
   dependencies:
     "minimist" "^1.2.0"
 
@@ -5251,17 +5251,17 @@
   "resolved" "https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz"
   "version" "2.6.2"
 
-"next-pwa@5.5.4":
-  "integrity" "sha512-EgB2MQWGR8oZDzY6US+/D0LOCUhPZYCgeqRVBYDxQWNi0N6XfQOoZPw2COIrg/eMt/rB0M+/mquhAQACs5v4Ag=="
-  "resolved" "https://registry.npmjs.org/next-pwa/-/next-pwa-5.5.4.tgz"
-  "version" "5.5.4"
+"next-pwa@^5.6.0":
+  "integrity" "sha512-XV8g8C6B7UmViXU8askMEYhWwQ4qc/XqJGnexbLV68hzKaGHZDMtHsm2TNxFcbR7+ypVuth/wwpiIlMwpRJJ5A=="
+  "resolved" "https://registry.npmjs.org/next-pwa/-/next-pwa-5.6.0.tgz"
+  "version" "5.6.0"
   dependencies:
     "babel-loader" "^8.2.5"
     "clean-webpack-plugin" "^4.0.0"
     "globby" "^11.0.4"
     "terser-webpack-plugin" "^5.3.3"
-    "workbox-webpack-plugin" "^6.5.3"
-    "workbox-window" "^6.5.3"
+    "workbox-webpack-plugin" "^6.5.4"
+    "workbox-window" "^6.5.4"
 
 "next@^13.1.1", "next@>= 10.0.0", "next@>=9.0.0":
   "integrity" "sha512-R5eBAaIa3X7LJeYvv1bMdGnAVF4fVToEjim7MkflceFPuANY3YyvFxXee/A+acrSYwYPvOvf7f6v/BM/48ea5w=="
@@ -7300,7 +7300,7 @@
   "resolved" "https://registry.npmjs.org/workbox-sw/-/workbox-sw-6.5.4.tgz"
   "version" "6.5.4"
 
-"workbox-webpack-plugin@^6.5.3":
+"workbox-webpack-plugin@^6.5.4":
   "integrity" "sha512-LmWm/zoaahe0EGmMTrSLUi+BjyR3cdGEfU3fS6PN1zKFYbqAKuQ+Oy/27e4VSXsyIwAw8+QDfk1XHNGtZu9nQg=="
   "resolved" "https://registry.npmjs.org/workbox-webpack-plugin/-/workbox-webpack-plugin-6.5.4.tgz"
   "version" "6.5.4"
@@ -7311,7 +7311,7 @@
     "webpack-sources" "^1.4.3"
     "workbox-build" "6.5.4"
 
-"workbox-window@^6.5.3", "workbox-window@6.5.4":
+"workbox-window@^6.5.4", "workbox-window@6.5.4":
   "integrity" "sha512-HnLZJDwYBE+hpG25AQBO8RUWBJRaCsI9ksQJEp3aCOFCaG5kqaToAYXFRAHxzRluM2cQbGzdQF5rjKPWPA1fug=="
   "resolved" "https://registry.npmjs.org/workbox-window/-/workbox-window-6.5.4.tgz"
   "version" "6.5.4"

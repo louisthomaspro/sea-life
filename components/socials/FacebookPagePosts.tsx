@@ -1,25 +1,44 @@
 import Script from "next/script";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import useSWR from "swr";
+import { Skeleton } from "primereact/skeleton";
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const FacebookPagePosts = () => {
-  const [posts, setPosts] = useState([]);
+  const { data, error, isLoading } = useSWR("/api/getFacebookPosts", fetcher);
 
   useEffect(() => {
-    fetch(
-      `https://graph.facebook.com/v15.0/me?fields=posts%7Bcreated_time%2Cid%2Cpermalink_url%7D&access_token=EAAHXTLSPZBeABAHcM1WZBbHsze0syED7MANg0hQrdOQj0HGx8LEgToyOAUQIKrDg7mUn1bv9EqtqXxkVfA00DcnFsioUBEpK8HU2vhyzulqKMZBVwhk44cQZAHYgbVjjQfsnxiZAt4rtQhDRMLpXAH2RXPsgeoaNdQnz1HEHcfylU4Tc78hIimkq9cpFEmdaJUWHQV1vy5XxMdflAmyMU`
-    )
-      .then((response) => response.json())
-      .then((data) => setPosts(data.posts.data));
-  }, []);
-
-  useEffect(() => {
-    if (posts && (window as any).FB) {
-      setTimeout(() => {
-        (window as any).FB.XFBML.parse();
-      }, 3000);
+    if (data && (window as any).FB) {
+      (window as any).FB.XFBML.parse();
     }
-  }, [posts]);
+  }, [data]);
+
+  if (isLoading)
+    return (
+      <div
+        className="p-3"
+        style={{
+          maxWidth: "500px",
+          border: "1px solid #dddfe2",
+          borderRadius: "3px",
+        }}
+      >
+        <div className="flex mb-3">
+          <Skeleton shape="circle" size="2.8rem" className="mr-2"></Skeleton>
+          <div>
+            <Skeleton width="6rem" className="mb-2"></Skeleton>
+            <Skeleton width="5rem" height=".5rem"></Skeleton>
+          </div>
+        </div>
+        <Skeleton width="100%" height="150px"></Skeleton>
+        <div className="flex justify-content-between mt-3">
+          <Skeleton width="8rem" height="1rem"></Skeleton>
+        </div>
+      </div>
+    );
+  if (error) return <div>No post available</div>;
 
   return (
     <Style>
@@ -30,7 +49,7 @@ const FacebookPagePosts = () => {
         nonce="Crzdub8M"
       />
       <ul>
-        {posts?.map((post) => (
+        {data?.map((post: any) => (
           <li key={post.id} className="mb-2">
             <div
               className="fb-post"

@@ -102,6 +102,18 @@ What is the path to the Google Application Credential File? ./sea-life-app-fireb
 Change extracted field in **firestore extension** :
 https://console.firebase.google.com/project/sea-life-app/extensions/instances/firestore-algolia-search?tab=config
 
+## Facebook API
+
+To get Facebook App info: https://developers.facebook.com/apps/518199423531488/settings/basic/
+Query : https://developers.facebook.com/tools/explorer/?method=GET&path=me%2Ffeed%3Ffields%3Dpermalink_url&version=v15.0
+
+1. Get user access token: https://developers.facebook.com/tools/explorer/
+2. Generate long-lived token: https://developers.facebook.com/tools/debug/accesstoken/?access_token={USER_ACCESS_TOKEN}&version=v15.0
+3. Get permanent access token: https://graph.facebook.com/v15.0/{USER_ID}/accounts?access_token={LONG_LIVED_ACCESS_TOKEN}
+
+When Data Access expires, you can regain access by following the instructions:
+https://developers.facebook.com/docs/facebook-login/auth-vs-data/
+
 ## Performances
 
 ### Bundle Analyzer

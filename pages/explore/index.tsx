@@ -13,7 +13,7 @@ import { getGroup } from "../../utils/firestore/group.firestore";
 import { IGroup } from "../../types/Group";
 import dynamic from "next/dynamic";
 import BottomNavigation from "../../components/commons/BottomNavigation";
-import FacebookPagePosts from "../../components/socials/FacebookPagePosts";
+import NewspaperSvg from "../../public/icons/fontawesome/light/newspaper.svg";
 
 const DynamicCustomSearchBox = dynamic(
   () => import("../../components/search/CustomSearchBox")
@@ -35,9 +35,9 @@ export const Explore: NextPage<{
 
       <Style className="bottom-navigation">
         <HeaderSection className="global-padding">
-          <div className="container pt-6 sm:pt-4 sm:text-center">
+          <div className="container pt-6 sm:text-center">
             <div className="title pb-3">Sea Life</div>
-            <div className="subtitle pb-4">
+            <div className="subtitle pb-4 sm:pb-6">
               Découvrez les merveilles de la vie marine
             </div>
             <DynamicCustomSearchBox
@@ -46,7 +46,7 @@ export const Explore: NextPage<{
             />
           </div>
         </HeaderSection>
-        <RegionDropdown className="mb-4" />
+        <RegionDropdown className="mb-4  sm:mb-5" />
         <div className="global-padding max-width-500">
           <div className="grid">
             <div className="col-6">
@@ -108,7 +108,14 @@ export const Explore: NextPage<{
           </div>
           {/** End of grid */}
           <Section>
-            <div className="title">Actualités marines</div>
+            <div className="title">
+              Actualités marines
+              <NewspaperSvg
+                aria-label="newspaper"
+                className="svg-icon ml-2"
+                style={{ width: "16px", marginLeft: "1px" }}
+              />
+            </div>
             <DynamicFacebookPagePosts />
           </Section>
         </div>
@@ -139,6 +146,7 @@ const Section = styled.div`
     font-size: 1.2rem;
     font-weight: 600;
     margin-bottom: 1rem;
+    display: flex;
   }
 `;
 

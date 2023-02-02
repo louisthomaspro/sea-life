@@ -14,7 +14,8 @@ import { IGroup } from "../../types/Group";
 import dynamic from "next/dynamic";
 import BottomNavigation from "../../components/commons/BottomNavigation";
 import NewspaperSvg from "../../public/icons/fontawesome/light/newspaper.svg";
-import Head from "next/head";
+import { getPlaiceholder, IGetPlaiceholderReturn } from "plaiceholder";
+import { BlurhashCanvas } from "react-blurhash";
 
 const DynamicCustomSearchBox = dynamic(
   () => import("../../components/search/CustomSearchBox")
@@ -27,7 +28,9 @@ const DynamicFacebookPagePosts = dynamic(
 export const Explore: NextPage<{
   faunaGroup: IGroup;
   floraGroup: IGroup;
-}> = ({ faunaGroup, floraGroup }) => {
+  faunaBackgroundPH: IGetPlaiceholderReturn;
+  floraBackgroundPH: IGetPlaiceholderReturn;
+}> = ({ faunaGroup, floraGroup, faunaBackgroundPH, floraBackgroundPH }) => {
   const { userRegion } = useContext(RegionContext);
 
   return (
@@ -65,13 +68,28 @@ export const Explore: NextPage<{
                     </div>
                   </div>
                   <div className="img-wrapper">
+                    {faunaBackgroundPH.blurhash && (
+                      <BlurhashCanvas
+                        {...faunaBackgroundPH.blurhash}
+                        punch={1}
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          right: 0,
+                          bottom: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      />
+                    )}
                     <Image
                       unoptimized={
                         process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION ===
                         "true"
                       }
-                      priority
                       src={FaunaBackground}
+                      priority
                       alt="Sea Turtle"
                     />
                   </div>
@@ -127,13 +145,18 @@ export const Explore: NextPage<{
 export default Explore;
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  const [faunaBackgroundPH, floraBackgroundPH] = await Promise.all([
+    getPlaiceholder("/img/categories/fauna.jpg", { size: 40 }),
+    getPlaiceholder("/img/categories/flora.jpg"),
+  ]);
+
   const [faunaGroup, floraGroup] = await Promise.all([
     getGroup("fauna"),
     getGroup("flora"),
   ]);
 
   return {
-    props: { faunaGroup, floraGroup },
+    props: { faunaGroup, floraGroup, faunaBackgroundPH, floraBackgroundPH },
   };
 };
 
@@ -188,6 +211,8 @@ const CategoryBox = styled(m.div)`
       img {
         object-fit: contain;
         height: 100%;
+        z-index: 1;
+        position: relative;
       }
     }
 

@@ -66,7 +66,7 @@ const Explore: NextPage<IExploreProps> = (props) => {
         <div className="header">
           <div className="content">
             <div className="title">{props.currentGroup?.title?.fr}</div>
-            <div className="region-info">{regionsDict[region].name.fr}</div>
+            <div className="region-info">{regionsDict[region]?.name?.fr}</div>
           </div>
         </div>
 

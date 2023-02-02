@@ -40,7 +40,7 @@ const Species: NextPage<{
         <div className="global-padding">
           <div className="grid web-divider sm:mb-5">
             <div className="col-12 sm:col-4 sm:pr-3">
-              <Section title="ENVIrONNEMENT">
+              <Section title="ENVIRONNEMENT">
                 <SpeciesEnvironment species={species} />
               </Section>
             </div>

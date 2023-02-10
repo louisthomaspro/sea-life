@@ -28,13 +28,10 @@ export default class MyDocument extends Document {
     return (
       <Html lang="fr">
         <Head>
-          <meta
-            name="application-name"
-            content="Vie Marine (Mer Mediterranée)"
-          />
+          <meta name="application-name" content="Sea Life" />
           <meta
             name="description"
-            content="L'application Vie Marine est un guide d'identification de la mer Mediterranée. Vous pouvez y trouver des informations sur les différentes espèces de la mer."
+            content="Explorer la vie marine de la Méditerranée, de l'Océan Indien et du Pacifique tropical avec plus de 1000 fiches d'espèces communes ou insolites. Chaque fiche comporte des photos prises dans leur milieu naturel et des informations sur leur comportement, morphologie et habitat. Recherchez facilement une espèce en utilisant son nom commun ou scientifique. Utilisez les filtres pour retrouver une espèces en fonction de sa couleur, sa forme ou son habitat. Téléchargez notre application maintenant pour une expérience de découverte marine inoubliable !"
           />
           <meta name="theme-color" content="#ffffff" />
           <meta name="referrer" content={"strict-origin"} />

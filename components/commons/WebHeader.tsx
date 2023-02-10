@@ -5,6 +5,10 @@ import dynamic from "next/dynamic";
 
 import UserSvg from "../../public/icons/fontawesome/light/user.svg";
 import GlobeSvg from "../../public/icons/fontawesome/light/globe.svg";
+import LogoSvg from "../../public/icons/logos/logo.svg";
+import LogoSquareSvg from "../../public/icons/logos/logo-square.svg";
+import LogoTextSvg from "../../public/icons/logos/logo-text.svg";
+import LogoTextOnlySvg from "../../public/icons/logos/logo-text-only.svg";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -29,13 +33,17 @@ export default function WebHeader(props: IHeaderProps) {
       <div className="web-header-container max-width-800">
         <div>
           <Link href="/" className="flex">
-            <Image
+            <LogoTextOnlySvg
+              aria-label="sealife"
+              style={{ height: "16px" }}
+            />
+            {/* <Image
               src="/icon-192x192.png"
               width={45}
               height={45}
               alt="sea-life-logo"
               style={{ marginRight: "10px" }}
-            />
+            /> */}
           </Link>
           <ul className="nav-links">
             <li className={activeMenu === "explore" ? "active" : null}>
@@ -83,7 +91,7 @@ const Style = styled.header<IHeaderProps>`
     > div {
       display: flex;
       align-items: center;
-      gap: 1.4rem;
+      gap: 2rem;
     }
   }
 

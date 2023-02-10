@@ -44,7 +44,7 @@ module.exports = {
             "html",
             "body",
             // /^p-sidebar/,
-            // /^Toastify/,
+            /^Toastify/,
             // /^carousel/,
             // /^p-menu/,
           ],

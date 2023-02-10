@@ -5,7 +5,7 @@ import {
   getSpecies,
 } from "../../utils/firestore/species.firestore";
 import { ISpecies } from "../../types/Species";
-import { capitalizeWords } from "../../utils/helper";
+import { capitalizeWords, shader } from "../../utils/helper";
 import BackButton from "../../components/commons/BackButton";
 import ScrollHeader from "../../components/commons/ScrollHeader";
 import SpeciesEnvironment from "../../components/species/SpeciesEnvironment";
@@ -15,12 +15,28 @@ import SpeciesTitle from "../../components/species/SpeciesTitle";
 import SpeciesHighlight from "../../components/species/SpeciesHighlight";
 import SpeciesTaxonomy from "../../components/species/SpeciesTaxonomy";
 import SpeciesBehavior from "../../components/species/SpeciesBehavior";
+import PenToSquareSvg from "../../public/icons/fontawesome/light/pen-to-square.svg";
+import dynamic from "next/dynamic";
+import { useState } from "react";
+
+const DynamicProfileSideBar = dynamic(
+  () => import("../../components/commons/ContributionSideBar")
+);
 
 const Species: NextPage<{
   species: ISpecies;
 }> = ({ species }) => {
+  const [contributionVisible, setContributionVisible] = useState(false);
+
   return (
     <>
+      <DynamicProfileSideBar
+        species={species}
+        visible={contributionVisible}
+        position="bottom"
+        className="p-sidebar-contribution"
+        onHide={() => setContributionVisible(false)}
+      />
       <ScrollHeader title={capitalizeWords(species.common_names?.fr[0])} />
       <Style className="max-width-800 sm:mt-4">
         <BackButton className="pt-2 sm:hidden global-padding absolute top-0 z-1" />
@@ -31,6 +47,14 @@ const Species: NextPage<{
           <div className="col-12 sm:col-6">
             <div className="global-padding pt-0">
               <SpeciesTitle species={species} />
+              <ContributeButton onClick={() => setContributionVisible(true)}>
+                Contribuer
+                <PenToSquareSvg
+                  aria-label="contribute"
+                  className="ml-2 svg-icon"
+                  style={{ width: "16px" }}
+                />
+              </ContributeButton>
               <SpeciesHighlight species={species} />
             </div>
             {/* <SpeciesAnecdote species={props.species} /> */}
@@ -105,4 +129,13 @@ const Style = styled.div`
       border-right: 1px solid var(--border-color-light);
     }
   }
+`;
+
+export const ContributeButton = styled.button`
+  margin: 1rem 0;
+  display: flex;
+  border: 1px solid #828282;
+  border-radius: 100px;
+  padding: 0.3rem 1rem;
+  cursor: pointer;
 `;

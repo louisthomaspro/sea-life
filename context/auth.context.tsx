@@ -2,7 +2,7 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/auth";
 import { IUser } from "../types/User";
-import { createUser, getUser } from "../utils/firestore/user.firestore";
+import { createUser, getUser } from "../utils/firestore/users.firestore";
 
 interface IAuthContext {
   userSession: User;

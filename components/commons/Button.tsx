@@ -4,7 +4,7 @@ import { shader } from "../../utils/helper";
 
 interface IButtonProps extends HTMLMotionProps<"button"> {
   primary?: boolean;
-  outline?: boolean;
+  $outline?: boolean;
   "aria-label"?: string;
 }
 
@@ -13,13 +13,13 @@ const Button = (props: IButtonProps) => {
     <ButtonStyle
       className={props.className}
       onClick={props.onClick}
-      primary={props.primary}
+      {...props}
       whileTap={{
         backgroundColor: shader(
           getComputedStyle(document.documentElement)
             .getPropertyValue("--primary-color")
             .trim(),
-          props.outline ? 1 : -0.2
+          props.$outline ? 1 : -0.2
         ),
         transition: { duration: 0.1, ease: "easeInOut" },
       }}
@@ -33,12 +33,15 @@ Button.displayName = "CustomButton";
 export default Button;
 
 const ButtonStyle = styled(m.button)<IButtonProps>`
-  background-color: ${(props) => (props.outline ? "transparent" : "white")};
-  color: var(--primary-color);
-  border: ${(props) => (props.outline ? "1px solid" : "none")};
-  border-color: var(--primary-color);
-  border-radius: 5px;
-  padding: 10px 20px;
+  background-color: ${(props) => (props.$outline ? "transparent" : "white")};
+  color: ${(props) => (props.$outline ? "var(--text-color)" : "white")};
+  border: ${(props) => (props.$outline ? "1px solid" : "none")};
+  border-color: var(--text-color);
+  border-radius: 10px;
+  padding: 0.8rem 0.8rem;
   cursor: pointer;
   font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  background-color: ${(props) => (props.$outline ? "white" : "#282828")};
 `;

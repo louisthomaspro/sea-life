@@ -106,3 +106,26 @@ svg.svg-icon {
   max-width: 500px;
   margin: 0 auto;
 }
+
+// PrimeReact
+
+.p-sidebar-contribution {
+  height: auto !important;
+  border-radius: 20px 20px 0px 0px;
+
+  .p-sidebar-content {
+    padding: var(--global-padding);
+  }
+}
+
+.p-inputtextarea {
+  border-radius: 10px;
+  border: 1px solid #828282;
+  padding: 0.8rem 1rem;
+}
+
+.p-dropdown {
+  border-radius: 10px;
+  border: 1px solid #828282;
+  padding: 0.3rem 0.5rem;
+}

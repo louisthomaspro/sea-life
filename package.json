@@ -25,6 +25,7 @@
     "cross-env": "^7.0.3",
     "firebase": "^9.9.1",
     "firebase-admin": "^11.5.0",
+    "formik": "^2.2.9",
     "framer-motion": "^8.0.2",
     "keen-slider": "^6.7.0",
     "lodash": "^4.17.21",

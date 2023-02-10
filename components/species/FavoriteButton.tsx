@@ -3,7 +3,7 @@ import AuthContext from "../../context/auth.context";
 import {
   addFavorite,
   removeFavorite,
-} from "../../utils/firestore/user.firestore";
+} from "../../utils/firestore/users.firestore";
 import { toast } from "react-toastify";
 
 import HeartSvg from "../../public/icons/primeicons/heart.svg";

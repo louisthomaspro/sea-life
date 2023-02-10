@@ -23,7 +23,7 @@ export function GoogleSignIn() {
 
 export function GoogleSignOut() {
   return (
-    <Button outline onClick={logOut}>
+    <Button $outline onClick={logOut}>
       Se déconnecter
     </Button>
   );

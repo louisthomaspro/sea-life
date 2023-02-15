@@ -51,6 +51,7 @@ const FacebookPagePosts = () => {
         nonce="3p7nM35w"
       />
       <div className="absolute w-full">
+        <div className="relative bg-white"></div>
         <SkeletonFacebookPost />
       </div>
 

@@ -191,6 +191,11 @@ npx cap open android
 npx kill-port 8080
 ```
 
+## Useful links
+
+- https://www.pwabuilder.com/reportcard?site=https://sea-life.vercel.app/
+- https://manifest-gen.netlify.app/
+
 ## Archive code
 
 #### Get blob from external url and upload to storage

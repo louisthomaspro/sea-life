@@ -9,9 +9,9 @@ import {
 import { firestore } from "../../firebase/clientApp";
 import { IUser } from "../../types/User";
 
-const collectionName = "users";
+const collectionName = "favorites";
 
-export const getUser = (email: string) => {
+export const addFavorite = (email: string) => {
   const document = getDoc(doc(firestore, `${collectionName}/${email}`));
   return document.then((doc) => doc.data()) as Promise<IUser>;
 };
@@ -20,14 +20,19 @@ export const createUser = (data: IUser, email: string) => {
   return setDoc(doc(firestore, collectionName, email), data);
 };
 
-export const addFavorite = (id: string, email: string) => {
-  return updateDoc(doc(firestore, collectionName, email), {
-    favorites: arrayUnion(id),
-  });
-};
+// export const addFavorite = (id: string, email: string) => {
+//   return updateDoc(doc(firestore, collectionName, email), {
+//     favorites: arrayUnion(id),
+//   });
+// };
 
 export const removeFavorite = (id: string, email: string) => {
   return updateDoc(doc(firestore, collectionName, email), {
     favorites: arrayRemove(id),
   });
 };
+
+// createList(listName: string)
+// deleteList(listName: string)
+// addFavorite(listId, speciesId)
+// removeFavorite(listId, speciesId)

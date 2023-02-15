@@ -1,14 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 
-import UserSvg from "../../public/icons/fontawesome/light/user.svg";
-import GlobeSvg from "../../public/icons/fontawesome/light/globe.svg";
-import LogoSvg from "../../public/icons/logos/logo.svg";
-import LogoSquareSvg from "../../public/icons/logos/logo-square.svg";
-import LogoTextSvg from "../../public/icons/logos/logo-text.svg";
-import LogoTextOnlySvg from "../../public/icons/logos/logo-text-only.svg";
+import LogoFullSvg from "../../public/icons/logos/logo-full.svg";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -33,19 +27,12 @@ export default function WebHeader(props: IHeaderProps) {
       <div className="web-header-container max-width-800">
         <div>
           <Link href="/" className="flex">
-            <LogoTextOnlySvg
+            <LogoFullSvg
               aria-label="sealife"
-              style={{ height: "16px" }}
+              style={{ height: "35px", marginRight: "10px" }}
             />
-            {/* <Image
-              src="/icon-192x192.png"
-              width={45}
-              height={45}
-              alt="sea-life-logo"
-              style={{ marginRight: "10px" }}
-            /> */}
           </Link>
-          <ul className="nav-links">
+          <ul className="nav-links mr-3">
             <li className={activeMenu === "explore" ? "active" : null}>
               <Link href="/explore">Accueil</Link>
             </li>

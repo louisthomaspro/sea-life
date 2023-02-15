@@ -21,7 +21,7 @@ module.exports = {
           "./components/**/*.{js,jsx,ts,tsx}",
           // "./node_modules/primereact/treetable/*.{js,jsx,ts,tsx}",
           // "./node_modules/primereact/button/*.{js,jsx,ts,tsx}",
-          // "./node_modules/primereact/sidebar/*.{js,jsx,ts,tsx}",
+          "./node_modules/primereact/sidebar/*.{js,jsx,ts,tsx}",
           "./node_modules/primereact/dropdown/*.{js,jsx,ts,tsx}",
           // "./node_modules/primereact/multiselect/*.{js,jsx,ts,tsx}",
           "./node_modules/primereact/divider/*.{js,jsx,ts,tsx}",

@@ -40,7 +40,7 @@ export const Explore: NextPage<{
       <Style className="bottom-navigation">
         <HeaderSection className="global-padding">
           <div className="container pt-6 sm:text-center">
-            <div className="title pb-3">SeaLife</div>
+            <div className="title pb-3">Sea Life</div>
             <div className="subtitle pb-4 sm:pb-6">
               Découvrez les merveilles de la vie marine
             </div>

@@ -1,5 +1,5 @@
 import Script from "next/script";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useSWR from "swr";
 import { Skeleton } from "primereact/skeleton";
@@ -10,7 +10,6 @@ const SkeletonFacebookPost = () => (
   <div
     className="p-3"
     style={{
-      maxWidth: "500px",
       border: "1px solid #dddfe2",
       borderRadius: "3px",
     }}
@@ -31,6 +30,7 @@ const SkeletonFacebookPost = () => (
 
 const FacebookPagePosts = () => {
   const { data, error, isLoading } = useSWR("/api/getFacebookPosts", fetcher);
+  const [hideSkeleton, setHideSkeleton] = useState(false);
 
   useEffect(() => {
     if (data && (window as any).FB) {
@@ -50,10 +50,9 @@ const FacebookPagePosts = () => {
         src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v14.0&appId=518199423531488&autoLogAppEvents=1"
         nonce="3p7nM35w"
       />
-      <div className="absolute w-full">
-        <div className="relative bg-white"></div>
-        <SkeletonFacebookPost />
-      </div>
+      <div
+        className={`absolute w-full h-20rem`}
+      ></div>
 
       <ul>
         {data?.map((post: any) => (

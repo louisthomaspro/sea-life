@@ -47,14 +47,14 @@ const Species: NextPage<{
           <div className="col-12 sm:col-6">
             <div className="global-padding pt-0">
               <SpeciesTitle species={species} />
-              <ContributeButton onClick={() => setContributionVisible(true)}>
+              {/* <ContributeButton onClick={() => setContributionVisible(true)}>
                 Contribuer
                 <PenToSquareSvg
                   aria-label="contribute"
                   className="ml-2 svg-icon"
                   style={{ width: "16px" }}
                 />
-              </ContributeButton>
+              </ContributeButton> */}
               <SpeciesHighlight species={species} />
             </div>
             {/* <SpeciesAnecdote species={props.species} /> */}

@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { algolia } from "../../algolia/clientApp";
 import SearchSvg from "../../public/icons/fontawesome/light/magnifying-glass.svg";
 import XmarkSvg from "../../public/icons/fontawesome/light/xmark.svg";
+import XmarkThinSvg from "../../public/icons/fontawesome/thin/xmark.svg";
 import Spinner from "../commons/Spinner";
 import CustomInfiniteHits from "./CustomInfiniteHits";
 import SearchBoxWorkaround from "./SearchBoxWorkaround";
@@ -101,8 +102,8 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
           >
             <div className="global-padding max-width-800">
               <div className="search-header">
-                <div className="close pt-2">
-                  <XmarkSvg
+                <div className="close mt-2">
+                  <XmarkThinSvg
                     onClick={() => setOpenModal(false)}
                     aria-label="search-icon"
                     style={{ width: "26px" }}

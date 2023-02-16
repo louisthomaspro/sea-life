@@ -29,7 +29,7 @@ export default function WebHeader(props: IHeaderProps) {
           <Link href="/" className="flex">
             <LogoFullSvg
               aria-label="sealife"
-              style={{ height: "35px", marginRight: "10px" }}
+              style={{ height: "33px", marginRight: "10px" }}
             />
           </Link>
           <ul className="nav-links mr-3">

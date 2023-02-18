@@ -10,7 +10,7 @@ import {
 import styled from "styled-components";
 import { algolia } from "../../algolia/clientApp";
 import SearchSvg from "../../public/icons/fontawesome/light/magnifying-glass.svg";
-import XmarkSvg from "../../public/icons/fontawesome/light/xmark.svg";
+import XmarkRegularSvg from "../../public/icons/fontawesome/regular/xmark.svg";
 import XmarkThinSvg from "../../public/icons/fontawesome/thin/xmark.svg";
 import Spinner from "../commons/Spinner";
 import CustomInfiniteHits from "./CustomInfiniteHits";
@@ -101,48 +101,50 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
             // transition={searchBoxTransition}
           >
             <div className="global-padding max-width-800">
-              <div className="search-header">
-                <div className="close mt-2">
+              <div className="search-header mt-3">
+                <motion.div
+                  layoutId={`${id}-layout`}
+                  key={`${id}-layout`}
+                  transition={searchBoxTransition}
+                  className="input-container sm:max-w-20rem"
+                  onLayoutAnimationComplete={() => {
+                    setShowResults(true);
+                    inputRef.current?.focus();
+                  }}
+                >
+                  <SearchSvg
+                    aria-label="search-icon"
+                    style={{ width: "18px" }}
+                    className="svg-icon icon-left"
+                  />
+                  <input
+                    ref={inputRef}
+                    aria-label="Search"
+                    type="text"
+                    placeholder="Rechercher une espèce"
+                    onChange={debouncedChangeHandler}
+                  />
+                  {inputRef.current?.value && (
+                    <div className="icon-right" onClick={() => clearInput()}>
+                      <div className="icon-container">
+                        <XmarkRegularSvg
+                          aria-label="search-icon"
+                          style={{ width: "8px" }}
+                          className="svg-icon"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+                <div className="close mt-3">
                   <XmarkThinSvg
                     onClick={() => setOpenModal(false)}
                     aria-label="search-icon"
-                    style={{ width: "26px" }}
+                    style={{ width: "20px" }}
                     className="svg-icon relative"
                   />
                 </div>
               </div>
-              <motion.div
-                layoutId={`${id}-layout`}
-                key={`${id}-layout`}
-                transition={searchBoxTransition}
-                className="input-container sm:max-w-20rem"
-                onLayoutAnimationComplete={() => {
-                  setShowResults(true);
-                  inputRef.current?.focus();
-                }}
-              >
-                <SearchSvg
-                  aria-label="search-icon"
-                  style={{ width: "18px" }}
-                  className="svg-icon icon-left"
-                />
-                <input
-                  ref={inputRef}
-                  aria-label="Search"
-                  type="text"
-                  placeholder="Rechercher une espèce"
-                  onChange={debouncedChangeHandler}
-                />
-                {inputRef.current?.value && (
-                  <div className="icon-right" onClick={() => clearInput()}>
-                    <XmarkSvg
-                      aria-label="search-icon"
-                      style={{ width: "14px" }}
-                      className="svg-icon"
-                    />
-                  </div>
-                )}
-              </motion.div>
 
               <InstantSearch indexName="species" searchClient={algolia}>
                 {showResults && (
@@ -238,7 +240,18 @@ const Style = styled.div`
     right: 0;
     padding: 0 1rem;
     display: flex;
+    align-items: center;
     cursor: pointer;
+
+    .icon-container {
+      height: 18px;
+      display: flex;
+      width: 18px;
+      background-color: #dcdcdc;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
   }
 
   .svg-icon {

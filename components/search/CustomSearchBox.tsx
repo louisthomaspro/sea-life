@@ -136,7 +136,7 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
                     </div>
                   )}
                 </motion.div>
-                <div className="close mt-3">
+                <div className="close mt-3 ml-2">
                   <XmarkThinSvg
                     onClick={() => setOpenModal(false)}
                     aria-label="search-icon"

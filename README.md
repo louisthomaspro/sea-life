@@ -100,7 +100,10 @@ https://console.firebase.google.com/project/sea-life-app/extensions/instances/fi
 ## Facebook API
 
 To get Facebook App info: https://developers.facebook.com/apps/518199423531488/settings/basic/
+<br/>
 Query : https://developers.facebook.com/tools/explorer/?method=GET&path=me%2Ffeed%3Ffields%3Dpermalink_url&version=v15.0
+
+#### Generate permanent token
 
 1. Get user access token: https://developers.facebook.com/tools/explorer/
 2. Generate long-lived token: https://developers.facebook.com/tools/debug/accesstoken/?access_token={USER_ACCESS_TOKEN}&version=v15.0
@@ -166,19 +169,12 @@ npx cap open android
 
 ## Features
 
-- Breadcrumb for ancestors
-- Similar species list
+- Breadcrumb
+- Similar species list or species of same family
 - Favorite list management
-- Update life information (photos, text...)
-- Display conservation status
+- Contribute to species (photos, text...)
 - Improve search filters (shape, colors...)
 - Improve text search including family names
-
-## Improvement
-
-- Static page only for species info
-- Etoile de mer rouge doesnt appear in group:faune and type:species ?
-- Rules for storage and firestore (prevent auth null)
 
 ## Other commands
 
@@ -188,6 +184,7 @@ npx kill-port 8080
 
 ## Useful links
 
+- Figma design: https://www.figma.com/file/op3TNvwVbWuf1nN5kMUtOj/SEA-LIFE?t=M7TfKsfOFSdda5tQ-0
 - https://www.pwabuilder.com/reportcard?site=https://sea-life.vercel.app/
 - https://manifest-gen.netlify.app/
 

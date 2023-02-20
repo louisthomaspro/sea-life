@@ -20,6 +20,7 @@
 /ios
 
 # bubblewrap
+/sea-life-android
 /app
 /gradle
 /app-release-*.*

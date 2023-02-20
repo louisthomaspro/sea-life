@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
         }
       `}</style>
       <Head>
-        <title>Sea Life</title>
+        <title>SeaLife</title>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no"

@@ -1,4 +1,4 @@
-# Sea Life
+# SeaLife
 
 ## Description
 

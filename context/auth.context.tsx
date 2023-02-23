@@ -31,7 +31,7 @@ export function AuthContextProvider({ children }: any) {
           };
 
           // Create user in firestore
-          await createUser(newUserData, userSession.email);
+          await createUser(newUserData, userSession.uid);
 
           // Set context data
           await setUserData(newUserData);

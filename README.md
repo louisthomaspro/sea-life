@@ -163,6 +163,46 @@ npx cap open android
 - Go to "Release" > "Production" > "Create new release"
 - Upload aab file and fill the form
 
+## Postman
+
+### Dev (can only be used in development environment)
+
+#### Get token (using firebase auth emulator)
+
+```bash
+curl --location --request POST 'localhost:3000/api/dev/getToken?uid=sXokqYzLlTZQ6CkDRvLruttNLDhH' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "uid": "sXokqYzLlTZQ6CkDRvLruttNLDhH",
+    "claims": {
+        "admin": true
+    }
+}'
+```
+
+#### Set admin claim
+
+```bash
+curl --location --request POST 'localhost:3000/api/dev/setCustomClaims' \
+--header 'Authorization: Bearer <idToken>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "uid": "<uid>",
+    "claims": {
+        "admin": true
+    }
+}'
+```
+
+### Prod
+
+#### Clear algolia index
+
+```bash
+curl --location --request POST 'localhost:3000/api/admin/clearAlgolia' \
+--header 'Authorization: Bearer <idToken>'
+```
+
 <br>
 
 # Other

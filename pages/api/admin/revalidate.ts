@@ -1,9 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { withAuth } from "../../../hooks/withAuth";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<any>
-) {
+const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   // Check for secret to confirm this is a valid request
   // if (req.query.secret !== process.env.MY_SECRET_TOKEN) {
   //   return res.status(401).json({ message: "Invalid token" });
@@ -21,4 +19,6 @@ export default async function handler(
     // to show the last successfully generated page
     return res.status(500).send("Error revalidating");
   }
-}
+};
+
+export default withAuth(handler, { admin: true });

@@ -1,9 +1,11 @@
 import { initializeApp, getApps, FirebaseApp } from "firebase/app";
+import { connectAuthEmulator } from "firebase/auth";
 import {
   connectFirestoreEmulator,
   getFirestore,
 } from "firebase/firestore/lite";
 import { connectStorageEmulator, getStorage } from "firebase/storage";
+import { auth } from "./auth";
 
 const clientCredentials = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -31,6 +33,8 @@ function startEmulators() {
     connectStorageEmulator(storage, "localhost", 9199);
     /* Enable below line to connect to the firestore emulator */
     connectFirestoreEmulator(firestore, "localhost", 8080);
+    /* Enable below line to connect to the auth emulator */
+    connectAuthEmulator(auth, "http://localhost:9099");
   }
 }
 

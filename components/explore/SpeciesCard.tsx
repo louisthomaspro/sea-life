@@ -1,66 +1,97 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ILife } from "../../types/Life";
-import { blurDataURL, firebaseStorageLoader } from "../../utils/helper";
+import { capitalizeFirstLetter, capitalizeWords } from "../../utils/helper";
 import FrFlagSvg from "../../public/icons/flags/FR.svg";
 import GbFlagSvg from "../../public/icons/flags/GB.svg";
 import styled from "styled-components";
 import { m } from "framer-motion";
 import { tapAnimationDuration } from "../../constants/config";
+import { ISpecies } from "../../types/Species";
+import { useInView } from "react-cool-inview";
+import { useState } from "react";
+import { BlurhashCanvas } from "react-blurhash";
 
-export default function SpeciesCard(props: { life: ILife }) {
+export default function SpeciesCard(props: {
+  species: ISpecies;
+  index?: number;
+}) {
+  const [loaded, setLoaded] = useState(false);
+  const { observe, inView } = useInView({
+    rootMargin: "50% 0px",
+    unobserveOnEnter: true,
+    onEnter() {
+      setLoaded(true);
+    },
+  });
+
   return (
     <m.div
       whileTap={{
         scale: tapAnimationDuration,
         transition: { duration: 0.1, ease: "easeInOut" },
       }}
+      ref={observe}
     >
       <Style>
-        <Link href={`/life/${props.life.id}`}>
-          <a
-          // onClick={() => {
-          //   setPageAnimation({ animation: "right", date: new Date() });
-          // }}
-          >
-            <div className="img-wrapper">
-              {props.life?.photos?.[0]?.storage_path && (
-                <Image
-                  loader={firebaseStorageLoader}
-                  src={props.life?.photos?.[0]?.storage_path}
-                  layout="fill"
-                  placeholder="blur"
-                  blurDataURL={blurDataURL()}
-                  objectFit="cover"
-                  sizes="50vw"
-                  alt={
-                    props.life.french_common_name ?? props.life.scientific_name
-                  }
-                />
-              )}
-            </div>
-            <div className="content">
-              {props.life.french_common_name && (
-                <div className="title">
-                  <div>
-                    <FrFlagSvg width="12px" />
-                  </div>
-                  <span className="ml-1">{props.life.french_common_name}</span>
+        <Link href={`/species/${props.species.id}`} className="container">
+          <div className="img-wrapper">
+            {props.species?.photos?.[0]?.blurhash && (
+              <BlurhashCanvas
+                {...props.species.photos[0].blurhash}
+                punch={1}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+            )}
+            {/* {(inView || loaded) && ( */}
+              <Image
+                unoptimized={
+                  process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
+                }
+                src={
+                  props.species?.photos?.[0]?.original_url ??
+                  "/img/no-image.svg"
+                }
+                priority={inView}
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="40vw"
+                alt={props.species.scientific_name}
+              />
+            {/* )} */}
+          </div>
+          <div className="content">
+            {props.species.common_names?.fr?.length > 0 && (
+              <div className="title">
+                <div>
+                  <FrFlagSvg width="12px" />
                 </div>
-              )}
-              {props.life.english_common_name && (
-                <div className="title">
-                  <div>
-                    <GbFlagSvg width="12px" />
-                  </div>
-                  <span className="ml-1">{props.life.english_common_name}</span>
-                </div>
-              )}
-              <div className="scientific-name">
-                {props.life.scientific_name}
+                <span className="ml-1">
+                  {capitalizeWords(props.species.common_names.fr[0])}
+                </span>
               </div>
+            )}
+            {props.species.common_names?.en?.length > 0 && (
+              <div className="title">
+                <div>
+                  <GbFlagSvg width="12px" />
+                </div>
+                <span className="ml-1">
+                  {capitalizeWords(props.species.common_names.en[0])}
+                </span>
+              </div>
+            )}
+            <div className="scientific-name">
+              {capitalizeFirstLetter(props.species.scientific_name)}
             </div>
-          </a>
+          </div>
         </Link>
       </Style>
     </m.div>
@@ -68,46 +99,65 @@ export default function SpeciesCard(props: { life: ILife }) {
 }
 
 // Style
-const Style = styled.button`
+const Style = styled.div`
   width: 100%;
+  /* aspect-ratio: 2 / 2.3; */
   background-color: var(--bg-grey);
   border-radius: var(--border-radius);
   padding: 6px;
+  position: relative;
 
-  a {
-    text-decoration: none;
-    color: var(--text-color-1);
+  @keyframes append-animate {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
-  .img-wrapper {
-    width: 100%;
-    position: relative;
-    padding-bottom: 60%;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    opacity: 1;
+    /* animation: append-animate 0.1s linear; */
 
-  .content {
-    padding: 0px 6px;
-    margin-top: 4px;
+    .img-wrapper {
+      /* flex-grow: 1; */
+      width: 100%;
+      position: relative;
+      aspect-ratio: 2/1.6;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+    }
 
-    .title {
-      font-size: 13px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
+    .content {
+      padding: 0px 6px;
+      margin-top: 4px;
 
-      > span {
+      .title {
+        font-size: 13px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+
+        > span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+
+      .scientific-name {
+        font-size: 12px;
+        font-style: italic;
+        color: var(--text-color-2);
+
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
-    }
-
-    .scientific-name {
-      font-size: 12px;
-      font-style: italic;
-      color: var(--text-color-2);
     }
   }
 `;

@@ -1,5 +1,4 @@
 import {
-  AnimatePresence,
   LazyMotion,
   Variants,
   m,
@@ -9,6 +8,7 @@ import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import NProgress from "./NProgress";
 import OfflineToast from "./OfflineToast";
+import WebHeader from "./WebHeader";
 
 interface LayoutProps {
   children: ReactNode;
@@ -40,19 +40,14 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <>
-      <NProgress />
-      <OfflineToast />
-      <main style={{ maxWidth: "400px"}}>
+      <main className="sm:py-0">
+        <NProgress />
+        <OfflineToast />
         <LazyMotion features={domAnimation}>
-          <AnimatePresence initial={false} mode="sync">
-            <m.div
+          <WebHeader className="hidden sm:block" />
+          {/* <AnimatePresence initial={false} mode="wait"> */}
+          {/* <m.div
               key={router.asPath}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100%",
-                width: "100%",
-              }}
               initial="initial"
               animate="enter"
               exit="exit"
@@ -60,10 +55,10 @@ export default function Layout({ children }: LayoutProps) {
               transition={{
                 duration: 0.2,
               }}
-            >
-              {children}
-            </m.div>
-          </AnimatePresence>
+            > */}
+          {children}
+          {/* </m.div> */}
+          {/* </AnimatePresence> */}
         </LazyMotion>
       </main>
     </>

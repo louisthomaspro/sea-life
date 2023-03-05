@@ -11,4 +11,8 @@ export const whileTapAnimationIconButton = {
 
 export const serverUrl = dev
   ? "http://localhost:3000"
-  : "https://sea-guide.vercel.app";
+  : "https://sea-life.vercel.app";
+
+export const defaultBlurhashOptions = {
+  size: 35,
+};

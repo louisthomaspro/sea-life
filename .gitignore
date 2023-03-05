@@ -15,9 +15,28 @@
 # production
 /build
 
+# mobile
+/android
+/ios
+
+# bubblewrap
+/sea-life-android
+/sea-life-ios
+/app
+/gradle
+/app-release-*.*
+/build.gradle
+/gradle*
+/manifest-checksum.txt
+/settings.gradle
+/store_icon.png
+/android.keystore
+.gradle
+
 # misc
 .DS_Store
 *.pem
+/package-lock.json
 
 # debug
 npm-debug.log*
@@ -45,4 +64,4 @@ yarn-error.log*
 **/public/fallback-*.js
 
 # Credentials
-sea-guide-firebase-adminsdk*.json
+sea-life-app-firebase-adminsdk*.json

@@ -15,23 +15,28 @@
 
 :root {
   font-size: 16px;
-  --font-family: "Nunito";
-  --primary-color: #427396;
+  --primary-color: #2c5776;
   --text-color-1: #3c3c3c;
   --text-color-2: #595959;
   --bg-grey: #f8f8f8;
+  --border-color: #c9c9c9;
+  --border-color-light: #e8e8e8;
   --border-radius: 10px;
-  --global-padding: 22px;
+  --global-padding: 1.2rem;
   --green: #638b59;
+  --blue: #2c5776;
+  --red: #ce2020;
+  --grey: #c9c9c9;
+  --bottom-navigation-height: 60px;
+
+  --button-primary-color: #3386cd;
 
   // React-toastify
   --toastify-color-progress-light: var(--primary-color);
 }
 
 // Native
-
 body {
-  font-family: var(--font-family);
   color: var(--text-color-1);
   overscroll-behavior-y: contain;
   background-color: #ffffff;
@@ -45,7 +50,7 @@ a.link {
 }
 
 hr {
-  border-bottom: 1px solid var(--text-color-2);
+  border-bottom: 1px solid var(--border-color);
   width: 100%;
   margin: 20px 0;
 }
@@ -60,14 +65,67 @@ a {
 
 // Custom classes
 
-.main-container {
-  position: relative;
+.global-padding {
   padding: 0 var(--global-padding);
-  width: 100%;
 }
 
 svg.svg-icon {
   path {
     fill: var(--text-color-1);
   }
+}
+
+.bottom-navigation {
+  padding-bottom: var(--bottom-navigation-height);
+}
+
+.dropdown-region-panel {
+  margin-top: 6px;
+
+  .p-dropdown-item {
+    padding: 0.8rem 1rem !important;
+  }
+  .p-dropdown-item {
+    text-align: center;
+  }
+  .p-dropdown-items-wrapper {
+    max-height: 300px !important;
+  }
+}
+
+.max-width-800 {
+  max-width: 1000px;
+  margin: 0 auto;
+
+  @media (min-width: 576px) {
+    padding: 0 1rem;
+  }
+}
+
+.max-width-500 {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+// PrimeReact
+
+.p-sidebar-contribution {
+  height: auto !important;
+  border-radius: 20px 20px 0px 0px;
+
+  .p-sidebar-content {
+    padding: var(--global-padding);
+  }
+}
+
+.p-inputtextarea {
+  border-radius: 10px;
+  border: 1px solid #828282;
+  padding: 0.8rem 1rem;
+}
+
+.p-dropdown {
+  border-radius: 10px;
+  border: 1px solid #828282;
+  padding: 0.3rem 0.5rem;
 }

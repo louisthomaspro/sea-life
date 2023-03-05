@@ -1,12 +1,20 @@
-# Vie Marine
+# SeaLife
 
-## Glossary
+## Description
 
-> **life**: The type can be a group or a species. Object stored in database.
+PWA built with Next.js, React, Firestore and Algolia. The app allows users to explore marine life and its features include species profiles, search filters and categories.
+
+![screenshot preview](public/screenshots/preview.jpg)
 
 ## Getting Started
 
+> **Prerequisites** <br>
+> Node.js
+
 ```bash
+# Copy env file and update it
+cp .env.local.example .env.local
+
 npm install --global yarn
 yarn install
 yarn dev
@@ -14,147 +22,211 @@ yarn dev
 
 Navigate to [http://localhost:3000](http://localhost:3000)
 
+---
+
+<br>
+
 ## Firebase
 
-### Init Firebase
+Firebase is used for authentication and database and functions.
+We can use the emulator to test locally.
+
+### Installation
 
 ```bash
 npm install -g firebase-tools
-firebase login
+npx firebase login
+npx firebase use sea-life-app # (optional)
+
+# Select Authentication, Functions, Firestore
+npx firebase init emulators
+# Get current extension configuration
+npx firebase ext:export # (optional)
 ```
 
-### Start emulation
+### Functions
 
 ```bash
-firebase ext:export # Get current extension configuration (optional)
-npm run build:watch --prefix functions # Compile functions
-# Go to firebase/clientApp.ts and enable lines with "connectFirestoreEmulator" and "connectStorageEmulator"
-firebase emulators:start --import ../firebase_export/
+# Compile functions automatically to test in local
+npm run build:watch --prefix functions # (open a separate terminal window)
 
-npm run serve:watch --prefix functions
+# Deploy to cloud
+npx firebase deploy --only functions # all functions
+npx firebase deploy --only functions:group-updateCountOnGroupCreate # single function
 ```
 
-### Deploy functions
+### Database
 
 ```bash
-firebase deploy --only functions
+# Update env variable
+# NEXT_PUBLIC_FIREBASE_EMULATOR=true
+
+# Start emulator with existing local data
+npx firebase emulators:start --import ./firebase_export/
+
+# Start emulator without cloud function and UI to make it work in offline
+npx firebase emulators:start --only firestore --import ./firebase_export/
+
+# Save the current local data to be able to restore it later
+npx firebase emulators:export ./firebase_export
 ```
-
-### Export current local data
-
-```bash
-firebase emulators:export ./firebase_export
-```
-
-### Other
-
-```bash
-# Setup emulator Suite manually
-firebase init emulators # Select Authentication, Functions, Firestore, Storage
-```
-
-## Images
-
-Species images are stored in google cloud storage with the following naming:
-`{speciesId}/{GUID}_{width}x{width}.webp`
-
-**Image upload lifecycle**
-
-1. Image dropped in cloud storage `{speciesId}/{GUID}.{original_extension}`
-2. _Resize Images_ extension optimize and resize images in 8 sizes (640, 750, 828, 1080, 1200, 1920, 2048, 3840)
-3. Original image is deleted and the following id `{speciesId}/{GUID}` is stored in database.
-
-**Image retrieve**
-
-`https://firebasestorage.googleapis.com/v0/b/sea-guide.appspot.com/o/{photoId}_{width}x{width}.webp?alt=media`
-
-Example: https://firebasestorage.googleapis.com/v0/b/sea-guide.appspot.com/o/50968%2F177fa4f7-f02d-4409-9772-d6378504c86f_1080x1080.webp?alt=media
 
 ## Algolia
 
-Synchronize Algolia data
+### Synchronize Algolia data
 
 > **Prerequisites** <br>
-> Download service account key file: https://console.firebase.google.com/u/0/project/sea-guide/settings/serviceaccounts/adminsdk
+> Download service account key file: https://console.firebase.google.com/u/0/project/sea-life-app/settings/serviceaccounts/adminsdk <br>
+> Upload the file to the root of the project and rename it to `sea-life-app-firebase-adminsdk.json`
 
 ```bash
+npm install -g firestore-algolia-search
 npx firestore-algolia-search
 
 What is the Region? europe-west1
-What is the Project Id? sea-guide
-What is the Algolia App Id? R2SCM7OOVG
+What is the Project Id? sea-life
+What is the Algolia App Id? TIXD5TTYDU
 What is the Algolia Api Key? { ALGOLIA_SEARCH_ADMIN_KEY }
-What is the Algolia Index Name? sea-guide
-What is the Collection Path? lives
-What are the Fields to extract? { empty }
+What is the Algolia Index Name? species
+What is the Collection Path? species
+What are the Fields to extract? id,scientific_name,common_names,photos
 What is the Transform Function? { empty }
-What is the path to the Google Application Credential File? ./sea-guide-firebase-adminsdk.json
+What is the path to the Google Application Credential File? ./sea-life-app-firebase-adminsdk.json
 ```
 
-Change extracted field in **firestore extension**.
+Change extracted field in **firestore extension** :
+https://console.firebase.google.com/project/sea-life-app/extensions/instances/firestore-algolia-search?tab=config
 
-### Filters in search
+## Facebook API
 
-- type = species by default
-- category (ex: fishes, creatures...)
-- conservation status
-  LC-Least concern, EN-Endangered, NT-Near threatened, VU-Vulnerable, CR-Critically endangered, NE-Not evaluated, CD-Conservation Dependant
-- location
+To get Facebook App info: https://developers.facebook.com/apps/518199423531488/settings/basic/
+<br/>
+Query : https://developers.facebook.com/tools/explorer/?method=GET&path=me%2Ffeed%3Ffields%3Dpermalink_url&version=v15.0
 
-Others: color, shape, habitat, social behavior, venomous, danger to human
+#### Generate permanent token
+
+1. Get user access token: https://developers.facebook.com/tools/explorer/
+2. Generate long-lived token: https://developers.facebook.com/tools/debug/accesstoken/?access_token={USER_ACCESS_TOKEN}&version=v15.0
+3. Get permanent access token: https://graph.facebook.com/v15.0/{USER_ID}/accounts?access_token={LONG_LIVED_ACCESS_TOKEN}
+
+When Data Access expires, you can regain access by following the instructions:
+https://developers.facebook.com/docs/facebook-login/auth-vs-data/
+
+## Performances
+
+### Bundle Analyzer
+
+```bash
+yarn analyze
+```
+
+## Build and publish for Google Play Store
+
+### 1. Build using Bubblewrap (recommended)
+
+```bash
+# Install bubblewrap
+npm install -g @bubblewrap/cli
+
+mkdir sea-life-android
+cd sea-life-android
+bubblewrap init --manifest=https://sea-life.vercel.app/manifest.json
+bubblewrap build
+```
+
+### Other ways to build:
+
+**Using [pwabuilder.com](https://pwabuilder.com)**
+
+- Enter the URL of the PWA (https://sea-life.vercel.app/)
+- Click on "Package For Stores" and "Android"
+
+**Using capacitor (only static pages)**
+
+```bash
+# Build
+yarn build-mobile
+
+# If you are on WSL2, you need to copy the build folder to your windows partition and open the folder with Android Studio
+sudo rm -rf /mnt/c/Users/louis/OneDrive/Documents/git/sea-life/android
+sudo cp -R ./android /mnt/c/Users/louis/OneDrive/Documents/git/sea-life/android
+
+# If you are on windows, just execute the following command
+npx cap sync
+npx cap open android
+```
+
+### 2. Publish on Google Play Store
+
+- Go to https://play.google.com/console/developers
+- Select sea-life
+- Go to "Release" > "Production" > "Create new release"
+- Upload aab file and fill the form
+
+## Postman
+
+### Dev (can only be used in development environment)
+
+#### Get token (using firebase auth emulator)
+
+```bash
+curl --location --request POST 'localhost:3000/api/dev/getToken?uid=sXokqYzLlTZQ6CkDRvLruttNLDhH' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "uid": "sXokqYzLlTZQ6CkDRvLruttNLDhH",
+    "claims": {
+        "admin": true
+    }
+}'
+```
+
+#### Set admin claim
+
+```bash
+curl --location --request POST 'localhost:3000/api/dev/setCustomClaims' \
+--header 'Authorization: Bearer <idToken>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "uid": "<uid>",
+    "claims": {
+        "admin": true
+    }
+}'
+```
+
+### Prod
+
+#### Clear algolia index
+
+```bash
+curl --location --request POST 'localhost:3000/api/admin/clearAlgolia' \
+--header 'Authorization: Bearer <idToken>'
+```
+
+<br>
+
+# Other
 
 ## Features
 
-- Breadcrumb for ancestors
-- Similar species list
+- Breadcrumb
+- Similar species list or species of same family
 - Favorite list management
-- Update life information (photos, text...)
-- Display conservation status
+- Contribute to species (photos, text...)
 - Improve search filters (shape, colors...)
 - Improve text search including family names
 
-## Improvement
-
-- Static page only for species info
-- Etoile de mer rouge doesnt appear in group:faune and type:species ?
-- Rules for storage and firestore (prevent auth null)
-
-## Seed
-
-/// FISHES ///
-
-=> Labridae (49284)
-50968 - Girelle commune
-50972 - Girelle paon
-
-=> Epinephelidae (1363728)
-100119 - Merou brun
-
-/// CREATURES ///
-
-==> Echinodermata (47549)
-======> Holothuroidea (47720)
-324819 - Concombre des mers
-======> Etoile de mer (47668)
-117446 - Etoile de mer rouge
-======> Oursin (47548)
-48032 - Oursin Violet
-
-=> Cnidaria (47534)
-256089 - Meduse pelagie
-324852 - Meduse oeuf au plat
-
-/// CORALS, SPONGES, PLANTS ///
-
-=> Demospongiae (57736)
-363864 - Éponge rouge
-905466 - Éponge cornée noire
-
-# Other commands
+## Other commands
 
 ```bash
 npx kill-port 8080
 ```
+
+## Useful links
+
+- Figma design: https://www.figma.com/file/op3TNvwVbWuf1nN5kMUtOj/SEA-LIFE?t=M7TfKsfOFSdda5tQ-0
+- https://www.pwabuilder.com/reportcard?site=https://sea-life.vercel.app/
+- https://manifest-gen.netlify.app/
 
 ## Archive code
 

@@ -1,10 +1,42 @@
-import { useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { logOut, signInWithGoogle } from "../../firebase/auth";
+import { auth, logOut, signInWithGoogle } from "../../firebase/clientApp";
+import fetchJson from "../../iron-session/fetchJson";
+import useUser from "../../iron-session/useUser";
+import { IUser } from "../../types/User";
 import Button from "./Button";
 
 export function GoogleSignIn() {
   const [disabled, setDisabled] = useState(false);
+  const { mutateUser } = useUser();
+
+  useEffect(() => {
+    let unsubscribe;
+
+    unsubscribe = onAuthStateChanged(auth, async (userSession) => {
+      if (!userSession) return;
+
+      const body = {
+        idToken: await userSession.getIdToken(),
+      };
+
+      try {
+        mutateUser(
+          await fetchJson("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          }),
+          false
+        );
+      } catch (error) {
+        console.error("An unexpected error happened:", error);
+      }
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <GoogleButton
@@ -22,7 +54,33 @@ export function GoogleSignIn() {
 }
 
 export function GoogleSignOut() {
-  return <Button onClick={logOut}>Se déconnecter</Button>;
+  const { mutateUser } = useUser();
+
+  useEffect(() => {
+    let unsubscribe;
+
+    unsubscribe = onAuthStateChanged(auth, async (userSession) => {
+      if (userSession) return;
+      try {
+        mutateUser(
+          await fetchJson("/api/logout", {
+            method: "POST",
+          }),
+          false
+        );
+      } catch (error) {
+        console.error("An unexpected error happened:", error);
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
+  return (
+    <Button $outline onClick={logOut}>
+      Se déconnecter
+    </Button>
+  );
 }
 
 // Style

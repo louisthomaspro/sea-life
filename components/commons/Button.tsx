@@ -1,64 +1,47 @@
 import styled from "styled-components";
-import { m } from "framer-motion";
+import { HTMLMotionProps, m } from "framer-motion";
 import { shader } from "../../utils/helper";
-interface IButtonProps {
+
+interface IButtonProps extends HTMLMotionProps<"button"> {
   primary?: boolean;
-  secondary?: boolean;
-  tertiary?: boolean;
-  disabled?: boolean;
-  icon?: boolean;
-  iconWidth?: string;
-  className?: string;
-  children: React.ReactNode;
+  $outline?: boolean;
   "aria-label"?: string;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
-export default function Button(props: IButtonProps) {
+
+const Button = (props: IButtonProps) => {
   return (
-    <Style
+    <ButtonStyle
       className={props.className}
-      aria-label={props["aria-label"]}
-      iconWidth={props.iconWidth}
-      icon={props.icon}
+      onClick={props.onClick}
+      {...props}
+      // whileTap={{
+      //   backgroundColor: shader(
+      //     getComputedStyle(document.documentElement)
+      //       .getPropertyValue("--primary-color")
+      //       .trim(),
+      //     props.$outline ? 1 : -0.2
+      //   ),
+      //   transition: { duration: 0.1, ease: "easeInOut" },
+      // }}
     >
-      <m.button
-        whileTap={{
-          backgroundColor: shader(
-            getComputedStyle(document.documentElement)
-              .getPropertyValue("--primary-color")
-              .trim(),
-            -0.2
-          ),
-          transition: { duration: 0.1, ease: "easeInOut" },
-        }}
-        onClick={props.onClick}
-      >
-        {props.children}
-      </m.button>
-    </Style>
+      {props.children}
+    </ButtonStyle>
   );
-}
+};
 
-// Style
-const Style = styled.div<IButtonProps>`
-  button {
-    display: flex;
-    padding: 0 10px;
-    color: #ffffff;
-    background: var(--primary-color);
-    border-radius: var(--border-radius);
-    height: 50px;
-    align-items: center;
-    justify-content: center;
-    width: ${(props) => (props?.icon ? "50px" : "auto")};
-    cursor: pointer;
+Button.displayName = "CustomButton";
+export default Button;
 
-    svg {
-      width: ${(props) => props?.iconWidth ?? "22px"};
-
-      path {
-        fill: #ffffff;
-      }
-    }
-  }
+const ButtonStyle = styled(m.button)<IButtonProps>`
+  background-color: ${(props) => (props.$outline ? "transparent" : "white")};
+  color: ${(props) => (props.$outline ? "var(--text-color)" : "white")};
+  border: ${(props) => (props.$outline ? "1px solid" : "none")};
+  border-color: var(--text-color);
+  border-radius: 10px;
+  padding: 0.8rem 0.8rem;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  background-color: ${(props) => (props.$outline ? "white" : "#282828")};
 `;

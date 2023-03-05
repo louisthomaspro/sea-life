@@ -1,9 +1,6 @@
 import { Head, Html, Main, NextScript } from "next/document";
 import Document, { DocumentContext } from "next/document";
 import { ServerStyleSheet } from "styled-components";
-// import nunito from ''
-// const nunito = require("@fontsource/nunito");
-// import fontGilroyBold from "@fontsource/nunito/files/nunito-v16-latin-700.woff2";
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -31,13 +28,10 @@ export default class MyDocument extends Document {
     return (
       <Html lang="fr">
         <Head>
-          <meta
-            name="application-name"
-            content="Vie Marine (Mer Mediterranée)"
-          />
+          <meta name="application-name" content="SeaLife" />
           <meta
             name="description"
-            content="L'application Vie Marine est un guide d'identification de la mer Mediterranée. Vous pouvez y trouver des informations sur les différentes espèces de la mer."
+            content="Explorer la vie marine de la Méditerranée, de l'Océan Indien et du Pacifique tropical avec plus de 1000 fiches d'espèces communes ou insolites. Chaque fiche comporte des photos prises dans leur milieu naturel et des informations sur leur comportement, morphologie et habitat. Recherchez facilement une espèce en utilisant son nom commun ou scientifique. Utilisez les filtres pour retrouver une espèces en fonction de sa couleur, sa forme ou son habitat. Téléchargez notre application maintenant pour une expérience de découverte marine inoubliable !"
           />
           <meta name="theme-color" content="#ffffff" />
           <meta name="referrer" content={"strict-origin"} />
@@ -45,22 +39,15 @@ export default class MyDocument extends Document {
           <link rel="manifest" href="/manifest.json" />
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
           <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-          <link rel="apple-touch-icon" href="/favicon-512x512.png" />
+          <link rel="apple-touch-icon" href="/icon-512x512.png" />
           <link
-            href="/favicon-512x512.png"
+            href="/icon-512x512.png"
             rel="icon"
             type="image/png"
             sizes="512x512"
           />
 
           {/* <link href={nunito} rel="stylesheet" /> */}
-          <link rel="preconnect" href="https://sea-guide.firebaseapp.com" />
-          <link rel="preconnect" href="https://apis.google.com" />
-
-          <link
-            href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
-            rel="stylesheet"
-          ></link>
         </Head>
         <body>
           <Main />

@@ -10,6 +10,6 @@ const algoliaAdmin = algoliasearch(
   process.env.ALGOLIA_SEARCH_ADMIN_KEY
 );
 
-const algoliaIndex = algolia.initIndex("sea-guide");
+const speciesIndex = algolia.initIndex("species");
 
-export { algolia, algoliaIndex, algoliaAdmin };
+export { algolia, speciesIndex, algoliaAdmin };

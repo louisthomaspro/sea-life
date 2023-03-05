@@ -1,5 +1,4 @@
 import { ImageLoaderProps } from "next/image";
-const getRandomValues = require("get-random-values");
 export const shader = require("shader");
 
 export const blurDataURL = () => {
@@ -31,18 +30,10 @@ export const firebaseStorageLoader = ({
   quality,
 }: ImageLoaderProps) => {
   const url =
-    "https://firebasestorage.googleapis.com/v0/b/sea-guide.appspot.com/o/";
+    "https://firebasestorage.googleapis.com/v0/b/sea-life-app.appspot.com/o/";
   const fullPath = `${url}${encodeURIComponent(src)}`;
   const prefix = ".webp?alt=media";
   return `${fullPath}_${width}x${width}${prefix}`;
-};
-
-export const uuidv4 = (): string => {
-  // @ts-ignore
-  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
-    // tslint:disable-next-line:no-bitwise
-    (c ^ (getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)
-  );
 };
 
 export const revalidateId = (id: string) => {
@@ -56,7 +47,10 @@ export const revalidateId = (id: string) => {
   });
 };
 
-export const searchTreeClassification = (element: any, matchingSlug: any): any => {
+export const searchTreeClassification = (
+  element: any,
+  matchingSlug: any
+): any => {
   if (element?.permalink == matchingSlug) {
     return element;
   } else if (element.children != null) {
@@ -69,3 +63,16 @@ export const searchTreeClassification = (element: any, matchingSlug: any): any =
   }
   return null;
 };
+
+export const capitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+export const capitalizeWords = (string: string) => {
+  if (typeof string !== "string") return "";
+  const words = string.split(" ");
+  const capitalizedWords = words.map(
+    (word) => word[0].toUpperCase() + word.slice(1)
+  );
+  return capitalizedWords.join(" ");
+}

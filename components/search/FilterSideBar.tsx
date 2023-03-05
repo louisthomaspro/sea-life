@@ -36,7 +36,7 @@ export default function FilterSideBar(props: SidebarProps) {
           </div>
         </div>
         <div className="filter-action">
-          <Button secondary aria-label="Effacer">
+          <Button aria-label="Effacer">
             Effacer
           </Button>
           <Button className="ml-2" aria-label="Afficher">

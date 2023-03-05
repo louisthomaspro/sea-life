@@ -1,9 +1,12 @@
+import { NextPage } from "next";
 import BottomNavigation from "../components/commons/BottomNavigation";
 
-const Search = () => {
+const Search: NextPage = () => {
   return (
     <>
-      Search
+      <div className="main-container">
+        Contenu de rechercher
+      </div>
       <BottomNavigation />
     </>
   );

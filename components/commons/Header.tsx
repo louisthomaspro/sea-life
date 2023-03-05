@@ -1,110 +1,89 @@
-import { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import dynamic from "next/dynamic";
-import { m } from "framer-motion";
+import BackButton from "./BackButton";
 
-// Svg
-import CircleUserSvg from "../../public/icons/fontawesome/light/circle-user.svg";
-import HomeSvg from "../../public/icons/fontawesome/light/home.svg";
-import ArrowLeftSvg from "../../public/icons/fontawesome/light/arrow-left.svg";
-import Link from "next/link";
-import { whileTapAnimationIconButton } from "../../constants/config";
-
-const DynamicProfileSideBar = dynamic(
-  () => import("../commons/ProfileSideBar")
-);
-
-interface IHeaderProps {
+interface IHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;
   showBackButton?: boolean;
-  showHomeButton?: boolean;
-  showProfileButton?: boolean;
-  noBackground?: boolean;
-  shadow?: boolean;
+
+  hideMainHeader?: boolean;
+  showOnScroll?: boolean;
 }
 export default function Header(props: IHeaderProps) {
-  const [profileVisible, setProfileVisible] = useState(false);
-  const router = useRouter();
+  const [showScrollHeader, setShowScrollHeader] = useState(false);
+
+  const handleScroll = () => {
+    if (window.scrollY > 100) {
+      setShowScrollHeader(true);
+    } else {
+      setShowScrollHeader(false);
+    }
+  };
+
+  useEffect(() => {
+    if (props.showOnScroll) {
+      window.addEventListener("scroll", handleScroll);
+    }
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>
-      <DynamicProfileSideBar
-        visible={profileVisible}
-        position="right"
-        onHide={() => setProfileVisible(false)}
-        showCloseIcon={false}
-      />
-      <Style {...props}>
+      {props.showOnScroll && (
+        <Header
+          title={props.title}
+          showBackButton
+          className={`transition fixed sm:hidden ${
+            showScrollHeader ? "opacity-100 z-5" : "opacity-0 z-0"
+          }`}
+          style={{
+            borderBottom: "border-bottom: 1px solid var(--border-color-light);",
+          }}
+        />
+      )}
+      <Style
+        {...props}
+        className={`${props.className} sm:px-0 z-1 ${
+          props.hideMainHeader ? "hidden" : ""
+        }`}
+      >
         <div className="flex" style={{ width: "42px" }}>
           {props.showBackButton && (
-            <m.button
-              whileTap={whileTapAnimationIconButton}
-              onClick={() => {
-                router.push(
-                  router.asPath.substring(0, router.asPath.lastIndexOf("/"))
-                );
-              }}
-            >
-              <ArrowLeftSvg
-                aria-label="Back"
-                className="svg-icon"
-                style={{ height: "22px" }}
-              />
-            </m.button>
+            <>
+              <BackButton />
+            </>
           )}
         </div>
         <div className="title flex align-items-center justify-content-center">
           {props.title}
         </div>
-        <div className="flex" style={{ width: "42px" }}>
-          {props.showHomeButton && (
-            <Link href="/">
-              <m.button whileTap={whileTapAnimationIconButton}>
-                <HomeSvg
-                  aria-label="Home"
-                  className="svg-icon"
-                  style={{ width: "22px" }}
-                />
-              </m.button>
-            </Link>
-          )}
-          {props.showProfileButton && (
-            <m.button
-              whileTap={whileTapAnimationIconButton}
-              onClick={() => setProfileVisible(true)}
-            >
-              <CircleUserSvg
-                aria-label="Profile"
-                className="svg-icon"
-                style={{ width: "22px" }}
-              />
-            </m.button>
-          )}
-        </div>
+        <div className="flex" style={{ width: "42px" }}></div>
       </Style>
     </>
   );
 }
 
 // Style
-const Style = styled.div<IHeaderProps>`
+const Style = styled.header<IHeaderProps>`
   height: 60px;
   top: 0;
+  z-index: 100;
+  width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
   padding-left: var(--global-padding);
   padding-right: var(--global-padding);
-  box-shadow: ${({ shadow }) =>
-    shadow ? "0px 0px 1px rgba(0, 0, 0, 0.25)" : "none"};
-  margin-bottom: 1rem;
-  background-color: ${({ noBackground }) =>
-    noBackground ? "transparent" : " #ffffff"};
+  background-color: #ffffff;
+
+  transition: all 0.1s ease-in-out;
 
   .title {
     font-size: 24px;
+    line-height: 24px;
     font-weight: bold;
     color: var(--text-color-1);
   }

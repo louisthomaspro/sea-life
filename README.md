@@ -1,10 +1,49 @@
-# SeaLife
-
-## Description
-
-PWA built with Next.js, React, Firestore and Algolia. The app allows users to explore marine life and its features include species profiles, search filters and categories.
-
 ![screenshot preview](public/screenshots/preview.jpg)
+
+## About SeaLife
+
+Explore the marine life of the Mediterranean, the Indian Ocean and the tropical Pacific with more than 1000 cards of common or unusual species. Each sheet includes photos taken in their natural environment and information on their behavior, morphology and habitat.
+
+Easily search for a species using its common or scientific name. Use the filters to find a species based on its color, shape or habitat.
+
+- [Website](https://sea-life.vercel.app/)
+- [Google Play Store](https://play.google.com/store/apps/details?id=app.vercel.sea_life.twa)
+
+---
+<br>
+
+## Table of Contents
+
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Firebase emulator](#firebase-emulator)
+- [Algolia](#algolia)
+- [Facebook API (for fetching feed)](#facebook-api-for-fetching-feed)
+- [Build and publish for Google Play Store](#build-and-publish-for-google-play-store)
+- [API](#api)
+- [Other commands](#other-commands)
+- [Useful links](#useful-links)
+
+## Features
+
+### Major
+
+- [x] Browse species by category
+- [x] Search species by name
+- [x] Filter species by region
+- [x] Species profile (environment, behavior, taxonomy, etc.)
+- [x] Google sign-in
+- [ ] Contribution form (coming soon)
+- [ ] Filter species by size, color, habitat, diet, etc.
+- [ ] Video gallery
+- [ ] Favorite list management
+
+### Minor
+
+- [ ] Breadcrumb when navigating between categories
+- [ ] Similar species list or species of same family
+- [ ] Improve text search including species family names
+
 
 ## Getting Started
 
@@ -22,16 +61,12 @@ yarn dev
 
 Navigate to [http://localhost:3000](http://localhost:3000)
 
----
+## Firebase emulator
 
-<br>
+Firebase is used for database, authentication and functions.
+For development, you can the emulator to test locally.
 
-## Firebase
-
-Firebase is used for authentication and database and functions.
-We can use the emulator to test locally.
-
-### Installation
+### Setup emulator
 
 ```bash
 npm install -g firebase-tools
@@ -39,36 +74,37 @@ npx firebase login
 npx firebase use sea-life-app # (optional)
 
 # Select Authentication, Functions, Firestore
-npx firebase init emulators
+npx firebase init emulators 
+
 # Get current extension configuration
-npx firebase ext:export # (optional)
+npx firebase ext:export # (optional) 
 ```
 
-### Functions
-
-```bash
-# Compile functions automatically to test in local
-npm run build:watch --prefix functions # (open a separate terminal window)
-
-# Deploy to cloud
-npx firebase deploy --only functions # all functions
-npx firebase deploy --only functions:group-updateCountOnGroupCreate # single function
-```
-
-### Database
+### Start emulator
 
 ```bash
 # Update env variable
 # NEXT_PUBLIC_FIREBASE_EMULATOR=true
 
-# Start emulator with existing local data
+# Start emulator and import existing local data
 npx firebase emulators:start --import ./firebase/export/
 
-# Start emulator without cloud function and UI to make it work in offline
+# Start emulator (only firestore for offline mode)
 npx firebase emulators:start --only firestore --import ./firebase/export/
 
-# Save the current local data to be able to restore it later
+# Export existing local data
 npx firebase emulators:export ./firebase/export
+```
+
+### Emulate functions & deploy
+
+```bash
+# Watch for changes
+npm run build:watch --prefix functions
+
+# Deploy functions to cloud
+npx firebase deploy --only functions # (all functions)
+npx firebase deploy --only functions:group-updateCountOnGroupCreate # (single function)
 ```
 
 ## Algolia
@@ -77,7 +113,7 @@ npx firebase emulators:export ./firebase/export
 
 > **Prerequisites** <br>
 > Download service account key file: https://console.firebase.google.com/u/0/project/sea-life-app/settings/serviceaccounts/adminsdk <br>
-> Upload the file to the root of the project and rename it to `sea-life-app-firebase-adminsdk.json`
+> Save it to the root of the project and rename to `sea-life-app-firebase-adminsdk.json`
 
 ```bash
 npm install -g firestore-algolia-search
@@ -97,13 +133,12 @@ What is the path to the Google Application Credential File? ./sea-life-app-fireb
 Change extracted field in **firestore extension** :
 https://console.firebase.google.com/project/sea-life-app/extensions/instances/firestore-algolia-search?tab=config
 
-## Facebook API
+## Facebook API (for fetching feed)
 
-To get Facebook App info: https://developers.facebook.com/apps/518199423531488/settings/basic/
-<br/>
-Query : https://developers.facebook.com/tools/explorer/?method=GET&path=me%2Ffeed%3Ffields%3Dpermalink_url&version=v15.0
+- Get Facebook App info: https://developers.facebook.com/apps/518199423531488/settings/basic/
+- Query: https://developers.facebook.com/tools/explorer/?method=GET&path=me%2Ffeed%3Ffields%3Dpermalink_url&version=v15.0
 
-#### Generate permanent token
+### Generate permanent token
 
 1. Get user access token: https://developers.facebook.com/tools/explorer/
 2. Generate long-lived token: https://developers.facebook.com/tools/debug/accesstoken/?access_token={USER_ACCESS_TOKEN}&version=v15.0
@@ -111,14 +146,6 @@ Query : https://developers.facebook.com/tools/explorer/?method=GET&path=me%2Ffee
 
 When Data Access expires, you can regain access by following the instructions:
 https://developers.facebook.com/docs/facebook-login/auth-vs-data/
-
-## Performances
-
-### Bundle Analyzer
-
-```bash
-yarn analyze
-```
 
 ## Build and publish for Google Play Store
 
@@ -134,7 +161,7 @@ bubblewrap init --manifest=https://sea-life.vercel.app/manifest.json
 bubblewrap build
 ```
 
-### Other ways to build:
+#### Other ways to build:
 
 **Using [pwabuilder.com](https://pwabuilder.com)**
 
@@ -161,15 +188,14 @@ npx cap open android
 - Go to https://play.google.com/console/developers
 - Select sea-life
 - Go to "Release" > "Production" > "Create new release"
-- Upload aab file and fill the form
+- Upload `.aab` file and fill the form
 
-## Postman
+## API
 
-### Dev (can only be used in development environment)
-
-#### Get token (using firebase auth emulator)
+### `/api/dev` (only dev env)
 
 ```bash
+# Get firebase auth token (using emulator)
 curl --location --request POST 'localhost:3000/api/dev/getToken?uid=sXokqYzLlTZQ6CkDRvLruttNLDhH' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -178,11 +204,8 @@ curl --location --request POST 'localhost:3000/api/dev/getToken?uid=sXokqYzLlTZQ
         "admin": true
     }
 }'
-```
 
-#### Set admin claim
-
-```bash
+# Set admin claims
 curl --location --request POST 'localhost:3000/api/dev/setCustomClaims' \
 --header 'Authorization: Bearer <idToken>' \
 --header 'Content-Type: application/json' \
@@ -194,32 +217,22 @@ curl --location --request POST 'localhost:3000/api/dev/setCustomClaims' \
 }'
 ```
 
-### Prod
-
-#### Clear algolia index
+### `/api/admin` (only admin)
 
 ```bash
+# Clear algolia index
 curl --location --request POST 'localhost:3000/api/admin/clearAlgolia' \
 --header 'Authorization: Bearer <idToken>'
 ```
 
-<br>
-
-# Other
-
-## Features
-
-- Breadcrumb
-- Similar species list or species of same family
-- Favorite list management
-- Contribute to species (photos, text...)
-- Improve search filters (shape, colors...)
-- Improve text search including family names
-
 ## Other commands
 
 ```bash
+# Kill port
 npx kill-port 8080
+
+# Generate bundle report
+yarn analyze
 ```
 
 ## Useful links
@@ -228,39 +241,11 @@ npx kill-port 8080
 - https://www.pwabuilder.com/reportcard?site=https://sea-life.vercel.app/
 - https://manifest-gen.netlify.app/
 
-## Archive code
 
-#### Get blob from external url and upload to storage
+## Contributing
 
-```ts
+See [CONTRIBUTING](./CONTRIBUTING.md) for more information.
 
-// Back
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  const { url } = req.body;
-  const blob = await fetch(url).then((r) => r.blob());
+## License
 
-  res.setHeader("Content-Type", blob.type);
-  const buffer = await blob.arrayBuffer();
-  res.send(Buffer.from(buffer) as any);
-}
-
-// Client
-const blob = await fetch("http://localhost:3000/api/getINaturalistImage", {
-  method: "POST",
-  mode: "cors",
-  cache: "default",
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify(body),
-}).then((res) => res.blob());
-
-...
-
-const storageRef = ref(storage, `${filePath}.${extension}`);
-await uploadBytes(storageRef, blob);
-```
+See [LICENSE](./LICENSE) for more information.

@@ -2,5 +2,12 @@
   "cSpell.words": ["biotopes", "Toastify"],
   "files.associations": {
     ".env.*": "env"
-  }
+  },
+  "files.watcherExclude": {
+    "archives": true,
+    "node_modules": true,
+    ".git": true
+  },
+  "editor.indentSize": "tabSize",
+  "editor.insertSpaces": true,
 }

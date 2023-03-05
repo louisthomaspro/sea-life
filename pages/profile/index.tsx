@@ -1,15 +1,29 @@
 import { NextPage } from "next";
 import BottomNavigation from "../../components/commons/BottomNavigation";
 import styled from "styled-components";
-import { GoogleSignIn, GoogleSignOut } from "../../components/commons/GoogleAuth";
-import { useContext } from "react";
-import AuthContext from "../../context/auth.context";
+import {
+  GoogleSignIn,
+  GoogleSignOut,
+} from "../../components/commons/GoogleAuth";
 import Link from "next/link";
 import { m } from "framer-motion";
 import { shader } from "../../utils/helper";
+import useUser from "../../iron-session/useUser";
+import { withSessionSsr } from "../../iron-session/withSession";
+import { IUser } from "../../types/User";
+import { useEffect, useState } from "react";
 
-const Profile: NextPage = () => {
-  const { userSession, userData } = useContext(AuthContext);
+const Profile: NextPage<{
+  user: IUser;
+}> = ({ user }) => {
+  const [sessionUser, setSessionUser] = useState(user);
+  const { user: contextUser } = useUser();
+
+  useEffect(() => {
+    if (contextUser && contextUser !== sessionUser) {
+      setSessionUser(contextUser);
+    }
+  }, [contextUser]);
 
   return (
     <>
@@ -18,7 +32,7 @@ const Profile: NextPage = () => {
         <div className="title py-3">Mon compte</div>
       </HeaderSection>
       <Style className="bottom-navigation">
-        {userSession ? (
+        {sessionUser?.isLoggedIn ? (
           <div>
             <ListMenu className="max-width-500">
               {/* <ListItem title="Admin" link="/profile/admin/news" /> */}
@@ -45,6 +59,14 @@ const Profile: NextPage = () => {
     </>
   );
 };
+
+export const getServerSideProps = withSessionSsr(async function ({ req, res }) {
+  return {
+    props: {
+      user: req.session.user ?? null,
+    },
+  };
+});
 
 export default Profile;
 

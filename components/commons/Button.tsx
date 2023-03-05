@@ -14,15 +14,15 @@ const Button = (props: IButtonProps) => {
       className={props.className}
       onClick={props.onClick}
       {...props}
-      whileTap={{
-        backgroundColor: shader(
-          getComputedStyle(document.documentElement)
-            .getPropertyValue("--primary-color")
-            .trim(),
-          props.$outline ? 1 : -0.2
-        ),
-        transition: { duration: 0.1, ease: "easeInOut" },
-      }}
+      // whileTap={{
+      //   backgroundColor: shader(
+      //     getComputedStyle(document.documentElement)
+      //       .getPropertyValue("--primary-color")
+      //       .trim(),
+      //     props.$outline ? 1 : -0.2
+      //   ),
+      //   transition: { duration: 0.1, ease: "easeInOut" },
+      // }}
     >
       {props.children}
     </ButtonStyle>

@@ -2,7 +2,7 @@ import "firebase/auth";
 import "firebase/firestore";
 import { NextApiRequest, NextApiResponse } from "next";
 import { firebaseAdmin } from "../../../firebase/adminApp";
-import { withAuth } from "../../../hooks/withAuth";
+import { withAuthApi } from "../../../hooks/withAuth";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   const { uid, claims } = req.body;
@@ -22,6 +22,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
       claims,
     });
 
+    // Revokes all refresh tokens for the user
+    await firebaseAdmin.auth().revokeRefreshTokens(user.uid);
+
     return res.status(200).json({ message: "New claim set successfully" });
   } catch (error) {
     console.error(error);
@@ -29,5 +32,5 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   }
 };
 
-export default withAuth(handler);
+export default withAuthApi(handler);
 export { handler as setCustomClaims };

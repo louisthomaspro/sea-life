@@ -1,7 +1,6 @@
 import { Sidebar, SidebarProps } from "primereact/sidebar";
 import { useContext, useState } from "react";
 import styled from "styled-components";
-import AuthContext from "../../context/auth.context";
 import { Dropdown } from "primereact/dropdown";
 import { InputTextarea } from "primereact/inputtextarea";
 import Button from "./Button";
@@ -9,6 +8,7 @@ import { saveSuggestion } from "../../utils/firestore/species.firestore";
 import { useFormik } from "formik";
 import { ISpecies } from "../../types/Species";
 import { ISuggestionForm } from "../../types/Suggestion";
+import useUser from "../../iron-session/useUser";
 
 const fields = [
   { name: "Habitat", id: "habitat" },
@@ -22,7 +22,7 @@ interface IContributionSideBarProps extends SidebarProps {
 }
 
 export default function ContributionSideBar(props: IContributionSideBarProps) {
-  const { userSession, userData } = useContext(AuthContext);
+  const { user } = useUser();
 
   const formik = useFormik<any>({
     initialValues: {
@@ -48,7 +48,7 @@ export default function ContributionSideBar(props: IContributionSideBarProps) {
         field: data.field,
         newValue: null,
         comment: data.comment,
-        userId: userData.email,
+        userId: user.uid,
         speciesId: props.species.id,
       };
 

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { withAuth } from "../../../hooks/withAuth";
+import { withAuthApi } from "../../../hooks/withAuth";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   // Check for secret to confirm this is a valid request
@@ -21,4 +21,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   }
 };
 
-export default withAuth(handler, { admin: true });
+export default withAuthApi(handler, { admin: true });

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { algoliaAdmin } from "../../../algolia/clientApp";
-import { withAuth } from "../../../hooks/withAuth";
+import { withAuthApi } from "../../../hooks/withAuth";
 
 const handler = async (
   req: NextApiRequest,
@@ -9,4 +9,4 @@ const handler = async (
   await algoliaAdmin.initIndex("sea-life").clearObjects();
   res.status(200).json({ message: "Algolia cleared" });
 }
-export default withAuth(handler);
+export default withAuthApi(handler);

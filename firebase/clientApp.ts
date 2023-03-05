@@ -1,11 +1,16 @@
 import { initializeApp, getApps, FirebaseApp } from "firebase/app";
-import { connectAuthEmulator } from "firebase/auth";
+import {
+  connectAuthEmulator,
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import {
   connectFirestoreEmulator,
   getFirestore,
 } from "firebase/firestore/lite";
 import { connectStorageEmulator, getStorage } from "firebase/storage";
-import { auth } from "./auth";
 
 const clientCredentials = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -24,6 +29,10 @@ if (getApps().length < 1) {
 
 let firestore = getFirestore(firebase);
 let storage = getStorage(firebase);
+let auth = getAuth(firebase);
+
+const signInWithGoogle = () => signInWithPopup(auth, new GoogleAuthProvider());
+const logOut = () => signOut(auth);
 
 const EMULATORS_STARTED = "EMULATORS_STARTED";
 function startEmulators() {
@@ -34,7 +43,9 @@ function startEmulators() {
     /* Enable below line to connect to the firestore emulator */
     connectFirestoreEmulator(firestore, "localhost", 8080);
     /* Enable below line to connect to the auth emulator */
-    connectAuthEmulator(auth, "http://localhost:9099");
+    connectAuthEmulator(getAuth(firebase), "http://localhost:9099", {
+      disableWarnings: true,
+    });
   }
 }
 
@@ -42,4 +53,4 @@ if (process.env.NEXT_PUBLIC_FIREBASE_EMULATOR === "true") {
   startEmulators();
 }
 
-export { firebase, firestore, storage };
+export { firebase, firestore, storage, auth, signInWithGoogle, logOut };

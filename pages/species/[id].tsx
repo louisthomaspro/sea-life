@@ -5,7 +5,7 @@ import {
   getSpecies,
 } from "../../utils/firestore/species.firestore";
 import { ISpecies } from "../../types/Species";
-import { capitalizeWords, shader } from "../../utils/helper";
+import { capitalizeWords } from "../../utils/helper";
 import BackButton from "../../components/commons/BackButton";
 import ScrollHeader from "../../components/commons/ScrollHeader";
 import SpeciesEnvironment from "../../components/species/SpeciesEnvironment";
@@ -18,6 +18,10 @@ import SpeciesBehavior from "../../components/species/SpeciesBehavior";
 import PenToSquareSvg from "../../public/icons/fontawesome/light/pen-to-square.svg";
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import { SignInToast } from "../../utils/toast.helper";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import useUser from "../../iron-session/useUser";
 
 const DynamicProfileSideBar = dynamic(
   () => import("../../components/commons/ContributionSideBar")
@@ -27,6 +31,23 @@ const Species: NextPage<{
   species: ISpecies;
 }> = ({ species }) => {
   const [contributionVisible, setContributionVisible] = useState(false);
+  const { user } = useUser();
+  const router = useRouter();
+
+  const handleContributionButton = () => {
+    // if user signed in
+    if (user.isLoggedIn) {
+      if (user.isAdmin) {
+        router.push(`/species/${species.id}/edit`);
+      } else {
+        setContributionVisible(true);
+      }
+    } else {
+      toast(SignInToast({ message: "Connecte toi pour contribuer" }), {
+        toastId: "signIn",
+      });
+    }
+  };
 
   return (
     <>
@@ -47,14 +68,14 @@ const Species: NextPage<{
           <div className="col-12 sm:col-6">
             <div className="global-padding pt-0">
               <SpeciesTitle species={species} />
-              {/* <ContributeButton onClick={() => setContributionVisible(true)}>
+              <ContributeButton onClick={() => handleContributionButton()}>
                 Contribuer
                 <PenToSquareSvg
                   aria-label="contribute"
                   className="ml-2 svg-icon"
                   style={{ width: "16px" }}
                 />
-              </ContributeButton> */}
+              </ContributeButton>
               <SpeciesHighlight species={species} />
             </div>
             {/* <SpeciesAnecdote species={props.species} /> */}

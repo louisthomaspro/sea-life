@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import AuthContext from "../../context/auth.context";
 import {
   addFavorite,
   removeFavorite,
@@ -10,11 +9,11 @@ import HeartSvg from "../../public/icons/primeicons/heart.svg";
 import HeartFillSvg from "../../public/icons/primeicons/heart-fill.svg";
 import { GoogleSignIn } from "../commons/GoogleAuth";
 import RoundButton from "../commons/RoundButton";
+import useUser from "../../iron-session/useUser";
 
 export default function FavoriteButton(props: { lifeId: string }) {
   const [isFavorite, setIsFavorite] = useState(false);
-  const { userSession, userData, loading, setUserData } =
-    useContext(AuthContext);
+  const { user } = useUser();
 
   const SignInToast = ({ closeToast, toastProps }: any) => (
     <div className="flex align-items-center">
@@ -24,7 +23,7 @@ export default function FavoriteButton(props: { lifeId: string }) {
   );
 
   const handleFavoriteButton = () => {
-    if (!userSession) {
+    if (!user.isLoggedIn) {
       toast(<SignInToast />, {
         toastId: "signIn",
       });
@@ -32,33 +31,33 @@ export default function FavoriteButton(props: { lifeId: string }) {
     }
 
     if (isFavorite) {
-      removeFavorite(props.lifeId, userSession.email).then(() => {
-        const newFavorites = userData.favorites.filter(
-          (id) => id !== props.lifeId
-        );
-        const newUserData = { ...userData, favorites: newFavorites };
-        setUserData(newUserData);
-        setIsFavorite(false);
-        toast("Espèce retirée des favoris", { autoClose: 1000 });
+      removeFavorite(props.lifeId, user.email).then(() => {
+        // const newFavorites = user.favorites.filter(
+        //   (id) => id !== props.lifeId
+        // );
+        // const newUserData = { ...userData, favorites: newFavorites };
+        // setUserData(newUserData);
+        // setIsFavorite(false);
+        // toast("Espèce retirée des favoris", { autoClose: 1000 });
       });
     } else {
-      addFavorite(props.lifeId, userSession.email).then(() => {
-        userData.favorites.push(props.lifeId);
-        const newUserData = userData;
-        setUserData(newUserData);
-        setIsFavorite(true);
-        toast("Espèce ajoutée aux favoris", { autoClose: 1000 });
-      });
+      // addFavorite(props.lifeId, userSession.email).then(() => {
+      //   userData.favorites.push(props.lifeId);
+      //   const newUserData = userData;
+      //   setUserData(newUserData);
+      //   setIsFavorite(true);
+      //   toast("Espèce ajoutée aux favoris", { autoClose: 1000 });
+      // });
     }
   };
 
-  useEffect(() => {
-    if (userData) {
-      if (userData.favorites.some((el) => el === props.lifeId)) {
-        setIsFavorite(true);
-      }
-    }
-  }, [userData, userSession, loading, props.lifeId]);
+  // useEffect(() => {
+  //   if (userData) {
+  //     if (userData.favorites.some((el) => el === props.lifeId)) {
+  //       setIsFavorite(true);
+  //     }
+  //   }
+  // }, [userData, userSession, loading, props.lifeId]);
 
   return (
     <RoundButton ariaLabel="Favorite" onClick={handleFavoriteButton}>

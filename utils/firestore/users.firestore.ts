@@ -11,8 +11,8 @@ import { IUser } from "../../types/User";
 
 const collectionName = "users";
 
-export const getUser = (email: string) => {
-  const document = getDoc(doc(firestore, `${collectionName}/${email}`));
+export const getUser = (uid: string) => {
+  const document = getDoc(doc(firestore, `${collectionName}/${uid}`));
   return document.then((doc) => doc.data()) as Promise<IUser>;
 };
 

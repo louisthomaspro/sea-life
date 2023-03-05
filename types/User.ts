@@ -1,5 +1,7 @@
 export interface IUser {
-  email: string;
-  admin?: boolean;
+  email?: string;
+  uid? : string;
+  isLoggedIn?: boolean;
+  isAdmin?: boolean;
   favorites?: string[];
 }

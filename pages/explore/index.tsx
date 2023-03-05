@@ -147,7 +147,7 @@ export default Explore;
 export const getStaticProps: GetStaticProps = async (context) => {
   const [faunaBackgroundPH, floraBackgroundPH] = await Promise.all([
     getPlaiceholder("/img/categories/fauna.jpg", { size: 40 }),
-    getPlaiceholder("/img/categories/flora.jpg"),
+    getPlaiceholder("/img/categories/flora.jpg", { size: 40 }),
   ]);
 
   const [faunaGroup, floraGroup] = await Promise.all([

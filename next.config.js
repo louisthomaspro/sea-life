@@ -63,12 +63,11 @@ let nextConfig = {
   },
 };
 
-// withBundleAnalyzer is not working well with next-pwa and svgr/webpack
+nextConfig = withPWA(nextConfig);
+nextConfig = withPlaiceholder(nextConfig);
+
 if (process.env.ANALYZE) {
   nextConfig = withBundleAnalyzer(nextConfig);
-} else {
-  nextConfig = withPWA(nextConfig);
-  nextConfig = withPlaiceholder(nextConfig);
 }
 
 module.exports = nextConfig;

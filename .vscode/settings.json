@@ -1,6 +1,6 @@
 {
-  "cSpell.words": [
-    "biotopes",
-    "Toastify"
-  ]
+  "cSpell.words": ["biotopes", "Toastify"],
+  "files.associations": {
+    ".env.*": "env"
+  }
 }

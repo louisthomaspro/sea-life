@@ -62,13 +62,13 @@ npx firebase deploy --only functions:group-updateCountOnGroupCreate # single fun
 # NEXT_PUBLIC_FIREBASE_EMULATOR=true
 
 # Start emulator with existing local data
-npx firebase emulators:start --import ./firebase_export/
+npx firebase emulators:start --import ./firebase/export/
 
 # Start emulator without cloud function and UI to make it work in offline
-npx firebase emulators:start --only firestore --import ./firebase_export/
+npx firebase emulators:start --only firestore --import ./firebase/export/
 
 # Save the current local data to be able to restore it later
-npx firebase emulators:export ./firebase_export
+npx firebase emulators:export ./firebase/export
 ```
 
 ## Algolia

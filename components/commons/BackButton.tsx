@@ -3,7 +3,6 @@ import { m } from "framer-motion";
 import ArrowLeftSvg from "../../public/icons/fontawesome/light/arrow-left.svg";
 import { whileTapAnimationIconButton } from "../../constants/config";
 import { useRouter } from "next/router";
-import { useHistory } from "../../context/history.context";
 
 interface IBackButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;

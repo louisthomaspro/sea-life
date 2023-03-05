@@ -1,4 +1,4 @@
-import { cloneDeep } from "lodash";
+import cloneDeep from "lodash/cloneDeep";
 import { useEffect } from "react";
 import styled from "styled-components";
 import { taxonomyRankDict } from "../../constants/taxonomy_rank_dict";

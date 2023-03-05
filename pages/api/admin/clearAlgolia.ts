@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { algoliaAdmin } from "../../../algolia/clientApp";
+import { algoliaAdmin } from "../../../algolia/adminApp";
 import { withAuthApi } from "../../../hooks/withAuth";
 
 const handler = async (

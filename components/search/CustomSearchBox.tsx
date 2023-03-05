@@ -1,5 +1,5 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { debounce, delay } from "lodash";
+import { AnimatePresence, m } from "framer-motion";
+import debounce from "lodash/debounce";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -102,7 +102,7 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
           >
             <div className="global-padding max-width-800">
               <div className="search-header mt-3">
-                <motion.div
+                <m.div
                   layoutId={`${id}-layout`}
                   key={`${id}-layout`}
                   transition={searchBoxTransition}
@@ -135,7 +135,7 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
                       </div>
                     </div>
                   )}
-                </motion.div>
+                </m.div>
                 <div className="close mt-3 ml-2">
                   <XmarkThinSvg
                     onClick={() => setOpenModal(false)}
@@ -162,7 +162,7 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
           </div>
         )}
 
-        <motion.div
+        <m.div
           layoutId={`${id}-layout`}
           key={`${id}-layout`}
           className="input-container fake-input"
@@ -180,7 +180,7 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
             placeholder="Rechercher une espèce"
             readOnly
           />
-        </motion.div>
+        </m.div>
       </Style>
     </AnimatePresence>
   );

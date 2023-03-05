@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { algoliaAdmin } from "../../algolia/clientApp";
 
 export default async function handler(
   req: NextApiRequest,

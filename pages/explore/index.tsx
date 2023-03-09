@@ -6,9 +6,7 @@ import FloraBackground from "../../public/img/categories/flora.jpg";
 import { m } from "framer-motion";
 import { tapAnimationDuration } from "../../constants/config";
 import styled from "styled-components";
-import RegionDropdown from "../../components/commons/RegionDropdown";
 import { useContext } from "react";
-import RegionContext from "../../context/region.context";
 import { getGroup } from "../../utils/firestore/group.firestore";
 import { IGroup } from "../../types/Group";
 import dynamic from "next/dynamic";
@@ -16,6 +14,8 @@ import BottomNavigation from "../../components/commons/BottomNavigation";
 import NewspaperSvg from "../../public/icons/fontawesome/light/newspaper.svg";
 import { getPlaiceholder, IGetPlaiceholderReturn } from "plaiceholder";
 import { BlurhashCanvas } from "react-blurhash";
+import RegionContext from "../../components/region/region.context";
+import RegionDropdown from "../../components/region/RegionDropdown";
 
 const DynamicCustomSearchBox = dynamic(
   () => import("../../components/search/CustomSearchBox")

@@ -1,23 +1,23 @@
-import { getIronSession } from "iron-session";
+import { getIronSession } from "iron-session/edge";
 import { NextRequest, NextResponse } from "next/server";
 import { sessionOptions } from "./iron-session/withSession";
 
-export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
   if (pathname === "/") {
-    return NextResponse.redirect(new URL(`/explore`, request.url));
+    return NextResponse.redirect(new URL(`/explore`, req.url));
   }
 
   const response = NextResponse.next();
 
-  const session = await getIronSession(request, response, sessionOptions);
+  const session = await getIronSession(req, response, sessionOptions);
   const { user } = session;
 
   if (!user) {
-    return NextResponse.redirect(new URL(`/profile`, request.url));
+    return NextResponse.redirect(new URL(`/profile`, req.url));
   }
   if (pathname.startsWith("/species") && !user.isAdmin) {
-    return NextResponse.redirect(new URL(`/profile`, request.url));
+    return NextResponse.redirect(new URL(`/profile`, req.url));
   }
 
   return NextResponse.next();

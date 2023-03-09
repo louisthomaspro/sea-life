@@ -23,13 +23,14 @@ export function GoogleSignIn() {
 
       try {
         mutateUser(
-          await fetchJson("/api/login", {
+          await fetchJson("/api/user/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
           }),
           false
         );
+
       } catch (error) {
         console.error("An unexpected error happened:", error);
       }
@@ -63,7 +64,7 @@ export function GoogleSignOut() {
       if (userSession) return;
       try {
         mutateUser(
-          await fetchJson("/api/logout", {
+          await fetchJson("/api/user/logout", {
             method: "POST",
           }),
           false

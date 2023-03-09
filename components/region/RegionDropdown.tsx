@@ -2,7 +2,7 @@ import { Dropdown } from "primereact/dropdown";
 import { useContext } from "react";
 import styled from "styled-components";
 import { regionsList } from "../../constants/regions";
-import RegionContext from "../../context/region.context";
+import RegionContext from "./region.context";
 
 interface IRegionDropdown extends React.HTMLAttributes<HTMLDivElement> {}
 export default function RegionDropdown(props: IRegionDropdown) {

@@ -2,8 +2,6 @@ import { NextPage } from "next";
 import styled from "styled-components";
 import Header from "../../../components/commons/Header";
 import { ISpecies } from "../../../types/Species";
-import { firebaseAdmin } from "../../../firebase/adminApp";
-import { withAuth } from "../../../hooks/withAuth";
 import { withSessionSsr } from "../../../iron-session/withSession";
 
 const Edit: NextPage<{
@@ -13,7 +11,7 @@ const Edit: NextPage<{
     <Style className="max-width-800">
       <Header title={"Edit"} showBackButton />
 
-      <div>ici</div>
+      <div>Coming soon...</div>
     </Style>
   );
 };

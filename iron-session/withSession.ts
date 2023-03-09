@@ -9,7 +9,7 @@ import { IUser } from "../types/User";
 // https://github.com/vvo/iron-session/tree/main/examples/next.js-typescript
 
 export const sessionOptions = {
-  password: process.env.SECRET_COOKIE_PASSWORD as string,
+  password: process.env.SECRET_COOKIE_PASSWORD,
   cookieName: "nextjs-iron-session",
   // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
   cookieOptions: {

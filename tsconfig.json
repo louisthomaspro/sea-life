@@ -16,6 +16,6 @@
     "incremental": true,
     "strictNullChecks": false
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "archives"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".archives/context/useRegion.ts"],
+  "exclude": ["node_modules", ".archives"]
 }

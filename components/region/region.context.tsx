@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { regionsList, storageKey } from "../constants/regions";
+import { regionsList, storageKey } from "../../constants/regions";
 
 interface IRegionContext {
   userRegion: string;

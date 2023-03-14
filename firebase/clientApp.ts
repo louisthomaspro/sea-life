@@ -17,7 +17,7 @@ import {
   FirebaseStorage,
   getStorage,
 } from "firebase/storage";
-import { getMessaging, Messaging } from "firebase/messaging";
+// import { getMessaging, Messaging } from "firebase/messaging";
 
 const clientCredentials = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -37,13 +37,13 @@ if (getApps().length < 1) {
 let firestore: Firestore;
 let storage: FirebaseStorage;
 let auth: Auth;
-let messaging: Messaging;
+// let messaging: Messaging;
 
 try {
   firestore = getFirestore(firebase);
   storage = getStorage(firebase);
   auth = getAuth(firebase);
-  messaging = getMessaging(firebase);
+  // messaging = getMessaging(firebase);
 } catch (error) {
   console.error("Firebase client initialization error", error);
 }
@@ -79,7 +79,7 @@ export {
   firestore,
   storage,
   auth,
-  messaging,
+  // messaging,
   signInWithGoogle,
   logOut,
 };

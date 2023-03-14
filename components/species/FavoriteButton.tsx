@@ -9,11 +9,13 @@ import HeartSvg from "../../public/icons/primeicons/heart.svg";
 import HeartFillSvg from "../../public/icons/primeicons/heart-fill.svg";
 import { GoogleSignIn } from "../commons/GoogleAuth";
 import RoundButton from "../commons/RoundButton";
-import useUser from "../../iron-session/useUser";
+import { getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function FavoriteButton(props: { lifeId: string }) {
   const [isFavorite, setIsFavorite] = useState(false);
-  const { user } = useUser();
+  const auth = getAuth();
+  const [user, loading] = useAuthState(auth);
 
   const SignInToast = ({ closeToast, toastProps }: any) => (
     <div className="flex align-items-center">
@@ -23,7 +25,7 @@ export default function FavoriteButton(props: { lifeId: string }) {
   );
 
   const handleFavoriteButton = () => {
-    if (!user.isLoggedIn) {
+    if (!user) {
       toast(<SignInToast />, {
         toastId: "signIn",
       });

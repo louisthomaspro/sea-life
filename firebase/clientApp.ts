@@ -1,5 +1,6 @@
 import { initializeApp, getApps, FirebaseApp } from "firebase/app";
 import {
+  Auth,
   connectAuthEmulator,
   getAuth,
   GoogleAuthProvider,
@@ -8,9 +9,15 @@ import {
 } from "firebase/auth";
 import {
   connectFirestoreEmulator,
+  Firestore,
   getFirestore,
 } from "firebase/firestore/lite";
-import { connectStorageEmulator, getStorage } from "firebase/storage";
+import {
+  connectStorageEmulator,
+  FirebaseStorage,
+  getStorage,
+} from "firebase/storage";
+import { getMessaging, Messaging } from "firebase/messaging";
 
 const clientCredentials = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -27,12 +34,26 @@ if (getApps().length < 1) {
   firebase = initializeApp(clientCredentials);
 }
 
-let firestore = getFirestore(firebase);
-let storage = getStorage(firebase);
-let auth = getAuth(firebase);
+let firestore: Firestore;
+let storage: FirebaseStorage;
+let auth: Auth;
+let messaging: Messaging;
 
-const signInWithGoogle = () => signInWithPopup(auth, new GoogleAuthProvider());
-const logOut = () => signOut(auth);
+try {
+  firestore = getFirestore(firebase);
+  storage = getStorage(firebase);
+  auth = getAuth(firebase);
+  messaging = getMessaging(firebase);
+} catch (error) {
+  console.error("Firebase client initialization error", error);
+}
+
+const signInWithGoogle = () => {
+  return signInWithPopup(auth, new GoogleAuthProvider());
+};
+const logOut = () => {
+  return signOut(auth);
+};
 
 const EMULATORS_STARTED = "EMULATORS_STARTED";
 function startEmulators() {
@@ -53,4 +74,12 @@ if (process.env.NEXT_PUBLIC_FIREBASE_EMULATOR === "true") {
   startEmulators();
 }
 
-export { firebase, firestore, storage, auth, signInWithGoogle, logOut };
+export {
+  firebase,
+  firestore,
+  storage,
+  auth,
+  messaging,
+  signInWithGoogle,
+  logOut,
+};

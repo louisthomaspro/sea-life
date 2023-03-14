@@ -1,19 +1,28 @@
 import { Sidebar, SidebarProps } from "primereact/sidebar";
-import { useContext, useState } from "react";
 import styled from "styled-components";
 import { Dropdown } from "primereact/dropdown";
 import { InputTextarea } from "primereact/inputtextarea";
 import Button from "./Button";
-import { saveSuggestion } from "../../utils/firestore/species.firestore";
+import { saveContribution } from "../../utils/firestore/species.firestore";
 import { useFormik } from "formik";
 import { ISpecies } from "../../types/Species";
-import { ISuggestionForm } from "../../types/Suggestion";
-import useUser from "../../iron-session/useUser";
+import { IContributionForm } from "../../types/Contribution";
+import { getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { toast } from "react-toastify";
+import { useState } from "react";
 
 const fields = [
+  { name: "Photos", id: "photos" },
+  { name: "Nom", id: "name" },
   { name: "Habitat", id: "habitat" },
+  { name: "Région", id: "region" },
+  { name: "Comportement", id: "behavior" },
+  { name: "Morphologie", id: "morphology" },
   { name: "Taille", id: "size" },
+  { name: "Profondeur", id: "depth" },
   { name: "Rareté", id: "rarity" },
+  { name: "Taxonomies", id: "taxonomy" },
   { name: "Autres", id: "others" },
 ];
 
@@ -22,7 +31,9 @@ interface IContributionSideBarProps extends SidebarProps {
 }
 
 export default function ContributionSideBar(props: IContributionSideBarProps) {
-  const { user } = useUser();
+  const auth = getAuth();
+  const [user, loading] = useAuthState(auth);
+  const [saving, setSaving] = useState(false);
 
   const formik = useFormik<any>({
     initialValues: {
@@ -42,9 +53,9 @@ export default function ContributionSideBar(props: IContributionSideBarProps) {
       return errors;
     },
     onSubmit: async (data) => {
-      console.log(data);
+      setSaving(true);
 
-      const suggestionForm: ISuggestionForm = {
+      const suggestionForm: IContributionForm = {
         field: data.field,
         newValue: null,
         comment: data.comment,
@@ -52,21 +63,17 @@ export default function ContributionSideBar(props: IContributionSideBarProps) {
         speciesId: props.species.id,
       };
 
-      await saveSuggestion(suggestionForm);
+      await saveContribution(suggestionForm);
 
-      console.log("submitted");
+      props.onHide!();
 
-      // setSaving(true);
-      // const ids = [
-      //   data.main_parent_id,
-      //   ...data.selected_ancestors.map((ancestor) => ancestor.id),
-      //   taxa.id,
-      // ].map((id) => id.toString());
-      // await createLife(ids);
-      // formik.resetForm();
-      // setTaxa(null);
-      // props.onSubmit();
-      // setSaving(false);
+      // display success toast
+      toast.success("Merci pour ta contribution", {
+        toastId: "successContribution",
+      });
+
+      formik.resetForm();
+      setSaving(false);
     },
   });
 
@@ -81,7 +88,7 @@ export default function ContributionSideBar(props: IContributionSideBarProps) {
   };
 
   return (
-    <Sidebar {...props}>
+    <Sidebar {...props} className={`${props.className} max-width-800`}>
       <Style>
         <form onSubmit={formik.handleSubmit}>
           <div className="title">Contribuer</div>
@@ -120,7 +127,7 @@ export default function ContributionSideBar(props: IContributionSideBarProps) {
 
           <div className="grid">
             <div className="col-6">
-              <Button $outline className="w-full">
+              <Button $outline className="w-full" >
                 Annuler
               </Button>
             </div>

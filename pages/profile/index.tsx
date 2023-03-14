@@ -7,23 +7,17 @@ import {
 } from "../../components/commons/GoogleAuth";
 import Link from "next/link";
 import { m } from "framer-motion";
-import { shader } from "../../utils/helper";
-import useUser from "../../iron-session/useUser";
-import { withSessionSsr } from "../../iron-session/withSession";
-import { IUser } from "../../types/User";
-import { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase/clientApp";
+import Spinner from "../../components/commons/Spinner";
+import jwtDecode from "jwt-decode";
 
-const Profile: NextPage<{
-  user: IUser;
-}> = ({ user }) => {
-  const [sessionUser, setSessionUser] = useState(user);
-  const { user: contextUser } = useUser();
-
-  useEffect(() => {
-    if (contextUser && contextUser !== sessionUser) {
-      setSessionUser(contextUser);
-    }
-  }, [contextUser]);
+const Profile: NextPage = () => {
+  const [user, loading, error] = useAuthState(auth);
+  let decodedToken: any = null;
+  if (user) {
+    decodedToken = jwtDecode((user as any).accessToken);
+  }
 
   return (
     <>
@@ -32,20 +26,34 @@ const Profile: NextPage<{
         <div className="title py-3">Mon compte</div>
       </HeaderSection>
       <Style className="bottom-navigation">
-        {sessionUser?.isLoggedIn ? (
-          <div>
-            <ListMenu className="max-width-500">
-              {/* <ListItem title="Admin" link="/profile/admin/news" /> */}
-            </ListMenu>
-            <div className="flex justify-content-center p-5">
-              <GoogleSignOut />
-            </div>
+        {loading ? (
+          <div className="flex my-4">
+            <Spinner />
           </div>
         ) : (
-          <div className="flex justify-content-center p-5">
-            <GoogleSignIn />
-          </div>
+          <>
+            {user ? (
+              <div>
+                <ListMenu className="max-width-500">
+                  {decodedToken?.isAdmin && (
+                    <ListItem
+                      title="Contributions"
+                      link="/profile/admin/contributions"
+                    />
+                  )}
+                </ListMenu>
+                <div className="flex justify-content-center p-5">
+                  <GoogleSignOut />
+                </div>
+              </div>
+            ) : (
+              <div className="flex justify-content-center p-5">
+                <GoogleSignIn />
+              </div>
+            )}
+          </>
         )}
+
         <Feedback>
           <div>Une question ou une suggestion ?</div>
           <Link
@@ -60,13 +68,14 @@ const Profile: NextPage<{
   );
 };
 
-export const getServerSideProps = withSessionSsr(async function ({ req, res }) {
-  return {
-    props: {
-      user: req.session.user ?? null,
-    },
-  };
-});
+// export const getServerSideProps: GetServerSideProps = withAuthServerSideProps(
+//   async (context: GetServerSidePropsContext, decodedToken: string) => {
+//     // your existing implementation goes here
+//     return {
+//       props: {},
+//     };
+//   }
+// );
 
 export default Profile;
 
@@ -96,7 +105,7 @@ const HeaderSection = styled.div`
   }
 `;
 
-const ListMenu = styled.ul`
+const ListMenu = styled.div`
   list-style: none;
 `;
 
@@ -104,18 +113,7 @@ const ListMenu = styled.ul`
 
 const ListItem = ({ title, link }: any) => {
   return (
-    <ItemStyle
-      whileTap={{
-        backgroundColor: shader(
-          getComputedStyle(document.documentElement)
-            .getPropertyValue("--primary-color")
-            .trim(),
-          1
-        ),
-        transition: { duration: 0.1, ease: "easeInOut" },
-      }}
-      className="global-padding"
-    >
+    <ItemStyle className="global-padding">
       <Link href={link}>
         <div className="title">{title}</div>
       </Link>

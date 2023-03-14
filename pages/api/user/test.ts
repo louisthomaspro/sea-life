@@ -1,10 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { withSessionRoute } from "../../../iron-session/withSession";
+import { withAuthApiRequest } from "../../../firebase/withAuth";
 
-const handler = (req: NextApiRequest, res: NextApiResponse<any>) => {
-  res.json({
-    ...req.session.user,
-  });
+const handler = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  decodedToken: any
+) => {
+  res.status(200).json({ decodedToken });
 };
 
-export default withSessionRoute(handler);
+export default withAuthApiRequest(handler);

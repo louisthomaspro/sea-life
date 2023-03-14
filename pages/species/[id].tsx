@@ -17,11 +17,14 @@ import SpeciesTaxonomy from "../../components/species/SpeciesTaxonomy";
 import SpeciesBehavior from "../../components/species/SpeciesBehavior";
 import PenToSquareSvg from "../../public/icons/fontawesome/light/pen-to-square.svg";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SignInToast } from "../../utils/toast.helper";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import useUser from "../../iron-session/useUser";
+import { getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { FirebaseUser } from "../../types/User";
+import jwtDecode from "jwt-decode";
 
 const DynamicProfileSideBar = dynamic(
   () => import("../../components/commons/ContributionSideBar")
@@ -31,13 +34,18 @@ const Species: NextPage<{
   species: ISpecies;
 }> = ({ species }) => {
   const [contributionVisible, setContributionVisible] = useState(false);
-  const { user } = useUser();
   const router = useRouter();
+  const auth = getAuth();
+  const [user, loading, error] = useAuthState(auth);
+  let decodedToken: any = null;
+  if (user) {
+    decodedToken = jwtDecode((user as any).accessToken);
+  }
 
   const handleContributionButton = () => {
     // if user signed in
-    if (user.isLoggedIn) {
-      if (user.isAdmin) {
+    if (user) {
+      if (decodedToken?.isAdmin) {
         router.push(`/species/${species.id}/edit`);
       } else {
         setContributionVisible(true);

@@ -1,8 +1,8 @@
-import { NextPage } from "next";
+import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
 import styled from "styled-components";
 import Header from "../../../components/commons/Header";
+import { withAuthServerSideProps } from "../../../firebase/withAuth";
 import { ISpecies } from "../../../types/Species";
-import { withSessionSsr } from "../../../iron-session/withSession";
 
 const Edit: NextPage<{
   species: ISpecies;
@@ -10,20 +10,28 @@ const Edit: NextPage<{
   return (
     <Style className="max-width-800">
       <Header title={"Edit"} showBackButton />
-
-      <div>Coming soon...</div>
+      <div className="global-padding pt-0">
+        <div>Coming soon...</div>
+      </div>
     </Style>
   );
 };
 
-export const getServerSideProps = withSessionSsr(async function ({ req, res }) {
-
-  return {
-    props: {
-      user: req.session.user ?? null,
-    },
-  };
-});
+export const getServerSideProps: GetServerSideProps = withAuthServerSideProps(
+  async (context: GetServerSidePropsContext, decodedToken: any) => {
+    if (!decodedToken || !decodedToken?.isAdmin) {
+      return {
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      };
+    }
+    return {
+      props: {},
+    };
+  }
+);
 
 export default Edit;
 

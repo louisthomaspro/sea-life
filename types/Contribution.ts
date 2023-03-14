@@ -1,6 +1,6 @@
 import { DocumentReference } from "firebase/firestore/lite";
 
-export interface ISuggestion {
+export interface IContribution {
   species: DocumentReference,
   user: DocumentReference,
   timestamp: string,
@@ -10,7 +10,7 @@ export interface ISuggestion {
   status?: string,
 }
 
-export interface ISuggestionForm {
+export interface IContributionForm {
   userId: string;
   speciesId: string;
   field: string;

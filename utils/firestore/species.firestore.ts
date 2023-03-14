@@ -11,7 +11,7 @@ import {
 import { firestore } from "../../firebase/clientApp";
 import { ITaxa, ITaxaResponse } from "../../types/INaturalist/TaxaResponse";
 import { ISpecies } from "../../types/Species";
-import { ISuggestionForm } from "../../types/Suggestion";
+import { IContributionForm } from "../../types/Contribution";
 
 const collectionName = "species";
 
@@ -52,14 +52,14 @@ export const getAllSpeciesByGroupList = async (
   return querySnapshot.docs.map((doc) => doc.data() as any);
 };
 
-export const saveSuggestion = async (suggestionForm: ISuggestionForm) => {
+export const saveContribution = async (suggestionForm: IContributionForm) => {
   const speciesRef = doc(
     firestore,
     `${collectionName}/${suggestionForm.speciesId}`
   );
   const suggestedUpdateCollectionRef = collection(
     speciesRef,
-    "suggestions"
+    "contributions"
   );
 
   return addDoc(suggestedUpdateCollectionRef, {

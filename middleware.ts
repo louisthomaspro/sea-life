@@ -1,6 +1,4 @@
-import { getIronSession } from "iron-session/edge";
 import { NextRequest, NextResponse } from "next/server";
-import { sessionOptions } from "./iron-session/withSession";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -8,24 +6,24 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL(`/explore`, req.url));
   }
 
-  const response = NextResponse.next();
+  // const response = NextResponse.next();
 
-  const session = await getIronSession(req, response, sessionOptions);
-  const { user } = session;
+  // const session = await getIronSession(req, response, sessionOptions);
+  // const { user } = session;
 
-  if (!user) {
-    return NextResponse.redirect(new URL(`/profile`, req.url));
-  }
-  if (pathname.startsWith("/species") && !user.isAdmin) {
-    return NextResponse.redirect(new URL(`/profile`, req.url));
-  }
+  // if (!user) {
+  //   return NextResponse.redirect(new URL(`/profile`, req.url));
+  // }
+  // if (pathname.startsWith("/species") && !user.isAdmin) {
+  //   return NextResponse.redirect(new URL(`/profile`, req.url));
+  // }
 
   return NextResponse.next();
 }
 
-export const config = {
-  matcher: ["/", "/admin/:path*", "/species/:id/edit"],
-};
+// export const config = {
+//   matcher: ["/", "/admin/:path*", "/species/:id/edit"],
+// };
 
 // For API
 

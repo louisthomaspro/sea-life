@@ -14,6 +14,9 @@ initializeApp();
 const group = require("./group");
 exports.group = group;
 
+const contributions = require("./contributions");
+exports.contributions = contributions;
+
 const db = getFirestore();
 
 // Export species as CSV

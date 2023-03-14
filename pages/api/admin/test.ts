@@ -1,14 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { withSessionRoute } from "../../../iron-session/withSession";
+import { withAuthApiRequest } from "../../../firebase/withAuth";
 
-const handler = (req: NextApiRequest, res: NextApiResponse<any>) => {
-  if (!req?.session?.user?.isAdmin) {
+const handler = (
+  req: NextApiRequest,
+  res: NextApiResponse<any>,
+  decodedToken: any
+) => {
+  // console.log("decodedToken", decodedToken)
+  if (!decodedToken?.isAdmin) {
     return res.status(404).end();
   }
 
   res.json({
-    ...req.session.user,
+    decodedToken,
   });
 };
 
-export default withSessionRoute(handler);
+export default withAuthApiRequest(handler);

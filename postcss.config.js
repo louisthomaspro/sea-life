@@ -43,7 +43,7 @@ module.exports = {
           standard: [
             "html",
             "body",
-            // /^p-sidebar/,
+            /^p-sidebar/,
             /^Toastify/,
             // /^carousel/,
             // /^p-menu/,

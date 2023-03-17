@@ -72,6 +72,7 @@ function startEmulators() {
 
 if (process.env.NEXT_PUBLIC_FIREBASE_EMULATOR === "true") {
   startEmulators();
+  console.log('Starting Firebase emulators');
 }
 
 export {

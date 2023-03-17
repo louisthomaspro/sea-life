@@ -9,11 +9,11 @@ import nookies, { parseCookies } from "nookies";
 import { firebaseAdmin } from "./adminApp";
 
 type ServerSidePropsFn<
-P extends { [key: string]: unknown } = { [key: string]: unknown }
+  P extends { [key: string]: unknown } = { [key: string]: unknown }
 > = (
   context: GetServerSidePropsContext,
   decodedToken: any
-) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>
+) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>;
 
 export const withAuthServerSideProps =
   (fn: ServerSidePropsFn) => async (context: GetServerSidePropsContext) => {
@@ -23,9 +23,27 @@ export const withAuthServerSideProps =
       if (!cookies.token) {
         throw new Error("No token in cookies");
       }
-      const decodedToken = await firebaseAdmin
-        .auth()
-        .verifyIdToken(cookies.token);
+
+      let decodedToken;
+
+      try {
+        decodedToken = await firebaseAdmin.auth().verifyIdToken(cookies.token);
+      } catch (err: any) {
+        if (err.code === "auth/id-token-expired") {
+          // decodedToken = await firebaseAdmin.auth();
+          // If expired, user will be redirected to /refresh page, which will force a client-side
+          // token refresh, and then redirect user back to the desired page
+          const encodedPath = encodeURIComponent(context.req.url);
+          context.res.writeHead(302, {
+            // Note that encoding avoids URI problems, and `req.url` will also
+            // keep any query params intact
+            Location: `/refresh?redirect=${encodedPath}`,
+          });
+          context.res.end();
+        } else {
+          // Other authorization errors...
+        }
+      }
 
       // console.log("decodedToken", decodedToken);
       // console.log(cookies.token);
@@ -47,7 +65,9 @@ export const withAuthApiRequest =
   (handler: Middleware) =>
   async (req: NextApiRequest, res: NextApiResponse) => {
     const cookies = parseCookies({ req });
-    const token = cookies['your_cookie_name'] || req.headers.authorization?.replace('Bearer ', '');
+    const token =
+      cookies["your_cookie_name"] ||
+      req.headers.authorization?.replace("Bearer ", "");
 
     if (!token) {
       return res.status(401).end("Not authenticated. No Auth header");

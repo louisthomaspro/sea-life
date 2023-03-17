@@ -7,6 +7,7 @@ import {
   where,
   Timestamp,
   addDoc,
+  updateDoc,
 } from "firebase/firestore/lite";
 import { firestore } from "../../firebase/clientApp";
 import { ITaxa, ITaxaResponse } from "../../types/INaturalist/TaxaResponse";
@@ -71,6 +72,29 @@ export const saveContribution = async (suggestionForm: IContributionForm) => {
     newValue: suggestionForm.newValue,
     comment: suggestionForm.comment,
   });
+};
+
+/**
+ * Add species to subcollection of species named "versions" and update the species document with the new values
+ */
+export const saveNewSpeciesVersion = async (id: string, data: any) => {
+  const speciesRef = doc(firestore, `${collectionName}/${id}`);
+  const versionsCollectionRef = collection(speciesRef, "versions");
+
+  const speciesSnapshot = await getDoc(speciesRef);
+  const speciesData = speciesSnapshot.data();
+
+  await addDoc(versionsCollectionRef, {
+    ...speciesData,
+    timestamp: Timestamp.fromDate(new Date()),
+  });
+
+  await updateSpecies(id, data);
+};
+
+export const updateSpecies = async (id: string, data: any) => {
+  const speciesRef = doc(firestore, `${collectionName}/${id}`);
+  await updateDoc(speciesRef, data);
 };
 
 // Get all suggested updates for a species

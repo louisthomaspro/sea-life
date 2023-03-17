@@ -40,6 +40,7 @@
     "primeicons": "^5.0.0",
     "primereact": "^8.3.0",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-blurhash": "^0.2.0",
     "react-cool-inview": "^3.0.1",
     "react-dom": "^18.2.0",
@@ -50,7 +51,8 @@
     "shader": "^1.0.0",
     "sharp": "^0.31.3",
     "styled-components": "^5.3.5",
-    "swr": "^2.0.3"
+    "swr": "^2.0.3",
+    "yup": "^1.0.2"
   },
   "devDependencies": {
     "@svgr/webpack": "^6.5.1",

@@ -64,10 +64,12 @@ export const searchTreeClassification = (
   return null;
 };
 
+// Capitalize first letter of a string
 export const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
+// Capitalize first letter of each word in a string
 export const capitalizeWords = (string: string) => {
   if (typeof string !== "string") return "";
   const words = string.split(" ");

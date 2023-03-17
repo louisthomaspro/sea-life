@@ -1,6 +1,7 @@
 import { Head, Html, Main, NextScript } from "next/document";
 import Document, { DocumentContext } from "next/document";
 import { ServerStyleSheet } from "styled-components";
+import { resetServerContext } from "react-beautiful-dnd";
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -15,6 +16,7 @@ export default class MyDocument extends Document {
         });
 
       const initialProps = await Document.getInitialProps(ctx);
+      resetServerContext()
       return {
         ...initialProps,
         styles: [initialProps.styles, sheet.getStyleElement()],

@@ -33,17 +33,16 @@ Easily search for a species using its common or scientific name. Use the filters
 - [x] Filter species by region
 - [x] Species profile (environment, behavior, taxonomy, etc.)
 - [x] Google sign-in
-- [ ] Contribution form (coming soon)
+- [x] Contribution form
 - [ ] Filter species by size, color, habitat, diet, etc.
 - [ ] Video gallery
 - [ ] Favorite list management
 
 ### Minor
 
-- [ ] Breadcrumb when navigating between categories
-- [ ] Similar species list or species of same family
-- [ ] Improve text search including species family names
-- [ ] Show multiple names for a species (ex: +2 next to the name)
+- Breadcrumb when navigating between categories
+- Similar species list or species of same family
+- Improve text search including species family names
 
 
 ## Getting Started

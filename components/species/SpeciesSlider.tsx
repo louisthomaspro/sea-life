@@ -4,9 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import styled from "styled-components";
 import { ISpecies } from "../../types/Species";
-import { blurDataURL } from "../../utils/helper";
 import { BlurhashCanvas } from "react-blurhash";
-import Link from "next/link";
+import Fancybox from "../commons/Fancybox";
 
 const loadNeighborsRange = 2;
 
@@ -22,54 +21,76 @@ export default function SpeciesSlider(props: { species: ISpecies }) {
 
   return (
     <Style>
-      <Link
-        href={`/species/${props.species.id}/gallery`}
-        ref={sliderRef}
-        className="keen-slider"
+      <Fancybox
+        options={{
+          Toolbar: {
+            display: ["close", "counter"],
+          },
+          Thumbs: {
+            autoStart: false,
+          },
+          Image: {
+            zoom: false,
+            click: null,
+            doubleClick: "toggleZoom",
+          },
+          Hash: false,
+        }}
       >
-        <div className="img-counter">
-          {currentSlide + 1} / {props.species.photos.length}
-        </div>
-        {props.species.photos?.map((photo, i) => (
-          <div
-            className="keen-slider__slide img-wrapper"
-            key={props.species.id + i}
-            onClick={() => {}}
-          >
-            {photo.blurhash && (
-              <BlurhashCanvas
-                {...photo.blurhash}
-                punch={1}
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                }}
-              />
-            )}
-            <Image
-              unoptimized={
-                process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
-              }
-              src={photo.original_url}
-              alt={props.species.scientific_name}
-              fill
-              style={{ objectFit: "cover" }}
-              sizes="100vw"
-              priority={
-                loadNeighbors ? i <= currentSlide + loadNeighborsRange : i === 0
-              }
-              onLoad={() => {
-                setLoadNeighbors(true);
-              }}
-            />
+        <div ref={sliderRef} className="keen-slider">
+          <div className="img-counter">
+            {currentSlide + 1} / {props.species.photos.length}
           </div>
-        ))}
-      </Link>
+          {props.species.photos?.map((photo, i) => (
+            <a
+              id={String(i)}
+              key={String(i)}
+              data-fancybox="gallery"
+              href={photo.original_url}
+            >
+              <div
+                className="keen-slider__slide img-wrapper"
+                key={props.species.id + i}
+                onClick={() => {}}
+              >
+                {photo.blurhash && (
+                  <BlurhashCanvas
+                    {...photo.blurhash}
+                    punch={1}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                )}
+                <Image
+                  unoptimized={
+                    process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
+                  }
+                  src={photo.original_url}
+                  alt={props.species.scientific_name}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  sizes="100vw"
+                  priority={
+                    loadNeighbors
+                      ? i <= currentSlide + loadNeighborsRange
+                      : i === 0
+                  }
+                  onLoad={() => {
+                    setLoadNeighbors(true);
+                  }}
+                />
+              </div>
+            </a>
+          ))}
+        </div>
+      </Fancybox>
     </Style>
   );
 }
@@ -81,9 +102,6 @@ const Style = styled.div`
 
   .keen-slider {
     height: 100%;
-  }
-
-  a {
     position: relative;
     border-radius: var(--border-radius);
     overflow: hidden;

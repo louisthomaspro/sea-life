@@ -45,6 +45,7 @@ module.exports = {
             "html",
             "body",
             /^tippy-/,
+            /^fancybox__/,
             /^p-sidebar/,
             /^Toastify/,
             // /^carousel/,

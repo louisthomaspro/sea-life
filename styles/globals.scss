@@ -6,12 +6,11 @@
 @import "primeicons/primeicons.css";
 @import "primereact-custom.scss";
 
-@import "fancybox";
+@import "libraries/fancybox";
+@import "libraries/tippy";	
 @import "keen-slider/keen-slider.min.css";
 
 @import "nprogress/nprogress.css";
-
-@import "tippy.js/dist/tippy.css";
 
 @import "react-toastify/dist/ReactToastify.min.css";
 

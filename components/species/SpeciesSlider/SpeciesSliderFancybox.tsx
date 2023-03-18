@@ -11,7 +11,6 @@ export default function SpeciesSliderFancybox(props: any) {
     Thumbs: {
       autoStart: false,
     },
-    Hash: false,
     Images: {
       zoom: false,
       click: null,

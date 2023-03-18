@@ -79,6 +79,7 @@ const Style = styled.div`
       border-radius: 6px;
       border: 1px solid var(--border-color);
       margin-left: 10px;
+      cursor: default;
     }
   }
 

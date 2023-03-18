@@ -33,7 +33,7 @@ export default function SpeciesSlider(props: { species: ISpecies }) {
           <a
             id={String(i)}
             key={String(i)}
-            data-fancybox="gallery"
+            data-fancybox="photo"
             href={photo.original_url}
           >
             <div

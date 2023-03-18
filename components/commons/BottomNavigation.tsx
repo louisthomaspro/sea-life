@@ -29,10 +29,10 @@ export default function BottomNavigation(props: IBottomNavigation) {
         <Link href="/explore">
           <NavigationButton
             className={activeMenu === "explore" && "active"}
-            aria-label="Favorite"
+            aria-label="home"
           >
             <HouseSvg
-              aria-label="profile"
+              aria-label="home"
               className="svg-icon"
               style={{ width: "19px", marginLeft: "1px" }}
             />
@@ -42,7 +42,7 @@ export default function BottomNavigation(props: IBottomNavigation) {
         <Link href="/profile">
           <NavigationButton
             className={activeMenu === "profile" && "active"}
-            aria-label="Favorite"
+            aria-label="profile"
           >
             <UserSvg
               aria-label="profile"

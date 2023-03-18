@@ -15,47 +15,15 @@ import SpeciesTitle from "../../components/species/SpeciesTitle/SpeciesTitle";
 import SpeciesHighlight from "../../components/species/SpeciesHighlight";
 import SpeciesTaxonomy from "../../components/species/SpeciesTaxonomy";
 import SpeciesBehavior from "../../components/species/SpeciesBehavior";
-import PenToSquareSvg from "../../public/icons/fontawesome/light/pen-to-square.svg";
 import dynamic from "next/dynamic";
-import { useState } from "react";
-import { SignInToast } from "../../utils/toast.helper";
-import { toast } from "react-toastify";
-import { useRouter } from "next/router";
-import { getAuth } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
-import jwtDecode from "jwt-decode";
 
-const DynamicProfileSideBar = dynamic(
-  () => import("../../components/commons/ContributionSideBar")
+const DynamicContributionButton = dynamic(
+  () => import("../../components/commons/ContributionButton")
 );
 
 const Species: NextPage<{
   species: ISpecies;
 }> = ({ species }) => {
-  const [contributionVisible, setContributionVisible] = useState(false);
-  const router = useRouter();
-  const auth = getAuth();
-  const [user, loading, error] = useAuthState(auth);
-  let decodedToken: any = null;
-  if (user) {
-    decodedToken = jwtDecode((user as any).accessToken);
-  }
-
-  const handleContributionButton = () => {
-    // if user signed in
-    if (user) {
-      if (decodedToken?.isAdmin) {
-        router.push(`/species/${species.id}/edit`);
-      } else {
-        setContributionVisible(true);
-      }
-    } else {
-      toast(SignInToast({ message: "Connecte toi pour contribuer" }), {
-        toastId: "signIn",
-      });
-    }
-  };
-
   return (
     <>
       <ScrollHeader title={capitalizeWords(species.common_names?.fr[0])} />
@@ -68,14 +36,7 @@ const Species: NextPage<{
           <div className="col-12 sm:col-6">
             <div className="global-padding pt-0">
               <SpeciesTitle species={species} />
-              <ContributeButton onClick={() => handleContributionButton()}>
-                Contribuer
-                <PenToSquareSvg
-                  aria-label="contribute"
-                  className="ml-2 svg-icon"
-                  style={{ width: "16px" }}
-                />
-              </ContributeButton>
+              <DynamicContributionButton species={species} />
               <SpeciesHighlight species={species} />
             </div>
             {/* <SpeciesAnecdote species={props.species} /> */}
@@ -103,13 +64,6 @@ const Species: NextPage<{
           </Section>
         </div>
       </Style>
-      <DynamicProfileSideBar
-        species={species}
-        visible={contributionVisible}
-        position="bottom"
-        className="p-sidebar-contribution"
-        onHide={() => setContributionVisible(false)}
-      />
     </>
   );
 };
@@ -166,13 +120,4 @@ const Style = styled.div`
       border-right: 1px solid var(--border-color-light);
     }
   }
-`;
-
-export const ContributeButton = styled.button`
-  margin: 1rem 0;
-  display: flex;
-  border: 1px solid #828282;
-  border-radius: 100px;
-  padding: 0.3rem 1rem;
-  cursor: pointer;
 `;

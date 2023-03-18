@@ -15,7 +15,6 @@ import NewspaperSvg from "../../public/icons/fontawesome/light/newspaper.svg";
 import { getPlaiceholder, IGetPlaiceholderReturn } from "plaiceholder";
 import { BlurhashCanvas } from "react-blurhash";
 import RegionContext from "../../components/region/region.context";
-import RegionDropdown from "../../components/region/RegionDropdown";
 
 const DynamicCustomSearchBox = dynamic(
   () => import("../../components/search/CustomSearchBox")
@@ -23,6 +22,10 @@ const DynamicCustomSearchBox = dynamic(
 
 const DynamicFacebookPagePosts = dynamic(
   () => import("../../components/socials/FacebookPagePosts")
+);
+
+const DynamicRegionDropdown = dynamic(
+  () => import("../../components/region/RegionDropdown")
 );
 
 export const Explore: NextPage<{
@@ -50,7 +53,7 @@ export const Explore: NextPage<{
             />
           </div>
         </HeaderSection>
-        <RegionDropdown className="mb-4  sm:mb-5" />
+        <DynamicRegionDropdown className="mb-4 sm:mb-5" />
         <div className="global-padding max-width-500">
           <div className="grid">
             <div className="col-6">

@@ -67,7 +67,7 @@ export default function SpeciesCard(props: {
               />
             {/* )} */}
           </m.div>
-          <m.div className="content" layoutId={`title-${props.species.id}`}>
+          <div className="content">
             {props.species.common_names?.fr?.length > 0 && (
               <div className="title">
                 <div>
@@ -91,7 +91,7 @@ export default function SpeciesCard(props: {
             <div className="scientific-name">
               {capitalizeFirstLetter(props.species.scientific_name)}
             </div>
-          </m.div>
+          </div>
         </Link>
       </Style>
     </m.div>

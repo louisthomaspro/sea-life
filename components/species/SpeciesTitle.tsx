@@ -6,7 +6,6 @@ import FrFlagSvg from "../../public/icons/flags/FR.svg";
 import GbFlagSvg from "../../public/icons/flags/GB.svg";
 import { capitalizeFirstLetter, capitalizeWords } from "../../utils/helper";
 import tippy from "tippy.js";
-import "tippy.js/dist/tippy.css";
 import { useEffect } from "react";
 
 export default function SpeciesTitle(props: { species: ISpecies }) {

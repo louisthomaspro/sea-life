@@ -44,6 +44,7 @@ module.exports = {
           standard: [
             "html",
             "body",
+            /^tippy-/,
             /^p-sidebar/,
             /^Toastify/,
             // /^carousel/,

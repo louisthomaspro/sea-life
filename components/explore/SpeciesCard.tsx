@@ -34,7 +34,7 @@ export default function SpeciesCard(props: {
     >
       <Style>
         <Link href={`/species/${props.species.id}`} className="container">
-          <m.div className="img-wrapper" layoutId={`img-${props.species.id}`}>
+          <div className="img-wrapper">
             {props.species?.photos?.[0]?.blurhash && (
               <BlurhashCanvas
                 {...props.species.photos[0].blurhash}
@@ -51,22 +51,21 @@ export default function SpeciesCard(props: {
               />
             )}
             {/* {(inView || loaded) && ( */}
-              <Image
-                unoptimized={
-                  process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
-                }
-                src={
-                  props.species?.photos?.[0]?.original_url ??
-                  "/img/no-image.svg"
-                }
-                priority={inView}
-                fill
-                style={{ objectFit: "cover" }}
-                sizes="40vw"
-                alt={props.species.scientific_name}
-              />
+            <Image
+              unoptimized={
+                process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
+              }
+              src={
+                props.species?.photos?.[0]?.original_url ?? "/img/no-image.svg"
+              }
+              priority={inView}
+              fill
+              style={{ objectFit: "cover" }}
+              sizes="40vw"
+              alt={props.species.scientific_name}
+            />
             {/* )} */}
-          </m.div>
+          </div>
           <div className="content">
             {props.species.common_names?.fr?.length > 0 && (
               <div className="title">

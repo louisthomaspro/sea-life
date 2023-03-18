@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { ISpecies } from "../../types/Species";
 import { BlurhashCanvas } from "react-blurhash";
 import Fancybox from "../commons/Fancybox";
-import { m } from "framer-motion";
 
 const loadNeighborsRange = 2;
 
@@ -38,7 +37,7 @@ export default function SpeciesSlider(props: { species: ISpecies }) {
           Hash: false,
         }}
       >
-        <m.div ref={sliderRef} className="keen-slider" layoutId={`img-${props.species.id}`}>
+        <div ref={sliderRef} className="keen-slider">
           <div className="img-counter">
             {currentSlide + 1} / {props.species.photos.length}
           </div>
@@ -90,7 +89,7 @@ export default function SpeciesSlider(props: { species: ISpecies }) {
               </div>
             </a>
           ))}
-        </m.div>
+        </div>
       </Fancybox>
     </Style>
   );

@@ -1,4 +1,7 @@
-import { LazyMotion, Variants, m, domAnimation } from "framer-motion";
+import {
+  LazyMotion,
+  Variants,
+} from "framer-motion";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import NProgress from "./NProgress";
@@ -42,7 +45,6 @@ export default function Layout({ children }: LayoutProps) {
         <OfflineToast />
         <LazyMotion features={loadFeatures}>
           <WebHeader className="hidden sm:block" />
-          {/* <AnimatePresence initial={false} mode="wait"> */}
           {/* <m.div
               key={router.asPath}
               initial="initial"
@@ -55,7 +57,6 @@ export default function Layout({ children }: LayoutProps) {
             > */}
           {children}
           {/* </m.div> */}
-          {/* </AnimatePresence> */}
         </LazyMotion>
       </main>
     </>

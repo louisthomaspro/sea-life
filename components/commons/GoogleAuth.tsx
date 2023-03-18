@@ -1,31 +1,10 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { auth, logOut, signInWithGoogle } from "../../firebase/clientApp";
+import { logOut, signInWithGoogle } from "../../firebase/clientApp";
 import Button from "./Button";
-import nookies from "nookies";
 
 export function GoogleSignIn() {
   const [disabled, setDisabled] = useState(false);
-
-  useEffect(() => {
-    let unsubscribe;
-
-    unsubscribe = onAuthStateChanged(auth, async (userSession) => {
-      // console.log("userSession", userSession);
-
-      if (!userSession) {
-        // logout
-        nookies.set(undefined, "token", "", { path: "/" });
-      } else {
-        // login
-        const token = await userSession.getIdToken();
-        nookies.set(undefined, "token", token, { path: "/" });
-      }
-    });
-
-    return unsubscribe;
-  }, []);
 
   return (
     <GoogleButton
@@ -43,18 +22,6 @@ export function GoogleSignIn() {
 }
 
 export function GoogleSignOut() {
-
-  useEffect(() => {
-    let unsubscribe;
-
-    unsubscribe = onAuthStateChanged(auth, async (userSession) => {
-      if (userSession) return;
-      // console.log('logout')
-    });
-
-    return unsubscribe;
-  }, []);
-
   return (
     <Button $outline onClick={logOut}>
       Se déconnecter

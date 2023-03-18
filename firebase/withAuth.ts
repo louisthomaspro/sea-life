@@ -1,7 +1,6 @@
 import {
   GetServerSidePropsContext,
   GetServerSidePropsResult,
-  NextApiHandler,
   NextApiRequest,
   NextApiResponse,
 } from "next";

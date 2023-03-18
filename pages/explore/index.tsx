@@ -15,9 +15,12 @@ import NewspaperSvg from "../../public/icons/fontawesome/light/newspaper.svg";
 import { getPlaiceholder, IGetPlaiceholderReturn } from "plaiceholder";
 import { BlurhashCanvas } from "react-blurhash";
 import RegionContext from "../../components/region/region.context";
+import CustomSearchBoxSkeleton from "../../components/search/CustomSearchBoxSkeleton";
+import RegionDropdownSkeleton from "../../components/region/RegionDropdownSkeleton";
 
 const DynamicCustomSearchBox = dynamic(
-  () => import("../../components/search/CustomSearchBox")
+  () => import("../../components/search/CustomSearchBox"),
+  { loading: () => <CustomSearchBoxSkeleton /> }
 );
 
 const DynamicFacebookPagePosts = dynamic(
@@ -25,7 +28,8 @@ const DynamicFacebookPagePosts = dynamic(
 );
 
 const DynamicRegionDropdown = dynamic(
-  () => import("../../components/region/RegionDropdown")
+  () => import("../../components/region/RegionDropdown"),
+  { loading: () => <RegionDropdownSkeleton /> }
 );
 
 export const Explore: NextPage<{
@@ -47,13 +51,14 @@ export const Explore: NextPage<{
             <div className="subtitle pb-4 sm:pb-6">
               Découvrez les merveilles de la vie marine
             </div>
-            <DynamicCustomSearchBox
-              screen="mobile"
-              className="sm:hidden pb-4"
-            />
+            <div className="sm:hidden pb-4">
+              <DynamicCustomSearchBox screen="mobile" />
+            </div>
           </div>
         </HeaderSection>
-        <DynamicRegionDropdown className="mb-4 sm:mb-5" />
+        <div className="mb-4 sm:mb-5">
+          <DynamicRegionDropdown />
+        </div>
         <div className="global-padding max-width-500">
           <div className="grid">
             <div className="col-6">
@@ -114,6 +119,21 @@ export const Explore: NextPage<{
                     </div>
                   </div>
                   <div className="img-wrapper">
+                    {floraBackgroundPH.blurhash && (
+                      <BlurhashCanvas
+                        {...floraBackgroundPH.blurhash}
+                        punch={1}
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          right: 0,
+                          bottom: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      />
+                    )}
                     <Image
                       unoptimized={
                         process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION ===

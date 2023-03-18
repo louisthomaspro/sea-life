@@ -7,7 +7,12 @@ import { Analytics } from "@vercel/analytics/react";
 import { useScrollRestoration } from "../utils/saveScrollPos";
 import { Nunito } from "@next/font/google";
 import { RegionContextProvider } from "../components/region/region.context";
+import dynamic from "next/dynamic";
 const nunito = Nunito({ subsets: ["latin"] });
+
+const DynamicGoogleAuthListener = dynamic(
+  () => import("../components/commons/GoogleAuthListener")
+);
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   useScrollRestoration();
@@ -28,6 +33,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
           content="width=device-width, initial-scale=1.0, user-scalable=no"
         />
       </Head>
+      <DynamicGoogleAuthListener />
       <div className={nunito.className}>
         <RegionContextProvider>
           {/* <HistoryContextProvider> */}

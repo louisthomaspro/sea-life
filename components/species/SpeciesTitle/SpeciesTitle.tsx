@@ -1,40 +1,27 @@
 import styled from "styled-components";
-import { ISpecies } from "../../types/Species";
+import { ISpecies } from "../../../types/Species";
 
 // svg
-import FrFlagSvg from "../../public/icons/flags/FR.svg";
-import GbFlagSvg from "../../public/icons/flags/GB.svg";
-import { capitalizeFirstLetter, capitalizeWords } from "../../utils/helper";
-import tippy from "tippy.js";
-import { useEffect } from "react";
+import FrFlagSvg from "../../../public/icons/flags/FR.svg";
+import GbFlagSvg from "../../../public/icons/flags/GB.svg";
+
+import dynamic from "next/dynamic";
+
+const DynamicSpeciesTitleTooltips = dynamic(
+  () => import("./SpeciesTitleTooltips")
+);
 
 export default function SpeciesTitle(props: { species: ISpecies }) {
-  useEffect(() => {
-    if (props.species.common_names.fr.length > 1) {
-      tippy("#commonNamesFr", {
-        allowHTML: true,
-        trigger: "click",
-        content: capitalizeWords(props.species.common_names.fr.join("<br/>")),
-      });
-    }
-    if (props.species.common_names.en.length > 1) {
-      tippy("#commonNamesEn", {
-        allowHTML: true,
-        trigger: "click",
-        content: capitalizeWords(props.species.common_names.en.join("<br/>")),
-      });
-    }
-  }, []);
-
   return (
     <Style>
+      <DynamicSpeciesTitleTooltips species={props.species} />
       {props.species.common_names?.fr?.length > 0 && (
         <div className="title">
           <div>
             <FrFlagSvg width="16px" />
           </div>
           <span className="ml-2">
-            {capitalizeWords(props.species.common_names.fr[0])}
+            {props.species.common_names.fr[0]}
           </span>
           {props.species.common_names.fr.length > 1 && (
             <span className="other-names" id="commonNamesFr">
@@ -49,7 +36,7 @@ export default function SpeciesTitle(props: { species: ISpecies }) {
             <GbFlagSvg width="16px" />
           </div>
           <span className="ml-2">
-            {capitalizeWords(props.species.common_names.en[0])}
+            {props.species.common_names.en[0]}
           </span>
           {props.species.common_names.en.length > 1 && (
             <span className="other-names" id="commonNamesEn">
@@ -59,7 +46,7 @@ export default function SpeciesTitle(props: { species: ISpecies }) {
         </div>
       )}
       <div className="scientific-name">
-        {capitalizeFirstLetter(props.species.scientific_name)}
+        {props.species.scientific_name}
       </div>
     </Style>
   );

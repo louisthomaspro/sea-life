@@ -5,25 +5,24 @@ import {
   getSpecies,
 } from "../../utils/firestore/species.firestore";
 import { ISpecies } from "../../types/Species";
-import { capitalizeWords } from "../../utils/helper";
+import { capitalizeFirstLetter, capitalizeWords } from "../../utils/helper";
 import BackButton from "../../components/commons/BackButton";
 import ScrollHeader from "../../components/commons/ScrollHeader";
 import SpeciesEnvironment from "../../components/species/SpeciesEnvironment";
 import Section from "../../components/commons/Section";
-import SpeciesSlider from "../../components/species/SpeciesSlider";
-import SpeciesTitle from "../../components/species/SpeciesTitle";
+import SpeciesSlider from "../../components/species/SpeciesSlider/SpeciesSlider";
+import SpeciesTitle from "../../components/species/SpeciesTitle/SpeciesTitle";
 import SpeciesHighlight from "../../components/species/SpeciesHighlight";
 import SpeciesTaxonomy from "../../components/species/SpeciesTaxonomy";
 import SpeciesBehavior from "../../components/species/SpeciesBehavior";
 import PenToSquareSvg from "../../public/icons/fontawesome/light/pen-to-square.svg";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SignInToast } from "../../utils/toast.helper";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { FirebaseUser } from "../../types/User";
 import jwtDecode from "jwt-decode";
 
 const DynamicProfileSideBar = dynamic(
@@ -59,13 +58,6 @@ const Species: NextPage<{
 
   return (
     <>
-      <DynamicProfileSideBar
-        species={species}
-        visible={contributionVisible}
-        position="bottom"
-        className="p-sidebar-contribution"
-        onHide={() => setContributionVisible(false)}
-      />
       <ScrollHeader title={capitalizeWords(species.common_names?.fr[0])} />
       <Style className="max-width-800 sm:mt-4">
         <BackButton className="pt-2 sm:hidden global-padding absolute top-0 z-1" />
@@ -111,6 +103,13 @@ const Species: NextPage<{
           </Section>
         </div>
       </Style>
+      <DynamicProfileSideBar
+        species={species}
+        visible={contributionVisible}
+        position="bottom"
+        className="p-sidebar-contribution"
+        onHide={() => setContributionVisible(false)}
+      />
     </>
   );
 };
@@ -118,9 +117,18 @@ const Species: NextPage<{
 export const getStaticProps: GetStaticProps = async (context) => {
   const { id } = context.params;
 
-  const species: ISpecies = JSON.parse(
+  let species: ISpecies = JSON.parse(
     JSON.stringify(await getSpecies(id.toString()))
   );
+
+  // Capitalize commons names
+  species.common_names.fr = species.common_names.fr.map((name) =>
+    capitalizeWords(name)
+  );
+  species.common_names.en = species.common_names.en.map((name) =>
+    capitalizeWords(name)
+  );
+  species.scientific_name = capitalizeFirstLetter(species.scientific_name);
 
   if (species) {
     return { props: { species }, revalidate: 120 };

@@ -1285,10 +1285,10 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@fancyapps/ui@^4.0.31":
-  version "4.0.31"
-  resolved "https://registry.npmjs.org/@fancyapps/ui/-/ui-4.0.31.tgz"
-  integrity sha512-D7+PMIloxSOFJyY+lXcNlVDhmssOmDT6PT5fqQUIiws2hT7PH29r0EKZxERmACSQpm6qrFkP7rSguzXWvRJduQ==
+"@fancyapps/ui@^5.0.8":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@fancyapps/ui/-/ui-5.0.8.tgz#75990f0ac3bdc3370042706dc0d3e67b9bf00bbc"
+  integrity sha512-rAkUZZ7lFyd6N5Qt1mSvhnTdUszQz7JBtVf3Ej6cQEwlbJ6dKuTWrftNzKqxJT0y4CPmNAONfIDgycu+PZRDZA==
 
 "@fastify/busboy@^1.1.0":
   version "1.2.1"

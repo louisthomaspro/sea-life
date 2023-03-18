@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 // @ts-ignore
-import { Fancybox as NativeFancybox } from "@fancyapps/ui/dist/fancybox.umd";
+import { Fancybox as NativeFancybox } from "@fancyapps/ui/dist/fancybox/fancybox.umd";
 
 export default function Fancybox(props: any) {
   const delegate = props.delegate || "[data-fancybox]";

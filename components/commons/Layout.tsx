@@ -43,7 +43,7 @@ export default function Layout({ children }: LayoutProps) {
       <main className="sm:py-0">
         <NProgress />
         <OfflineToast />
-        <LazyMotion features={domAnimation}>
+        {/* <LazyMotion features={domAnimation}> */}
           <WebHeader className="hidden sm:block" />
           {/* <AnimatePresence initial={false} mode="wait"> */}
           {/* <m.div
@@ -59,7 +59,7 @@ export default function Layout({ children }: LayoutProps) {
           {children}
           {/* </m.div> */}
           {/* </AnimatePresence> */}
-        </LazyMotion>
+        {/* </LazyMotion> */}
       </main>
     </>
   );

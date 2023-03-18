@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, LazyMotion, motion, m } from "framer-motion";
 import debounce from "lodash/debounce";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -15,6 +15,8 @@ import XmarkThinSvg from "../../public/icons/fontawesome/thin/xmark.svg";
 import Spinner from "../commons/Spinner";
 import CustomInfiniteHits from "./CustomInfiniteHits";
 import SearchBoxWorkaround from "./SearchBoxWorkaround";
+const loadFeatures = () =>
+  import("../../utils/feature.js").then((res) => res.default);
 
 const searchBoxTransition = { duration: 0.3 };
 
@@ -92,8 +94,8 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
   );
 
   return (
-    <AnimatePresence mode="wait">
-      <Style {...props}>
+    <Style {...props}>
+      <LazyMotion features={loadFeatures}>
         {openModal && (
           <div
             className="search-modal"
@@ -102,7 +104,7 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
           >
             <div className="global-padding max-width-800">
               <div className="search-header mt-3">
-                <motion.div
+                <m.div
                   layoutId={`${id}-layout`}
                   key={`${id}-layout`}
                   transition={searchBoxTransition}
@@ -135,7 +137,7 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
                       </div>
                     </div>
                   )}
-                </motion.div>
+                </m.div>
                 <div className="close mt-3 ml-2">
                   <XmarkThinSvg
                     onClick={() => setOpenModal(false)}
@@ -162,7 +164,7 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
           </div>
         )}
 
-        <motion.div
+        <m.div
           layoutId={`${id}-layout`}
           key={`${id}-layout`}
           className="input-container fake-input"
@@ -180,9 +182,9 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
             placeholder="Rechercher une espèce"
             readOnly
           />
-        </motion.div>
-      </Style>
-    </AnimatePresence>
+        </m.div>
+      </LazyMotion>
+    </Style>
   );
 }
 

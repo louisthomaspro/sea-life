@@ -5,13 +5,26 @@ import { ISpecies } from "../../types/Species";
 import FrFlagSvg from "../../public/icons/flags/FR.svg";
 import GbFlagSvg from "../../public/icons/flags/GB.svg";
 import { capitalizeFirstLetter, capitalizeWords } from "../../utils/helper";
-import { Tooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
+import tippy from "tippy.js";
+import "tippy.js/dist/tippy.css";
+import { useEffect } from "react";
 
 export default function SpeciesTitle(props: { species: ISpecies }) {
+  useEffect(() => {
+    tippy("#commonNamesFr", {
+      allowHTML: true,
+      trigger: "click",
+      content: capitalizeWords(props.species.common_names.fr.join("<br/>")),
+    });
+    tippy("#commonNamesEn", {
+      allowHTML: true,
+      trigger: "click",
+      content: capitalizeWords(props.species.common_names.en.join("<br/>")),
+    });
+  }, []);
+
   return (
     <Style>
-      <Tooltip anchorSelect=".other-names" />
       {props.species.common_names?.fr?.length > 0 && (
         <div className="title">
           <div>
@@ -21,12 +34,7 @@ export default function SpeciesTitle(props: { species: ISpecies }) {
             {capitalizeWords(props.species.common_names.fr[0])}
           </span>
           {props.species.common_names.fr.length > 1 && (
-            <span
-              className="other-names"
-              data-tooltip-html={capitalizeWords(
-                props.species.common_names.fr.join("<br/>")
-              )}
-            >
+            <span className="other-names" id="commonNamesFr">
               +{props.species.common_names.fr.length - 1}
             </span>
           )}
@@ -41,12 +49,7 @@ export default function SpeciesTitle(props: { species: ISpecies }) {
             {capitalizeWords(props.species.common_names.en[0])}
           </span>
           {props.species.common_names.en.length > 1 && (
-            <span
-              className="other-names"
-              data-tooltip-html={capitalizeWords(
-                props.species.common_names.en.join("<br/>")
-              )}
-            >
+            <span className="other-names" id="commonNamesEn">
               +{props.species.common_names.en.length - 1}
             </span>
           )}

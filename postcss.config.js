@@ -46,6 +46,7 @@ module.exports = {
             "body",
             /^tippy-/,
             /^fancybox__/,
+            /^fancybox__[^\s]*$/,
             /^f-/,
             /^p-sidebar/,
             /^Toastify/,

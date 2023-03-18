@@ -34,7 +34,7 @@ export default function SpeciesCard(props: {
     >
       <Style>
         <Link href={`/species/${props.species.id}`} className="container">
-          <div className="img-wrapper">
+          <m.div className="img-wrapper" layoutId={`img-${props.species.id}`}>
             {props.species?.photos?.[0]?.blurhash && (
               <BlurhashCanvas
                 {...props.species.photos[0].blurhash}
@@ -66,8 +66,8 @@ export default function SpeciesCard(props: {
                 alt={props.species.scientific_name}
               />
             {/* )} */}
-          </div>
-          <div className="content">
+          </m.div>
+          <m.div className="content" layoutId={`title-${props.species.id}`}>
             {props.species.common_names?.fr?.length > 0 && (
               <div className="title">
                 <div>
@@ -91,7 +91,7 @@ export default function SpeciesCard(props: {
             <div className="scientific-name">
               {capitalizeFirstLetter(props.species.scientific_name)}
             </div>
-          </div>
+          </m.div>
         </Link>
       </Style>
     </m.div>

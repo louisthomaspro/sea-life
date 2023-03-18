@@ -15,8 +15,6 @@ import XmarkThinSvg from "../../public/icons/fontawesome/thin/xmark.svg";
 import Spinner from "../commons/Spinner";
 import CustomInfiniteHits from "./CustomInfiniteHits";
 import SearchBoxWorkaround from "./SearchBoxWorkaround";
-const loadFeatures = () =>
-  import("../../utils/feature.js").then((res) => res.default);
 
 const searchBoxTransition = { duration: 0.3 };
 
@@ -95,95 +93,93 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
 
   return (
     <Style {...props}>
-      <LazyMotion features={loadFeatures}>
-        {openModal && (
-          <div
-            className="search-modal"
-            // animate={{ backgroundColor: "rgba(255, 255, 255, 1)" }}
-            // transition={searchBoxTransition}
-          >
-            <div className="global-padding max-width-800">
-              <div className="search-header mt-3">
-                <m.div
-                  layoutId={`${id}-layout`}
-                  key={`${id}-layout`}
-                  transition={searchBoxTransition}
-                  className="input-container sm:max-w-20rem"
-                  onLayoutAnimationComplete={() => {
-                    setShowResults(true);
-                    inputRef.current?.focus();
-                  }}
-                >
-                  <SearchSvg
-                    aria-label="search-icon"
-                    style={{ width: "18px" }}
-                    className="svg-icon icon-left"
-                  />
-                  <input
-                    ref={inputRef}
-                    aria-label="Search"
-                    type="text"
-                    placeholder="Rechercher une espèce"
-                    onChange={debouncedChangeHandler}
-                  />
-                  {inputRef.current?.value && (
-                    <div className="icon-right" onClick={() => clearInput()}>
-                      <div className="icon-container">
-                        <XmarkRegularSvg
-                          aria-label="search-icon"
-                          style={{ width: "8px" }}
-                          className="svg-icon"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </m.div>
-                <div className="close mt-3 ml-2">
-                  <XmarkThinSvg
-                    onClick={() => setOpenModal(false)}
-                    aria-label="search-icon"
-                    style={{ width: "20px" }}
-                    className="svg-icon relative"
-                  />
-                </div>
-              </div>
-
-              <InstantSearch indexName="species" searchClient={algolia}>
-                {showResults && (
-                  <>
-                    {/* <SearchBox /> */}
-                    <Configure hitsPerPage={10} />
-                    <SearchBoxWorkaround query={searchValue} />
-                    <hr />
-                    <LoadingIndicator />
-                    <CustomInfiniteHits />
-                  </>
-                )}
-              </InstantSearch>
-            </div>
-          </div>
-        )}
-
-        <m.div
-          layoutId={`${id}-layout`}
-          key={`${id}-layout`}
-          className="input-container fake-input"
-          transition={searchBoxTransition}
-          onClick={() => setOpenModal(true)}
+      {openModal && (
+        <div
+          className="search-modal"
+          // animate={{ backgroundColor: "rgba(255, 255, 255, 1)" }}
+          // transition={searchBoxTransition}
         >
-          <SearchSvg
-            aria-label="search-icon"
-            style={{ width: "18px" }}
-            className="svg-icon icon-left"
-          />
-          <input
-            aria-label="Search"
-            type="text"
-            placeholder="Rechercher une espèce"
-            readOnly
-          />
-        </m.div>
-      </LazyMotion>
+          <div className="global-padding max-width-800">
+            <div className="search-header mt-3">
+              <m.div
+                layoutId={`${id}-layout`}
+                key={`${id}-layout`}
+                transition={searchBoxTransition}
+                className="input-container sm:max-w-20rem"
+                onLayoutAnimationComplete={() => {
+                  setShowResults(true);
+                  inputRef.current?.focus();
+                }}
+              >
+                <SearchSvg
+                  aria-label="search-icon"
+                  style={{ width: "18px" }}
+                  className="svg-icon icon-left"
+                />
+                <input
+                  ref={inputRef}
+                  aria-label="Search"
+                  type="text"
+                  placeholder="Rechercher une espèce"
+                  onChange={debouncedChangeHandler}
+                />
+                {inputRef.current?.value && (
+                  <div className="icon-right" onClick={() => clearInput()}>
+                    <div className="icon-container">
+                      <XmarkRegularSvg
+                        aria-label="search-icon"
+                        style={{ width: "8px" }}
+                        className="svg-icon"
+                      />
+                    </div>
+                  </div>
+                )}
+              </m.div>
+              <div className="close mt-3 ml-2">
+                <XmarkThinSvg
+                  onClick={() => setOpenModal(false)}
+                  aria-label="search-icon"
+                  style={{ width: "20px" }}
+                  className="svg-icon relative"
+                />
+              </div>
+            </div>
+
+            <InstantSearch indexName="species" searchClient={algolia}>
+              {showResults && (
+                <>
+                  {/* <SearchBox /> */}
+                  <Configure hitsPerPage={10} />
+                  <SearchBoxWorkaround query={searchValue} />
+                  <hr />
+                  <LoadingIndicator />
+                  <CustomInfiniteHits />
+                </>
+              )}
+            </InstantSearch>
+          </div>
+        </div>
+      )}
+
+      <m.div
+        layoutId={`${id}-layout`}
+        key={`${id}-layout`}
+        className="input-container fake-input"
+        transition={searchBoxTransition}
+        onClick={() => setOpenModal(true)}
+      >
+        <SearchSvg
+          aria-label="search-icon"
+          style={{ width: "18px" }}
+          className="svg-icon icon-left"
+        />
+        <input
+          aria-label="Search"
+          type="text"
+          placeholder="Rechercher une espèce"
+          readOnly
+        />
+      </m.div>
     </Style>
   );
 }

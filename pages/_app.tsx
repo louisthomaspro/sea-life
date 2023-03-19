@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
           <ToastContainer
             position={toast.POSITION.BOTTOM_CENTER}
             transition={Slide}
-            hideProgressBar={true}
+            hideProgressBar={false}
           />
           <Layout>
             <Component {...pageProps} />

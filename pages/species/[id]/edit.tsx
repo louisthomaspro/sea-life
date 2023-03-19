@@ -1,6 +1,7 @@
+/* eslint-disable react/display-name */
 import { m } from "framer-motion";
 import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Header from "../../../components/commons/Header";
 import { withAuthServerSideProps } from "../../../firebase/withAuth";
@@ -15,35 +16,27 @@ import dynamic from "next/dynamic";
 import Spinner from "../../../components/commons/Spinner";
 import { useRouter } from "next/router";
 
+const FormLoading = () => (
+  <div className="flex">
+    <Spinner />
+  </div>
+);
+
 const DynamicCommonNameFrForm = dynamic(
   () => import("../../../components/speciesForm/CommonNameFrForm"),
-  {
-    loading: () => (
-      <div className="flex">
-        <Spinner />
-      </div>
-    ),
-  }
+  { loading: () => <FormLoading />, ssr: false }
 );
 const DynamicCommonNameEnForm = dynamic(
   () => import("../../../components/speciesForm/CommonNameEnForm"),
-  {
-    loading: () => (
-      <div className="flex">
-        <Spinner />
-      </div>
-    ),
-  }
+  { loading: () => <FormLoading />, ssr: false }
 );
 const DynamicSizesForm = dynamic(
   () => import("../../../components/speciesForm/SizesForm"),
-  {
-    loading: () => (
-      <div className="flex">
-        <Spinner />
-      </div>
-    ),
-  }
+  { loading: () => <FormLoading />, ssr: false }
+);
+const DynamicDepthForm = dynamic(
+  () => import("../../../components/speciesForm/DepthForm"),
+  { loading: () => <FormLoading />, ssr: false }
 );
 
 const Edit: NextPage<{
@@ -53,16 +46,16 @@ const Edit: NextPage<{
   const [showDialog, setShowDialog] = useState(false);
   const childFormRef = useRef(null);
   const router = useRouter();
-
   const [species, setSpecies] = useState<ISpecies>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    if (!species) {
+    if (!species || refreshKey > 0) {
       getSpecies(router.query.id.toString()).then((species) => {
         setSpecies(species);
       });
     }
-  }, []);
+  }, [refreshKey]);
 
   if (!species) {
     return (
@@ -72,11 +65,32 @@ const Edit: NextPage<{
     );
   }
 
+  // https://github.com/vercel/next.js/issues/4957#issuecomment-413841689
+  const getForwardedComponent = <P extends {}>(Component: any): any => {
+    return forwardRef((props: P, ref: React.Ref<unknown>) => (
+      <Component
+        {...props}
+        forwardedRef={ref}
+        species={species}
+        submitCallback={() => {
+          setRefreshKey(refreshKey + 1);
+          closeDialog();
+        }}
+      />
+    ));
+  };
+  const ForwardedRefDynamicSizesForm = getForwardedComponent(DynamicSizesForm);
+  const ForwardedRefDynamicDepthForm = getForwardedComponent(DynamicDepthForm);
+  const ForwardedRefDynamicCommonNameFrForm = getForwardedComponent(
+    DynamicCommonNameFrForm
+  );
+  const ForwardedRefDynamicCommonNameEnForm = getForwardedComponent(
+    DynamicCommonNameEnForm
+  );
+
   const handleChildFormSubmit = async () => {
     childFormRef.current.submit();
   };
-
-  console.log(species);
 
   const fields: any[] = [
     {
@@ -91,7 +105,7 @@ const Edit: NextPage<{
     },
     {
       id: "sizes",
-      label: "Tailles",
+      label: "Tailles (en cm)",
       value:
         Object.keys(species.sizes).length > 0 ? (
           <>
@@ -104,6 +118,11 @@ const Edit: NextPage<{
         ) : (
           <>-</>
         ),
+    },
+    {
+      id: "depth",
+      label: "Profondeur (en m)",
+      value: `Entre ${species.depth_min} et ${species.depth_max} mètres`,
     },
   ];
 
@@ -188,25 +207,16 @@ const Edit: NextPage<{
       >
         <div className="max-width-500 py-3">
           {selectedField === "common_names_fr" && (
-            <DynamicCommonNameFrForm
-              species={species}
-              ref={childFormRef}
-              submitCallback={() => closeDialog()}
-            />
+            <ForwardedRefDynamicCommonNameFrForm ref={childFormRef} />
           )}
           {selectedField === "common_names_en" && (
-            <DynamicCommonNameEnForm
-              species={species}
-              ref={childFormRef}
-              submitCallback={() => closeDialog()}
-            />
+            <ForwardedRefDynamicCommonNameEnForm ref={childFormRef} />
           )}
           {selectedField === "sizes" && (
-            <DynamicSizesForm
-              species={species}
-              ref={childFormRef}
-              submitCallback={() => closeDialog()}
-            />
+            <ForwardedRefDynamicSizesForm ref={childFormRef} />
+          )}
+          {selectedField === "depth" && (
+            <ForwardedRefDynamicDepthForm ref={childFormRef} />
           )}
         </div>
       </Dialog>

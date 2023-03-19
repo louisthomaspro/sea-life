@@ -2,7 +2,6 @@ import { Sidebar } from "primereact/sidebar";
 import styled from "styled-components";
 import { Dropdown } from "primereact/dropdown";
 import { InputTextarea } from "primereact/inputtextarea";
-import Button from "./Button";
 import { saveContribution } from "../../utils/firestore/species.firestore";
 import { useFormik } from "formik";
 import { ISpecies } from "../../types/Species";
@@ -15,6 +14,7 @@ import { useRouter } from "next/router";
 import jwtDecode from "jwt-decode";
 import { SignInToast } from "../../utils/toast.helper";
 import PenToSquareSvg from "../../public/icons/fontawesome/light/pen-to-square.svg";
+import MyButton from "./MyButton";
 
 const fields = [
   { name: "Photos", id: "photos" },
@@ -165,14 +165,14 @@ export default function ContributionButton(props: ContributionButtonProps) {
 
             <div className="grid">
               <div className="col-6">
-                <Button $outline className="w-full">
+                <MyButton outline className="w-full">
                   Annuler
-                </Button>
+                </MyButton>
               </div>
               <div className="col-6">
-                <Button className="w-full" type="submit">
+                <MyButton primary className="w-full" type="submit">
                   Envoyer
-                </Button>
+                </MyButton>
               </div>
             </div>
           </form>
@@ -200,4 +200,10 @@ const ContributeButtonStyle = styled.button`
   border-radius: 100px;
   padding: 0.3rem 1rem;
   cursor: pointer;
+  background-color: white;
+  transition: all 0.2s ease;
+
+  &:active {
+    background-color: #f5f5f5;
+  }
 `;

@@ -76,6 +76,18 @@ svg.svg-icon {
   }
 }
 
+svg.svg-icon-white {
+  path {
+    fill: #ffffff;
+  }
+}
+
+svg.svg-icon-destructive {
+  path {
+    fill: rgb(168, 23, 23);
+  }
+}
+
 .bottom-navigation {
   padding-bottom: var(--bottom-navigation-height);
 }
@@ -126,6 +138,12 @@ svg.svg-icon {
 }
 
 .p-dropdown {
+  border-radius: 10px;
+  border: 1px solid #828282;
+  padding: 0.3rem 0.5rem;
+}
+
+.p-inputtext {
   border-radius: 10px;
   border: 1px solid #828282;
   padding: 0.3rem 0.5rem;

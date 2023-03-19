@@ -10,6 +10,7 @@ import { capitalizeWords } from "../../../utils/helper";
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import CommonNameFrForm from "../../../components/speciesForm/CommonNameFrForm";
+import MyButton from "../../../components/commons/MyButton";
 
 const Edit: NextPage<{
   species: ISpecies;
@@ -59,20 +60,30 @@ const Edit: NextPage<{
   };
 
   const dialogFooter = (
-    <div>
-      <Button
-        label="Publier"
-        type="submit"
-        onClick={() => {
-          handleChildFormSubmit();
-        }}
-      />
-      <Button
-        label="Annuler"
-        onClick={() => {
-          closeDialog();
-        }}
-      />
+    <div className="grid">
+      <div className="col-6">
+        <MyButton
+          outline
+          className="w-full"
+          onClick={() => {
+            closeDialog();
+          }}
+        >
+          Annuler
+        </MyButton>
+      </div>
+      <div className="col-6">
+        <MyButton
+          primary
+          className="w-full"
+          type="submit"
+          onClick={() => {
+            handleChildFormSubmit();
+          }}
+        >
+          Publier
+        </MyButton>
+      </div>
     </div>
   );
 
@@ -110,7 +121,11 @@ const Edit: NextPage<{
       >
         <div className="py-3">
           {selectedField === "common_names_fr" && (
-            <CommonNameFrForm species={species} ref={childFormRef} submitCallback={() => closeDialog()} />
+            <CommonNameFrForm
+              species={species}
+              ref={childFormRef}
+              submitCallback={() => closeDialog()}
+            />
           )}
         </div>
       </Dialog>
@@ -121,7 +136,7 @@ const Edit: NextPage<{
 export const getServerSideProps: GetServerSideProps = withAuthServerSideProps(
   async (context: GetServerSidePropsContext, decodedToken: any) => {
     if (!decodedToken || !decodedToken?.isAdmin) {
-      console.log("Not authorized");
+      console.error("Not authorized");
       return {
         redirect: {
           destination: "/",

@@ -34,6 +34,20 @@ export const regionsList: {
       fr: "Mer Méditerranée",
     },
   },
+  {
+    id: "temperate-atlantic",
+    name: {
+      en: "Temperate Atlantic",
+      fr: "Atlantique tempéré",
+    },
+  },
+  {
+    id: "tropical-atlantic",
+    name: {
+      en: "Tropical Atlantic",
+      fr: "Atlantique tropical",
+    },
+  },
 ];
 
 export const regionsDict: {

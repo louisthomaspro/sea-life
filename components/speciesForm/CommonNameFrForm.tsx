@@ -25,8 +25,8 @@ const CommonNameFrForm = (props: {
     validationSchema: object().shape({
       names: array().of(
         string()
-          .required("Name is required")
-          .min(2, "Name must be at least 2 characters")
+          .required("Champ obligatoire")
+          .min(2, "Le nom doit contenir au moins 2 caractères")
       ),
     }),
     onSubmit: async (data) => {
@@ -165,6 +165,4 @@ const CommonNameFrForm = (props: {
 };
 
 const Style = styled.div``;
-
-CommonNameFrForm.displayName = "CommonNameFrForm";
 export default CommonNameFrForm;

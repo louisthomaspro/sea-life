@@ -21,7 +21,7 @@ const DepthForm = (props: {
       depth_min: number(),
       depth_max: number().moreThan(
         refYup("depth_min"),
-        "Depth max must be greater than depth min"
+        "La profondeur maximum doit être supérieure à la profondeur minimum"
       ),
     }),
     onSubmit: async (data) => {
@@ -113,6 +113,4 @@ const DepthForm = (props: {
 };
 
 const Style = styled.div``;
-
-DepthForm.displayName = "DepthForm";
 export default DepthForm;

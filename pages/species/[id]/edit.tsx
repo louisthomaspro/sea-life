@@ -7,7 +7,7 @@ import Header from "../../../components/commons/Header";
 import { withAuthServerSideProps } from "../../../firebase/withAuth";
 import { ISpecies } from "../../../types/Species";
 import { getSpecies } from "../../../utils/firestore/species.firestore";
-import { capitalizeWords } from "../../../utils/helper";
+import { capitalizeFirstLetter, capitalizeWords } from "../../../utils/helper";
 import { Dialog } from "primereact/dialog";
 import MyButton from "../../../components/commons/MyButton";
 import ChevronRightSvg from "../../../public/icons/fontawesome/light/chevron-right.svg";
@@ -15,6 +15,7 @@ import { sizes_dict } from "../../../constants/sizes_dict";
 import dynamic from "next/dynamic";
 import Spinner from "../../../components/commons/Spinner";
 import { useRouter } from "next/router";
+import { regionsDict } from "../../../constants/regions";
 
 const FormLoading = () => (
   <div className="flex">
@@ -36,6 +37,18 @@ const DynamicSizesForm = dynamic(
 );
 const DynamicDepthForm = dynamic(
   () => import("../../../components/speciesForm/DepthForm"),
+  { loading: () => <FormLoading />, ssr: false }
+);
+const DynamicRarityForm = dynamic(
+  () => import("../../../components/speciesForm/RarityForm"),
+  { loading: () => <FormLoading />, ssr: false }
+);
+const DynamicRegionsForm = dynamic(
+  () => import("../../../components/speciesForm/RegionsForm"),
+  { loading: () => <FormLoading />, ssr: false }
+);
+const DynamicSociabilityForm = dynamic(
+  () => import("../../../components/speciesForm/SociabilityForm"),
   { loading: () => <FormLoading />, ssr: false }
 );
 
@@ -87,6 +100,13 @@ const Edit: NextPage<{
   const ForwardedRefDynamicCommonNameEnForm = getForwardedComponent(
     DynamicCommonNameEnForm
   );
+  const ForwardedRefDynamicRarityForm =
+    getForwardedComponent(DynamicRarityForm);
+  const ForwardedRefDynamicRegionsForm =
+    getForwardedComponent(DynamicRegionsForm);
+  const ForwardedRefDynamicSociabilityForm = getForwardedComponent(
+    DynamicSociabilityForm
+  );
 
   const handleChildFormSubmit = async () => {
     childFormRef.current.submit();
@@ -123,6 +143,23 @@ const Edit: NextPage<{
       id: "depth",
       label: "Profondeur (en m)",
       value: `Entre ${species.depth_min} et ${species.depth_max} mètres`,
+    },
+    {
+      id: "rarity",
+      label: "Rareté",
+      value: capitalizeFirstLetter(species.rarity),
+    },
+    {
+      id: "regions",
+      label: "Régions",
+      value: species.regions
+        .map((region) => regionsDict[region]?.name?.fr)
+        .join(", "),
+    },
+    {
+      id: "sociability",
+      label: "Comportement social",
+      value: capitalizeFirstLetter(species.sociability),
     },
   ];
 
@@ -217,6 +254,15 @@ const Edit: NextPage<{
           )}
           {selectedField === "depth" && (
             <ForwardedRefDynamicDepthForm ref={childFormRef} />
+          )}
+          {selectedField === "rarity" && (
+            <ForwardedRefDynamicRarityForm ref={childFormRef} />
+          )}
+          {selectedField === "regions" && (
+            <ForwardedRefDynamicRegionsForm ref={childFormRef} />
+          )}
+          {selectedField === "sociability" && (
+            <ForwardedRefDynamicSociabilityForm ref={childFormRef} />
           )}
         </div>
       </Dialog>

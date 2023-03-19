@@ -57,10 +57,7 @@ const SizesForm = (props: {
         // console.log(field);
         return {
           ...acc,
-          [field.id]: number()
-            .min(2, "Name must be at least 2 characters")
-            .nullable()
-            .typeError("Doit être un nombre"),
+          [field.id]: number().nullable().typeError("Doit être un nombre"),
         };
       }, acc),
     {}
@@ -155,6 +152,4 @@ const SizesForm = (props: {
 };
 
 const Style = styled.div``;
-
-SizesForm.displayName = "SizesForm";
 export default SizesForm;

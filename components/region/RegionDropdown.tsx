@@ -17,7 +17,11 @@ export default function RegionDropdown(props: IRegionDropdown) {
       <Dropdown
         aria-label="region-dropdown"
         value={userRegion}
-        options={regionsList}
+        options={regionsList.filter(
+          (region) =>
+            region.id !== "temperate-atlantic" &&
+            region.id !== "tropical-atlantic"
+        )}
         onChange={onRegionChange}
         optionLabel="name.fr"
         optionValue="id"
@@ -40,7 +44,8 @@ const Style = styled.div`
     border: none;
     background-color: #ebf1f7;
 
-    .p-dropdown-label, .p-dropdown-trigger {
+    .p-dropdown-label,
+    .p-dropdown-trigger {
       font-weight: 600;
       color: var(--primary-color);
       font-family: var(--font-family);

@@ -13,8 +13,6 @@ import MyButton from "../commons/MyButton";
 import TrashCanSvg from "../../public/icons/fontawesome/light/trash-can.svg";
 import styled from "styled-components";
 
-console.log(' CommonNameEnForm.tsx')
-
 const CommonNameEnForm = forwardRef(
   (props: { species: ISpecies; submitCallback: any }, ref) => {
     const formik = useFormik<any>({
@@ -69,7 +67,6 @@ const CommonNameEnForm = forwardRef(
 
     useImperativeHandle(ref, () => ({
       submit: () => {
-        console.log("Submit triggered");
         formik.handleSubmit();
       },
     }));

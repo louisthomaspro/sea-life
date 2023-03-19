@@ -87,8 +87,6 @@ const SizesForm = forwardRef(
           return;
         }
 
-        console.log("data", data);
-
         let sizes: any = {};
         for (const sizeProperty in data) {
           if (data[sizeProperty]) {
@@ -128,7 +126,6 @@ const SizesForm = forwardRef(
 
     useImperativeHandle(ref, () => ({
       submit: () => {
-        console.log("Submit triggered");
         formik.handleSubmit();
       },
     }));

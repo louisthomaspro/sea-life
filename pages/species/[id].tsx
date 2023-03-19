@@ -25,7 +25,6 @@ const Species: NextPage<{
   species: ISpecies;
 }> = ({ species }) => {
 
-  console.log( species)
   return (
     <>
       <ScrollHeader title={capitalizeWords(species.common_names?.fr[0])} />

@@ -25,6 +25,9 @@ function MyApp({ Component, pageProps, router }: AppProps) {
           --font-family: ${nunito.style.fontFamily};
           --toastify-font-family: ${nunito.style.fontFamily};
         }
+        .p-inputtext {
+          font-family: var(--font-family);
+        }
       `}</style>
       <Head>
         <title>SeaLife</title>

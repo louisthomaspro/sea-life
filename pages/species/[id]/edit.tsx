@@ -1,6 +1,6 @@
 import { m } from "framer-motion";
 import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Header from "../../../components/commons/Header";
 import { withAuthServerSideProps } from "../../../firebase/withAuth";
@@ -8,34 +8,69 @@ import { ISpecies } from "../../../types/Species";
 import { getSpecies } from "../../../utils/firestore/species.firestore";
 import { capitalizeWords } from "../../../utils/helper";
 import { Dialog } from "primereact/dialog";
-import CommonNameFrForm from "../../../components/speciesForm/CommonNameFrForm";
 import MyButton from "../../../components/commons/MyButton";
-import CommonNameEnForm from "../../../components/speciesForm/CommonNameEnForm";
 import ChevronRightSvg from "../../../public/icons/fontawesome/light/chevron-right.svg";
-import SizesForm from "../../../components/speciesForm/SizesForm";
 import { sizes_dict } from "../../../constants/sizes_dict";
 import dynamic from "next/dynamic";
 import Spinner from "../../../components/commons/Spinner";
+import { useRouter } from "next/router";
 
 const DynamicCommonNameFrForm = dynamic(
   () => import("../../../components/speciesForm/CommonNameFrForm"),
-  { loading: () => <div className="flex"><Spinner /></div> }
+  {
+    loading: () => (
+      <div className="flex">
+        <Spinner />
+      </div>
+    ),
+  }
 );
 const DynamicCommonNameEnForm = dynamic(
   () => import("../../../components/speciesForm/CommonNameEnForm"),
-  { loading: () => <div className="flex"><Spinner /></div> }
+  {
+    loading: () => (
+      <div className="flex">
+        <Spinner />
+      </div>
+    ),
+  }
 );
 const DynamicSizesForm = dynamic(
   () => import("../../../components/speciesForm/SizesForm"),
-  { loading: () => <div className="flex"><Spinner /></div> }
+  {
+    loading: () => (
+      <div className="flex">
+        <Spinner />
+      </div>
+    ),
+  }
 );
 
 const Edit: NextPage<{
   species: ISpecies;
-}> = ({ species }) => {
+}> = () => {
   const [selectedField, setSelectedField] = useState<string | null>(null);
   const [showDialog, setShowDialog] = useState(false);
   const childFormRef = useRef(null);
+  const router = useRouter();
+
+  const [species, setSpecies] = useState<ISpecies>(null);
+
+  useEffect(() => {
+    if (!species) {
+      getSpecies(router.query.id.toString()).then((species) => {
+        setSpecies(species);
+      });
+    }
+  }, []);
+
+  if (!species) {
+    return (
+      <div className="flex mt-5">
+        <Spinner />
+      </div>
+    );
+  }
 
   const handleChildFormSubmit = async () => {
     childFormRef.current.submit();
@@ -186,13 +221,8 @@ export const getServerSideProps: GetServerSideProps = withAuthServerSideProps(
       };
     }
 
-    const { id } = context.params;
-    const species: ISpecies = JSON.parse(
-      JSON.stringify(await getSpecies(id.toString()))
-    );
-
     return {
-      props: { species },
+      props: {},
     };
   }
 );

@@ -76,29 +76,34 @@ const Edit: NextPage<{
     childFormRef.current.submit();
   };
 
+  console.log(species);
+
   const fields: any[] = [
     {
       id: "common_names_fr",
       label: "Nom communs francophones",
-      value: capitalizeWords(species.common_names.fr.join(", ")),
+      value: capitalizeWords(species.common_names.fr.join(", ")) || "-",
     },
     {
       id: "common_names_en",
       label: "Noms communs anglophones",
-      value: capitalizeWords(species.common_names.en.join(", ")),
+      value: capitalizeWords(species.common_names.en.join(", ")) || "-",
     },
     {
       id: "sizes",
       label: "Tailles",
-      value: (
-        <>
-          {Object.keys(species.sizes).map((size) => (
-            <div key={size}>
-              {sizes_dict[size].fr} : {(species.sizes as any)[size]} cm
-            </div>
-          ))}
-        </>
-      ),
+      value:
+        Object.keys(species.sizes).length > 0 ? (
+          <>
+            {Object.keys(species.sizes).map((size) => (
+              <div key={size}>
+                {sizes_dict[size].fr} : {(species.sizes as any)[size]} cm
+              </div>
+            ))}
+          </>
+        ) : (
+          <>-</>
+        ),
     },
   ];
 

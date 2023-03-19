@@ -66,15 +66,18 @@ export const searchTreeClassification = (
 
 // Capitalize first letter of a string
 export const capitalizeFirstLetter = (string: string) => {
+  if (!string) return "";
+  if (typeof string !== "string") return "";
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 // Capitalize first letter of each word in a string
 export const capitalizeWords = (string: string) => {
+  if (!string) return "";
   if (typeof string !== "string") return "";
   const words = string.split(" ");
   const capitalizedWords = words.map(
     (word) => word[0].toUpperCase() + word.slice(1)
   );
   return capitalizedWords.join(" ");
-}
+};

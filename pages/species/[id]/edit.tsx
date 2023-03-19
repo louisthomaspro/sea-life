@@ -60,7 +60,7 @@ const Edit: NextPage<{
   };
 
   const dialogFooter = (
-    <div className="grid">
+    <div className="grid max-width-500">
       <div className="col-6">
         <MyButton
           outline
@@ -119,7 +119,7 @@ const Edit: NextPage<{
           closeDialog();
         }}
       >
-        <div className="py-3">
+        <div className="max-width-500 py-3">
           {selectedField === "common_names_fr" && (
             <CommonNameFrForm
               species={species}

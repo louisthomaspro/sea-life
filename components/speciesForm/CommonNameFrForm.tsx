@@ -113,7 +113,7 @@ const CommonNameFrForm = forwardRef(
                             <div
                               ref={provided.innerRef}
                               {...provided.draggableProps}
-                              className="mb-1 flex"
+                              className="mb-2 flex"
                             >
                               <div
                                 {...provided.dragHandleProps}

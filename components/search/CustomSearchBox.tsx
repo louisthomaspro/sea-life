@@ -101,6 +101,8 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
         >
           <div className="global-padding max-width-800">
             <div className="search-header mt-3">
+              {/* for space-between */}
+              <div></div>
               <m.div
                 layoutId={`${id}-layout`}
                 key={`${id}-layout`}
@@ -189,7 +191,9 @@ const Style = styled.div`
   position: relative;
 
   .input-container {
-    margin: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 100%;
     position: relative;
   }
 
@@ -260,7 +264,7 @@ const Style = styled.div`
 
   .search-header {
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
 
     .close {
       padding: 0 0.5rem;

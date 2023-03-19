@@ -13,15 +13,19 @@ export default function SpeciesTitleTooltips(props: { species: ISpecies }) {
     let tippyInstance2: Instance;
 
     if (props.species.common_names.fr.length > 1) {
+      let array = props.species.common_names.fr;
+      array.shift();
       tippyInstance1 = tippy("#commonNamesFr", {
         ...tippyOptions,
-        content: props.species.common_names.fr.join("<br/>"),
+        content: array.join("<br/>"),
       })[0];
     }
     if (props.species.common_names.en.length > 1) {
+      let array = props.species.common_names.en;
+      array.shift();
       tippyInstance2 = tippy("#commonNamesEn", {
         ...tippyOptions,
-        content: props.species.common_names.en.join("<br/>"),
+        content: array.join("<br/>"),
       })[0];
     }
 

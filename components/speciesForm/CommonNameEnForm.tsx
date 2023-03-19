@@ -13,6 +13,8 @@ import MyButton from "../commons/MyButton";
 import TrashCanSvg from "../../public/icons/fontawesome/light/trash-can.svg";
 import styled from "styled-components";
 
+console.log(' CommonNameEnForm.tsx')
+
 const CommonNameEnForm = forwardRef(
   (props: { species: ISpecies; submitCallback: any }, ref) => {
     const formik = useFormik<any>({
@@ -26,12 +28,6 @@ const CommonNameEnForm = forwardRef(
             .min(2, "Name must be at least 2 characters")
         ),
       }),
-      // validate: (data) => {
-      //   let errors: any = {};
-
-      //   console.log("validate", data)
-      //   return errors;
-      // },
       onSubmit: async (data) => {
         // Check errors
         if (Object.keys(formik.errors).length > 0) {
@@ -117,16 +113,12 @@ const CommonNameEnForm = forwardRef(
                             >
                               <div
                                 {...provided.dragHandleProps}
-                                className="flex"
+                                className="flex px-3"
                               >
                                 <BarsSvg
                                   aria-label="drag-icon"
                                   className="svg-icon"
-                                  style={{
-                                    width: "40px",
-                                    paddingLeft: "12px",
-                                    paddingRight: "12px",
-                                  }}
+                                  style={{ width: "22px" }}
                                 />
                               </div>
 
@@ -138,16 +130,14 @@ const CommonNameEnForm = forwardRef(
                                 className="w-full"
                               />
                               <div
-                                className="flex"
+                                className="flex px-3"
                                 onClick={() => arrayHelpers.remove(index)}
                               >
                                 <TrashCanSvg
                                   aria-label="drag-icon"
                                   className="svg-icon-destructive"
                                   style={{
-                                    width: "40px",
-                                    paddingLeft: "12px",
-                                    paddingRight: "12px",
+                                    width: "16px",
                                   }}
                                 />
                               </div>
@@ -157,7 +147,6 @@ const CommonNameEnForm = forwardRef(
                       ))}
                       {provided.placeholder}
                       <MyButton
-                        
                         className="mt-2"
                         onClick={() => arrayHelpers.push("")}
                       >

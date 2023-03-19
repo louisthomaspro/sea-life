@@ -104,7 +104,7 @@ const getSizes = (sizes: any) => {
       text = "< " + sizes.max_length;
     }
     if ("common_length" in sizes) {
-      text = sizes.common_length;
+      text = "~ " + sizes.common_length;
     }
     if ("common_length" in sizes && "max_length" in sizes) {
       text = sizes.common_length + "-" + sizes.max_length;

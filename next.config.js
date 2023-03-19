@@ -58,9 +58,9 @@ let nextConfig = {
     // loader: "cloudinary",
     // path: "https://sea-guide.mo.cloudinary.net/",
   },
-  // compiler: {
-  //   styledComponents: true,
-  // },
+  compiler: {
+    styledComponents: true,
+  },
 };
 
 nextConfig = withPWA(nextConfig);

@@ -24,6 +24,8 @@ const DynamicContributionButton = dynamic(
 const Species: NextPage<{
   species: ISpecies;
 }> = ({ species }) => {
+
+  console.log( species)
   return (
     <>
       <ScrollHeader title={capitalizeWords(species.common_names?.fr[0])} />
@@ -85,7 +87,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   species.scientific_name = capitalizeFirstLetter(species.scientific_name);
 
   if (species) {
-    return { props: { species }, revalidate: 120 };
+    return { props: { species } };
   } else {
     return { notFound: true };
   }

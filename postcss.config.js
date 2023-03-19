@@ -50,6 +50,7 @@ module.exports = {
             /^f-/,
             /^p-sidebar/,
             /^Toastify/,
+            /^p-dialog/,
             // /^carousel/,
             // /^p-menu/,
           ],

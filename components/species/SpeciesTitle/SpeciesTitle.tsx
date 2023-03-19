@@ -75,7 +75,7 @@ const Style = styled.div`
       font-size: 14px;
       color: var(--text-color-2);
       font-weight: 400;
-      padding: 1px 6px;
+      padding: 0px 5px;
       border-radius: 6px;
       border: 1px solid var(--border-color);
       margin-left: 10px;

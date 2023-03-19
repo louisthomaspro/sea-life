@@ -8,10 +8,27 @@ import { ISpecies } from "../../../types/Species";
 import { getSpecies } from "../../../utils/firestore/species.firestore";
 import { capitalizeWords } from "../../../utils/helper";
 import { Dialog } from "primereact/dialog";
-import { Button } from "primereact/button";
 import CommonNameFrForm from "../../../components/speciesForm/CommonNameFrForm";
 import MyButton from "../../../components/commons/MyButton";
 import CommonNameEnForm from "../../../components/speciesForm/CommonNameEnForm";
+import ChevronRightSvg from "../../../public/icons/fontawesome/light/chevron-right.svg";
+import SizesForm from "../../../components/speciesForm/SizesForm";
+import { sizes_dict } from "../../../constants/sizes_dict";
+import dynamic from "next/dynamic";
+import Spinner from "../../../components/commons/Spinner";
+
+const DynamicCommonNameFrForm = dynamic(
+  () => import("../../../components/speciesForm/CommonNameFrForm"),
+  { loading: () => <div className="flex"><Spinner /></div> }
+);
+const DynamicCommonNameEnForm = dynamic(
+  () => import("../../../components/speciesForm/CommonNameEnForm"),
+  { loading: () => <div className="flex"><Spinner /></div> }
+);
+const DynamicSizesForm = dynamic(
+  () => import("../../../components/speciesForm/SizesForm"),
+  { loading: () => <div className="flex"><Spinner /></div> }
+);
 
 const Edit: NextPage<{
   species: ISpecies;
@@ -40,9 +57,11 @@ const Edit: NextPage<{
       label: "Tailles",
       value: (
         <>
-          Taille maximum: ${species.sizes.max_length || "-"}
-          <br /> Taille moyenne: {species.sizes.common_length || "-"}
-          <br /> Diamètre moyen: {species.sizes.common_diameter || "-"}
+          {Object.keys(species.sizes).map((size) => (
+            <div key={size}>
+              {sizes_dict[size].fr} : {(species.sizes as any)[size]} cm
+            </div>
+          ))}
         </>
       ),
     },
@@ -99,8 +118,15 @@ const Edit: NextPage<{
               className="global-padding"
               onClick={field.onClick}
             >
-              <div className="label">{field.label}</div>
-              <div className="value">{field.value}</div>
+              <div>
+                <div className="label">{field.label}</div>
+                <div className="value">{field.value}</div>
+              </div>
+              <ChevronRightSvg
+                aria-label="right"
+                className="svg-icon"
+                style={{ width: "14px" }}
+              />
             </ItemStyle>
           ))}
         </ListMenu>
@@ -122,21 +148,25 @@ const Edit: NextPage<{
       >
         <div className="max-width-500 py-3">
           {selectedField === "common_names_fr" && (
-            <CommonNameFrForm
+            <DynamicCommonNameFrForm
               species={species}
               ref={childFormRef}
               submitCallback={() => closeDialog()}
             />
           )}
           {selectedField === "common_names_en" && (
-            <CommonNameEnForm
+            <DynamicCommonNameEnForm
               species={species}
               ref={childFormRef}
               submitCallback={() => closeDialog()}
             />
           )}
           {selectedField === "sizes" && (
-            <>Prochainement</>
+            <DynamicSizesForm
+              species={species}
+              ref={childFormRef}
+              submitCallback={() => closeDialog()}
+            />
           )}
         </div>
       </Dialog>
@@ -186,16 +216,23 @@ const ListMenu = styled.div`
 
 const ItemStyle = styled(m.div)`
   border-bottom: 1px solid var(--border-color);
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  transition: all 0.2s ease;
 
-  > .label {
+  &:active {
+    background-color: #f0f0f0;
+  }
+
+  .label {
     color: var(--text-color-2);
     font-size: 1rem;
     font-weight: 400;
   }
 
-  > .value {
+  .value {
     font-size: 1rem;
     font-weight: 600;
   }

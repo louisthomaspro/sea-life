@@ -5,7 +5,7 @@ import Head from "next/head";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import { Analytics } from "@vercel/analytics/react";
 import { useScrollRestoration } from "../utils/saveScrollPos";
-import { Nunito } from "@next/font/google";
+import { Nunito } from "next/font/google";
 import { RegionContextProvider } from "../components/region/region.context";
 import dynamic from "next/dynamic";
 const nunito = Nunito({ subsets: ["latin"] });

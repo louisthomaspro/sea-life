@@ -11,6 +11,7 @@ import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import CommonNameFrForm from "../../../components/speciesForm/CommonNameFrForm";
 import MyButton from "../../../components/commons/MyButton";
+import CommonNameEnForm from "../../../components/speciesForm/CommonNameEnForm";
 
 const Edit: NextPage<{
   species: ISpecies;
@@ -126,6 +127,16 @@ const Edit: NextPage<{
               ref={childFormRef}
               submitCallback={() => closeDialog()}
             />
+          )}
+          {selectedField === "common_names_en" && (
+            <CommonNameEnForm
+              species={species}
+              ref={childFormRef}
+              submitCallback={() => closeDialog()}
+            />
+          )}
+          {selectedField === "sizes" && (
+            <>Prochainement</>
           )}
         </div>
       </Dialog>

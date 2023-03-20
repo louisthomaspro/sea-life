@@ -5,7 +5,7 @@ import { ISpecies } from "../../types/Species";
 import { object, string } from "yup";
 import { saveNewSpeciesVersion } from "../../utils/firestore/species.firestore";
 import styled from "styled-components";
-import { RadioButton } from 'primereact/radiobutton';
+import { RadioButton } from "primereact/radiobutton";
 
 const SociabilityForm = (props: {
   species: ISpecies;
@@ -65,6 +65,16 @@ const SociabilityForm = (props: {
   return (
     <Style>
       <FormikProvider value={formik}>
+        <div className="field-radiobutton">
+          <RadioButton
+            inputId="input0"
+            name="sociability"
+            value={null}
+            onChange={formik.handleChange}
+            checked={formik.values.sociability === null}
+          />
+          <label htmlFor="input1">Aucun comportement social</label>
+        </div>
         <div className="field-radiobutton">
           <RadioButton
             inputId="input1"

@@ -149,12 +149,12 @@ const Edit: NextPage<{
     {
       id: "depth",
       label: "Profondeur (en m)",
-      value: `Entre ${species.depth_min} et ${species.depth_max} mètres`,
+      value: `Entre ${species.depth_min || "-"} et ${species.depth_max || "-"} mètres`,
     },
     {
       id: "rarity",
       label: "Rareté",
-      value: capitalizeFirstLetter(species.rarity),
+      value: capitalizeFirstLetter(species.rarity) || "-",
     },
     {
       id: "regions",
@@ -172,13 +172,13 @@ const Edit: NextPage<{
             Type 1 :{" "}
             {(species.habitats_1 || [])
               .map((habitat) => habitatsDict[habitat]?.title?.fr)
-              .join(", ")}
+              .join(", ") || "-"}
           </div>
           <div>
             Type 2 :{" "}
             {(species.habitats_2 || [])
               .map((habitat) => habitatsDict[habitat]?.title?.fr)
-              .join(", ")}
+              .join(", ") || "-"}
           </div>
         </>
       ),
@@ -186,7 +186,7 @@ const Edit: NextPage<{
     {
       id: "sociability",
       label: "Comportement social",
-      value: capitalizeFirstLetter(species.sociability),
+      value: capitalizeFirstLetter(species.sociability) || "-",
     },
   ];
 

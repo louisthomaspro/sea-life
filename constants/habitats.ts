@@ -1,14 +1,16 @@
-export const habitats_dict: {
-  [habitat: string]: {
-    title: {
-      [lang: string]: string;
-    };
-    description: {
-      [lang: string]: string;
-    };
+export const habitatsList: {
+  id: string;
+  type: number;
+  title: {
+    [lang: string]: string;
   };
-} = {
-  open_sea: {
+  description: {
+    [lang: string]: string;
+  };
+}[] = [
+  {
+    id: "open_sea",
+    type: 1,
     title: {
       fr: "Pleine mer",
       en: "Open sea",
@@ -18,7 +20,9 @@ export const habitats_dict: {
       en: "The vast expanse of ocean water away from the coast, characterized by strong currents and low light levels.",
     },
   },
-  reef: {
+  {
+    id: "reef",
+    type: 1,
     title: {
       fr: "Récifs",
       en: "Reefs",
@@ -28,7 +32,9 @@ export const habitats_dict: {
       en: "Reefs are rocky or coral formations that typically occur near the surface of the water.",
     },
   },
-  sandy_muddy_seafloor: {
+  {
+    id: "sandy_muddy_seafloor",
+    type: 1,
     title: {
       fr: "Zone sablo-vaseuse",
       en: "Sandy-silty areas",
@@ -38,7 +44,9 @@ export const habitats_dict: {
       en: "Sandy-silty areas is characterized by the presence of sand and mud.",
     },
   },
-  coastal_zone: {
+  {
+    id: "coastal_zone",
+    type: 1,
     title: {
       fr: "Zone côtière",
       en: "Coastal zone",
@@ -48,7 +56,9 @@ export const habitats_dict: {
       en: "The coastal zone is characterized by its proximity to land and shallow waters.",
     },
   },
-  seagrass_algae: {
+  {
+    id: "seagrass_algae",
+    type: 1,
     title: {
       fr: "Herbiers",
       en: "Seagrass and Algae",
@@ -58,7 +68,9 @@ export const habitats_dict: {
       en: "Seagrass and algae are typically found in shallow waters near the coast.",
     },
   },
-  sandy_seafloor: {
+  {
+    id: "sandy_seafloor",
+    type: 1,
     title: {
       fr: "Zone sablonneuse",
       en: "Sandy areas",
@@ -68,7 +80,9 @@ export const habitats_dict: {
       en: "Sandy areas is characterized by the presence of sand.",
     },
   },
-  mangrove: {
+  {
+    id: "mangrove",
+    type: 1,
     title: {
       fr: "Mangrove",
       en: "Mangrove",
@@ -78,7 +92,9 @@ export const habitats_dict: {
       en: "Mangroves are humid coastal forests populated by trees and plants found in intertidal zones.",
     },
   },
-  seafloor: {
+  {
+    id: "seafloor",
+    type: 1,
     title: {
       fr: "Fond marin",
       en: "Seafloor",
@@ -88,7 +104,9 @@ export const habitats_dict: {
       en: "The seafloor is the surface of the ocean bottom where marine organisms live.",
     },
   },
-  stagnant_water: {
+  {
+    id: "stagnant_water",
+    type: 1,
     title: {
       fr: "Eau stagnante",
       en: "Stagnant water",
@@ -98,7 +116,9 @@ export const habitats_dict: {
       en: "Stagnant water is characterized by low circulation and low oxygenation.",
     },
   },
-  terrestrial: {
+  {
+    id: "terrestrial",
+    type: 1,
     title: {
       fr: "Terrestre",
       en: "Terrestrial",
@@ -108,7 +128,9 @@ export const habitats_dict: {
       en: "Terrestrial habitats refer to areas on land, within the boundaries of coastal zones.",
     },
   },
-  beach: {
+  {
+    id: "beach",
+    type: 1,
     title: {
       fr: "Plage",
       en: "Beach",
@@ -118,7 +140,9 @@ export const habitats_dict: {
       en: "Beaches are sandy or rocky coastal areas where waves break.",
     },
   },
-  cavity_crevices: {
+  {
+    id: "cavity_crevices",
+    type: 2,
     title: {
       fr: "Cavités/fissures",
       en: "Cavities/crevices",
@@ -128,7 +152,9 @@ export const habitats_dict: {
       en: "Cavities and crevices are hollow or narrow spaces in rocks, reefs, and seafloors.",
     },
   },
-  overhanging: {
+  {
+    id: "overhanging",
+    type: 2,
     title: {
       fr: "En surplomb",
       en: "Overhanging",
@@ -138,7 +164,9 @@ export const habitats_dict: {
       en: "(FAUX) Overhanging habitats refer to areas above water, such as cliffs or rocky overhangs.",
     },
   },
-  sheltered_zone: {
+  {
+    id: "sheltered_zone",
+    type: 2,
     title: {
       fr: "Zone abritées",
       en: "Sheltered areas",
@@ -148,7 +176,9 @@ export const habitats_dict: {
       en: "Sheltered areas refer to places protected from currents and waves, such as bays and coves.",
     },
   },
-  corals: {
+  {
+    id: "corals",
+    type: 2,
     title: {
       fr: "Coraux",
       en: "Corals",
@@ -158,7 +188,9 @@ export const habitats_dict: {
       en: "Corals are living organisms that grow in colonies and form coral reefs.",
     },
   },
-  current: {
+  {
+    id: "current",
+    type: 2,
     title: {
       fr: "Courant",
       en: "Current",
@@ -168,4 +200,19 @@ export const habitats_dict: {
       en: "Current habitats refer to areas where water currents are strong and consistent.",
     },
   },
-};
+];
+
+export const habitatsDict: {
+  [habitat: string]: {
+    type: number;
+    title: {
+      [lang: string]: string;
+    };
+    description: {
+      [lang: string]: string;
+    };
+  };
+} = {};
+for (const habitat of habitatsList) {
+  habitatsDict[habitat.id] = habitat;
+}

@@ -105,6 +105,7 @@ const CommonNameFrForm = (props: {
                         draggableId={"box-" + index}
                         key={"box-" + index}
                         index={index}
+                        shouldRespectForcePress={false}
                       >
                         {(provided) => (
                           <div
@@ -114,7 +115,7 @@ const CommonNameFrForm = (props: {
                           >
                             <div
                               {...provided.dragHandleProps}
-                              className="flex px-3"
+                              className="flex px-3 py-2"
                             >
                               <BarsSvg
                                 aria-label="drag-icon"

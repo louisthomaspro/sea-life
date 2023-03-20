@@ -7,9 +7,9 @@ import EarthAmericasSvg from "../../public/icons/fontawesome/light/earth-america
 import ShieldExclamationSvg from "../../public/icons/fontawesome/light/shield-exclamation.svg";
 import { conservation_status_dict } from "../../constants/conservation_status_dict";
 import { regionsDict } from "../../constants/regions";
-import { habitats_dict } from "../../constants/habitats_dict";
 import Link from "next/link";
 import SpeciesInfoItem from "./SpeciesInfoItem";
+import { habitatsDict } from "../../constants/habitats";
 
 export default function SpeciesEnvironment(props: { species: ISpecies }) {
   const conservation_status = props.species.conservation_status;
@@ -28,14 +28,14 @@ export default function SpeciesEnvironment(props: { species: ISpecies }) {
 
   // format habitats_1
   const formatted_habitats_1 = habitats_1
-    .filter((habitat) => habitat in habitats_dict)
-    .map((habitat) => habitats_dict[habitat].title.fr)
+    .filter((habitat) => habitat in habitatsDict)
+    .map((habitat) => habitatsDict[habitat].title.fr)
     .join(", ");
 
   // format habitats_2
   const formatted_habitats_2 = habitats_2
-    .filter((habitat) => habitat in habitats_dict)
-    .map((habitat) => habitats_dict[habitat].title.fr)
+    .filter((habitat) => habitat in habitatsDict)
+    .map((habitat) => habitatsDict[habitat].title.fr)
     .join(", ");
 
   return (

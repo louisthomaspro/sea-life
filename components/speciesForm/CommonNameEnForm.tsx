@@ -105,6 +105,7 @@ const CommonNameEnForm = (props: {
                         draggableId={"box-" + index}
                         key={"box-" + index}
                         index={index}
+                        shouldRespectForcePress={false}
                       >
                         {(provided) => (
                           <div

@@ -16,6 +16,7 @@ import dynamic from "next/dynamic";
 import Spinner from "../../../components/commons/Spinner";
 import { useRouter } from "next/router";
 import { regionsDict } from "../../../constants/regions";
+import { habitatsDict } from "../../../constants/habitats";
 
 const FormLoading = () => (
   <div className="flex">
@@ -49,6 +50,10 @@ const DynamicRegionsForm = dynamic(
 );
 const DynamicSociabilityForm = dynamic(
   () => import("../../../components/speciesForm/SociabilityForm"),
+  { loading: () => <FormLoading />, ssr: false }
+);
+const DynamicHabitatsForm = dynamic(
+  () => import("../../../components/speciesForm/HabitatsForm"),
   { loading: () => <FormLoading />, ssr: false }
 );
 
@@ -107,6 +112,8 @@ const Edit: NextPage<{
   const ForwardedRefDynamicSociabilityForm = getForwardedComponent(
     DynamicSociabilityForm
   );
+  const ForwardedRefDynamicHabitatsForm =
+    getForwardedComponent(DynamicHabitatsForm);
 
   const handleChildFormSubmit = async () => {
     childFormRef.current.submit();
@@ -155,6 +162,26 @@ const Edit: NextPage<{
       value: species.regions
         .map((region) => regionsDict[region]?.name?.fr)
         .join(", "),
+    },
+    {
+      id: "habitats",
+      label: "Habitats",
+      value: (
+        <>
+          <div>
+            Type 1 :{" "}
+            {(species.habitats_1 || [])
+              .map((habitat) => habitatsDict[habitat]?.title?.fr)
+              .join(", ")}
+          </div>
+          <div>
+            Type 2 :{" "}
+            {(species.habitats_2 || [])
+              .map((habitat) => habitatsDict[habitat]?.title?.fr)
+              .join(", ")}
+          </div>
+        </>
+      ),
     },
     {
       id: "sociability",
@@ -263,6 +290,9 @@ const Edit: NextPage<{
           )}
           {selectedField === "sociability" && (
             <ForwardedRefDynamicSociabilityForm ref={childFormRef} />
+          )}
+          {selectedField === "habitats" && (
+            <ForwardedRefDynamicHabitatsForm ref={childFormRef} />
           )}
         </div>
       </Dialog>

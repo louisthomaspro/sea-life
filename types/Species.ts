@@ -66,8 +66,8 @@ export interface ISpeciesSizes {
 }
 
 export interface ISpeciesPhoto {
-  id: string;
-  storage_path: string;
+  // id: string;
+  // storage_path: string;
   original_url: string; // ex: https://static.inaturalist.org/photos/1234567/original.jpg
   attribution: string;
   blurhash: any;

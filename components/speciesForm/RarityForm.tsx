@@ -62,8 +62,6 @@ const RarityForm = (props: {
     },
   }));
 
-  console.log('ici')
-
   return (
     <Style>
       <FormikProvider value={formik}>

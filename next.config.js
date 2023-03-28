@@ -46,10 +46,16 @@ let nextConfig = {
   reactStrictMode: true,
   images: {
     minimumCacheTTL: 31536000,
-    domains: [
-      "firebasestorage.googleapis.com",
-      "inaturalist-open-data.s3.amazonaws.com",
-      "static.inaturalist.org",
+    // domains: [
+    //   "firebasestorage.googleapis.com",
+    //   "inaturalist-open-data.s3.amazonaws.com",
+    //   "static.inaturalist.org",
+    // ],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
     ],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840], // include 384x384 in storage-resize-images extension (when sizes="50vw")
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],

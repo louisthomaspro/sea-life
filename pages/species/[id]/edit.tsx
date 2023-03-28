@@ -56,6 +56,10 @@ const DynamicHabitatsForm = dynamic(
   () => import("../../../components/speciesForm/HabitatsForm"),
   { loading: () => <FormLoading />, ssr: false }
 );
+const DynamicPhotosForm = dynamic(
+  () => import("../../../components/speciesForm/PhotosForm"),
+  { loading: () => <FormLoading />, ssr: false }
+);
 
 const Edit: NextPage<{
   species: ISpecies;
@@ -114,6 +118,8 @@ const Edit: NextPage<{
   );
   const ForwardedRefDynamicHabitatsForm =
     getForwardedComponent(DynamicHabitatsForm);
+  const ForwardedRefDynamicPhotosForm =
+    getForwardedComponent(DynamicPhotosForm);
 
   const handleChildFormSubmit = async () => {
     childFormRef.current.submit();
@@ -129,6 +135,11 @@ const Edit: NextPage<{
       id: "common_names_en",
       label: "Noms communs anglophones",
       value: capitalizeWords(species.common_names.en.join(", ")) || "-",
+    },
+    {
+      id: "photos",
+      label: "Photos",
+      value: <span>{species.photos.length} photo(s)</span>,
     },
     {
       id: "sizes",
@@ -149,7 +160,9 @@ const Edit: NextPage<{
     {
       id: "depth",
       label: "Profondeur (en m)",
-      value: `Entre ${species.depth_min || "-"} et ${species.depth_max || "-"} mètres`,
+      value: `Entre ${species.depth_min || "-"} et ${
+        species.depth_max || "-"
+      } mètres`,
     },
     {
       id: "rarity",
@@ -294,6 +307,9 @@ const Edit: NextPage<{
           {selectedField === "habitats" && (
             <ForwardedRefDynamicHabitatsForm ref={childFormRef} />
           )}
+          {selectedField === "photos" && (
+            <ForwardedRefDynamicPhotosForm ref={childFormRef} />
+          )}
         </div>
       </Dialog>
     </>
@@ -342,6 +358,11 @@ const ItemStyle = styled(m.div)`
   display: flex;
   justify-content: space-between;
   transition: all 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
 
   &:active {
     background-color: #f0f0f0;
@@ -351,6 +372,7 @@ const ItemStyle = styled(m.div)`
     color: var(--text-color-2);
     font-size: 1rem;
     font-weight: 400;
+    margin-bottom: 2px;
   }
 
   .value {

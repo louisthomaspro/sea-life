@@ -3,7 +3,7 @@ import { Timestamp } from "firebase/firestore/lite";
 // [x: string | number | symbol]: unknown;
 export interface ISpecies {
   id: string;
-  // display: boolean;
+  is_deleted: boolean;
   timestamp: Timestamp;
 
   external_ids?: {

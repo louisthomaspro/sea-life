@@ -6,7 +6,10 @@ import styled from "styled-components";
 import Header from "../../../components/commons/Header";
 import { withAuthServerSideProps } from "../../../firebase/withAuth";
 import { ISpecies } from "../../../types/Species";
-import { getSpecies } from "../../../utils/firestore/species.firestore";
+import {
+  deleteSpeciesById,
+  getSpecies,
+} from "../../../utils/firestore/species.firestore";
 import { capitalizeFirstLetter, capitalizeWords } from "../../../utils/helper";
 import { Dialog } from "primereact/dialog";
 import MyButton from "../../../components/commons/MyButton";
@@ -19,6 +22,8 @@ import { regionsDict } from "../../../constants/regions";
 import { habitatsDict } from "../../../constants/habitats";
 import { rarityDict } from "../../../constants/rarity";
 import { sociabilityDict } from "../../../constants/sociability";
+import { ConfirmDialog } from "primereact/confirmdialog";
+import { toast } from "react-toastify";
 
 const FormLoading = () => (
   <div className="flex">
@@ -72,6 +77,7 @@ const Edit: NextPage<{
   const router = useRouter();
   const [species, setSpecies] = useState<ISpecies>(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [visibleDeleteDialog, setVisibleDeleteDialog] = useState(false);
 
   useEffect(() => {
     if (!species || refreshKey > 0) {
@@ -201,7 +207,9 @@ const Edit: NextPage<{
     {
       id: "sociability",
       label: "Comportement social",
-      value: capitalizeFirstLetter(sociabilityDict[species.sociability].name.fr) || "-",
+      value:
+        capitalizeFirstLetter(sociabilityDict[species.sociability].name.fr) ||
+        "-",
     },
   ];
 
@@ -245,29 +253,54 @@ const Edit: NextPage<{
     </div>
   );
 
+  const deleteSpecies = () => {
+    deleteSpeciesById(species.id).then(() => {
+      toast.success("Espèce supprimé", {
+        autoClose: 2000,
+        toastId: "successPublication",
+      });
+      router.push("/");
+    });
+  };
+
   return (
     <>
       <Style className="max-width-800">
         <Header title={"Edit"} showBackButton />
-        <ListMenu className="max-width-500">
-          {fields.map((field) => (
-            <ItemStyle
-              key={field.id}
-              className="global-padding"
-              onClick={field.onClick}
-            >
-              <div>
-                <div className="label">{field.label}</div>
-                <div className="value">{field.value}</div>
-              </div>
-              <ChevronRightSvg
-                aria-label="right"
-                className="svg-icon"
-                style={{ width: "14px" }}
-              />
-            </ItemStyle>
-          ))}
-        </ListMenu>
+        <div className="max-width-500">
+          <ListMenu>
+            {fields.map((field) => (
+              <ItemStyle
+                key={field.id}
+                className="global-padding"
+                onClick={field.onClick}
+              >
+                <div>
+                  <div className="label">{field.label}</div>
+                  <div className="value">{field.value}</div>
+                </div>
+                <ChevronRightSvg
+                  aria-label="right"
+                  className="svg-icon"
+                  style={{ width: "14px" }}
+                />
+              </ItemStyle>
+            ))}
+          </ListMenu>
+          <div className="flex mx-2 justify-content-center">
+            <MyButton outline className="w-full max-w-12rem my-3" onClick={() => setVisibleDeleteDialog(true)}>
+              Supprimer
+            </MyButton>
+          </div>
+          <ConfirmDialog
+            visible={visibleDeleteDialog}
+            onHide={() => setVisibleDeleteDialog(false)}
+            message="Are you sure you want to proceed?"
+            header="Confirmation"
+            icon="pi pi-exclamation-triangle"
+            accept={() => deleteSpecies()}
+          />
+        </div>
       </Style>
       {/* {selectedField === "common_names_fr" && <CommonNameFrForm species={species} ref={childFormRef} />} */}
       <Dialog

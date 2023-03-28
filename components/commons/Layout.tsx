@@ -1,8 +1,7 @@
-import {
-  LazyMotion,
-  Variants,
-} from "framer-motion";
+import { LazyMotion, Variants } from "framer-motion";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { ConfirmDialog } from "primereact/confirmdialog";
 import { ReactNode } from "react";
 import NProgress from "./NProgress";
 import OfflineToast from "./OfflineToast";

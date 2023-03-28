@@ -151,7 +151,7 @@ export default function CustomSearchBox(props: ICustomSearchBox) {
               {showResults && (
                 <>
                   {/* <SearchBox /> */}
-                  <Configure hitsPerPage={10} />
+                  <Configure hitsPerPage={10} filters={"is_deleted:false"} />
                   <SearchBoxWorkaround query={searchValue} />
                   <hr />
                   <LoadingIndicator />

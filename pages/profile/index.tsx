@@ -37,8 +37,8 @@ const Profile: NextPage = () => {
                 <ListMenu className="max-width-500">
                   {decodedToken?.isAdmin && (
                     <ListItem
-                      title="Contributions"
-                      link="/profile/admin/contributions"
+                      title="Add new species"
+                      link="/profile/admin/new-species"
                     />
                   )}
                 </ListMenu>

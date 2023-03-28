@@ -5,7 +5,8 @@ import { ISpecies } from "../../types/Species";
 import { object, string } from "yup";
 import { saveNewSpeciesVersion } from "../../utils/firestore/species.firestore";
 import styled from "styled-components";
-import { RadioButton } from 'primereact/radiobutton';
+import { RadioButton } from "primereact/radiobutton";
+import { rarityList } from "../../constants/rarity";
 
 const RarityForm = (props: {
   species: ISpecies;
@@ -65,46 +66,18 @@ const RarityForm = (props: {
   return (
     <Style>
       <FormikProvider value={formik}>
-        <div className="field-radiobutton">
-          <RadioButton
-            inputId="input1"
-            name="rarity"
-            value="rare"
-            onChange={formik.handleChange}
-            checked={formik.values.rarity === "rare"}
-          />
-          <label htmlFor="input1">Rare</label>
-        </div>
-        <div className="field-radiobutton">
-          <RadioButton
-            inputId="input2"
-            name="rarity"
-            value="uncommon"
-            onChange={formik.handleChange}
-            checked={formik.values.rarity === "uncommon"}
-          />
-          <label htmlFor="input2">Peu commun</label>
-        </div>
-        <div className="field-radiobutton">
-          <RadioButton
-            inputId="input3"
-            name="rarity"
-            value="common"
-            onChange={formik.handleChange}
-            checked={formik.values.rarity === "common"}
-          />
-          <label htmlFor="input3">Commun</label>
-        </div>
-        <div className="field-radiobutton">
-          <RadioButton
-            inputId="input4"
-            name="rarity"
-            value="abundant"
-            onChange={formik.handleChange}
-            checked={formik.values.rarity === "abundant"}
-          />
-          <label htmlFor="input4">Abundant</label>
-        </div>
+        {rarityList.map((rarity) => (
+          <div className="field-radiobutton" key={rarity.id}>
+            <RadioButton
+              inputId={`input-${rarity.id}`}
+              name="rarity"
+              value={rarity.id}
+              onChange={formik.handleChange}
+              checked={formik.values.rarity === rarity.id}
+            />
+            <label htmlFor={`input-${rarity.id}`}>{rarity.name.fr}</label>
+          </div>
+        ))}
       </FormikProvider>
     </Style>
   );

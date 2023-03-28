@@ -6,6 +6,7 @@ import { object, string } from "yup";
 import { saveNewSpeciesVersion } from "../../utils/firestore/species.firestore";
 import styled from "styled-components";
 import { RadioButton } from "primereact/radiobutton";
+import { sociabilityList } from "../../constants/sociability";
 
 const SociabilityForm = (props: {
   species: ISpecies;
@@ -67,7 +68,7 @@ const SociabilityForm = (props: {
       <FormikProvider value={formik}>
         <div className="field-radiobutton">
           <RadioButton
-            inputId="input0"
+            inputId="input-null"
             name="sociability"
             value={null}
             onChange={formik.handleChange}
@@ -75,46 +76,19 @@ const SociabilityForm = (props: {
           />
           <label htmlFor="input1">Aucun comportement social</label>
         </div>
-        <div className="field-radiobutton">
-          <RadioButton
-            inputId="input1"
-            name="sociability"
-            value="solitary"
-            onChange={formik.handleChange}
-            checked={formik.values.sociability === "solitary"}
-          />
-          <label htmlFor="input1">Vivant en solitaire</label>
-        </div>
-        <div className="field-radiobutton">
-          <RadioButton
-            inputId="input2"
-            name="sociability"
-            value="couple"
-            onChange={formik.handleChange}
-            checked={formik.values.sociability === "couple"}
-          />
-          <label htmlFor="input2">Vivant en couple</label>
-        </div>
-        <div className="field-radiobutton">
-          <RadioButton
-            inputId="input3"
-            name="sociability"
-            value="group"
-            onChange={formik.handleChange}
-            checked={formik.values.sociability === "group"}
-          />
-          <label htmlFor="input3">Vivant en groupe</label>
-        </div>
-        <div className="field-radiobutton">
-          <RadioButton
-            inputId="input4"
-            name="sociability"
-            value="shoal"
-            onChange={formik.handleChange}
-            checked={formik.values.sociability === "shoal"}
-          />
-          <label htmlFor="input4">Vivant en banc</label>
-        </div>
+        
+        {sociabilityList.map((sociability) => (
+          <div className="field-radiobutton" key={sociability.id}>
+            <RadioButton
+              inputId={`input-${sociability.id}`}
+              name="rarity"
+              value={sociability.id}
+              onChange={formik.handleChange}
+              checked={formik.values.sociability === sociability.id}
+            />
+            <label htmlFor={`input-${sociability.id}`}>{sociability.name.fr}</label>
+          </div>
+        ))}
       </FormikProvider>
     </Style>
   );

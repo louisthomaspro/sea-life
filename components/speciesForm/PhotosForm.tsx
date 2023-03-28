@@ -1,19 +1,14 @@
-import { FormikProvider, useFormik } from "formik";
 import { useEffect, useImperativeHandle, useState } from "react";
 import { toast } from "react-toastify";
 import { ISpecies, ISpeciesPhoto } from "../../types/Species";
-import { object, ref as refYup, number, array, string } from "yup";
 import { saveNewSpeciesVersion } from "../../utils/firestore/species.firestore";
 import styled from "styled-components";
-import { InputNumber } from "primereact/inputnumber";
 import TrashCanSvg from "../../public/icons/fontawesome/light/trash-can.svg";
-import { uuidv4 } from "@firebase/util";
 import Image from "next/image";
 import { DragDropContext, Draggable } from "react-beautiful-dnd";
 import { InputText } from "primereact/inputtext";
 import MyButton from "../commons/MyButton";
 import { StrictModeDroppable } from "../../utils/StrictModeDroppable";
-// import { getPlaiceholder } from "plaiceholder";
 
 const reorder = (list: any[], startIndex: number, endIndex: number) => {
   const result = Array.from(list);

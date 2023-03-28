@@ -17,6 +17,8 @@ import Spinner from "../../../components/commons/Spinner";
 import { useRouter } from "next/router";
 import { regionsDict } from "../../../constants/regions";
 import { habitatsDict } from "../../../constants/habitats";
+import { rarityDict } from "../../../constants/rarity";
+import { sociabilityDict } from "../../../constants/sociability";
 
 const FormLoading = () => (
   <div className="flex">
@@ -167,7 +169,7 @@ const Edit: NextPage<{
     {
       id: "rarity",
       label: "Rareté",
-      value: capitalizeFirstLetter(species.rarity) || "-",
+      value: capitalizeFirstLetter(rarityDict[species.rarity].name.fr) || "-",
     },
     {
       id: "regions",
@@ -199,7 +201,7 @@ const Edit: NextPage<{
     {
       id: "sociability",
       label: "Comportement social",
-      value: capitalizeFirstLetter(species.sociability) || "-",
+      value: capitalizeFirstLetter(sociabilityDict[species.sociability].name.fr) || "-",
     },
   ];
 

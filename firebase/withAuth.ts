@@ -28,20 +28,11 @@ export const withAuthServerSideProps =
       try {
         decodedToken = await firebaseAdmin.auth().verifyIdToken(cookies.token);
       } catch (err: any) {
-        if (err.code === "auth/id-token-expired") {
-          // decodedToken = await firebaseAdmin.auth();
-          // If expired, user will be redirected to /refresh page, which will force a client-side
-          // token refresh, and then redirect user back to the desired page
-          const encodedPath = encodeURIComponent(context.req.url);
-          context.res.writeHead(302, {
-            // Note that encoding avoids URI problems, and `req.url` will also
-            // keep any query params intact
-            Location: `/refresh?redirect=${encodedPath}`,
-          });
-          context.res.end();
-        } else {
-          // Other authorization errors...
-        }
+        console.error("withAuthServerSideProps :", err.code);
+        context.res.writeHead(302, {
+          Location: `/profile`,
+        });
+        context.res.end();
       }
 
       // console.log("decodedToken", decodedToken);
@@ -65,8 +56,7 @@ export const withAuthApiRequest =
   async (req: NextApiRequest, res: NextApiResponse) => {
     const cookies = parseCookies({ req });
     const token =
-      cookies["your_cookie_name"] ||
-      req.headers.authorization?.replace("Bearer ", "");
+      cookies["token"] || req.headers.authorization?.replace("Bearer ", "");
 
     if (!token) {
       return res.status(401).end("Not authenticated. No Auth header");

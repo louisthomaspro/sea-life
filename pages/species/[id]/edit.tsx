@@ -175,7 +175,7 @@ const Edit: NextPage<{
     {
       id: "rarity",
       label: "Rareté",
-      value: capitalizeFirstLetter(rarityDict[species.rarity].name.fr) || "-",
+      value: capitalizeFirstLetter(rarityDict[species.rarity]?.name?.fr) || "-",
     },
     {
       id: "regions",
@@ -208,7 +208,7 @@ const Edit: NextPage<{
       id: "sociability",
       label: "Comportement social",
       value:
-        capitalizeFirstLetter(sociabilityDict[species.sociability].name.fr) ||
+        capitalizeFirstLetter(sociabilityDict[species.sociability]?.name?.fr) ||
         "-",
     },
   ];

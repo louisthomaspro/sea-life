@@ -1,8 +1,8 @@
 import { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import FaunaBackground from "../../public/img/categories/fauna.jpg";
-import FloraBackground from "../../public/img/categories/flora.jpg";
+// import FaunaBackground from "../../public/img/categories/fauna.jpg";
+// import FloraBackground from "../../public/img/categories/flora.jpg";
 import { m } from "framer-motion";
 import { tapAnimationDuration } from "../../constants/config";
 import styled from "styled-components";
@@ -96,7 +96,13 @@ export const Explore: NextPage<{
                         process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION ===
                         "true"
                       }
-                      src={FaunaBackground}
+                      src={
+                        "https://storage.googleapis.com/sea-life-app.appspot.com/img%2Ffauna.jpg"
+                      }
+                      fill
+                      style={{ objectFit: "cover" }}
+                      sizes="50vw"
+                      className="relative"
                       priority
                       alt="Sea Turtle"
                     />
@@ -140,7 +146,13 @@ export const Explore: NextPage<{
                         "true"
                       }
                       priority
-                      src={FloraBackground}
+                      src={
+                        "https://storage.googleapis.com/sea-life-app.appspot.com/img%2Fflora.jpg"
+                      }
+                      fill
+                      style={{ objectFit: "cover" }}
+                      className="relative"
+                      sizes="50vw"
                       alt="Posidonia"
                     />
                   </div>
@@ -169,8 +181,8 @@ export default Explore;
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const [faunaBackgroundPH, floraBackgroundPH] = await Promise.all([
-    getPlaiceholder("/img/categories/fauna.jpg"),
-    getPlaiceholder("/img/categories/flora.jpg"),
+    getPlaiceholder("https://storage.googleapis.com/sea-life-app.appspot.com/img%2Ffauna.jpg"),
+    getPlaiceholder("https://storage.googleapis.com/sea-life-app.appspot.com/img%2Fflora.jpg"),
   ]);
 
   const [faunaGroup, floraGroup] = await Promise.all([

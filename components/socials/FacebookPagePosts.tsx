@@ -47,7 +47,7 @@ const FacebookPagePosts = () => {
         async
         defer
         crossOrigin="anonymous"
-        src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v14.0&appId=518199423531488&autoLogAppEvents=1"
+        src="https://connect.facebook.net/fr_FR/all.js#xfbml=1&version=v14.0&appId=518199423531488&autoLogAppEvents=1"
         nonce="3p7nM35w"
       />
       <div

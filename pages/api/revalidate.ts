@@ -14,6 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     await Promise.all(paths.map(path => res.revalidate(path)));
     return res.json({ revalidated: true });
   } catch (err) {
+    console.error(err);
     // If there was an error, Next.js will continue
     // to show the last successfully generated page
     return res.status(500).send("Error revalidating");

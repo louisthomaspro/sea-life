@@ -259,7 +259,7 @@ const Edit: NextPage<{
         autoClose: 2000,
         toastId: "successPublication",
       });
-      await revalidateSpecies(species)
+      await revalidateSpecies(species, true)
       router.push("/");
     });
   };

@@ -38,11 +38,11 @@ const Profile: NextPage = () => {
                   {decodedToken?.isAdmin && (
                     <>
                       <ListItem
-                        title="Add new species"
+                        title="Ajouter une espèce"
                         link="/profile/admin/new-species"
                       />
                       <ListItem
-                        title="Deleted species"
+                        title="Espèces supprimées"
                         link="/profile/admin/deleted-species"
                       />
                     </>

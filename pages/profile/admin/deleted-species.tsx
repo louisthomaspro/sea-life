@@ -36,7 +36,7 @@ const DeletedSpecies: NextPage = () => {
 
   const restoreSpeciesAction = (species: ISpecies) => {
     restoreSpeciesById(species.id).then(async () => {
-      await revalidateSpecies(species);
+      await revalidateSpecies(species, true);
       await getAllDeletedSpecies().then((speciesList) => {
         setDeletedSpecies(speciesList);
       });
@@ -44,8 +44,10 @@ const DeletedSpecies: NextPage = () => {
   };
 
   return (
-    <div className="global-padding max-width-800">
-      <BackButton className="pt-2" />
+    <div className="max-width-800">
+      <div className="global-padding">
+        <BackButton className="pt-2" />
+      </div>
       <div className="mt-3">
         <div>
           <div className="card">

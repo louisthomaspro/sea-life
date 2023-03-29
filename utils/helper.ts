@@ -86,7 +86,7 @@ export const capitalizeWords = (string: string) => {
   return capitalizedWords.join(" ");
 };
 
-export const revalidateSpecies = async (species: ISpecies): Promise<any> => {
+export const revalidateSpecies = async (species: ISpecies, includeGroups = false): Promise<any> => {
   let paths: string[] = [];
   paths.push(`/species/${species.id}`);
   paths.push(`/explore`);

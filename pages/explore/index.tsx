@@ -242,6 +242,7 @@ const CategoryBox = styled(m.div)`
       position: absolute;
       top: 0;
       z-index: 1;
+      width: 100%;
 
       img {
         object-fit: contain;

@@ -8,6 +8,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 
   const paths : string[] = req.body.paths;
 
+  console.log('revalidating paths', paths);
+
   try {
     // this should be the actual path not a rewritten path
     // e.g. for "/blog/[slug]" this should be "/blog/post-1"

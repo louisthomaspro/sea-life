@@ -86,17 +86,22 @@ export const capitalizeWords = (string: string) => {
   return capitalizedWords.join(" ");
 };
 
-export const revalidateSpecies = async (species: ISpecies, includeGroups = false): Promise<any> => {
+export const revalidateSpecies = async (
+  species: ISpecies,
+  includeGroups = false
+): Promise<any> => {
   let paths: string[] = [];
   paths.push(`/species/${species.id}`);
-  paths.push(`/explore`);
 
-  const groups = await getGroupByScientificNameList(species.taxonomy_ids);
-  const showSpeciesGroup = groups.filter((group) => group.show_species)[0];
-
-  species.regions.forEach((region) => {
-    paths.push(`/explore/${region}${showSpeciesGroup.url}`);
-  });
+  if (includeGroups) {
+    paths.push(`/explore`);
+    const groups = await getGroupByScientificNameList(species.taxonomy_ids);
+    species.regions.forEach((region) => {
+      groups.forEach((group) => {
+        paths.push(`/explore/${region}${group.slug}`);
+      });
+    });
+  }
 
   return fetch("/api/revalidate?secret=1234567890", {
     method: "POST",

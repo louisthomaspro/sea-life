@@ -109,7 +109,9 @@ npx firebase deploy --only functions:group-updateCountOnGroupCreate # (single fu
 
 ## Algolia
 
-### Synchronize Algolia data
+### Synchronize Algolia data with Firestore
+
+Data are synchronized automatically using a **firestore extension**. But you can also use the **firestore-algolia-search** package to synchronize data manually.
 
 > **Prerequisites** <br>
 > Download service account key file: https://console.firebase.google.com/u/0/project/sea-life-app/settings/serviceaccounts/adminsdk <br>

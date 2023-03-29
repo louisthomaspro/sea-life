@@ -36,10 +36,16 @@ const Profile: NextPage = () => {
               <div>
                 <ListMenu className="max-width-500">
                   {decodedToken?.isAdmin && (
-                    <ListItem
-                      title="Add new species"
-                      link="/profile/admin/new-species"
-                    />
+                    <>
+                      <ListItem
+                        title="Add new species"
+                        link="/profile/admin/new-species"
+                      />
+                      <ListItem
+                        title="Deleted species"
+                        link="/profile/admin/deleted-species"
+                      />
+                    </>
                   )}
                 </ListMenu>
                 <div className="flex justify-content-center p-5">

@@ -10,7 +10,7 @@ import {
   deleteSpeciesById,
   getSpecies,
 } from "../../../utils/firestore/species.firestore";
-import { capitalizeFirstLetter, capitalizeWords } from "../../../utils/helper";
+import { capitalizeFirstLetter, capitalizeWords, revalidateSpecies } from "../../../utils/helper";
 import { Dialog } from "primereact/dialog";
 import MyButton from "../../../components/commons/MyButton";
 import ChevronRightSvg from "../../../public/icons/fontawesome/light/chevron-right.svg";
@@ -254,11 +254,12 @@ const Edit: NextPage<{
   );
 
   const deleteSpecies = () => {
-    deleteSpeciesById(species.id).then(() => {
+    deleteSpeciesById(species.id).then(async () => {
       toast.success("Espèce supprimé", {
         autoClose: 2000,
         toastId: "successPublication",
       });
+      await revalidateSpecies(species)
       router.push("/");
     });
   };
@@ -288,7 +289,11 @@ const Edit: NextPage<{
             ))}
           </ListMenu>
           <div className="flex mx-2 justify-content-center">
-            <MyButton outline className="w-full max-w-12rem my-3" onClick={() => setVisibleDeleteDialog(true)}>
+            <MyButton
+              outline
+              className="w-full max-w-12rem my-3"
+              onClick={() => setVisibleDeleteDialog(true)}
+            >
               Supprimer
             </MyButton>
           </div>

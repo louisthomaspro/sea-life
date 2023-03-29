@@ -28,6 +28,7 @@ module.exports = {
           "./node_modules/primereact/divider/*.{js,jsx,ts,tsx}",
           "./node_modules/primereact/dialog/*.{js,jsx,ts,tsx}",
           "./node_modules/primereact/radiobutton/*.{js,jsx,ts,tsx}",
+          "./node_modules/primereact/datatable/*.{js,jsx,ts,tsx}",
           // "./node_modules/primereact/confirmdialog/*.{js,jsx,ts,tsx}",
           "./node_modules/primereact/utils/*.{js,jsx,ts,tsx}",
           "./node_modules/primereact/styleclass/*.{js,jsx,ts,tsx}",

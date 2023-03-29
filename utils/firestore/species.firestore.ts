@@ -40,6 +40,17 @@ export const getAllSpecies = async (
   return querySnapshot.docs.map((doc) => doc.data() as any);
 };
 
+export const getAllDeletedSpecies = async (): Promise<ISpecies[]> => {
+  const queryConstraints = [];
+  queryConstraints.push(where("is_deleted", "==", true));
+  const q = query.apply(null, [
+    collection(firestore, collectionName),
+    ...queryConstraints,
+  ]);
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map((doc) => doc.data() as any);
+};
+
 export const getAllSpeciesByGroupList = async (
   taxaId: string[]
 ): Promise<ISpecies[]> => {
@@ -100,6 +111,11 @@ export const updateSpeciesById = async (id: string, data: any) => {
 export const deleteSpeciesById = async (id: string) => {
   const speciesRef = doc(firestore, `${collectionName}/${id}`);
   await updateDoc(speciesRef, { is_deleted: true });
+};
+
+export const restoreSpeciesById = async (id: string) => {
+  const speciesRef = doc(firestore, `${collectionName}/${id}`);
+  await updateDoc(speciesRef, { is_deleted: false });
 };
 
 // Get all suggested updates for a species

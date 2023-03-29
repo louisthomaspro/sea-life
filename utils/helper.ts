@@ -1,4 +1,8 @@
 import { ImageLoaderProps } from "next/image";
+import path from "path";
+import { regionsList } from "../constants/regions";
+import { ISpecies } from "../types/Species";
+import { getGroupByScientificNameList } from "./firestore/group.firestore";
 export const shader = require("shader");
 
 export const blurDataURL = () => {
@@ -80,4 +84,26 @@ export const capitalizeWords = (string: string) => {
     (word) => word[0].toUpperCase() + word.slice(1)
   );
   return capitalizedWords.join(" ");
+};
+
+export const revalidateSpecies = async (species: ISpecies): Promise<any> => {
+  let paths: string[] = [];
+  paths.push(`/species/${species.id}`);
+  paths.push(`/explore`);
+
+  const groups = await getGroupByScientificNameList(species.taxonomy_ids);
+  const showSpeciesGroup = groups.filter((group) => group.show_species)[0];
+
+  species.regions.forEach((region) => {
+    paths.push(`/explore/${region}${showSpeciesGroup.url}`);
+  });
+
+  return fetch("/api/revalidate?secret=1234567890", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ paths }),
+  });
 };

@@ -57,7 +57,7 @@
   "devDependencies": {
     "@svgr/webpack": "^6.5.1",
     "@types/lodash": "^4.14.182",
-    "@types/node": "18.15.3",
+    "@types/node": "^18.15.3",
     "@types/nprogress": "^0.2.0",
     "@types/react": "^18.0.28",
     "@types/react-beautiful-dnd": "^13.1.2",

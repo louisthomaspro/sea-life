@@ -2,7 +2,15 @@ import * as functions from "firebase-functions";
 import { getFirestore } from "firebase-admin/firestore";
 // import { regionsDict } from "../../constants/regions";
 
-const regionsList = ["all", "red-sea", "mediterranean-sea", "indian-ocean", "tropical-atlantic", "temperate-atlantic", "tropical-pacific"]
+const regionsList = [
+  "all",
+  "red-sea",
+  "mediterranean-sea",
+  "indian-ocean",
+  "tropical-atlantic",
+  "temperate-atlantic",
+  "tropical-pacific",
+];
 
 const db = getFirestore();
 
@@ -30,49 +38,46 @@ exports.updateCountOnGroupCreate = functions
   });
 
 /**
- * If species is deleted, update the species count for the group
+ * If species is_deleted field is updated, update the species count for the group
  **/
-// exports.updateCountOnSpeciesDelete = functions
-//   .region("europe-west1")
-//   .firestore.document("species/{id}")
-//   .onDelete(async (snap, context) => {
-//     const taxonomyIds = snap.data().taxonomy_ids;
+exports.updateCountOnSpeciesDeleteOrRestore = functions
+  .region("europe-west1")
+  .firestore.document("species/{id}")
+  .onWrite(async (snap, context) => {
+    const before = snap.before.data();
+    const after = snap.after.data();
 
-//     functions.logger.info(
-//       "Updating species count for the following groups",
-//       taxonomyIds
-//     );
+    if (before.is_deleted === after.is_deleted) {
+      functions.logger.info(
+        "Species is_deleted field not updated, skipping species count update",
+        context.params.id
+      );
+      return null;
+    }
 
-//     const promises: Promise<any>[] = [];
-//     for (const taxonomyId of taxonomyIds) {
-//       promises.push(updateCount(taxonomyId));
-//     }
-//     return Promise.all(promises);
-//   });
+    // Get all groups that the species belongs to
+    const groups = await db
+      .collection("/group")
+      .where("includes", "array-contains-any", after.taxonomy_ids)
+      .get();
 
-/**
- * If species is deleted, update the species count for the group
- **/
-// exports.updateCountOnSpeciesCreate = functions
-//   .region("europe-west1")
-//   .firestore.document("species/{id}")
-//   .onCreate(async (snap, context) => {
-//     const taxonomyIds = snap.data().taxonomy_ids;
+    const groupsIds = groups.docs.map((doc) => doc.id);
 
-//     functions.logger.info(
-//       "Updating species count for the following groups",
-//       taxonomyIds
-//     );
+    functions.logger.info(
+      "Updating species count for the following groups",
+      groupsIds
+    );
 
-//     const promises: Promise<any>[] = [];
-//     for (const taxonomyId of taxonomyIds) {
-//       promises.push(updateCount(taxonomyId));
-//     }
-//     return Promise.all(promises);
-//   });
+    const promises: Promise<any>[] = [];
+    for (const groupId of groupsIds) {
+      promises.push(updateCount(groupId));
+    }
+    return Promise.all(promises);
+  });
 
 /**
  * Update count for a group
+ * If group exists, update the species count for each regions (all, red-sea, etc.)
  **/
 async function updateCount(taxonomyId: string) {
   const group = await db.collection("/group").doc(taxonomyId).get();
@@ -81,14 +86,15 @@ async function updateCount(taxonomyId: string) {
     const allChildSpecies = await db
       .collection("/species")
       .where("taxonomy_ids", "array-contains-any", group.data().includes)
+      .where("is_deleted", "==", false)
       .get();
 
     let currentSpeciesCount = group.data()?.species_count || {};
     currentSpeciesCount["all"] = allChildSpecies.size;
-    
+
     // For each region
     for (const region of regionsList) {
-      functions.logger.info(`Updating count for region ${region}`)
+      functions.logger.info(`Updating count for region ${region}`);
 
       if (region === "all") continue;
 

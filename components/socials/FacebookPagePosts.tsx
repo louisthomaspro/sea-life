@@ -30,7 +30,6 @@ const SkeletonFacebookPost = () => (
 
 const FacebookPagePosts = () => {
   const { data, error, isLoading } = useSWR("/api/getFacebookPosts", fetcher);
-  const [hideSkeleton, setHideSkeleton] = useState(false);
 
   useEffect(() => {
     if (data && (window as any).FB) {

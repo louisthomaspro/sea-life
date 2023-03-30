@@ -151,7 +151,6 @@ export const Explore: NextPage<{
                       }
                       fill
                       style={{ objectFit: "cover" }}
-                      className="relative"
                       sizes="50vw"
                       alt="Posidonia"
                     />
@@ -181,8 +180,12 @@ export default Explore;
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const [faunaBackgroundPH, floraBackgroundPH] = await Promise.all([
-    getPlaiceholder("https://storage.googleapis.com/sea-life-app.appspot.com/img%2Ffauna.jpg"),
-    getPlaiceholder("https://storage.googleapis.com/sea-life-app.appspot.com/img%2Fflora.jpg"),
+    getPlaiceholder(
+      "https://storage.googleapis.com/sea-life-app.appspot.com/img%2Ffauna.jpg"
+    ),
+    getPlaiceholder(
+      "https://storage.googleapis.com/sea-life-app.appspot.com/img%2Fflora.jpg"
+    ),
   ]);
 
   const [faunaGroup, floraGroup] = await Promise.all([
@@ -240,9 +243,9 @@ const CategoryBox = styled(m.div)`
 
     > .img-wrapper {
       position: absolute;
-      top: 0;
-      z-index: 1;
       width: 100%;
+      height: 100%;
+      top: 0;
 
       img {
         object-fit: contain;

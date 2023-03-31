@@ -44,6 +44,7 @@ Easily search for a species using its common or scientific name. Use the filters
 - Breadcrumb when navigating between categories
 - Similar species list or species of same family
 - Improve text search including species family names
+- Species version should be handled by firebase cloud functions
 
 
 ## Getting Started

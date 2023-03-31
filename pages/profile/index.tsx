@@ -11,6 +11,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase/clientApp";
 import Spinner from "../../components/commons/Spinner";
 import jwtDecode from "jwt-decode";
+import { useEffect, useState } from "react";
 
 const Profile: NextPage = () => {
   const [user, loading, error] = useAuthState(auth);
@@ -19,6 +20,12 @@ const Profile: NextPage = () => {
     decodedToken = jwtDecode((user as any).accessToken);
   }
 
+  const [userLoading, setUserLoading] = useState(true);
+
+  useEffect(() => {
+    setUserLoading(loading);
+  }, [loading]);
+
   return (
     <>
       <BottomNavigation />
@@ -26,7 +33,7 @@ const Profile: NextPage = () => {
         <div className="title py-3">Mon compte</div>
       </HeaderSection>
       <Style className="bottom-navigation">
-        {loading ? (
+        {userLoading ? (
           <div className="flex my-4">
             <Spinner />
           </div>

@@ -8,7 +8,7 @@ import { useScrollRestoration } from "../utils/saveScrollPos";
 import { Nunito } from "next/font/google";
 import { RegionContextProvider } from "../components/region/region.context";
 import dynamic from "next/dynamic";
-const nunito = Nunito({ subsets: ["latin"] });
+const nunito = Nunito({ subsets: ["latin"], display: "swap" });
 
 const DynamicGoogleAuthListener = dynamic(
   () => import("../components/commons/GoogleAuthListener")

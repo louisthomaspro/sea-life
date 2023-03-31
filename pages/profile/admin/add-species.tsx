@@ -5,7 +5,7 @@ import BackButton from "../../../components/commons/BackButton";
 import MyButton from "../../../components/commons/MyButton";
 import { withAuthServerSideProps } from "../../../firebase/withAuth";
 
-const NewSpecies: NextPage = () => {
+const AddSpecies: NextPage = () => {
   const [value, setValue] = useState<string>("");
 
   return (
@@ -48,4 +48,4 @@ export const getServerSideProps: GetServerSideProps = withAuthServerSideProps(
   }
 );
 
-export default NewSpecies;
+export default AddSpecies;

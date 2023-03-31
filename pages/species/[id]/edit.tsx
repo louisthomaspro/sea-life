@@ -10,7 +10,7 @@ import {
   deleteSpeciesById,
   getSpecies,
 } from "../../../utils/firestore/species.firestore";
-import { capitalizeFirstLetter, capitalizeWords, revalidateSpecies } from "../../../utils/helper";
+import { capitalizeFirstLetter, capitalizeWords } from "../../../utils/helper";
 import { Dialog } from "primereact/dialog";
 import MyButton from "../../../components/commons/MyButton";
 import ChevronRightSvg from "../../../public/icons/fontawesome/light/chevron-right.svg";
@@ -259,7 +259,6 @@ const Edit: NextPage<{
         autoClose: 2000,
         toastId: "successPublication",
       });
-      await revalidateSpecies(species, true)
       router.push("/");
     });
   };

@@ -85,30 +85,3 @@ export const capitalizeWords = (string: string) => {
   );
   return capitalizedWords.join(" ");
 };
-
-export const revalidateSpecies = async (
-  species: ISpecies,
-  includeGroups = false
-): Promise<any> => {
-  let paths: string[] = [];
-  paths.push(`/species/${species.id}`);
-
-  if (includeGroups) {
-    paths.push(`/explore`);
-    const groups = await getGroupByScientificNameList(species.taxonomy_ids);
-    species.regions.forEach((region) => {
-      groups.forEach((group) => {
-        paths.push(`/explore/${region}${group.slug}`);
-      });
-    });
-  }
-
-  return fetch("/api/revalidate?secret=1234567890", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ paths }),
-  });
-};

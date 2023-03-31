@@ -33,5 +33,9 @@
       "enabled": true
     },
     "singleProjectMode": true
+  },
+  "extensions": {
+    "firestore-send-email": "firebase/firestore-send-email@0.1.24",
+    "firestore-algolia-search": "algolia/firestore-algolia-search@0.5.14"
   }
 }

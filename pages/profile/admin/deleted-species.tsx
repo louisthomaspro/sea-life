@@ -10,7 +10,6 @@ import {
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { ISpecies } from "../../../types/Species";
-import { revalidateSpecies } from "../../../utils/helper";
 
 const DeletedSpecies: NextPage = () => {
   const [deletedSpecies, setDeletedSpecies] = useState<any[]>([]);
@@ -36,7 +35,6 @@ const DeletedSpecies: NextPage = () => {
 
   const restoreSpeciesAction = (species: ISpecies) => {
     restoreSpeciesById(species.id).then(async () => {
-      await revalidateSpecies(species, true);
       await getAllDeletedSpecies().then((speciesList) => {
         setDeletedSpecies(speciesList);
       });

@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "sea-life-app"
+  },
+  "targets": {},
+  "etags": {
+    "sea-life-app": {
+      "extensionInstances": {
+        "firestore-send-email": "2b65f1bff4ebc0dfe7073c6e35de5e3690868e574db925d0a6d4812056fc84f4",
+        "firestore-algolia-search": "90a01491081eb8ef7747f6fc0699cdde764969324842690c7f539845b4ad65be"
+      }
+    }
   }
 }

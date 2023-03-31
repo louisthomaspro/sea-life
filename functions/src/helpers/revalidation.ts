@@ -1,7 +1,8 @@
 import { getFirestore } from "firebase-admin/firestore";
 import * as functions from "firebase-functions";
-import { host } from "..";
 import { regionsList } from "../constants/regions";
+import { host } from "./env";
+import fetch from "node-fetch";
 
 const db = getFirestore();
 

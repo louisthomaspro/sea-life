@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-import { revalidationSecret } from ".";
+import { revalidationSecret } from "./helpers/env";
 import {
   getParentGroupPathsForSpecies,
   onDemandRevalidation,

@@ -1,26 +1,12 @@
 import * as functions from "firebase-functions";
-import { initializeApp } from "firebase-admin/app";
+import { getApps, initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
-import { defineSecret } from "firebase-functions/params";
+import { host, revalidationSecret } from "./helpers/env";
 // import { getStorage } from "firebase-admin/storage";
-const { defineString } = require("firebase-functions/params");
 
-initializeApp();
-
-export const host = defineString("HOST", {
-  default: "http://localhost:3000",
-  description: "Host of the frontend",
-  input: {
-    select: {
-      options: [
-        { value: "http://localhost:3000" },
-        { value: "https://sea-life.vercel.app" },
-      ],
-    },
-  },
-});
-
-export const revalidationSecret = defineSecret("REVALIDATION_SECRET");
+if (getApps().length === 0) {
+  initializeApp();
+}
 
 // const speciesPhotos = require('./speciesPhotos');
 // exports.speciesPhotos = speciesPhotos;
@@ -63,14 +49,14 @@ exports.ping = functions.region("europe-west1").https.onRequest((req, res) => {
 });
 
 // Env test
-exports.env = functions
-  .region("europe-west1")
-  .runWith({ secrets: [revalidationSecret] })
-  .https.onRequest((req, res) => {
-    res.json({
-      host: host.value(),
-      revalidationSecret: revalidationSecret.value(),
-    });
-  });
+// exports.env = functions
+//   .region("europe-west1")
+//   .runWith({ secrets: [revalidationSecret] })
+//   .https.onRequest((req, res) => {
+//     res.json({
+//       host: host.value(),
+//       revalidationSecret: revalidationSecret.value(),
+//     });
+//   });
 
 ///////////////////////////////

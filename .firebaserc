@@ -1,6 +1,7 @@
 {
   "projects": {
-    "default": "sea-life-app"
+    "prod": "sea-life-app",
+    "local": "sea-life-app"
   },
   "targets": {},
   "etags": {

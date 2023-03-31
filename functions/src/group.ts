@@ -6,7 +6,7 @@ import {
   onDemandRevalidation,
 } from "./helpers/revalidation";
 import { regionsList } from "./constants/regions";
-import { revalidationSecret } from ".";
+import { revalidationSecret } from "./helpers/env";
 // import { regionsDict } from "../../constants/regions";
 
 const db = getFirestore();
@@ -78,6 +78,7 @@ exports.updateGroupCountOnSpeciesDeleteOrRestore = functions
     const promises = groupsIds.map((groupId) =>
       updateCount(groupId, revalidationSecret.value())
     );
+    onDemandRevalidation(["/explore"], revalidationSecret.value());
     await Promise.all(promises);
     return null;
   });

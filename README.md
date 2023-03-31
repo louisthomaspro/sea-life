@@ -33,7 +33,8 @@ Easily search for a species using its common or scientific name. Use the filters
 - [x] Filter species by region
 - [x] Species profile (environment, behavior, taxonomy, etc.)
 - [x] Google sign-in
-- [x] Contribution form
+- [x] Contribution form (+ email notifications to admins)
+- [x] Revalidate pages when data changes (Explore, Groups, Species)
 - [ ] Filter species by size, color, habitat, diet, etc.
 - [ ] Video gallery
 - [ ] Favorite list management
@@ -89,7 +90,7 @@ npx firebase ext:export # (optional)
 # Start emulator and import existing local data
 npx firebase emulators:start --import ./firebase/export/
 
-# Start emulator (only firestore for offline mode)
+# Start emulator (only firestore for offline mode) (deprecated because using Cloud Secret Manager which is online)
 npx firebase emulators:start --only firestore --import ./firebase/export/
 
 # Export existing local data
@@ -103,7 +104,10 @@ npx firebase emulators:export ./firebase/export
 npm run build:watch --prefix functions
 
 # Deploy functions to cloud
+npx firebase use prod
 npx firebase deploy --only functions # (all functions)
+npx firebase use local # Re-use local config
+
 npx firebase deploy --only functions:group-updateCountOnGroupCreate # (single function)
 ```
 

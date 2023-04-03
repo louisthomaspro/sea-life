@@ -4,7 +4,7 @@ import { Timestamp } from "firebase/firestore/lite";
 export interface ISpecies {
   id: string;
   is_deleted: boolean;
-  timestamp: Timestamp;
+  timestamp?: Timestamp;
 
   external_ids?: {
     inaturalist?: string;
@@ -70,7 +70,7 @@ export interface ISpeciesPhoto {
   // storage_path: string;
   original_url: string; // ex: https://static.inaturalist.org/photos/1234567/original.jpg
   attribution: string;
-  blurhash: any;
+  blurhash?: any;
 }
 
 export interface ITaxonomy {

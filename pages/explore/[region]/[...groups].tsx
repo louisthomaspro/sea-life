@@ -15,9 +15,10 @@ import {
   getChildrenGroups,
   getGroup,
 } from "../../../utils/firestore/group.firestore";
-import { getAllSpeciesByGroupList } from "../../../utils/firestore/species.firestore";
+import { getAllSpecies } from "../../../utils/firestore/species.firestore";
 import ScrollHeader from "../../../components/commons/ScrollHeader";
 import { useEffect } from "react";
+import SpeciesCardLink from "../../../components/explore/SpeciesCardLink";
 
 function getPaths(list: any, currentItem: any, currentPath: any, result: any) {
   currentPath.push(currentItem);
@@ -76,7 +77,7 @@ const Explore: NextPage<IExploreProps> = (props) => {
               {props.speciesList &&
                 props.speciesList.map((s) => (
                   <div className="col-6 sm:col-3" key={s.id}>
-                    <SpeciesCard species={s} />
+                    <SpeciesCardLink species={s} />
                   </div>
                 ))}
             </div>
@@ -124,7 +125,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   // Get speciesList
   let speciesList: any[] = [];
   if (currentGroup?.show_species) {
-    let speciesListAllProperties = await getAllSpeciesByGroupList(
+    let speciesListAllProperties = await getAllSpecies(
       currentGroup.includes
     );
     speciesList = speciesListAllProperties.map(

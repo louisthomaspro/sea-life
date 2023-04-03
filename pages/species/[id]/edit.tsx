@@ -8,7 +8,7 @@ import { withAuthServerSideProps } from "../../../firebase/withAuth";
 import { ISpecies } from "../../../types/Species";
 import {
   deleteSpeciesById,
-  getSpecies,
+  getSpeciesById,
 } from "../../../utils/firestore/species.firestore";
 import { capitalizeFirstLetter, capitalizeWords } from "../../../utils/helper";
 import { Dialog } from "primereact/dialog";
@@ -81,7 +81,7 @@ const Edit: NextPage<{
 
   useEffect(() => {
     if (!species || refreshKey > 0) {
-      getSpecies(router.query.id.toString()).then((species) => {
+      getSpeciesById(router.query.id.toString()).then((species) => {
         setSpecies(species);
       });
     }

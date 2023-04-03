@@ -46,7 +46,7 @@ const Profile: NextPage = () => {
                     <>
                       <ListItem
                         title="Ajouter une espèce"
-                        link="/profile/admin/new-species"
+                        link="/profile/admin/add-species"
                       />
                       <ListItem
                         title="Espèces supprimées"

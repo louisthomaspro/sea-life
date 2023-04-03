@@ -2,7 +2,7 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import styled from "styled-components";
 import {
   getAllSpecies,
-  getSpecies,
+  getSpeciesById,
 } from "../../utils/firestore/species.firestore";
 import { ISpecies } from "../../types/Species";
 import { capitalizeFirstLetter, capitalizeWords } from "../../utils/helper";
@@ -73,7 +73,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const { id } = context.params;
 
   let species: ISpecies = JSON.parse(
-    JSON.stringify(await getSpecies(id.toString()))
+    JSON.stringify(await getSpeciesById(id.toString()))
   );
 
   // Capitalize commons names

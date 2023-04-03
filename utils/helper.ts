@@ -1,6 +1,11 @@
 import { ImageLoaderProps } from "next/image";
 import path from "path";
 import { regionsList } from "../constants/regions";
+import {
+  ISearchResponse,
+  ITaxaScored,
+} from "../types/INaturalist/SearchResponse";
+import { ITaxa, ITaxaResponse } from "../types/INaturalist/TaxaResponse";
 import { ISpecies } from "../types/Species";
 import { getGroupByScientificNameList } from "./firestore/group.firestore";
 export const shader = require("shader");
@@ -85,3 +90,48 @@ export const capitalizeWords = (string: string) => {
   );
   return capitalizedWords.join(" ");
 };
+
+export const iNaturalistSearchOnlySpecies = async (
+  query: string
+): Promise<ITaxa[]> => {
+  let taxaList: ITaxa[] = [];
+  try {
+    const res = await fetch(
+      `https://api.inaturalist.org/v1/search?sources=taxa&per_page=5&locale=fr&q=${query}`
+    );
+    const jsonData: ISearchResponse = await res.json();
+    taxaList = jsonData.results.map((r) => r.record);
+    taxaList = taxaList.filter(
+      (t: ITaxa) =>
+        t.rank === "species" && t.is_active === true && t.extinct === false
+    );
+  } catch (err) {
+    console.log(err);
+  }
+  return taxaList;
+};
+
+export const getSpeciesIdFromScientificName = (scientificName: string) => {
+  const id = scientificName
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(" ", "-");
+  return id;
+};
+
+// export const iNaturalistGetSpeciesById = async (id: number): Promise<ITaxa> => {
+//   let taxa: ITaxa = null;
+//   try {
+//     const res = await fetch(
+//       `https://api.inaturalist.org/v1/taxa/${id.toString()}?per_page=5&locale=fr`
+//     );
+//     const jsonData: ITaxaResponse = await res.json();
+//     if (jsonData.results.length > 0) {
+//       taxa = jsonData.results[0];
+//     }
+//   } catch (err) {
+//     console.log(err);
+//   }
+//   return taxa;
+// };

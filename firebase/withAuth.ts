@@ -16,33 +16,24 @@ type ServerSidePropsFn<
 
 export const withAuthServerSideProps =
   (fn: ServerSidePropsFn) => async (context: GetServerSidePropsContext) => {
-    try {
-      const cookies = nookies.get(context);
-      // console.log("cookies", cookies)
-      if (!cookies.token) {
-        throw new Error("No token in cookies");
-      }
-
-      let decodedToken;
-
-      try {
-        decodedToken = await firebaseAdmin.auth().verifyIdToken(cookies.token);
-      } catch (err: any) {
-        console.error("withAuthServerSideProps :", err.code);
-        context.res.writeHead(302, {
-          Location: `/profile`,
-        });
-        context.res.end();
-      }
-
-      // console.log("decodedToken", decodedToken);
-      // console.log(cookies.token);
-
-      return await fn(context, decodedToken);
-    } catch (err) {
-      console.log("err", err);
-      return await fn(context, null);
+    const cookies = nookies.get(context);
+    // console.log("cookies", cookies)
+    if (!cookies.token) {
+      throw new Error("No token in cookies");
     }
+
+    let decodedToken;
+
+    try {
+      decodedToken = await firebaseAdmin.auth().verifyIdToken(cookies.token);
+    } catch (err: any) {
+      console.error("withAuthServerSideProps :", err.code);
+    }
+
+    // console.log("decodedToken", decodedToken);
+    // console.log(cookies.token);
+
+    return await fn(context, decodedToken);
   };
 
 type Middleware = (

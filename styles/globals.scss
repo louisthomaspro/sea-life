@@ -7,7 +7,7 @@
 @import "primereact-custom.scss";
 
 @import "libraries/fancybox";
-@import "libraries/tippy";	
+@import "libraries/tippy";
 @import "keen-slider/keen-slider.min.css";
 
 @import "nprogress/nprogress.css";
@@ -155,4 +155,15 @@ svg.svg-icon-destructive {
 
 .react-tooltip {
   z-index: 999;
+}
+
+.link {
+  color: var(--primary-color);
+  text-decoration-line: underline;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.error-message {
+  color: var(--red);
 }

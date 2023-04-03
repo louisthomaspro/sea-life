@@ -5,6 +5,7 @@ import {
   useInstantSearch,
 } from "react-instantsearch-hooks-web";
 import SpeciesCard from "../explore/SpeciesCard";
+import SpeciesCardLink from "../explore/SpeciesCardLink";
 
 export default function CustomInfiniteHits(props: UseInfiniteHitsProps) {
   const { hits, results, sendEvent } = useHits(props);
@@ -16,7 +17,7 @@ export default function CustomInfiniteHits(props: UseInfiniteHitsProps) {
         <div className="grid">
           {hits.map((s: any, index) => (
             <div className="col-6 sm:col-3" key={s.id}>
-              <SpeciesCard species={s} index={index} />
+              <SpeciesCardLink species={s} />
             </div>
           ))}
         </div>

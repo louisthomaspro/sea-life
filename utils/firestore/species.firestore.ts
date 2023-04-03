@@ -8,27 +8,51 @@ import {
   Timestamp,
   addDoc,
   updateDoc,
-  deleteDoc,
+  setDoc,
 } from "firebase/firestore/lite";
 import { firestore } from "../../firebase/clientApp";
-import { ITaxa, ITaxaResponse } from "../../types/INaturalist/TaxaResponse";
 import { ISpecies } from "../../types/Species";
 import { IContributionForm } from "../../types/Contribution";
+import { getSpeciesIdFromScientificName } from "../helper";
 
 const collectionName = "species";
 
-export const getSpecies = (id: string) => {
+export const getSpeciesById = (id: string) => {
   const document = getDoc(doc(firestore, `${collectionName}/${id}`));
   return document.then((doc) => doc.data()) as Promise<ISpecies>;
 };
 
+export const updateSpeciesById = async (id: string, data: any) => {
+  const speciesRef = doc(firestore, `${collectionName}/${id}`);
+  await updateDoc(speciesRef, data);
+};
+
+export const deleteSpeciesById = async (id: string) => {
+  const speciesRef = doc(firestore, `${collectionName}/${id}`);
+  await updateDoc(speciesRef, { is_deleted: true });
+};
+
+export const restoreSpeciesById = async (id: string) => {
+  const speciesRef = doc(firestore, `${collectionName}/${id}`);
+  await updateDoc(speciesRef, { is_deleted: false });
+};
+
+export const saveSpeciesByScientificName = async (scientificName: string) => {
+  const id = getSpeciesIdFromScientificName(scientificName);
+  const speciesRef = doc(firestore, `${collectionName}/${id}`);
+  await setDoc(speciesRef, {
+    id,
+    scientific_name: scientificName.toLowerCase(),
+  });
+};
+
 export const getAllSpecies = async (
-  scientificName?: string
+  taxonomyGroups?: string[]
 ): Promise<ISpecies[]> => {
   const queryConstraints = [];
-  if (scientificName) {
+  if (taxonomyGroups) {
     queryConstraints.push(
-      where("taxonomy_ids", "array-contains", scientificName)
+      where("taxonomy_ids", "array-contains-any", taxonomyGroups)
     );
   }
   queryConstraints.push(where("is_deleted", "!=", true));
@@ -43,22 +67,6 @@ export const getAllSpecies = async (
 export const getAllDeletedSpecies = async (): Promise<ISpecies[]> => {
   const queryConstraints = [];
   queryConstraints.push(where("is_deleted", "==", true));
-  const q = query.apply(null, [
-    collection(firestore, collectionName),
-    ...queryConstraints,
-  ]);
-  const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map((doc) => doc.data() as any);
-};
-
-export const getAllSpeciesByGroupList = async (
-  taxaId: string[]
-): Promise<ISpecies[]> => {
-  const queryConstraints = [];
-  if (taxaId) {
-    queryConstraints.push(where("taxonomy_ids", "array-contains-any", taxaId));
-  }
-  queryConstraints.push(where("is_deleted", "!=", true));
   const q = query.apply(null, [
     collection(firestore, collectionName),
     ...queryConstraints,
@@ -101,21 +109,6 @@ export const saveNewSpeciesVersion = async (id: string, data: any) => {
   });
 
   await updateSpeciesById(id, data);
-};
-
-export const updateSpeciesById = async (id: string, data: any) => {
-  const speciesRef = doc(firestore, `${collectionName}/${id}`);
-  await updateDoc(speciesRef, data);
-};
-
-export const deleteSpeciesById = async (id: string) => {
-  const speciesRef = doc(firestore, `${collectionName}/${id}`);
-  await updateDoc(speciesRef, { is_deleted: true });
-};
-
-export const restoreSpeciesById = async (id: string) => {
-  const speciesRef = doc(firestore, `${collectionName}/${id}`);
-  await updateDoc(speciesRef, { is_deleted: false });
 };
 
 // Get all suggested updates for a species

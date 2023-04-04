@@ -35,10 +35,10 @@ exports.updateGroupCountOnGroupWrite = functions
   });
 
 /**
- * If species is_deleted field is updated or species is created or deleted,
+ * If species is_deleted field or taxonomy is updated or species is created or deleted,
  * update the count for the groups that the species belongs to
  **/
-exports.updateGroupCountOnSpeciesDeleteOrRestoreOrCreate = functions
+exports.updateGroupCountOnSpeciesDeleteOrRestore = functions
   .region("europe-west1")
   .runWith({ secrets: [revalidationSecret] })
   .firestore.document("species/{id}")
@@ -56,11 +56,18 @@ exports.updateGroupCountOnSpeciesDeleteOrRestoreOrCreate = functions
       speciesStatus = "CREATED";
     } else if (before && !after) {
       speciesStatus = "HARD_DELETED";
+    } // taxonomy field updated
+    else if (before?.taxonomy_ids == null) {
+      speciesStatus = "POPULATED";
     } else {
       speciesStatus = "UPDATED";
     }
 
-    if (speciesStatus === "UNKNOWN" || speciesStatus === "CREATED" || speciesStatus === "UPDATED") {
+    if (
+      speciesStatus === "UNKNOWN" ||
+      speciesStatus === "CREATED" ||
+      speciesStatus === "UPDATED"
+    ) {
       return null;
     }
 
@@ -72,7 +79,11 @@ exports.updateGroupCountOnSpeciesDeleteOrRestoreOrCreate = functions
     // Get all groups that the species belongs to
     const groups = await db
       .collection("/group")
-      .where("includes", "array-contains-any", after?.taxonomy_ids || before?.taxonomy_ids)
+      .where(
+        "includes",
+        "array-contains-any",
+        after?.taxonomy_ids || before?.taxonomy_ids
+      )
       .get();
 
     const groupsIds = groups.docs.map((doc) => doc.id);
@@ -122,7 +133,7 @@ async function updateCount(
     if (region === "all") continue;
 
     const regionCount = allChildSpecies.docs.filter((doc) =>
-      doc.data().regions.includes(region)
+      (doc.data().regions || []).includes(region)
     ).length;
 
     currentSpeciesCount[region] = regionCount;

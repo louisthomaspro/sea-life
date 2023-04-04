@@ -53,6 +53,7 @@ export const getParentGroupPaths = (groupData: any) => {
   return paths;
 };
 
+// Not used
 export const getParentGroupPathsForSpecies = async (speciesData: any) => {
   const groups = await db
       .collection("/group")

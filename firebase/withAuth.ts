@@ -19,7 +19,8 @@ export const withAuthServerSideProps =
     const cookies = nookies.get(context);
     // console.log("cookies", cookies)
     if (!cookies.token) {
-      throw new Error("No token in cookies");
+      console.error("No token in cookies");
+      return await fn(context, null);
     }
 
     let decodedToken;

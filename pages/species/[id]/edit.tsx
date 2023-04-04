@@ -183,9 +183,9 @@ const Edit: NextPage<{
     {
       id: "regions",
       label: "Régions",
-      value: species.regions
+      value: (species.regions || [])
         .map((region) => regionsDict[region]?.name?.fr)
-        .join(", "),
+        .join(", ") || "-",
     },
     {
       id: "habitats",

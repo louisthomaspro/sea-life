@@ -65,7 +65,7 @@ exports.populateSpeciesOnSpeciesCreate = functions
       functions.logger.info("Populate blurhash");
       species = await populateBlurhashMissing(species);
 
-      await snapshot.ref.set(species);
+      await snapshot.ref.set(species); // it will call revalidationOnSpeciesUpdate
     } catch (error) {
       functions.logger.error(error);
       await snapshot.ref.delete();
@@ -74,7 +74,6 @@ exports.populateSpeciesOnSpeciesCreate = functions
         "Species population cancelled because of an error. Species deleted"
       );
     }
-
-    await onDemandRevalidation([`/species/${id}`], revalidationSecret.value());
+    
     return null;
   });

@@ -70,9 +70,13 @@ const Species: NextPage<{
 export const getStaticProps: GetStaticProps = async (context) => {
   const { id } = context.params;
 
-  let species: ISpecies = JSON.parse(
-    JSON.stringify(await getSpeciesById(id.toString()))
-  );
+  const speciesFirestore = await getSpeciesById(id as string);
+
+  if (!speciesFirestore) {
+    return { notFound: true };
+  }
+
+  let species: ISpecies = JSON.parse(JSON.stringify(speciesFirestore));
 
   // Capitalize commons names
   species.common_names.fr = species.common_names.fr.map((name) =>
@@ -83,11 +87,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   );
   species.scientific_name = capitalizeFirstLetter(species.scientific_name);
 
-  if (species) {
-    return { props: { species } };
-  } else {
-    return { notFound: true };
-  }
+  return { props: { species } };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {

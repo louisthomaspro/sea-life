@@ -119,6 +119,8 @@ export const createNewSpeciesVersion = async (id: string, data: any) => {
   });
 
   await updateSpeciesById(id, data);
+
+  return true;
 };
 
 // Get all suggested updates for a species

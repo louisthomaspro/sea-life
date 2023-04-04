@@ -47,11 +47,9 @@ const HabitatsForm = (props: {
       }
 
       let newData = {
-        habitats_1: data.habitats_1,
-        habitats_2: data.habitats_2,
+        habitats_1: data.habitats_1 || [],
+        habitats_2: data.habitats_2 || [],
       };
-
-
 
       await createNewSpeciesVersion(props.species.id, newData);
 

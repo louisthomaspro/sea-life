@@ -12,12 +12,13 @@
     "serve:watch": "npm run build:watch | firebase emulators:start --import ../firebase_export/"
   },
   "engines": {
-    "node": "16"
+    "node": "18"
   },
-  "main": "lib/index.js",
+  "main": "lib/functions/src/index.js",
   "dependencies": {
     "@types/node": "^18.15.11",
     "axios": "^0.27.2",
+    "duckdb": "^0.7.1",
     "firebase-admin": "^11.4.1",
     "firebase-functions": "^4.2.1",
     "get-random-values": "^2.0.0",

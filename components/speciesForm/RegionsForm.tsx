@@ -3,7 +3,7 @@ import { useImperativeHandle } from "react";
 import { toast } from "react-toastify";
 import { ISpecies } from "../../types/Species";
 import { array, object, string } from "yup";
-import { saveNewSpeciesVersion } from "../../utils/firestore/species.firestore";
+import { createNewSpeciesVersion } from "../../utils/firestore/species.firestore";
 import styled from "styled-components";
 import { MultiSelect } from "primereact/multiselect";
 import { regionsList } from "../../constants/regions";
@@ -40,7 +40,7 @@ const RegionsForm = (props: {
         regions: data.regions,
       };
 
-      await saveNewSpeciesVersion(props.species.id, newData);
+      await createNewSpeciesVersion(props.species.id, newData);
 
       // display success toast
       toast.success("Régions sauvegardées", {

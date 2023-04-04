@@ -2,7 +2,7 @@ import { Sidebar } from "primereact/sidebar";
 import styled from "styled-components";
 import { Dropdown } from "primereact/dropdown";
 import { InputTextarea } from "primereact/inputtextarea";
-import { saveContribution } from "../../utils/firestore/species.firestore";
+import { createContribution } from "../../utils/firestore/species.firestore";
 import { useFormik } from "formik";
 import { ISpecies } from "../../types/Species";
 import { IContributionForm } from "../../types/Contribution";
@@ -74,7 +74,7 @@ export default function ContributionButton(props: ContributionButtonProps) {
         speciesId: props.species.id,
       };
 
-      await saveContribution(suggestionForm);
+      await createContribution(suggestionForm);
 
       // display success toast
       toast.success("Merci pour ta contribution", {

@@ -12,12 +12,12 @@ export interface ISpecies {
     fishbase?: string;
   };
 
-  scientific_name: string;
-  common_names: {
-    fr: string[];
-    en: string[];
+  scientific_name?: string;
+  common_names?: {
+    fr?: string[];
+    en?: string[];
   };
-  photos: ISpeciesPhoto[];
+  photos?: ISpeciesPhoto[];
   wikipedia_url?: string;
   taxonomy?: ITaxonomy[]; // from inaturalist
   taxonomy_ids?: string[]; // only scientific names
@@ -74,7 +74,7 @@ export interface ISpeciesPhoto {
 }
 
 export interface ITaxonomy {
-  id: number;
+  id?: number;
   rank: string; // "kingdom", "phylum", "class", "order", "family", "genus", "species"
   scientific_name: string;
   common_name: {

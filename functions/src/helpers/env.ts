@@ -14,3 +14,5 @@ export const host = defineString("HOST", {
 });
 
 export const revalidationSecret = defineSecret("REVALIDATION_SECRET");
+
+export const iucnToken = defineSecret("IUCN_TOKEN");

@@ -3,7 +3,7 @@ import { useImperativeHandle } from "react";
 import { toast } from "react-toastify";
 import { ISpecies } from "../../types/Species";
 import { object, string } from "yup";
-import { saveNewSpeciesVersion } from "../../utils/firestore/species.firestore";
+import { createNewSpeciesVersion } from "../../utils/firestore/species.firestore";
 import styled from "styled-components";
 import { RadioButton } from "primereact/radiobutton";
 import { rarityList } from "../../constants/rarity";
@@ -30,7 +30,7 @@ const RarityForm = (props: {
         rarity: data.rarity,
       };
 
-      await saveNewSpeciesVersion(props.species.id, newData);
+      await createNewSpeciesVersion(props.species.id, newData);
 
       // display success toast
       toast.success("Rareté sauvegardées", {

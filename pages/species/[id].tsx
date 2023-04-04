@@ -24,7 +24,6 @@ const DynamicContributionButton = dynamic(
 const Species: NextPage<{
   species: ISpecies;
 }> = ({ species }) => {
-
   return (
     <>
       <ScrollHeader title={capitalizeWords(species.common_names?.fr[0])} />
@@ -46,23 +45,22 @@ const Species: NextPage<{
 
         <div className="global-padding">
           <div className="grid web-divider sm:mb-5">
-            <div className="col-12 sm:col-4 sm:pr-3">
-              <Section title="ENVIRONNEMENT">
-                <SpeciesEnvironment species={species} />
-              </Section>
-            </div>
-            <div className="col-12 sm:col-4 sm:pr-3">
-              <Section title="MODE DE VIE ET COMPORTEMENT">
-                <SpeciesBehavior species={species} />
-              </Section>
-            </div>
+            <SpeciesEnvironment
+              species={species}
+              className="col-12 sm:col-4 sm:pr-3"
+            />
+
+            <SpeciesBehavior
+              species={species}
+              className="col-12 sm:col-4 sm:pr-3"
+            />
+
             <div className="col-12 sm:col-4 sm:pr-3">
               <Section title="MORPHOLOGIE">Prochainement...</Section>
             </div>
           </div>
-          <Section title="TAXONOMIE">
-            <SpeciesTaxonomy species={species} />
-          </Section>
+
+          <SpeciesTaxonomy species={species} />
         </div>
       </Style>
     </>

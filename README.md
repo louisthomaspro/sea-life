@@ -101,6 +101,9 @@ npx firebase emulators:export ./firebase/export
 ### Emulate functions & deploy
 
 ```bash
+# Setup npm link (to use interfaces)
+npm link && cd functions && npm link sea-life && cd -
+
 # Watch for changes
 npm run build:watch --prefix functions
 
@@ -247,6 +250,7 @@ yarn analyze
 - Figma design: https://www.figma.com/file/op3TNvwVbWuf1nN5kMUtOj/SEA-LIFE?t=M7TfKsfOFSdda5tQ-0
 - https://www.pwabuilder.com/reportcard?site=https://sea-life.vercel.app/
 - https://manifest-gen.netlify.app/
+- https://console.cloud.google.com/security/secret-manager?project=sea-life-app
 
 
 ## Contributing

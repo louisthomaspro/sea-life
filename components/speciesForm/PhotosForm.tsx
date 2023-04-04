@@ -1,7 +1,7 @@
 import { useEffect, useImperativeHandle, useState } from "react";
 import { toast } from "react-toastify";
 import { ISpecies, ISpeciesPhoto } from "../../types/Species";
-import { saveNewSpeciesVersion } from "../../utils/firestore/species.firestore";
+import { createNewSpeciesVersion } from "../../utils/firestore/species.firestore";
 import styled from "styled-components";
 import TrashCanSvg from "../../public/icons/fontawesome/light/trash-can.svg";
 import Image from "next/image";
@@ -129,7 +129,7 @@ const PhotosForm = (props: {
         photos: photos,
       };
 
-      await saveNewSpeciesVersion(props.species.id, newData);
+      await createNewSpeciesVersion(props.species.id, newData);
 
       // display success toast
       toast.success("Photos sauvegardées", {

@@ -8,7 +8,7 @@ import { object, array, string } from "yup";
 import { StrictModeDroppable } from "../../utils/StrictModeDroppable";
 import { DragDropContext, Draggable } from "react-beautiful-dnd";
 import BarsSvg from "../../public/icons/fontawesome/light/bars.svg";
-import { saveNewSpeciesVersion } from "../../utils/firestore/species.firestore";
+import { createNewSpeciesVersion } from "../../utils/firestore/species.firestore";
 import MyButton from "../commons/MyButton";
 import TrashCanSvg from "../../public/icons/fontawesome/light/trash-can.svg";
 import styled from "styled-components";
@@ -38,7 +38,7 @@ const CommonNameEnForm = (props: {
       let newData = { common_names: props.species.common_names };
       newData.common_names.en = data.names;
 
-      await saveNewSpeciesVersion(props.species.id, newData);
+      await createNewSpeciesVersion(props.species.id, newData);
 
       // display success toast
       toast.success("Noms sauvegardés", {

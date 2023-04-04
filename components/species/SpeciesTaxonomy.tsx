@@ -5,8 +5,12 @@ import { taxonomyRankDict } from "../../constants/taxonomy_rank_dict";
 import { ISpecies, ITaxonomy } from "../../types/Species";
 import { getGroupByScientificNameList } from "../../utils/firestore/group.firestore";
 import { capitalizeFirstLetter } from "../../utils/helper";
+import Section from "../commons/Section";
 
-export default function SpeciesTaxonomy(props: { species: ISpecies }) {
+export default function SpeciesTaxonomy(props: {
+  species: ISpecies;
+  className?: string;
+}) {
   // useEffect(() => {
   //   let linkDict: any = {};
   //   let scientificNameSet = new Set<string>();
@@ -53,7 +57,13 @@ export default function SpeciesTaxonomy(props: { species: ISpecies }) {
     );
   };
 
-  return <Style>{taxonomyTemplate(cloneDeep(props.species.taxonomy))}</Style>;
+  return (
+    <Style className={`${props.className}`}>
+      <Section title="TAXONOMIE">
+        {taxonomyTemplate(cloneDeep(props.species.taxonomy))}
+      </Section>
+    </Style>
+  );
 }
 
 // Style

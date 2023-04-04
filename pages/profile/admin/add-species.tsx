@@ -11,8 +11,8 @@ import { withAuthServerSideProps } from "../../../firebase/withAuth";
 import { ITaxa } from "../../../types/INaturalist/TaxaResponse";
 import { ISpecies } from "../../../types/Species";
 import {
+  createSpecies,
   getSpeciesById,
-  saveSpeciesByScientificName,
 } from "../../../utils/firestore/species.firestore";
 import {
   getSpeciesIdFromScientificName,
@@ -27,7 +27,7 @@ enum SpeciesErrorStatus {
 
 const AddSpecies: NextPage = () => {
   const [value, setValue] = useState<string>("");
-  const [speciesFound, setSpeciesFound] = useState<any>(null);
+  const [speciesFound, setSpeciesFound] = useState<ISpecies>(null);
   const [searchSuggestions, setSearchSuggestions] = useState<ITaxa[]>(null);
   const [speciesErrorStatus, setSpeciesErrorStatus] =
     useState<SpeciesErrorStatus>(null);
@@ -64,6 +64,11 @@ const AddSpecies: NextPage = () => {
 
       // Otherwise, species found
       setSpeciesFound({
+        id: speciesId,
+        external_ids: {
+          inaturalist: taxaList[0].id.toString(),
+        },
+        is_deleted: false,
         scientific_name: taxaList[0].name,
         common_names: {
           fr: [taxaList[0].preferred_common_name],
@@ -98,7 +103,7 @@ const AddSpecies: NextPage = () => {
   const publishSpecies = () => {
     setPublishing(true);
 
-    saveSpeciesByScientificName(speciesFound.scientific_name)
+    createSpecies(speciesFound.scientific_name, speciesFound.external_ids.inaturalist)
       .then(() => {
         toast.success("Espèce publiée avec succès");
         setValue("");

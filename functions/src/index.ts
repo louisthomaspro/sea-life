@@ -1,7 +1,8 @@
 import * as functions from "firebase-functions";
 import { getApps, initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
-import { host, revalidationSecret } from "./helpers/env";
+import { host, iucnToken, revalidationSecret } from "./helpers/env";
+import { populateFishbase } from "./helpers/populate/fishbase";
 // import { getStorage } from "firebase-admin/storage";
 
 if (getApps().length === 0) {
@@ -14,6 +15,9 @@ if (getApps().length === 0) {
 // const blurhashGeneration = require("./blurhashGeneration");
 // exports.blurhashGeneration = blurhashGeneration;
 
+// const mail = require("./mail");
+// exports.mail = mail;
+
 const species = require("./species");
 exports.species = species;
 
@@ -22,9 +26,6 @@ exports.group = group;
 
 const contributions = require("./contributions");
 exports.contributions = contributions;
-
-const mail = require("./mail");
-exports.mail = mail;
 
 const db = getFirestore();
 
@@ -44,19 +45,22 @@ exports.exportAllSpeciesToJson = functions
   });
 
 // Ping
-exports.ping = functions.region("europe-west1").https.onRequest((req, res) => {
-  res.json("pong");
-});
+exports.ping = functions
+  .region("europe-west1")
+  .https.onRequest(async (req, res) => {
+    res.json("pong");
+  });
 
 // Env test
-// exports.env = functions
-//   .region("europe-west1")
-//   .runWith({ secrets: [revalidationSecret] })
-//   .https.onRequest((req, res) => {
-//     res.json({
-//       host: host.value(),
-//       revalidationSecret: revalidationSecret.value(),
-//     });
-//   });
+exports.env = functions
+  .region("europe-west1")
+  .runWith({ secrets: [revalidationSecret, iucnToken] })
+  .https.onRequest((req, res) => {
+    res.json({
+      host: host.value(),
+      revalidationSecret: revalidationSecret.value(),
+      iucnToken: iucnToken.value(),
+    });
+  });
 
 ///////////////////////////////

@@ -3,7 +3,7 @@ import { useImperativeHandle } from "react";
 import { toast } from "react-toastify";
 import { ISpecies } from "../../types/Species";
 import { number, object } from "yup";
-import { saveNewSpeciesVersion } from "../../utils/firestore/species.firestore";
+import { createNewSpeciesVersion } from "../../utils/firestore/species.firestore";
 import styled from "styled-components";
 import { InputNumber } from "primereact/inputnumber";
 import { sizes_dict } from "../../constants/sizes_dict";
@@ -85,7 +85,7 @@ const SizesForm = (props: {
         sizes: sizes,
       };
 
-      await saveNewSpeciesVersion(props.species.id, newData);
+      await createNewSpeciesVersion(props.species.id, newData);
 
       // display success toast
       toast.success("Tailles sauvegardées", {

@@ -37,11 +37,21 @@ export const restoreSpeciesById = async (id: string) => {
   await updateDoc(speciesRef, { is_deleted: false });
 };
 
-export const saveSpeciesByScientificName = async (scientificName: string) => {
+export const createSpecies = async (
+  scientificName: string,
+  inaturalistId: string
+) => {
+  if (!scientificName || !inaturalistId) {
+    throw new Error("Missing required fields to create a species");
+  }
   const id = getSpeciesIdFromScientificName(scientificName);
   const speciesRef = doc(firestore, `${collectionName}/${id}`);
   await setDoc(speciesRef, {
     id,
+    is_deleted: false,
+    external_ids: {
+      inaturalist: inaturalistId,
+    },
     scientific_name: scientificName.toLowerCase(),
   });
 };
@@ -75,7 +85,7 @@ export const getAllDeletedSpecies = async (): Promise<ISpecies[]> => {
   return querySnapshot.docs.map((doc) => doc.data() as any);
 };
 
-export const saveContribution = async (suggestionForm: IContributionForm) => {
+export const createContribution = async (suggestionForm: IContributionForm) => {
   const speciesRef = doc(
     firestore,
     `${collectionName}/${suggestionForm.speciesId}`
@@ -96,7 +106,7 @@ export const saveContribution = async (suggestionForm: IContributionForm) => {
 /**
  * Add species to subcollection of species named "versions" and update the species document with the new values
  */
-export const saveNewSpeciesVersion = async (id: string, data: any) => {
+export const createNewSpeciesVersion = async (id: string, data: any) => {
   const speciesRef = doc(firestore, `${collectionName}/${id}`);
   const versionsCollectionRef = collection(speciesRef, "versions");
 

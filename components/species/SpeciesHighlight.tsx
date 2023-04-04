@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ISpecies } from "../../types/Species";
+import { ISpecies, ISpeciesSizes } from "../../types/Species";
 
 // svg
 import RulerHorizontalSvg from "../../public/icons/fontawesome/light/ruler-horizontal.svg";
@@ -8,13 +8,7 @@ import GemSvg from "../../public/icons/fontawesome/light/gem.svg";
 import DiameterSvg from "../../public/icons/custom/diameter.svg";
 import LeafSvg from "../../public/icons/fontawesome/light/leaf.svg";
 import RulerHGridSvg from "../../public/icons/custom/ruler-h-grid.svg";
-
-const dict_rarity: any = {
-  rare: "Rare",
-  uncommon: "Peu commun",
-  common: "Commun",
-  abundant: "Très commun",
-};
+import { rarityDict } from "../../constants/rarity";
 
 const ruler_h_icon = (
   <RulerHorizontalSvg
@@ -82,7 +76,7 @@ const dict_sizes_icon: any = {
   },
 };
 
-const getSizes = (sizes: any) => {
+const getSizes = (sizes: ISpeciesSizes | any) => {
   let result: JSX.Element[] = [];
 
   // Handle simple sizes
@@ -122,29 +116,36 @@ const getSizes = (sizes: any) => {
 };
 
 export default function SpeciesHighlight(props: { species: ISpecies }) {
+  if (
+    (!props.species.sizes || Object.keys(props.species.sizes).length === 0) &&
+    (!props.species.depth_max || !props.species.depth_min) &&
+    !props.species.rarity
+  ) {
+    return null;
+  }
+
   return (
     <Style className="sm:border-none">
       <div className="grid grid-nogutter highlight-item-grid">
-        {getSizes(props.species.sizes).map((el, index) => (
+        {getSizes(props.species.sizes || {}).map((el, index) => (
           <div className="col item" key={index}>
             {el}
           </div>
         ))}
-        {props.species.depth_min !== null &&
-          props.species.depth_max !== null && (
-            <div className="col item">
-              <div className="icon">
-                <WaterArrowDownSvg
-                  aria-label="depth"
-                  className="svg-icon"
-                  style={{ width: "28px" }}
-                />
-              </div>
-              <div className="text">
-                {props.species.depth_min}-{props.species.depth_max} m
-              </div>
+        {props.species.depth_min && props.species.depth_max && (
+          <div className="col item">
+            <div className="icon">
+              <WaterArrowDownSvg
+                aria-label="depth"
+                className="svg-icon"
+                style={{ width: "28px" }}
+              />
             </div>
-          )}
+            <div className="text">
+              {props.species.depth_min}-{props.species.depth_max} m
+            </div>
+          </div>
+        )}
         {props.species.rarity && (
           <div className="col item">
             <div className="icon">
@@ -154,7 +155,9 @@ export default function SpeciesHighlight(props: { species: ISpecies }) {
                 style={{ width: "26px" }}
               />
             </div>
-            <div className="text">{dict_rarity[props.species.rarity]}</div>
+            <div className="text">
+              {rarityDict[props.species.rarity].name.fr}
+            </div>
           </div>
         )}
       </div>

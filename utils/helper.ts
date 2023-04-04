@@ -45,17 +45,6 @@ export const firebaseStorageLoader = ({
   return `${fullPath}_${width}x${width}${prefix}`;
 };
 
-export const revalidateId = (id: string) => {
-  return fetch("/api/revalidate", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ path: `/life/${id}` }),
-  });
-};
-
 export const searchTreeClassification = (
   element: any,
   matchingSlug: any

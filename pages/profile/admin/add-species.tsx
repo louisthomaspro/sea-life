@@ -103,7 +103,10 @@ const AddSpecies: NextPage = () => {
   const publishSpecies = () => {
     setPublishing(true);
 
-    createSpecies(speciesFound.scientific_name, speciesFound.external_ids.inaturalist)
+    createSpecies(
+      speciesFound.scientific_name,
+      speciesFound.external_ids.inaturalist
+    )
       .then(() => {
         toast.success("Espèce publiée avec succès");
         setValue("");
@@ -125,6 +128,13 @@ const AddSpecies: NextPage = () => {
     // };
   };
 
+  const handleKeyDown = (event: any) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      searchSpecies(value);
+    }
+  };
+
   return (
     <>
       <div className="global-padding max-width-800">
@@ -138,7 +148,7 @@ const AddSpecies: NextPage = () => {
             <>
               <div className="flex flex-column">
                 <label htmlFor="scientific_name" className="mb-1">
-                  Nom scientifique de l'espèce
+                  Nom scientifique ou commun de l'espèce
                 </label>
                 <InputText
                   id="scientific_name"
@@ -146,6 +156,7 @@ const AddSpecies: NextPage = () => {
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
                   className="mb-2"
+                  onKeyDown={handleKeyDown}
                 />
               </div>
               {searching && <Spinner />}
@@ -180,7 +191,7 @@ const AddSpecies: NextPage = () => {
                             onClick={() => searchSuggestion(taxa.name)}
                             key={taxa.id}
                           >
-                            {taxa.name}
+                            {taxa.name} {taxa.preferred_common_name && (<>({taxa.preferred_common_name})</>)}
                           </li>
                         ))}
                       </ul>

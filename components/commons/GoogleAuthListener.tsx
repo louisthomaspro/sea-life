@@ -33,7 +33,9 @@ export default function GoogleAuthListener() {
           if (res.status !== 200) {
             console.error("error", data);
             logOut();
-            toast.info("Votre session a expiré. Veuillez vous reconnecter.");
+            toast.info("Votre session a expiré. Veuillez vous reconnecter.", {
+              toastId: "session-expired",
+            });
             router.push("/profile");
           }
         });

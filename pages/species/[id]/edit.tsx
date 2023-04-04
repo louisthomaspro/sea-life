@@ -78,6 +78,7 @@ const Edit: NextPage<{
   const [species, setSpecies] = useState<ISpecies>(null);
   const [refreshKey, setRefreshKey] = useState(0);
   const [visibleDeleteDialog, setVisibleDeleteDialog] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (!species || refreshKey > 0) {
@@ -103,6 +104,7 @@ const Edit: NextPage<{
         forwardedRef={ref}
         species={species}
         submitCallback={() => {
+          setSaving(false);
           setRefreshKey(refreshKey + 1);
           closeDialog();
         }}
@@ -130,6 +132,7 @@ const Edit: NextPage<{
     getForwardedComponent(DynamicPhotosForm);
 
   const handleChildFormSubmit = async () => {
+    setSaving(true);
     childFormRef.current.submit();
   };
 
@@ -168,8 +171,8 @@ const Edit: NextPage<{
     {
       id: "depth",
       label: "Profondeur (en m)",
-      value: `Entre ${species.depth_min || "-"} et ${
-        species.depth_max || "-"
+      value: `Entre ${species.depth_min ?? "-"} et ${
+        species.depth_max ?? "-"
       } mètres`,
     },
     {
@@ -234,6 +237,7 @@ const Edit: NextPage<{
           onClick={() => {
             closeDialog();
           }}
+          disabled={saving}
         >
           Annuler
         </MyButton>
@@ -246,6 +250,7 @@ const Edit: NextPage<{
           onClick={() => {
             handleChildFormSubmit();
           }}
+          disabled={saving}
         >
           Publier
         </MyButton>
@@ -254,6 +259,7 @@ const Edit: NextPage<{
   );
 
   const deleteSpecies = () => {
+    setSaving(true);
     deleteSpeciesById(species.id).then(async () => {
       toast.success("Espèce supprimé", {
         autoClose: 2000,
@@ -292,6 +298,7 @@ const Edit: NextPage<{
               outline
               className="w-full max-w-12rem my-3"
               onClick={() => setVisibleDeleteDialog(true)}
+              disabled={saving}
             >
               Supprimer
             </MyButton>

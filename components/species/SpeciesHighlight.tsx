@@ -118,7 +118,7 @@ const getSizes = (sizes: ISpeciesSizes | any) => {
 export default function SpeciesHighlight(props: { species: ISpecies }) {
   if (
     (!props.species.sizes || Object.keys(props.species.sizes).length === 0) &&
-    (!props.species.depth_max || !props.species.depth_min) &&
+    (props.species.depth_max !== null || !props.species.depth_min !== null) &&
     !props.species.rarity
   ) {
     return null;
@@ -132,20 +132,21 @@ export default function SpeciesHighlight(props: { species: ISpecies }) {
             {el}
           </div>
         ))}
-        {props.species.depth_min && props.species.depth_max && (
-          <div className="col item">
-            <div className="icon">
-              <WaterArrowDownSvg
-                aria-label="depth"
-                className="svg-icon"
-                style={{ width: "28px" }}
-              />
+        {props.species.depth_min !== null &&
+          props.species.depth_max !== null && (
+            <div className="col item">
+              <div className="icon">
+                <WaterArrowDownSvg
+                  aria-label="depth"
+                  className="svg-icon"
+                  style={{ width: "28px" }}
+                />
+              </div>
+              <div className="text">
+                {props.species.depth_min}-{props.species.depth_max} m
+              </div>
             </div>
-            <div className="text">
-              {props.species.depth_min}-{props.species.depth_max} m
-            </div>
-          </div>
-        )}
+          )}
         {props.species.rarity && (
           <div className="col item">
             <div className="icon">

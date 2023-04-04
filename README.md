@@ -113,6 +113,7 @@ npx firebase deploy --only functions # (all functions)
 npx firebase use local # Re-use local config
 
 npx firebase deploy --only functions:group-updateCountOnGroupCreate # (single function)
+npx firebase deploy --only functions:species-populateSpeciesOnSpeciesCreate # (single function)
 ```
 
 ## Algolia

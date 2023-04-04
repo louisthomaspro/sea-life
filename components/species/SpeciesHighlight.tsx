@@ -132,8 +132,8 @@ export default function SpeciesHighlight(props: { species: ISpecies }) {
             {el}
           </div>
         ))}
-        {props.species.depth_min !== null &&
-          props.species.depth_max !== null && (
+        {props.species.depth_min != null &&
+          props.species.depth_max != null && (
             <div className="col item">
               <div className="icon">
                 <WaterArrowDownSvg

@@ -2,7 +2,6 @@ import * as functions from "firebase-functions";
 import { getApps, initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import { host, iucnToken, revalidationSecret } from "./helpers/env";
-import { populateFishbase } from "./helpers/populate/fishbase";
 // import { getStorage } from "firebase-admin/storage";
 
 if (getApps().length === 0) {

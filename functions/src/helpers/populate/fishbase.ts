@@ -6,17 +6,25 @@ import { Database, TableData } from "duckdb";
 
 export const populateFishbase = async (species: ISpecies) => {
   // Init database
-  const db = new Database(":memory:");
-  await db.all("INSTALL httpfs; LOAD httpfs;");
+  const db = new Database("/tmp/fishbase.duckdb");
+  db.connect();
+
+  await asyncQuery(db, `SET temp_directory='/tmp';`);
+  await asyncQuery(db, `SET extension_directory='/tmp';`);
+  await asyncQuery(db, `SET home_directory='/tmp';`);
 
   // Create table from parquet file
   const url = "https://fishbase.ropensci.org/fishbase/species.parquet";
-  await db.all(
-    `CREATE TEMPORARY TABLE fishbase AS SELECT * FROM parquet_scan('${url}');`
-  );
+  // await db.all(
+  //   `CREATE TEMPORARY TABLE fishbase AS SELECT * FROM parquet_scan('${url}');`
+  // );
+
+  await asyncQuery(db, 'INSTALL httpfs;')
+  await asyncQuery(db, 'LOAD httpfs;')
+  
 
   // Query
-  const query = `SELECT * FROM fishbase WHERE LOWER(Genus) = LOWER('${
+  const query = `SELECT * FROM parquet_scan('${url}') WHERE LOWER(Genus) = LOWER('${
     species.scientific_name.split(" ")[0]
   }') AND LOWER(Species) = LOWER('${species.scientific_name.split(" ")[1]}')`;
 
@@ -51,8 +59,6 @@ export const populateFishbase = async (species: ISpecies) => {
     if (species.sizes === undefined) species.sizes = {};
     species.sizes.max_length = fishbaseSpecies.Length;
   }
-
-  console.log(JSON.stringify(species));
 
   return species;
 };

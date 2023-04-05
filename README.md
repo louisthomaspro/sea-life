@@ -63,6 +63,18 @@ yarn dev
 
 Navigate to [http://localhost:3000](http://localhost:3000)
 
+## Environment variables
+
+### Prod
+
+#### Firebase functions and extensions
+
+- https://console.cloud.google.com/security/secret-manager?project=sea-life-app
+
+### Local
+
+- 
+
 ## Firebase emulator
 
 Firebase is used for database, authentication and functions.
@@ -115,6 +127,17 @@ npx firebase use local # Re-use local config
 npx firebase deploy --only functions:group-updateCountOnGroupCreate # (single function)
 npx firebase deploy --only functions:species-populateSpeciesOnSpeciesCreate # (single function)
 ```
+
+### Configure Firebase Extensions
+
+#### firestore-send-email
+
+1. Generate SMTP password: https://myaccount.google.com/apppasswords
+    - Select app: Other (Custom name)
+    - Name: SeaLife firestore-send-email (local|prod)
+    - Copy code (ex: cervvpbbqwgvlsao)
+2. 
+
 
 ## Algolia
 
@@ -251,7 +274,6 @@ yarn analyze
 - Figma design: https://www.figma.com/file/op3TNvwVbWuf1nN5kMUtOj/SEA-LIFE?t=M7TfKsfOFSdda5tQ-0
 - https://www.pwabuilder.com/reportcard?site=https://sea-life.vercel.app/
 - https://manifest-gen.netlify.app/
-- https://console.cloud.google.com/security/secret-manager?project=sea-life-app
 
 
 ## Contributing

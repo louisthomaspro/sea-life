@@ -13,7 +13,6 @@ export default function GoogleAuthListener() {
   useEffect(() => {
     // Verify token with api
     return auth.onIdTokenChanged(async (user) => {
-      console.log("onIdTokenChanged", user);
       if (!user) {
         nookies.set(undefined, "token", "", { path: "/" });
       } else {
@@ -45,7 +44,6 @@ export default function GoogleAuthListener() {
 
   useEffect(() => {
     const handle = setInterval(async () => {
-      console.log("refreshing token");
       const user = auth.currentUser;
       if (user) await user.getIdToken(true);
     }, 10 * 60 * 1000);

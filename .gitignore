@@ -64,4 +64,8 @@ yarn-error.log*
 **/public/fallback-*.js
 
 # Credentials
-sea-life-app-firebase-adminsdk*.json
+*firebase-adminsdk*.json
+
+# Firestore data
+.firebase-emulator-data/firestore_export
+

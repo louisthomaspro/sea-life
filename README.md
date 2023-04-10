@@ -91,7 +91,8 @@ npx firebase use sea-life-app # (optional)
 npx firebase init emulators 
 
 # Get current extension configuration
-npx firebase ext:export # (optional) 
+npx firebase ext:export -P prod # (optional) 
+npx firebase deploy --only extensions -P staging
 ```
 
 ### Start emulator
@@ -101,13 +102,13 @@ npx firebase ext:export # (optional)
 # NEXT_PUBLIC_FIREBASE_EMULATOR=true
 
 # Start emulator and import existing local data
-npx firebase emulators:start --import ./firebase/export/
+npx firebase emulators:start --import ./.firebase-emulator-data
 
 # Start emulator (only firestore for offline mode) (deprecated because using Cloud Secret Manager which is online)
-npx firebase emulators:start --only firestore --import ./firebase/export/
+npx firebase emulators:start --only firestore --import ./.firebase-emulator-data
 
 # Export existing local data
-npx firebase emulators:export ./firebase/export
+npx firebase emulators:export ./.firebase-emulator-data
 ```
 
 ### Emulate functions & deploy
@@ -134,8 +135,8 @@ npx firebase deploy --only functions:species-populateSpeciesOnSpeciesCreate # (s
 
 1. Generate SMTP password: https://myaccount.google.com/apppasswords
     - Select app: Other (Custom name)
-    - Name: SeaLife firestore-send-email (local|prod)
-    - Copy code (ex: cervvpbbqwgvlsao)
+    - Name: SeaLife firestore-send-email (staging|prod)
+    - Copy code
 2. 
 
 
@@ -154,14 +155,14 @@ npm install -g firestore-algolia-search
 npx firestore-algolia-search
 
 What is the Region? europe-west1
-What is the Project Id? sea-life
-What is the Algolia App Id? TIXD5TTYDU
+What is the Project Id? sea-life-app-staging | sea-life-app
+What is the Algolia App Id? OUG51CJ1A9 | TIXD5TTYDU
 What is the Algolia Api Key? { ALGOLIA_SEARCH_ADMIN_KEY }
 What is the Algolia Index Name? species
 What is the Collection Path? species
 What are the Fields to extract? id,scientific_name,common_names,photos,is_deleted
 What is the Transform Function? { empty }
-What is the path to the Google Application Credential File? ./sea-life-app-firebase-adminsdk.json
+What is the path to the Google Application Credential File? ./sea-life-app-staging-firebase-adminsdk.json | ./sea-life-app-firebase-adminsdk.json
 ```
 
 Change extracted field in **firestore extension** :

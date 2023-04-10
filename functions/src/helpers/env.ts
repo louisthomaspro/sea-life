@@ -7,6 +7,7 @@ export const host = defineString("HOST", {
     select: {
       options: [
         { value: "http://localhost:3000" },
+        { value: "https://staging-sea-life.vercel.app" },
         { value: "https://sea-life.vercel.app" },
       ],
     },

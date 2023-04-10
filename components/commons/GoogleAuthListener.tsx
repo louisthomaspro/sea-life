@@ -1,13 +1,11 @@
 import { useEffect } from "react";
 import { auth, logOut } from "../../firebase/clientApp";
 import nookies from "nookies";
-import { useIdToken } from "react-firebase-hooks/auth";
-import { connectStorageEmulator } from "firebase/storage";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
 export default function GoogleAuthListener() {
-  const [user, loading, error] = useIdToken(auth);
+  // const [user, loading, error] = useIdToken(auth);
   const router = useRouter();
 
   useEffect(() => {

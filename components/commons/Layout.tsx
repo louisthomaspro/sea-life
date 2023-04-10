@@ -21,7 +21,7 @@ export default function Layout({ children }: LayoutProps) {
           <div className="text-xs p-1">NEXT_PUBLIC_VERCEL_ENV:  <span className="font-semibold">{process.env.NEXT_PUBLIC_VERCEL_ENV}</span></div>
         </EnvironmentBanner>
       )}
-      <main className="sm:py-0">
+      <main className="relative sm:py-0">
         <NProgress />
         <OfflineToast />
         <LazyMotion features={loadFeatures}>

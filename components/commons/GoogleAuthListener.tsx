@@ -1,19 +1,16 @@
 import { useEffect } from "react";
 import { auth, logOut } from "../../firebase/clientApp";
 import nookies from "nookies";
-import { useIdToken } from "react-firebase-hooks/auth";
-import { connectStorageEmulator } from "firebase/storage";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
 export default function GoogleAuthListener() {
-  const [user, loading, error] = useIdToken(auth);
+  // const [user, loading, error] = useIdToken(auth);
   const router = useRouter();
 
   useEffect(() => {
     // Verify token with api
     return auth.onIdTokenChanged(async (user) => {
-      console.log("onIdTokenChanged", user);
       if (!user) {
         nookies.set(undefined, "token", "", { path: "/" });
       } else {
@@ -45,7 +42,6 @@ export default function GoogleAuthListener() {
 
   useEffect(() => {
     const handle = setInterval(async () => {
-      console.log("refreshing token");
       const user = auth.currentUser;
       if (user) await user.getIdToken(true);
     }, 10 * 60 * 1000);

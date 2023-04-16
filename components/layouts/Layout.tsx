@@ -18,13 +18,19 @@ const DynamicOfflineToast = dynamic(() => import("../commons/OfflineToast"), {
   ssr: false,
 });
 
+const DynamicNProgress = dynamic(() => import("../commons/NProgress"), {
+  ssr: false,
+});
+
+const DynamicWebHeader = dynamic(() => import("../commons/WebHeader"));
+
 export default function Layout({ children }: { children: ReactNode }) {
   const isProduction = process.env.NEXT_PUBLIC_VERCEL_ENV === "production";
 
   return (
     <>
       {!isProduction && (
-        <div className="flex align-items-center justify-content-center text-xs text-primary p-1">
+        <div className="flex align-items-center justify-content-center text-xs text-primary border-bottom-1 surface-ground border-primary p-1">
           NEXT_PUBLIC_VERCEL_ENV:
           <span className="ml-1 font-semibold">
             {process.env.NEXT_PUBLIC_VERCEL_ENV}
@@ -33,7 +39,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       )}
       {/* ============================================= */}
       <main className="relative sm:py-0">
-        <NProgress />
+        <DynamicNProgress />
         <DynamicOfflineToast />
         <DynamicToastContainer
           position={toast.POSITION.BOTTOM_CENTER}
@@ -41,7 +47,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           hideProgressBar={false}
         />
         <LazyMotion features={loadFeatures}>
-          <WebHeader className="hidden sm:block" />
+          <DynamicWebHeader />
           {children}
         </LazyMotion>
       </main>

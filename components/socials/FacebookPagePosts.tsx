@@ -55,7 +55,7 @@ const FacebookPagePosts = () => {
 
       <ul>
         {data?.map((post: any) => (
-          <li key={post.id} className="mb-2">
+          <li key={post.id} className="mb-3">
             <div
               className="fb-post"
               data-href={post.permalink_url}

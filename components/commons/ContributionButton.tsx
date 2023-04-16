@@ -92,47 +92,41 @@ export default function ContributionButton(props: ContributionButtonProps) {
     );
   };
 
+  const Button = () => (
+    <ContributeButtonStyle>
+      Contribuer
+      <PenToSquareSvg
+        aria-label="contribute"
+        className="ml-2 svg-icon"
+        style={{ width: "16px" }}
+      />
+    </ContributeButtonStyle>
+  );
+
   return (
     <>
       {user && user.isAdmin && (
         <Link href={`/species/${props.species.id}/edit`}>
-          <ContributeButtonStyle>
-            Contribuer
-            <PenToSquareSvg
-              aria-label="contribute"
-              className="ml-2 svg-icon"
-              style={{ width: "16px" }}
-            />
-          </ContributeButtonStyle>
+          <Button />
         </Link>
       )}
 
       {user && !user.isAdmin && (
-        <ContributeButtonStyle onClick={() => setContributionVisible(true)}>
-          Contribuer
-          <PenToSquareSvg
-            aria-label="contribute"
-            className="ml-2 svg-icon"
-            style={{ width: "16px" }}
-          />
-        </ContributeButtonStyle>
+        <div onClick={() => setContributionVisible(true)}>
+          <Button />
+        </div>
       )}
 
       {!user && (
-        <ContributeButtonStyle
+        <div
           onClick={() =>
             toast(SignInToast({ message: "Connecte toi pour contribuer" }), {
               toastId: "signIn",
             })
           }
         >
-          Contribuer
-          <PenToSquareSvg
-            aria-label="contribute"
-            className="ml-2 svg-icon"
-            style={{ width: "16px" }}
-          />
-        </ContributeButtonStyle>
+          <Button />
+        </div>
       )}
 
       <Sidebar

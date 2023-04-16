@@ -9,6 +9,14 @@ import Link from "next/link";
 import { m } from "framer-motion";
 import Spinner from "../../components/commons/Spinner";
 import { useAuth } from "../../utils/auth/AuthProvider";
+import dynamic from "next/dynamic";
+
+const DynamicGoogleSignOut = dynamic(
+  import("../../components/commons/GoogleAuth").then((mod) => mod.GoogleSignOut)
+);
+const DynamicGoogleSignIn = dynamic(
+  import("../../components/commons/GoogleAuth").then((mod) => mod.GoogleSignIn)
+);
 
 const Profile: NextPage = () => {
   const { user, loading } = useAuth();
@@ -43,12 +51,12 @@ const Profile: NextPage = () => {
                   )}
                 </ListMenu>
                 <div className="flex justify-content-center p-5">
-                  <GoogleSignOut />
+                  <DynamicGoogleSignOut />
                 </div>
               </div>
             ) : (
               <div className="flex justify-content-center p-5">
-                <GoogleSignIn />
+                <DynamicGoogleSignIn />
               </div>
             )}
           </>

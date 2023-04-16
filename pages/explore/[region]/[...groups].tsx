@@ -1,12 +1,10 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { useInView } from "react-cool-inview";
 import styled from "styled-components";
 import BottomNavigation from "../../../components/commons/BottomNavigation";
 import BackButton from "../../../components/commons/BackButton";
 import GroupCardGrid from "../../../components/explore/GroupCardGrid";
 import GroupListItem from "../../../components/explore/GroupListItem";
-import SpeciesCard from "../../../components/explore/SpeciesCard";
 import { regionsDict, regionsList } from "../../../constants/regions";
 import { IGroup } from "../../../types/Group";
 import { ISpecies } from "../../../types/Species";
@@ -17,26 +15,7 @@ import {
 } from "../../../utils/firestore/group.firestore";
 import { getAllSpecies } from "../../../utils/firestore/species.firestore";
 import ScrollHeader from "../../../components/commons/ScrollHeader";
-import { useEffect } from "react";
 import SpeciesCardLink from "../../../components/explore/SpeciesCardLink";
-
-function getPaths(list: any, currentItem: any, currentPath: any, result: any) {
-  currentPath.push(currentItem);
-  if (!currentItem.parent_id) {
-    result.push(currentPath);
-    return;
-  }
-  let parentItem = list.find((item: any) => item.id === currentItem.parent_id);
-  getPaths(list, parentItem, currentPath.slice(), result);
-}
-
-function allPaths(list: any) {
-  let result: any = [];
-  list.forEach((item: any) => {
-    getPaths(list, item, [], result);
-  });
-  return result;
-}
 
 interface IExploreProps {
   currentGroup: IGroup;
@@ -48,19 +27,11 @@ const Explore: NextPage<IExploreProps> = (props) => {
   const region = router.query.region as string;
   const isFirstLevelGroup = router.query.groups?.length === 1;
 
-  const { inView } = useInView({
-    rootMargin: "40px 0px",
-  });
-
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <>
       <ScrollHeader title={props.currentGroup?.title?.fr} />
       <BottomNavigation />
-      <Style className="bottom-navigation max-width-800 global-padding">
+      <Style className="pb-7 max-width-800 global-padding">
         {/* <Scrollbar> */}
 
         <BackButton className="pt-2" />
@@ -101,7 +72,6 @@ const Explore: NextPage<IExploreProps> = (props) => {
             </div>
           )}
         </div>
-        {/* </Scrollbar> */}
       </Style>
     </>
   );
@@ -125,9 +95,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   // Get speciesList
   let speciesList: any[] = [];
   if (currentGroup?.show_species) {
-    let speciesListAllProperties = await getAllSpecies(
-      currentGroup.includes
-    );
+    let speciesListAllProperties = await getAllSpecies(currentGroup.includes);
     speciesList = speciesListAllProperties.map(
       ({ id, scientific_name, common_names, regions, photos }) => ({
         id,
@@ -160,6 +128,31 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  function getPaths(
+    list: any,
+    currentItem: any,
+    currentPath: any,
+    result: any
+  ) {
+    currentPath.push(currentItem);
+    if (!currentItem.parent_id) {
+      result.push(currentPath);
+      return;
+    }
+    let parentItem = list.find(
+      (item: any) => item.id === currentItem.parent_id
+    );
+    getPaths(list, parentItem, currentPath.slice(), result);
+  }
+
+  function allPaths(list: any) {
+    let result: any = [];
+    list.forEach((item: any) => {
+      getPaths(list, item, [], result);
+    });
+    return result;
+  }
+
   const groupPaths = await getAllGroup().then((groups) => {
     let allPathsResult = allPaths(groups);
     return allPathsResult.map((path: any) => {

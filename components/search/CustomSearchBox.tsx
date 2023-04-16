@@ -18,9 +18,7 @@ import SearchBoxWorkaround from "./SearchBoxWorkaround";
 
 const searchBoxTransition = { duration: 0.3 };
 
-interface ICustomSearchBox extends React.HTMLAttributes<HTMLDivElement> {
-  screen?: "web" | "mobile";
-}
+interface ICustomSearchBox extends React.HTMLAttributes<HTMLDivElement> {}
 export default function CustomSearchBox(props: ICustomSearchBox) {
   const router = useRouter();
   const [openModal, setOpenModal] = useState<boolean>(false);

@@ -57,9 +57,6 @@ export default function SpeciesSlider(props: { species: ISpecies }) {
                 />
               )}
               <Image
-                unoptimized={
-                  process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
-                }
                 src={photo.original_url}
                 alt={props.species.scientific_name}
                 fill

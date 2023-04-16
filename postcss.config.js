@@ -13,7 +13,7 @@ module.exports = {
         },
       },
     ],
-    process.env.NEXT_PUBLIC_SKIP_PURGE_CSS !== "true" && [
+    process.env.SKIP_PURGE_CSS !== "true" && [
       "@fullhuman/postcss-purgecss",
       {
         content: [

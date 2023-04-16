@@ -13,22 +13,6 @@ const withPWA = require("next-pwa")({
 
 /** @type {import('next').NextConfig} */
 let nextConfig = {
-  // Workaround for minimumCacheTTL
-  async headers() {
-    return [
-      {
-        source: "/:all*(svg|jpg|png|webp)",
-        locale: false,
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, must-revalidate",
-          },
-        ],
-      },
-    ];
-  },
-
   // https://react-svgr.com/docs/next/
   webpack(config) {
     const fileLoaderRule = config.module.rules.find((rule) =>
@@ -63,12 +47,14 @@ let nextConfig = {
   swcMinify: true,
   reactStrictMode: true,
   images: {
+    // Cache images in /.next/cache/images and local browser for 1 year
     minimumCacheTTL: 31536000,
     // domains: [
     //   "firebasestorage.googleapis.com",
     //   "inaturalist-open-data.s3.amazonaws.com",
     //   "static.inaturalist.org",
     // ],
+    unoptimized: process.env.SKIP_IMAGE_OPTIMIZATION,
     remotePatterns: [
       {
         protocol: "https",

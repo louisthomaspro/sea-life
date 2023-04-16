@@ -13,6 +13,15 @@ const withPWA = require("next-pwa")({
 
 /** @type {import('next').NextConfig} */
 let nextConfig = {
+  experimental: {
+    appDir: true,
+    turbo: {
+      loaders: {
+        ".svg": ["@svgr/webpack"],
+      },
+    },
+  },
+
   // Workaround for minimumCacheTTL
   async headers() {
     return [
@@ -52,14 +61,6 @@ let nextConfig = {
     return config;
   },
 
-  experimental: {
-    //   scrollRestoration: true,
-    turbo: {
-      loaders: {
-        ".svg": ["@svgr/webpack"],
-      },
-    },
-  },
   swcMinify: true,
   reactStrictMode: true,
   images: {

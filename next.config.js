@@ -52,9 +52,14 @@ let nextConfig = {
     return config;
   },
 
-  // experimental: {
-  //   scrollRestoration: true,
-  // },
+  experimental: {
+    //   scrollRestoration: true,
+    turbo: {
+      loaders: {
+        ".svg": ["@svgr/webpack"],
+      },
+    },
+  },
   swcMinify: true,
   reactStrictMode: true,
   images: {

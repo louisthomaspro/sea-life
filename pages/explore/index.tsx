@@ -10,7 +10,6 @@ import { getPlaiceholder, IGetPlaiceholderReturn } from "plaiceholder";
 import RegionContext from "../../components/region/region.context";
 import CustomSearchBoxSkeleton from "../../components/search/CustomSearchBoxSkeleton";
 import RegionDropdownSkeleton from "../../components/region/RegionDropdownSkeleton";
-import ExploreCard from "../../components/explore/ExploreCard";
 
 const DynamicCustomSearchBox = dynamic(
   () => import("../../components/search/CustomSearchBox"),
@@ -105,14 +104,14 @@ export const Explore: NextPage<{
 export default Explore;
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const [faunaBackgroundPH, floraBackgroundPH] = await Promise.all([
-    getPlaiceholder(
-      "https://storage.googleapis.com/sea-life-app.appspot.com/img%2Ffauna.jpg"
-    ),
-    getPlaiceholder(
-      "https://storage.googleapis.com/sea-life-app.appspot.com/img%2Fflora.jpg"
-    ),
-  ]);
+  // const [faunaBackgroundPH, floraBackgroundPH] = await Promise.all([
+  //   getPlaiceholder(
+  //     "https://storage.googleapis.com/sea-life-app.appspot.com/img%2Ffauna.jpg"
+  //   ),
+  //   getPlaiceholder(
+  //     "https://storage.googleapis.com/sea-life-app.appspot.com/img%2Fflora.jpg"
+  //   ),
+  // ]);
 
   const [faunaGroup, floraGroup] = await Promise.all([
     getGroup("fauna"),
@@ -120,6 +119,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   ]);
 
   return {
-    props: { faunaGroup, floraGroup, faunaBackgroundPH, floraBackgroundPH },
+    props: { faunaGroup, floraGroup, faunaBackgroundPH: null, floraBackgroundPH: null },
   };
 };

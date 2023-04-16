@@ -104,14 +104,14 @@ export const Explore: NextPage<{
 export default Explore;
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  // const [faunaBackgroundPH, floraBackgroundPH] = await Promise.all([
-  //   getPlaiceholder(
-  //     "https://storage.googleapis.com/sea-life-app.appspot.com/img%2Ffauna.jpg"
-  //   ),
-  //   getPlaiceholder(
-  //     "https://storage.googleapis.com/sea-life-app.appspot.com/img%2Fflora.jpg"
-  //   ),
-  // ]);
+  const [faunaBackgroundPH, floraBackgroundPH] = await Promise.all([
+    getPlaiceholder(
+      "https://storage.googleapis.com/sea-life-app.appspot.com/img%2Ffauna.jpg"
+    ),
+    getPlaiceholder(
+      "https://storage.googleapis.com/sea-life-app.appspot.com/img%2Fflora.jpg"
+    ),
+  ]);
 
   const [faunaGroup, floraGroup] = await Promise.all([
     getGroup("fauna"),
@@ -119,6 +119,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   ]);
 
   return {
-    props: { faunaGroup, floraGroup, faunaBackgroundPH: null, floraBackgroundPH: null },
+    props: { faunaGroup, floraGroup, faunaBackgroundPH, floraBackgroundPH },
   };
 };

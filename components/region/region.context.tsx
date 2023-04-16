@@ -8,10 +8,10 @@ interface IRegionContext {
   setUserRegion(data: string): void;
 }
 
-const defaultRegion = "mediterranean-sea"
+const defaultRegion = "mediterranean-sea";
 
 const RegionContext = createContext({} as IRegionContext);
-export function RegionContextProvider({ children }: any) {
+export function RegionProvider({ children }: any) {
   const [userRegion, _setUserRegion] = useState<string>(defaultRegion);
   const setUserRegion = (regionCode: string) => {
     window.localStorage.setItem(storageKey, regionCode);
@@ -20,7 +20,7 @@ export function RegionContextProvider({ children }: any) {
 
   const [urlRegion, setUrlRegion] = useState<string>(defaultRegion);
 
-  const { asPath, push, pathname, isReady } = useRouter();
+  const { asPath, isReady } = useRouter();
 
   useEffect(() => {
     // Set user region

@@ -6,7 +6,7 @@ export default function OfflineToast(): JSX.Element {
     if (navigator.onLine) {
       toast.dismiss("offline");
     } else {
-      toast.warn("You are offline", {
+      toast.warn("Vous êtes hors ligne", {
         toastId: "offline",
         autoClose: false,
       });
@@ -18,7 +18,6 @@ export default function OfflineToast(): JSX.Element {
     window.addEventListener("online", handleStatusChange);
     window.addEventListener("offline", handleStatusChange);
 
-    // Specify how to clean up after this effect for performance improvment
     return () => {
       window.removeEventListener("online", handleStatusChange);
       window.removeEventListener("offline", handleStatusChange);

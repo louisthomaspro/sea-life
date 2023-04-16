@@ -6,7 +6,6 @@ import { createContribution } from "../../utils/firestore/species.firestore";
 import { useFormik } from "formik";
 import { ISpecies } from "../../types/Species";
 import { IContributionForm } from "../../types/Contribution";
-import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
 import { useState } from "react";
@@ -15,6 +14,8 @@ import jwtDecode from "jwt-decode";
 import { SignInToast } from "../../utils/toast.helper";
 import PenToSquareSvg from "../../public/icons/fontawesome/light/pen-to-square.svg";
 import MyButton from "./MyButton";
+import { useAuth } from "../../utils/auth/AuthProvider";
+import Link from "next/link";
 
 const fields = [
   { name: "Photos", id: "photos" },
@@ -35,16 +36,11 @@ interface ContributionButtonProps {
 }
 
 export default function ContributionButton(props: ContributionButtonProps) {
-  const auth = getAuth();
   const [saving, setSaving] = useState(false);
 
   const [contributionVisible, setContributionVisible] = useState(false);
   const router = useRouter();
-  const [user, loading, error] = useAuthState(auth);
-  let decodedToken: any = null;
-  if (user) {
-    decodedToken = jwtDecode((user as any).accessToken);
-  }
+  const { user, loading } = useAuth();
 
   const formik = useFormik<any>({
     initialValues: {
@@ -96,31 +92,49 @@ export default function ContributionButton(props: ContributionButtonProps) {
     );
   };
 
-  const handleContributionButton = () => {
-    // if user signed in
-    if (user) {
-      if (decodedToken?.isAdmin) {
-        router.push(`/species/${props.species.id}/edit`);
-      } else {
-        setContributionVisible(true);
-      }
-    } else {
-      toast(SignInToast({ message: "Connecte toi pour contribuer" }), {
-        toastId: "signIn",
-      });
-    }
-  };
-
   return (
     <>
-      <ContributeButtonStyle onClick={() => handleContributionButton()}>
-        Contribuer
-        <PenToSquareSvg
-          aria-label="contribute"
-          className="ml-2 svg-icon"
-          style={{ width: "16px" }}
-        />
-      </ContributeButtonStyle>
+      {user && user.isAdmin && (
+        <Link href={`/species/${props.species.id}/edit`}>
+          <ContributeButtonStyle>
+            Contribuer
+            <PenToSquareSvg
+              aria-label="contribute"
+              className="ml-2 svg-icon"
+              style={{ width: "16px" }}
+            />
+          </ContributeButtonStyle>
+        </Link>
+      )}
+
+      {user && !user.isAdmin && (
+        <ContributeButtonStyle onClick={() => setContributionVisible(true)}>
+          Contribuer
+          <PenToSquareSvg
+            aria-label="contribute"
+            className="ml-2 svg-icon"
+            style={{ width: "16px" }}
+          />
+        </ContributeButtonStyle>
+      )}
+
+      {!user && (
+        <ContributeButtonStyle
+          onClick={() =>
+            toast(SignInToast({ message: "Connecte toi pour contribuer" }), {
+              toastId: "signIn",
+            })
+          }
+        >
+          Contribuer
+          <PenToSquareSvg
+            aria-label="contribute"
+            className="ml-2 svg-icon"
+            style={{ width: "16px" }}
+          />
+        </ContributeButtonStyle>
+      )}
+
       <Sidebar
         visible={contributionVisible}
         position="bottom"

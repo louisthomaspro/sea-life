@@ -10,6 +10,8 @@ const DynamicCustomSearchBox = dynamic(
   () => import("../../components/search/CustomSearchBox")
 );
 
+const activeRoutes = ["explore", "search", "profile"];
+
 interface IHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
 export default function WebHeader(props: IHeaderProps) {
   const router = useRouter();
@@ -17,7 +19,7 @@ export default function WebHeader(props: IHeaderProps) {
 
   useEffect(() => {
     const slug = router.asPath.split("/")[1];
-    if (["explore", "search", "profile"].includes(slug)) {
+    if (activeRoutes.includes(slug)) {
       setActiveMenu(slug);
     }
   }, [router.asPath]);

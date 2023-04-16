@@ -7,24 +7,11 @@ import {
 } from "../../components/commons/GoogleAuth";
 import Link from "next/link";
 import { m } from "framer-motion";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase/clientApp";
 import Spinner from "../../components/commons/Spinner";
-import jwtDecode from "jwt-decode";
-import { useEffect, useState } from "react";
+import { useAuth } from "../../utils/auth/AuthProvider";
 
 const Profile: NextPage = () => {
-  const [user, loading, error] = useAuthState(auth);
-  let decodedToken: any = null;
-  if (user) {
-    decodedToken = jwtDecode((user as any).accessToken);
-  }
-
-  const [userLoading, setUserLoading] = useState(true);
-
-  useEffect(() => {
-    setUserLoading(loading);
-  }, [loading]);
+  const { user, loading } = useAuth();
 
   return (
     <>
@@ -33,7 +20,7 @@ const Profile: NextPage = () => {
         <div className="title py-3">Mon compte</div>
       </HeaderSection>
       <Style className="bottom-navigation">
-        {userLoading ? (
+        {loading ? (
           <div className="flex my-4">
             <Spinner />
           </div>
@@ -42,7 +29,7 @@ const Profile: NextPage = () => {
             {user ? (
               <div>
                 <ListMenu className="max-width-500">
-                  {decodedToken?.isAdmin && (
+                  {user.isAdmin && (
                     <>
                       <ListItem
                         title="Ajouter une espèce"

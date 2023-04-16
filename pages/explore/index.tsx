@@ -1,8 +1,6 @@
 import { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-// import FaunaBackground from "../../public/img/categories/fauna.jpg";
-// import FloraBackground from "../../public/img/categories/flora.jpg";
 import { m } from "framer-motion";
 import { tapAnimationDuration } from "../../constants/config";
 import styled from "styled-components";
@@ -24,7 +22,8 @@ const DynamicCustomSearchBox = dynamic(
 );
 
 const DynamicFacebookPagePosts = dynamic(
-  () => import("../../components/socials/FacebookPagePosts")
+  () => import("../../components/socials/FacebookPagePosts"),
+  { ssr: false }
 );
 
 const DynamicRegionDropdown = dynamic(

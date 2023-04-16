@@ -7,10 +7,9 @@ import { createContribution } from "../../utils/firestore/species.firestore";
 import { useFormik } from "formik";
 import { ISpecies } from "../../types/Species";
 import { IContributionForm } from "../../types/Contribution";
-import { getAuth } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { useAuth } from "../../utils/auth/AuthProvider";
 
 const fields = [
   { name: "Photos", id: "photos" },
@@ -31,8 +30,7 @@ interface IContributionSideBarProps extends SidebarProps {
 }
 
 export default function ContributionSideBar(props: IContributionSideBarProps) {
-  const auth = getAuth();
-  const [user, loading] = useAuthState(auth);
+  const { user, loading } = useAuth();
   const [saving, setSaving] = useState(false);
 
   const formik = useFormik<any>({
@@ -127,7 +125,7 @@ export default function ContributionSideBar(props: IContributionSideBarProps) {
 
           <div className="grid">
             <div className="col-6">
-              <Button $outline className="w-full" >
+              <Button $outline className="w-full">
                 Annuler
               </Button>
             </div>

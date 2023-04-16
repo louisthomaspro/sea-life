@@ -5,7 +5,7 @@ import {
   NextApiResponse,
 } from "next";
 import nookies, { parseCookies } from "nookies";
-import { firebaseAdmin } from "./adminApp";
+import { firebaseAdmin } from "../../firebase/adminApp";
 
 type ServerSidePropsFn<
   P extends { [key: string]: unknown } = { [key: string]: unknown }

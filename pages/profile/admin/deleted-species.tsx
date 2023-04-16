@@ -2,7 +2,6 @@ import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
 import { useEffect, useState } from "react";
 import BackButton from "../../../components/commons/BackButton";
 import MyButton from "../../../components/commons/MyButton";
-import { withAuthServerSideProps } from "../../../firebase/withAuth";
 import {
   getAllDeletedSpecies,
   restoreSpeciesById,
@@ -10,6 +9,7 @@ import {
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { ISpecies } from "../../../types/Species";
+import { withAuthServerSideProps } from "../../../utils/auth/withAuth";
 
 const DeletedSpecies: NextPage = () => {
   const [deletedSpecies, setDeletedSpecies] = useState<any[]>([]);

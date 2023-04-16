@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { withAuthApiRequest } from "../../../firebase/withAuth";
+import { withAuthApiRequest } from "../../../utils/auth/withAuth";
 
 const handler = (
   req: NextApiRequest,

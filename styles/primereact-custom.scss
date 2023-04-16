@@ -6,6 +6,10 @@
   box-shadow: none;
 }
 
+.p-inputtext {
+  font-family: var(--font-family);
+}
+
 // Tab view
 .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
   border-color: var(--primary-color);

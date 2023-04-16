@@ -1,13 +1,7 @@
-import { User } from "firebase/auth";
-
 export interface IUser {
   email?: string;
-  uid? : string;
-  isLoggedIn?: boolean;
+  uid?: string;
+  token?: string;
   isAdmin?: boolean;
   favorites?: string[];
-}
-
-export interface FirebaseUser extends User {
-  accessToken: string;
 }

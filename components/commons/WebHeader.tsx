@@ -10,6 +10,8 @@ const DynamicCustomSearchBox = dynamic(
   () => import("../../components/search/CustomSearchBox")
 );
 
+const activeRoutes = ["explore", "search", "profile"];
+
 interface IHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
 export default function WebHeader(props: IHeaderProps) {
   const router = useRouter();
@@ -17,88 +19,46 @@ export default function WebHeader(props: IHeaderProps) {
 
   useEffect(() => {
     const slug = router.asPath.split("/")[1];
-    if (["explore", "search", "profile"].includes(slug)) {
+    if (activeRoutes.includes(slug)) {
       setActiveMenu(slug);
     }
   }, [router.asPath]);
 
   return (
-    <Style {...props}>
-      <div className="web-header-container max-width-800">
-        <div>
-          <Link href="/" className="flex">
-            <LogoFullSvg
-              aria-label="sealife"
-              style={{ height: "33px", marginRight: "10px" }}
-            />
-          </Link>
-          <ul className="nav-links mr-3">
-            <li className={activeMenu === "explore" ? "active" : null}>
-              <Link href="/explore">Accueil</Link>
-            </li>
-            <li className={activeMenu === "profile" ? "active" : null}>
-              <Link href="/profile">Compte</Link>
-            </li>
-          </ul>
-        </div>
-
-        <DynamicCustomSearchBox screen="web" />
-
-        <div>
-          {/* <GlobeSvg
-            aria-label="language"
-            className="svg-icon"
-            style={{ height: "18px" }}
+    <WebHeaderContainer className="max-width-800 justify-content-between hidden sm:flex">
+      <div className="flex align-items-center gap-5">
+        <Link href="/" className="flex">
+          <LogoFullSvg
+            aria-label="sealife"
+            style={{ height: "33px", marginRight: "10px" }}
           />
-          <div className="profile-button">
-            <UserSvg
-              aria-label="language"
-              className="svg-icon"
-              style={{ height: "16px" }}
-            />
-          </div> */}
-        </div>
+        </Link>
+        <ul className="flex gap-3 mr-3">
+          <MenuItem $active={activeMenu === "explore"}>
+            <Link href="/explore">Accueil</Link>
+          </MenuItem>
+          <MenuItem $active={activeMenu === "profile"}>
+            <Link href="/profile">Compte</Link>
+          </MenuItem>
+        </ul>
       </div>
-    </Style>
+
+      <DynamicCustomSearchBox className="flex" />
+
+      <div></div>
+    </WebHeaderContainer>
   );
 }
 
 // Style
-const Style = styled.header<IHeaderProps>`
+const WebHeaderContainer = styled.header<IHeaderProps>`
   height: 90px;
   padding-left: var(--global-padding);
   padding-right: var(--global-padding);
   border-bottom: 1px solid var(--border-color-light);
+`;
 
-  .web-header-container {
-    display: flex;
-    height: 100%;
-    justify-content: space-between;
-
-    > div {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-    }
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 16px;
-
-    li {
-      font-weight: 600;
-
-      &.active {
-        text-decoration: underline;
-      }
-    }
-  }
-
-  .profile-button {
-    border: 1px solid #ccc;
-    border-radius: 100px;
-    padding: 6px 12px;
-    display: flex;
-  }
+const MenuItem = styled.li<{ $active?: boolean }>`
+  font-weight: 600;
+  text-decoration: ${(props) => (props.$active ? "underline" : "none")};
 `;

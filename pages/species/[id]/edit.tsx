@@ -4,7 +4,6 @@ import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Header from "../../../components/commons/Header";
-import { withAuthServerSideProps } from "../../../firebase/withAuth";
 import { ISpecies } from "../../../types/Species";
 import {
   deleteSpeciesById,
@@ -24,6 +23,7 @@ import { rarityDict } from "../../../constants/rarity";
 import { sociabilityDict } from "../../../constants/sociability";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { toast } from "react-toastify";
+import { withAuthServerSideProps } from "../../../utils/auth/withAuth";
 
 const FormLoading = () => (
   <div className="flex">

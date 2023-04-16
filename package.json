@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "turbo": "next dev --turbo --show-all",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -15,7 +16,7 @@
   "dependencies": {
     "@fancyapps/ui": "^5.0.8",
     "@fullhuman/postcss-purgecss": "^5.0.0",
-    "@next/bundle-analyzer": "^13.2.4",
+    "@next/bundle-analyzer": "^13.3.0",
     "@plaiceholder/next": "^2.5.0",
     "@types/estree": "^1.0.0",
     "@types/fancybox": "^3.5.3",
@@ -55,7 +56,7 @@
     "yup": "^1.0.2"
   },
   "devDependencies": {
-    "@svgr/webpack": "^6.5.1",
+    "@svgr/webpack": "^7.0.0",
     "@types/lodash": "^4.14.182",
     "@types/node": "^18.15.3",
     "@types/nprogress": "^0.2.0",

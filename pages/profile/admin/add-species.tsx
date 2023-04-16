@@ -7,7 +7,6 @@ import BackButton from "../../../components/commons/BackButton";
 import MyButton from "../../../components/commons/MyButton";
 import Spinner from "../../../components/commons/Spinner";
 import SpeciesCard from "../../../components/explore/SpeciesCard";
-import { withAuthServerSideProps } from "../../../firebase/withAuth";
 import { ITaxa } from "../../../types/INaturalist/TaxaResponse";
 import { ISpecies } from "../../../types/Species";
 import {
@@ -18,6 +17,7 @@ import {
   getSpeciesIdFromScientificName,
   iNaturalistSearchOnlySpecies,
 } from "../../../utils/helper";
+import { withAuthServerSideProps } from "../../../utils/auth/withAuth";
 
 enum SpeciesErrorStatus {
   DELETED_SPECIES = "DELETED_SPECIES",

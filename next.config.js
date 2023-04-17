@@ -13,22 +13,6 @@ const withPWA = require("next-pwa")({
 
 /** @type {import('next').NextConfig} */
 let nextConfig = {
-  // Workaround for minimumCacheTTL
-  async headers() {
-    return [
-      {
-        source: "/:all*(svg|jpg|png|webp)",
-        locale: false,
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, must-revalidate",
-          },
-        ],
-      },
-    ];
-  },
-
   // https://react-svgr.com/docs/next/
   webpack(config) {
     const fileLoaderRule = config.module.rules.find((rule) =>

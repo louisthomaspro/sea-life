@@ -22,7 +22,7 @@
 # bubblewrap
 /sea-life-android
 /sea-life-ios
-/app
+# /app
 /gradle
 /app-release-*.*
 /build.gradle

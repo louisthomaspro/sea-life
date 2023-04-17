@@ -42,6 +42,7 @@ let nextConfig = {
         ".svg": ["@svgr/webpack"],
       },
     },
+    appDir: true,
   },
   swcMinify: true,
   reactStrictMode: true,

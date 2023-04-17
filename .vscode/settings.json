@@ -1,5 +1,8 @@
 {
-  "cSpell.words": ["biotopes", "Toastify"],
+  "cSpell.words": [
+    "biotopes",
+    "Toastify"
+  ],
   "files.associations": {
     ".env.*": "env"
   },
@@ -10,4 +13,6 @@
   },
   "editor.indentSize": "tabSize",
   "editor.insertSpaces": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }

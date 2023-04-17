@@ -33,9 +33,6 @@ export default function SpeciesCard(props: { species: ISpecies }) {
           </>
         )}
         <Image
-          unoptimized={
-            process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
-          }
           src={props.species?.photos?.[0]?.original_url ?? "/img/no-image.svg"}
           fill
           style={{ objectFit: "cover" }}

@@ -59,10 +59,6 @@ export default function GroupCardGrid(props: {
                   )}
                   {/* {(inView || loaded) && ( */}
                     <Image
-                      unoptimized={
-                        process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION ===
-                        "true"
-                      }
                       src={
                         props.group.photos?.[i]?.original_url ??
                         "/img/no-image.svg"

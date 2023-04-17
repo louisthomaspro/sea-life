@@ -26,9 +26,6 @@ export default function ExploreCard(props: {
       <div className="img-wrapper">
         <BlurhashImage blurhash={props.blurhash} />
         <Image
-          unoptimized={
-            process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
-          }
           src={props.image}
           fill
           style={{ objectFit: "cover" }}

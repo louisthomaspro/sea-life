@@ -58,9 +58,6 @@ export default function GroupListItem(props: {
               )}
               {/* {(inView || loaded) && ( */}
               <Image
-                unoptimized={
-                  process.env.NEXT_PUBLIC_SKIP_IMAGE_OPTIMIZATION === "true"
-                }
                 src={
                   props.group.photos?.[0]?.original_url ?? "/img/no-image.svg"
                 }

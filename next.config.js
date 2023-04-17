@@ -37,11 +37,11 @@ let nextConfig = {
 
   experimental: {
     //   scrollRestoration: true,
-    // turbo: {
-    //   loaders: {
-    //     ".svg": ["@svgr/webpack"],
-    //   },
-    // },
+    turbo: {
+      loaders: {
+        ".svg": ["@svgr/webpack"],
+      },
+    },
   },
   swcMinify: true,
   reactStrictMode: true,

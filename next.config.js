@@ -54,7 +54,7 @@ let nextConfig = {
     //   "inaturalist-open-data.s3.amazonaws.com",
     //   "static.inaturalist.org",
     // ],
-    unoptimized: process.env.SKIP_IMAGE_OPTIMIZATION,
+    unoptimized: process.env.SKIP_IMAGE_OPTIMIZATION === "true",
     remotePatterns: [
       {
         protocol: "https",

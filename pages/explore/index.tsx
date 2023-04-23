@@ -44,13 +44,13 @@ export const Explore: NextPage<{
       <div className="pb-7">
         {/* HEADER */}
         <div
-          className="global-padding text-white"
+          className="global-padding"
           style={{
             background:
               "linear-gradient(301.08deg, #317074 6.63%, #034c82 82.39%)",
           }}
         >
-          <div className="container pt-6 sm:text-center">
+          <div className="pt-6 sm:text-center text-white">
             <div className="font-semibold text-3xl pb-3">SeaLife</div>
             <div className="text-xl pb-4 sm:pb-6">
               Découvrez les merveilles de la vie marine

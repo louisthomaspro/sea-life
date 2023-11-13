@@ -1,13 +1,10 @@
 {
-  "cSpell.words": ["biotopes", "Toastify"],
-  "files.associations": {
-    ".env.*": "env"
-  },
-  "files.watcherExclude": {
-    ".archives": true,
-    "node_modules": true,
-    ".git": true
-  },
-  "editor.indentSize": "tabSize",
-  "editor.insertSpaces": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "cSpell.words": ["clsx"],
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "pnpm-lock.yaml": true
+  }
 }

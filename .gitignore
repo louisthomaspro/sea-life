@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+.yarn/install-state.gz
 
 # testing
 /coverage
@@ -15,35 +16,14 @@
 # production
 /build
 
-# mobile
-/android
-/ios
-
-# bubblewrap
-/sea-life-android
-/sea-life-ios
-/app
-/gradle
-/app-release-*.*
-/build.gradle
-/gradle*
-/manifest-checksum.txt
-/settings.gradle
-/store_icon.png
-/android.keystore
-.gradle
-
 # misc
 .DS_Store
 *.pem
-/package-lock.json
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
-*.log
 
 # local env files
 .env*.local
@@ -53,19 +33,4 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-
-# PWA files
-**/public/sw.js
-**/public/workbox-*.js
-**/public/worker-*.js
-**/public/sw.js.map
-**/public/workbox-*.js.map
-**/public/worker-*.js.map
-**/public/fallback-*.js
-
-# Credentials
-*firebase-adminsdk*.json
-
-# Firestore data
-.firebase-emulator-data/firestore_export
-
+next-env.d.ts

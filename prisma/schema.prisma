@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model species {
+  id                  Int                 @id @default(autoincrement())
+  created_at          DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime            @default(now()) @db.Timestamptz(6)
+  sources_inaturalist source_inaturalist? @relation("species_source_inaturalist")
+  sources_fishbase    source_fishbase?    @relation("species_source_fishbase")
+}
+
+model source_inaturalist {
+  id         Int      @id @unique
+  speciesId  Int      @unique
+  species    species  @relation("species_source_inaturalist", fields: [speciesId], references: [id])
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model source_fishbase {
+  id         Int      @id @unique
+  speciesId  Int      @unique
+  species    species  @relation("species_source_fishbase", fields: [speciesId], references: [id])
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+}

@@ -17,16 +17,17 @@ model species {
 
 model source_inaturalist {
   id         Int      @id @unique
-  speciesId  Int      @unique
-  species    species  @relation("species_source_inaturalist", fields: [speciesId], references: [id])
+  species_id Int      @unique
+  species    species  @relation("species_source_inaturalist", fields: [species_id], references: [id])
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
+  taxa_api   Json?    @db.JsonB
 }
 
 model source_fishbase {
   id         Int      @id @unique
-  speciesId  Int      @unique
-  species    species  @relation("species_source_fishbase", fields: [speciesId], references: [id])
+  species_id Int      @unique
+  species    species  @relation("species_source_fishbase", fields: [species_id], references: [id])
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
 }

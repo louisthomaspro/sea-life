@@ -38,3 +38,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## Others
 
 Test OG image with https://www.heymeta.com/ and https://ngrok.com/
+
+## Prisma commands
+
+```bash
+npx prisma db pull
+npx prisma db push
+npx prisma generate
+```

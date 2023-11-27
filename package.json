@@ -27,6 +27,8 @@
     "keen-slider": "^6.8.6",
     "mapbox-gl": "^2.15.0",
     "next": "14.0.3-canary.2",
+    "openai": "^4.19.0",
+    "openai-edge": "^1.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-map-gl": "^7.1.6",

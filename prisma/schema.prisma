@@ -1,33 +1,48 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgvector(map: "vector")]
 }
 
-model species {
-  id                  Int                 @id @default(autoincrement())
-  created_at          DateTime            @default(now()) @db.Timestamptz(6)
-  updated_at          DateTime            @default(now()) @db.Timestamptz(6)
-  sources_inaturalist source_inaturalist? @relation("species_source_inaturalist")
-  sources_fishbase    source_fishbase?    @relation("species_source_fishbase")
+model Species {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+
+  sources_inaturalist SourceInaturalist? @relation("species_source_inaturalist")
+  sources_fishbase    SourceFishbase?    @relation("species_source_fishbase")
+
+  scientific_name String? // "Coris Julis"
+  common_names    Json?   @db.JsonB // { fr: ["foo", "bar"], en: ["foo"] ...}
+
+  embedding         Unsupported("vector(1536)")?
+  embedding_content String?
+
+  @@map("species")
 }
 
-model source_inaturalist {
+model SourceInaturalist {
   id         Int      @id @unique
   species_id Int      @unique
-  species    species  @relation("species_source_inaturalist", fields: [species_id], references: [id])
+  species    Species  @relation("species_source_inaturalist", fields: [species_id], references: [id])
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
   taxa_api   Json?    @db.JsonB
+
+  @@map("source_inaturalist")
 }
 
-model source_fishbase {
+model SourceFishbase {
   id         Int      @id @unique
   species_id Int      @unique
-  species    species  @relation("species_source_fishbase", fields: [species_id], references: [id])
+  species    Species  @relation("species_source_fishbase", fields: [species_id], references: [id])
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
+
+  @@map("source_fishbase")
 }

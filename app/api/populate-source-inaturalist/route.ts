@@ -28,7 +28,7 @@ export async function GET(request: Request) {
         const taxaResponse = await fetch(`https://api.inaturalist.org/v1/taxa/${inaturalistId}?all_names=true`)
         const taxaJson = await taxaResponse.json()
         if (taxaJson.results.length === 0) throw new Error("no results")
-        await prisma.source_inaturalist.update({
+        await prisma.sourceInaturalist.update({
           where: {
             id: inaturalistId,
           },

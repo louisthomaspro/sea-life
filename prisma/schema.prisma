@@ -6,43 +6,42 @@ generator client {
 datasource db {
   provider   = "postgresql"
   url        = env("DATABASE_URL")
-  extensions = [pgvector(map: "vector")]
+  extensions = [uuid_ossp(map: "uuid-ossp", schema: "extensions"), vector]
 }
 
-model Species {
-  id         Int      @id @default(autoincrement())
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-  updated_at DateTime @default(now()) @db.Timestamptz(6)
+model Taxa {
+  id               Int                    @id
+  scientificName   String?
+  commonNames      Json?
+  rank             String
+  rankLevel        Int
+  parentId         Int?
+  embedding        Unsupported("vector")?
+  embeddingContent String?
+  createdAt        DateTime               @default(now()) @db.Timestamptz(6)
+  updatedAt        DateTime               @default(now()) @db.Timestamptz(6)
+  externalIds      ExternalID[]
+  parent           Taxa?                  @relation("TaxaToTaxa", fields: [parentId], references: [id])
+  children         Taxa[]                 @relation("TaxaToTaxa")
 
-  sources_inaturalist SourceInaturalist? @relation("species_source_inaturalist")
-  sources_fishbase    SourceFishbase?    @relation("species_source_fishbase")
+  @@map("taxa")
+}
 
-  scientific_name String? // "Coris Julis"
-  common_names    Json?   @db.JsonB // { fr: ["foo", "bar"], en: ["foo"] ...}
+model ExternalID {
+  id         Int
+  source     String
+  externalId String
+  taxa       Taxa   @relation(fields: [id], references: [id], onDelete: Cascade)
 
-  embedding         Unsupported("vector(1536)")?
-  embedding_content String?
-
-  @@map("species")
+  @@id([id, externalId])
+  @@map("external_ids")
 }
 
 model SourceInaturalist {
-  id         Int      @id @unique
-  species_id Int      @unique
-  species    Species  @relation("species_source_inaturalist", fields: [species_id], references: [id])
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-  updated_at DateTime @default(now()) @db.Timestamptz(6)
-  taxa_api   Json?    @db.JsonB
+  id            Int      @id @unique
+  createdAt     DateTime @default(now()) @db.Timestamptz(6)
+  taxaApiResult Json?
+  updatedAt     DateTime @default(now()) @db.Timestamptz(6)
 
   @@map("source_inaturalist")
-}
-
-model SourceFishbase {
-  id         Int      @id @unique
-  species_id Int      @unique
-  species    Species  @relation("species_source_fishbase", fields: [species_id], references: [id])
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-  updated_at DateTime @default(now()) @db.Timestamptz(6)
-
-  @@map("source_fishbase")
 }

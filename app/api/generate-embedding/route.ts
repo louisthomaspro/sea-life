@@ -1,6 +1,4 @@
 import { generateEmbedding } from "@/utils/actions"
-import { initializeApp } from "firebase-admin/app"
-import { getFirestore } from "firebase-admin/firestore"
 
 import prisma from "@/lib/prisma"
 

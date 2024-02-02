@@ -25,7 +25,7 @@ export async function searchSpecies(query: string): Promise<Array<Species & { si
 
     return speciesResults as Array<Species & { similarity: number }>
   } catch (error) {
-    console.error(error)
+    console.error("Error during searchSpecies", error)
     throw error
   }
 }

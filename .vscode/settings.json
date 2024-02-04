@@ -1,6 +1,6 @@
 {
   "typescript.preferences.importModuleSpecifier": "non-relative",
-  "cSpell.words": ["clsx"],
+  "cSpell.words": ["clsx", "Inaturalist"],
   "search.exclude": {
     "**/node_modules": true,
     "**/bower_components": true,

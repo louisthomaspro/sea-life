@@ -28,12 +28,12 @@ model Taxa {
 }
 
 model ExternalID {
-  id         Int
+  taxaId     Int
   source     String
   externalId String
-  taxa       Taxa   @relation(fields: [id], references: [id], onDelete: Cascade)
+  taxa       Taxa   @relation(fields: [taxaId], references: [id], onDelete: Cascade)
 
-  @@id([id, externalId])
+  @@id([taxaId, externalId])
   @@map("external_ids")
 }
 

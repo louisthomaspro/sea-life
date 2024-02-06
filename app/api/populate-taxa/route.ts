@@ -1,21 +1,21 @@
+import firestoreBackup from "@/constants/firestore-backup.json"
+
 import { getOrCreateTaxaById } from "@/lib/actions/taxa-actions"
-import prisma from "@/lib/prisma"
 
 export async function GET(request: Request) {
-  const taxaData = await prisma.taxa.findMany({
-    select: {
-      id: true,
-      parentId: true,
-      parent: true,
-    },
-    orderBy: {
-      id: "asc",
-    },
-  })
+  let index = 0
+  for (const species in firestoreBackup) {
+    index++
 
-  for (const [index, value] of taxaData.entries()) {
-    console.log(`processing ${index + 1} / ${taxaData.length}, id: ${value.id}`)
-    await getOrCreateTaxaById(value.id)
+    const speciesId = (firestoreBackup as any)[species].external_ids.inaturalist
+    console.log(`processing ${index} / ${Object.keys(firestoreBackup).length}, id: ${speciesId}`)
+
+    if (!speciesId) throw new Error("No species id")
+
+    const res = await fetch(`http://localhost:3000/api/get-create-taxa/${speciesId}`)
+    const data = await res.json()
+
+    console.log(data.id)
   }
 
   return new Response()

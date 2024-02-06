@@ -1,68 +1,117 @@
+import { Prisma } from "@prisma/client"
+
 import { INaturalistTaxa } from "@/types/inaturalist-taxa"
-import { getOrCreateSourceInaturalist } from "@/lib/actions/source-inaturalist"
+import { getOrCreateSourceInaturalist } from "@/lib/actions/source-inaturalist-actions"
 import prisma from "@/lib/prisma"
 
-export const getOrCreateTaxaById = async (id: number) => {
-  // Does it exist?
-  const existingTaxa = await prisma.taxa.findUnique({
+export const getOrCreateTaxaById = async (taxaId: number) => {
+  // Get taxa
+  const taxa = await prisma.taxa.findUnique({
     where: {
-      id,
+      id: taxaId,
     },
   })
-  if (existingTaxa && existingTaxa.parentId) return existingTaxa
 
-  // If not, get the source data
-  const sourceInaturalist = await getOrCreateSourceInaturalist(id)
-  const apiResult = sourceInaturalist.taxaApiResult as unknown as INaturalistTaxa
+  // Get the source data
+  const sourceInaturalist = await getOrCreateSourceInaturalist(taxaId)
+  const inaturalist = sourceInaturalist.taxaApiResult as unknown as INaturalistTaxa
+
+  // Check if this taxa exists and has all the ancestors
+  if (taxa) {
+    const ancestorsIds = (await getAncestors(taxaId)).map((ancestor) => ancestor.id)
+
+    if (JSON.stringify(inaturalist.ancestor_ids.sort()) === JSON.stringify(ancestorsIds.sort())) {
+      console.log(`Taxa ${taxaId} exists and already has all ancestors`)
+      return taxa
+    }
+  }
+
+  // Create/update parent if it exists
+  let parentId = inaturalist.parent_id
+  if (parentId) {
+    console.log(`Add parent id: ${parentId}`)
+    await getOrCreateTaxaById(parentId)
+
+    // Check if the parent is already linked to the existing taxa
+    if (taxa && taxa.parentId === parentId) {
+      console.log(`Taxa is already linked to parent ${parentId}`)
+      return taxa
+    }
+  }
 
   // Create the taxa
-  console.log(`Add taxa id: ${id}`)
-  let scientificName = ""
+  console.log(`${taxa ? "Update" : "Create"} taxa ${taxaId}`)
+  let scientificName = null
   const commonNames: any = {}
-  apiResult.names.forEach((name: { name: string; locale: string; lexicon: string }) => {
+  inaturalist.names.forEach((name: { name: string; locale: string; lexicon: string }) => {
     if (name.lexicon === "scientific-names") {
       scientificName = name.name
     } else {
       commonNames[name.locale] = (commonNames[name.locale] ?? []).concat(name.name)
     }
   })
-  if (!scientificName) throw new Error("No scientific name")
 
-  // Create parent if it exists
-  if (apiResult.parent_id) await getOrCreateTaxaById(apiResult.parent_id)
+  const newTaxaObject = {
+    scientificName,
+    commonNames,
+    rank: inaturalist.rank,
+    rankLevel: inaturalist.rank_level,
+    parentId: parentId,
+    externalIds: {
+      connectOrCreate: {
+        create: {
+          externalId: taxaId.toString(),
+          source: "inaturalist",
+        },
+        where: {
+          taxaId_externalId: {
+            externalId: taxaId.toString(),
+            taxaId: taxaId,
+          },
+        },
+      },
+    },
+  }
 
   const newTaxa = await prisma.taxa.upsert({
     where: {
-      id,
+      id: taxaId,
     },
     update: {
-      scientificName,
-      commonNames,
-      rank: apiResult.rank,
-      rankLevel: apiResult.rank_level,
-      parentId: apiResult.parent_id,
-      externalIds: {
-        create: {
-          externalId: id.toString(),
-          source: "inaturalist",
-        },
-      },
+      ...newTaxaObject,
     },
     create: {
-      id,
-      scientificName,
-      commonNames,
-      rank: apiResult.rank,
-      rankLevel: apiResult.rank_level,
-      parentId: apiResult.parent_id,
-      externalIds: {
-        create: {
-          externalId: id.toString(),
-          source: "inaturalist",
-        },
-      },
+      id: taxaId,
+      ...newTaxaObject,
     },
   })
 
   return newTaxa
+}
+
+export const getAncestors = async (taxaId: number, includeSelf = false) => {
+  try {
+    const includeSelfCondition = Prisma.sql`WHERE id <> ${taxaId}`
+    const result = await prisma.$queryRaw<any[]>`
+      WITH RECURSIVE TaxaAncestors AS (
+        SELECT "id", "parentId", "scientificName", "rank", "rankLevel"
+        FROM taxa
+        WHERE id = ${taxaId}
+      
+        UNION
+      
+        SELECT t."id", t."parentId", t."scientificName", t."rank", t."rankLevel"
+        FROM taxa t
+        JOIN TaxaAncestors a ON t.id = a."parentId"
+      )
+      SELECT * FROM TaxaAncestors ${includeSelf ? Prisma.empty : includeSelfCondition} ORDER BY "rankLevel" DESC
+    `
+
+    return result
+  } catch (error) {
+    console.error(error)
+    throw error // Propagate the error if needed
+  } finally {
+    await prisma.$disconnect()
+  }
 }

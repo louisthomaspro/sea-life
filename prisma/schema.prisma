@@ -20,28 +20,27 @@ model Taxa {
   embeddingContent String?
   createdAt        DateTime               @default(now()) @db.Timestamptz(6)
   updatedAt        DateTime               @default(now()) @db.Timestamptz(6)
-  externalIds      ExternalID[]
   parent           Taxa?                  @relation("TaxaToTaxa", fields: [parentId], references: [id])
   children         Taxa[]                 @relation("TaxaToTaxa")
+  sources          Source[]
 
   @@map("taxa")
 }
 
-model ExternalID {
-  taxaId     Int
-  source     String
-  externalId String
-  taxa       Taxa?  @relation(fields: [taxaId], references: [id])
+model Source {
+  id        String // id from the source
+  name      String // "inaturalist", "fishbase"...
+  context   String // "taxaApi"
+  taxaId    Int
+  json      Json
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @db.Timestamptz(6)
 
-  @@id([taxaId, externalId])
-  @@map("external_ids")
+  taxa Taxa @relation(fields: [taxaId], references: [id])
+
+  @@id([id, name, context, taxaId])
+  @@map("source")
 }
 
-model SourceInaturalist {
-  id            Int      @id @unique
-  createdAt     DateTime @default(now()) @db.Timestamptz(6)
-  taxaApiResult Json?
-  updatedAt     DateTime @default(now()) @db.Timestamptz(6)
-
-  @@map("source_inaturalist")
-}
+// Source
+// 156 12 inaturalist taxaApi => {...}

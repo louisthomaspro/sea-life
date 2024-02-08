@@ -1,11 +1,11 @@
 "use server"
 
-import { type Species } from "@prisma/client"
+import { type Taxa } from "@prisma/client"
 
 import { openai } from "@/lib/openai"
 import prisma from "@/lib/prisma"
 
-export async function searchSpecies(query: string): Promise<Array<Species & { similarity: number }>> {
+export async function searchSpecies(query: string): Promise<Array<Taxa & { similarity: number }>> {
   try {
     if (query.trim().length === 0) return []
 
@@ -23,7 +23,7 @@ export async function searchSpecies(query: string): Promise<Array<Species & { si
       LIMIT 8;
     `
 
-    return speciesResults as Array<Species & { similarity: number }>
+    return speciesResults as Array<Taxa & { similarity: number }>
   } catch (error) {
     console.error("Error during searchSpecies", error)
     throw error

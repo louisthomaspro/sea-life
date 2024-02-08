@@ -14,7 +14,7 @@ export const getOrCreateTaxaById = async (taxaId: number) => {
 
   // Get the source data
   const sourceInaturalist = await getOrCreateSourceInaturalist(taxaId)
-  const inaturalist = sourceInaturalist.taxaApiResult as unknown as INaturalistTaxa
+  const inaturalist = sourceInaturalist.json as unknown as INaturalistTaxa
 
   // Check if this taxa exists and has all the ancestors
   if (taxa) {
@@ -43,11 +43,13 @@ export const getOrCreateTaxaById = async (taxaId: number) => {
   console.log(`${taxa ? "Update" : "Create"} taxa ${taxaId}`)
   let scientificName = null
   const commonNames: any = {}
-  inaturalist.names.forEach((name: { name: string; locale: string; lexicon: string }) => {
-    if (name.lexicon === "scientific-names") {
-      scientificName = name.name
-    } else {
-      commonNames[name.locale] = (commonNames[name.locale] ?? []).concat(name.name)
+  inaturalist.names.forEach((name) => {
+    if (name.is_valid) {
+      if (name.lexicon === "scientific-names") {
+        scientificName = name.name.toLowerCase()
+      } else {
+        commonNames[name.locale] = (commonNames[name.locale] ?? []).concat(name.name)
+      }
     }
   })
 

@@ -1,9 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { searchSpecies } from "@/utils/actions"
 import { Species } from "@prisma/client"
 
+import { searchSpecies } from "@/lib/actions/search-actions"
 import useDebounce from "@/lib/hooks/use-debounce"
 import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"

@@ -1,6 +1,6 @@
 "use server"
 
-import { type Taxa } from "@prisma/client"
+import { Taxa } from "@prisma/client"
 
 import { openai } from "@/lib/openai"
 import prisma from "@/lib/prisma"

@@ -29,7 +29,7 @@ export const groups = [
           {
             parent_id: "fishes",
             includes: [47314],
-            id: "eels,-congers,-morays",
+            id: "eels-congers-morays",
             title: { en: "Eels, congers, morays", fr: "Anguilles, congres, murènes" },
             show_species: true,
             photos: ["https://inaturalist-open-data.s3.amazonaws.com/photos/60018095/original.jpg"],
@@ -149,7 +149,7 @@ export const groups = [
           {
             parent_id: "fishes",
             includes: [49236, 1416131],
-            id: "herrings,-shads,-sardines,-hilsa,-and-menhadens",
+            id: "herrings-shads-sardines-hilsa-and-menhadens",
             title: {
               en: "Herrings, shads, sardines, hilsa, and menhadens",
               fr: "Harengs, aloses, sardines et menhadens",
@@ -176,7 +176,7 @@ export const groups = [
           {
             parent_id: "fishes",
             includes: [47266],
-            id: "mackerels,-tunas-and-bonitos",
+            id: "mackerels-tunas-and-bonitos",
             title: { en: "Mackerels, tunas and bonitos", fr: "Maquereaux, thons et bonites" },
             show_species: true,
             photos: ["https://inaturalist-open-data.s3.amazonaws.com/photos/166749808/original.jpeg"],

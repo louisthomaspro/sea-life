@@ -1,5 +1,5 @@
 import { SVGProps } from "react"
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
+import { faChevronLeft, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon, FontAwesomeIconProps } from "@fortawesome/react-fontawesome"
 
 import { cn } from "@/lib/utils"
@@ -14,4 +14,5 @@ export const Icons = {
   // facebookCircle: (props: Icon) => <FacebookCircle {...props} />,
 
   search: (props: Partial<FontAwesomeIconProps>) => <FontAwesomeIcon {...props} icon={faMagnifyingGlass} />,
+  chevronLeft: (props: Partial<FontAwesomeIconProps>) => <FontAwesomeIcon {...props} icon={faChevronLeft} />,
 }

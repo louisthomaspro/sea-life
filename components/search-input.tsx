@@ -4,8 +4,8 @@ import { useEffect, useMemo, useState } from "react"
 import { Taxa } from "@prisma/client"
 import { debounce } from "lodash"
 
+import { Icons } from "@/components/ui/icons"
 import { Input } from "@/components/ui/input"
-import { Icons } from "@/components/icons"
 
 export const SearchInput = () => {
   const [searchValue, setSearchValue] = useState("")
@@ -32,10 +32,10 @@ export const SearchInput = () => {
 
   return (
     <div className="w-full max-w-md">
-      <div className="relative flex items-center grow">
+      <div className="relative flex grow items-center">
         <Input
           placeholder={"Species name, scientific name or description"}
-          className="w-full pl-11 font-semibold shadow-subtle h-[44px]"
+          className="shadow-subtle h-[44px] w-full pl-11 font-semibold"
           value={searchValue}
           onChange={(event) => {
             debouncedChangeHandler(event.target.value)
@@ -43,7 +43,7 @@ export const SearchInput = () => {
           }}
         />
         <span className="absolute left-4">
-          <Icons.search className="w-4 h-4 text-black" />
+          <Icons.search className="h-4 w-4 text-black" />
         </span>
       </div>
       <div className="flex flex-col gap-2">

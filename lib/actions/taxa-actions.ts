@@ -4,6 +4,19 @@ import { INaturalistTaxa } from "@/types/inaturalist-taxa"
 import { getOrCreateSourceInaturalist } from "@/lib/actions/source-inaturalist-actions"
 import prisma from "@/lib/prisma"
 
+export const getSpeciesByParentList = async (parentList: number[]) => {
+  const species = await prisma.taxa.findMany({
+    where: {
+      parentId: {
+        in: parentList,
+      },
+      rank: "species",
+    },
+  })
+
+  return species
+}
+
 export const getOrCreateTaxaById = async (taxaId: number) => {
   // Get taxa
   const taxa = await prisma.taxa.findUnique({

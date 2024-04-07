@@ -3,6 +3,10 @@ generator client {
   previewFeatures = ["postgresqlExtensions"]
 }
 
+generator json {
+  provider = "prisma-json-types-generator"
+}
+
 datasource db {
   provider   = "postgresql"
   url        = env("DATABASE_URL")
@@ -12,6 +16,7 @@ datasource db {
 model Taxa {
   id             Int      @id
   scientificName String?
+  /// [CommonNames]
   commonNames    Json     @default("{}") // { "en": "Common name", "fr": "Nom commun" }
   rank           String
   rankLevel      Int

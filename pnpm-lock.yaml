@@ -131,13 +131,13 @@ devDependencies:
     specifier: ^0.5.13
     version: 0.5.13(@ianvs/prettier-plugin-sort-imports@4.2.1)(prettier@3.2.5)
   prisma-json-types-generator:
-    specifier: ^3.0.4
+    specifier: ^3.0.3
     version: 3.0.4(prisma@5.12.1)(typescript@5.4.4)
   tailwindcss:
     specifier: ^3.4.3
     version: 3.4.3
   typescript:
-    specifier: ^5.4.4
+    specifier: ^5.3.3
     version: 5.4.4
 
 packages:

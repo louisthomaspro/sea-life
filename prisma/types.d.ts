@@ -1,4 +1,4 @@
-import { Taxa as PrismaTaxa } from "@prisma/client"
+import type { Taxa as PrismaTaxa } from "@prisma/client"
 
 type CommonNames = {
   [key: string]: string[]

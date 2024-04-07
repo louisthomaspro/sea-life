@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { Taxa } from "@prisma/client"
+import { Taxa } from "@/prisma/types"
 import { debounce } from "lodash"
 
 import { Icons } from "@/components/ui/icons"

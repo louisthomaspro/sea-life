@@ -56,6 +56,9 @@ dependencies:
   pg:
     specifier: ^8.11.5
     version: 8.11.5
+  prisma:
+    specifier: ^5.12.1
+    version: 5.12.1
   react:
     specifier: ^18.2.0
     version: 18.2.0

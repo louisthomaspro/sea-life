@@ -1,21 +1,8 @@
 import { Prisma } from "@prisma/client"
 
 import { INaturalistTaxa } from "@/types/inaturalist-taxa"
-import { getOrCreateSourceInaturalist } from "@/lib/actions/source-inaturalist-actions"
+import { getOrCreateSourceInaturalist } from "@/lib/database/populate/get-or-create-source-inaturalist"
 import prisma from "@/lib/prisma"
-
-export const getSpeciesByParentList = async (parentList: number[]) => {
-  const species = await prisma.taxa.findMany({
-    where: {
-      parentId: {
-        in: parentList,
-      },
-      rank: "species",
-    },
-  })
-
-  return species
-}
 
 export const getOrCreateTaxaById = async (taxaId: number) => {
   // Get taxa
@@ -27,7 +14,7 @@ export const getOrCreateTaxaById = async (taxaId: number) => {
 
   // Get the source data
   const sourceInaturalist = await getOrCreateSourceInaturalist(taxaId)
-  const inaturalist = sourceInaturalist.json as unknown as INaturalistTaxa
+  const inaturalist = sourceInaturalist.json as INaturalistTaxa
 
   // Check if this taxa exists and has all the ancestors
   if (taxa) {

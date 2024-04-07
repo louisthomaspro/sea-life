@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { groups } from "@/constants/groups"
 
-import { getSpeciesByParentList } from "@/lib/actions/taxa-actions"
+import { getSpeciesByParentList } from "@/lib/database/utils"
 import { cn, searchNodeById } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"

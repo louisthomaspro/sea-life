@@ -14,20 +14,19 @@ datasource db {
 }
 
 model Taxa {
-  id               Int                    @id
-  scientificName   String?
-  /// [CommonNames]
-  commonNames      Json                   @default("{}")
-  rank             String
-  rankLevel        Int
-  parentId         Int?
-  embedding        Unsupported("vector")?
-  embeddingContent String?
-  createdAt        DateTime               @default(now()) @db.Timestamptz(6)
-  updatedAt        DateTime               @default(now()) @db.Timestamptz(6)
-  parent           Taxa?                  @relation("TaxaToTaxa", fields: [parentId], references: [id])
-  children         Taxa[]                 @relation("TaxaToTaxa")
-  sources          Source[]
+  id             Int      @id
+  scientificName String?
+  commonNames    Json     @default("{}") // { "en": "Common name", "fr": "Nom commun" }
+  rank           String
+  rankLevel      Int
+  parentId       Int?
+  // embedding        Unsupported("vector")?
+  // embeddingContent String?
+  createdAt      DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime @default(now()) @db.Timestamptz(6)
+  parent         Taxa?    @relation("TaxaToTaxa", fields: [parentId], references: [id])
+  children       Taxa[]   @relation("TaxaToTaxa")
+  sources        Source[]
 
   @@map("taxa")
 }
@@ -46,6 +45,3 @@ model Source {
   @@id([id, name, context, taxaId])
   @@map("source")
 }
-
-// Source
-// 156 12 inaturalist taxaApi => {...}

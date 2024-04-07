@@ -1,8 +1,9 @@
-declare global {
-  namespace PrismaJson {
-    type CommonNames = {
-      [key: string]: string[]
-    }
-  }
+import { Taxa as PrismaTaxa } from "@prisma/client"
+
+type CommonNames = {
+  [key: string]: string[]
 }
-export {}
+
+export interface Taxa extends PrismaTaxa {
+  commonNames: CommonNames
+}

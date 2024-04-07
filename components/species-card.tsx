@@ -1,4 +1,4 @@
-import { Taxa } from "@prisma/client"
+import { Taxa } from "@/prisma/types"
 
 import { Card, CardContent } from "@/components/ui/card"
 

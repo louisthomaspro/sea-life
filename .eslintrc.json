@@ -11,7 +11,7 @@
     "react-hooks/exhaustive-deps": "off",
     "react/no-unescaped-entities": "off",
     "tailwindcss/no-unnecessary-arbitrary-value": "off",
-    "eslinttailwindcss/enforces-shorthand": "off"
+    "tailwindcss/enforces-shorthand": "off"
   },
   "settings": {
     "tailwindcss": {

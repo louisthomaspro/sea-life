@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "ngrok": "npx ngrok http 3000"
+    "postinstall": "prisma generate"
   },
   "lint-staged": {
     "*": "prettier --ignore-unknown --write"

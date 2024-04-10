@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client"
 
 import { INaturalistTaxa } from "@/types/inaturalist-taxa"
-import { getOrCreateSourceInaturalist } from "@/lib/database/populate/get-or-create-source-inaturalist"
+import { getOrCreateSourceInaturalistById } from "@/lib/database/populate/get-or-create-source-inaturalist-by-id"
 import prisma from "@/lib/prisma"
 
 export const getOrCreateTaxaById = async (taxaId: number) => {
@@ -13,7 +13,7 @@ export const getOrCreateTaxaById = async (taxaId: number) => {
   })
 
   // Get the source data
-  const sourceInaturalist = await getOrCreateSourceInaturalist(taxaId)
+  const sourceInaturalist = await getOrCreateSourceInaturalistById(taxaId)
   const inaturalist = sourceInaturalist.json as INaturalistTaxa
 
   // Check if this taxa exists and has all the ancestors

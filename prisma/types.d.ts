@@ -3,6 +3,7 @@ declare global {
     type CommonNames = {
       [key: string]: string[]
     }
+    type Any = any
   }
 }
 export {}

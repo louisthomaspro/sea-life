@@ -1,7 +1,7 @@
 import { INaturalistTaxa } from "@/types/inaturalist-taxa"
 import prisma from "@/lib/prisma"
 
-export const getOrCreateSourceInaturalist = async (inaturalistId: number) => {
+export const getOrCreateSourceInaturalistById = async (inaturalistId: number) => {
   // Get inaturalist data from db
   let sourceInaturalist = await prisma.source.findUnique({
     where: {

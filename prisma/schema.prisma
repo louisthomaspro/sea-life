@@ -28,6 +28,7 @@ model Taxa {
   parent         Taxa?    @relation("TaxaToTaxa", fields: [parentId], references: [id])
   children       Taxa[]   @relation("TaxaToTaxa")
   sources        Source[]
+  medias         Media[]
 
   @@map("taxa")
 }
@@ -37,6 +38,7 @@ model Source {
   name      String // "inaturalist", "fishbase"...
   context   String // "taxaApi"
   taxaId    Int
+  /// [Any]
   json      Json
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   updatedAt DateTime @default(now()) @db.Timestamptz(6)
@@ -45,4 +47,21 @@ model Source {
 
   @@id([id, name, context, taxaId])
   @@map("source")
+}
+
+model Media {
+  id          Int      @id @default(autoincrement())
+  taxaId      Int
+  type        String // "image", "video"...
+  url         String
+  originalUrl String?
+  attribution String?
+  position    Int?
+  createdAt   DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime @default(now()) @db.Timestamptz(6)
+
+  taxa Taxa @relation(fields: [taxaId], references: [id])
+
+  @@unique([taxaId, url])
+  @@map("media")
 }

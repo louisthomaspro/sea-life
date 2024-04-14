@@ -1,7 +1,7 @@
 declare global {
   namespace PrismaJson {
     type CommonNames = {
-      [key: string]: string[]
+      [key: string]: string[] | null
     }
     type Any = any
   }

@@ -28,10 +28,10 @@ export default async function Header() {
           LOGO
           <span className="sr-only">SeaLife</span>
         </Link>
-        {/* <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
-          Dashboard
+        <Link href="/" className="text-muted-foreground transition-colors hover:text-foreground">
+          Home
         </Link>
-        <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
+        {/* <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
           Orders
         </Link>
         <Link href="#" className="text-muted-foreground transition-colors hover:text-foreground">
@@ -54,13 +54,13 @@ export default async function Header() {
         <SheetContent side="left">
           <nav className="grid gap-6 text-lg font-medium">
             <Link href="/" className="flex items-center gap-2 text-lg font-semibold">
-              <Package2 className="size-6" />
+              LOGO
               <span className="sr-only">SeaLife</span>
             </Link>
-            {/* <Link href="#" className="text-muted-foreground hover:text-foreground">
-              Dashboard
+            <Link href="/" className="text-muted-foreground hover:text-foreground">
+              Home
             </Link>
-            <Link href="#" className="text-muted-foreground hover:text-foreground">
+            {/* <Link href="#" className="text-muted-foreground hover:text-foreground">
               Orders
             </Link>
             <Link href="#" className="text-muted-foreground hover:text-foreground">

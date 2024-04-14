@@ -5,41 +5,99 @@ import { getOrCreateSourceInaturalistById } from "@/lib/database/populate/get-or
 import prisma from "@/lib/prisma"
 
 export const getOrCreateTaxaById = async (taxaId: number) => {
-  // Get taxa
+  // 1. GET THE TAXA IF EXISTS
+
   const taxa = await prisma.taxa.findUnique({
     where: {
       id: taxaId,
     },
+    include: {
+      ancestors: true,
+      sources: {
+        where: {
+          name: "inaturalist",
+          context: "taxa_api",
+        },
+      },
+    },
   })
 
-  // Get the source data
-  const sourceInaturalist = await getOrCreateSourceInaturalistById(taxaId)
-  const inaturalist = sourceInaturalist.json as INaturalistTaxa
+  let inaturalist: INaturalistTaxa
 
-  // Check if this taxa exists and has all the ancestors
+  // 2. GET THE INATURALIST SOURCE
+
+  // Check if sources is already linked
+  if (taxa?.sources.length === 1) {
+    // If there is already a source, use it
+    console.log(`Taxa ${taxaId} already has sources`)
+    inaturalist = taxa.sources[0].json as INaturalistTaxa
+  } else if ((taxa?.sources.length ?? 0) > 1) {
+    // If there are multiple sources, throw an error
+    throw new Error(`Taxa ${taxaId} has multiple sources`)
+  } else {
+    // Get the source data
+    console.log(`Taxa ${taxaId} has no sources`)
+    inaturalist = (await getOrCreateSourceInaturalistById(taxaId)).json
+  }
+
+  // 3. CHECK UP! RETURN THE TAXA IF IT ALREADY HAS ALL ANCESTORS (CUSTOM)
+
   if (taxa) {
-    const ancestorsIds = (await getAncestors(taxaId)).map((ancestor) => ancestor.id)
+    // 3.1 Check taxa has all the ancestors (with a custom query)
+    // const ancestorsIds = (await getAncestors(taxaId)).map((ancestor) => ancestor.id)
+    // if (JSON.stringify(inaturalist.ancestor_ids.sort()) === JSON.stringify(ancestorsIds.sort())) {
+    //   console.log(`Taxa ${taxaId} exists and already has all ancestors`)
+    //   return taxa
+    // }
 
+    // 3.2 Check taxa has all the ancestors with ancestors field
+    let hasAllAncestors = false
+    const ancestorsIds = taxa.ancestors.map((ancestor) => ancestor.id)
     if (JSON.stringify(inaturalist.ancestor_ids.sort()) === JSON.stringify(ancestorsIds.sort())) {
       console.log(`Taxa ${taxaId} exists and already has all ancestors`)
+      hasAllAncestors = true
+    }
+
+    // 3.3 Check inaturalist fields are the same as the taxa fields
+    let hasSameFields = false
+    const scientificName = inaturalist.names
+      .find((name) => name.is_valid && name.lexicon === "scientific-names")
+      ?.name.toLowerCase()
+    if (
+      scientificName === taxa.scientificName &&
+      inaturalist.rank === taxa.rank &&
+      inaturalist.rank_level === taxa.rankLevel &&
+      inaturalist.parent_id === taxa.parentId
+    ) {
+      console.log(`Taxa ${taxaId} exists and has the same fields`)
+      hasSameFields = true
+    }
+
+    if (hasAllAncestors && hasSameFields) {
       return taxa
     }
   }
+
+  // 4. CREATE PARENT IF EXISTS
 
   // Create/update parent if it exists
   let parentId = inaturalist.parent_id
-  if (parentId) {
-    console.log(`Add parent id: ${parentId}`)
-    await getOrCreateTaxaById(parentId)
+  let parent
 
-    // Check if the parent is already linked to the existing taxa
-    if (taxa && taxa.parentId === parentId) {
-      console.log(`Taxa is already linked to parent ${parentId}`)
-      return taxa
-    }
+  // 4.1 If parent already exists and linked to the taxa, return the taxa
+  if (parentId && taxa && taxa.parentId !== parentId) {
+    return taxa
   }
 
-  // Create the taxa
+  // 4.2 Create the parent if it doesn't exist
+  if (parentId) {
+    console.log(`Add parent id: ${parentId}`)
+    parent = await getOrCreateTaxaById(parentId)
+  }
+
+  // 5. CREATE TAXA
+
+  // 5.1 Get information from inaturalist
   console.log(`${taxa ? "Update" : "Create"} taxa ${taxaId}`)
   let scientificName = null
   const commonNames: any = {}
@@ -52,26 +110,30 @@ export const getOrCreateTaxaById = async (taxaId: number) => {
       }
     }
   })
+  if (!scientificName) throw new Error(`No scientific name found for taxa ${taxaId}`)
 
-  const newTaxaObject = {
+  const newTaxaObject: Prisma.TaxaCreateInput = {
+    id: taxaId,
     scientificName,
     commonNames,
     rank: inaturalist.rank,
     rankLevel: inaturalist.rank_level,
-    parentId: parentId,
-    externalIds: {
-      connectOrCreate: {
-        create: {
-          externalId: taxaId.toString(),
-          source: "inaturalist",
-        },
-        where: {
-          taxaId_externalId: {
-            externalId: taxaId.toString(),
-            taxaId: taxaId,
-          },
+    ...(parentId && {
+      parent: {
+        connect: {
+          id: parentId,
         },
       },
+    }),
+    ancestors: {
+      connect: [
+        ...(parent
+          ? [
+              ...parent.ancestors.map((ancestor) => ({ id: ancestor.id })), // Add parent ancestors
+              { id: parent.id }, // Add parent
+            ]
+          : []),
+      ],
     },
   }
 
@@ -83,8 +145,10 @@ export const getOrCreateTaxaById = async (taxaId: number) => {
       ...newTaxaObject,
     },
     create: {
-      id: taxaId,
       ...newTaxaObject,
+    },
+    include: {
+      ancestors: true,
     },
   })
 

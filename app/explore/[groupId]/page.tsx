@@ -1,8 +1,9 @@
 import Link from "next/link"
+import { notFound } from "next/navigation"
 import { groups } from "@/constants/groups"
 
-import { getSpeciesByParentList } from "@/lib/database/utils"
-import { cn, searchNodeById } from "@/lib/utils"
+import { getSpeciesByAncestorList } from "@/lib/database/utils"
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icons"
@@ -10,18 +11,20 @@ import ImageLoader from "@/components/ui/image-loader"
 
 export default async function GroupPage({ params }: { params: { groupId: string } }) {
   // get the group details from groups tree variable
-  const group = searchNodeById(groups, params.groupId)
+  const group = groups.find((group) => group.id === params.groupId)
+  const children = groups.filter((group) => group.parentId === params.groupId)
+  if (!group) notFound()
 
-  let species: any[] = []
-  if (group.show_species) {
-    species = await getSpeciesByParentList([group.includes])
+  let species: Awaited<ReturnType<typeof getSpeciesByAncestorList>> = []
+  if (group?.showSpecies) {
+    species = await getSpeciesByAncestorList(group.includesTaxa)
   }
 
   return (
     <div className="container py-6">
       {/* Header */}
       <div className={cn("mb-6 grid grid-cols-[1fr_auto_1fr] items-center gap-2")}>
-        <Link href={group.parent_id ? `/explore/${group.parent_id}` : "/"}>
+        <Link href={group.parentId ? `/explore/${group.parentId}` : "/"}>
           <Button variant="outline" size="icon">
             <Icons.chevronLeft className="size-4" />
           </Button>
@@ -30,9 +33,9 @@ export default async function GroupPage({ params }: { params: { groupId: string 
       </div>
 
       {/* List of groups */}
-      {group.children && !group.show_species && (
+      {children && !group.showSpecies && (
         <div className="grid grid-cols-2 gap-2">
-          {group.children.map((child: any) => (
+          {children.map((child: any) => (
             <Link key={child.id} href={`/explore/${child.id}`}>
               <Card>
                 <CardContent className="relative p-0">
@@ -54,24 +57,26 @@ export default async function GroupPage({ params }: { params: { groupId: string 
       )}
 
       {/* List of species */}
-      {group.show_species && (
+      {group.showSpecies && (
         <div className="grid grid-cols-2 gap-2">
-          {species.map((species: any) => (
-            <Link key={species.id} href={`/explore/${species.id}`}>
+          {species.map((species) => (
+            <Link key={species.id} href={`/species/${species.id}`}>
               <Card>
                 <CardContent className="relative p-0">
                   <div className="relative aspect-[3/2] w-full">
-                    <ImageLoader
-                      src={species.photos[0]}
-                      alt={species.title.fr}
-                      fill
-                      className="rounded-xl object-cover"
-                    />
+                    {species.medias?.length > 0 && (
+                      <ImageLoader
+                        src={species.medias[0].url}
+                        alt={species.scientificName ?? ""}
+                        fill
+                        className="rounded-xl object-cover"
+                      />
+                    )}
                   </div>
                   <div className="grid p-2">
                     <div className="overflow-auto">
-                      <div className="truncate font-semibold">{species.title.en}</div>
-                      <div className="truncate font-semibold">{species.title.fr}</div>
+                      <div className="truncate font-semibold">{species.commonNames.en}</div>
+                      <div className="truncate font-semibold">{species.commonNames.fr}</div>
                     </div>
                     <div className="truncate text-sm italic text-gray-500">Tursiops truncatus</div>
                   </div>

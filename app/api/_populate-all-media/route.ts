@@ -68,7 +68,7 @@ export async function GET(request: Request) {
       const publicUrl = await uploadTaxaMedia(valueTaxa.id.toString(), blob)
       console.log(`${valueTaxa.id} - Uploaded ${publicUrl}`)
 
-      await prisma.media.create({
+      await prisma.taxaMedia.create({
         data: {
           url: publicUrl,
           originalUrl: photoUrl,

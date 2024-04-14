@@ -15,7 +15,7 @@ datasource db {
 
 model Taxa {
   id             Int      @id
-  scientificName String?
+  scientificName String
   /// [CommonNames]
   commonNames    Json     @default("{}") // { "en": "Common name", "fr": "Nom commun" }
   rank           String
@@ -27,10 +27,11 @@ model Taxa {
   updatedAt      DateTime @default(now()) @db.Timestamptz(6)
   parent         Taxa?    @relation("TaxaToTaxa", fields: [parentId], references: [id])
   children       Taxa[]   @relation("TaxaToTaxa")
-  sources        Source[]
-  medias         Media[]
+  ancestors      Taxa[]   @relation("Ancestors")
+  isAncestorOf   Taxa[]   @relation("Ancestors") // not used
 
-  @@map("taxa")
+  sources Source[]
+  medias  TaxaMedia[]
 }
 
 model Source {
@@ -46,10 +47,9 @@ model Source {
   taxa Taxa @relation(fields: [taxaId], references: [id])
 
   @@id([id, name, context, taxaId])
-  @@map("source")
 }
 
-model Media {
+model TaxaMedia {
   id          Int      @id @default(autoincrement())
   taxaId      Int
   type        String // "image", "video"...
@@ -63,5 +63,4 @@ model Media {
   taxa Taxa @relation(fields: [taxaId], references: [id])
 
   @@unique([taxaId, url])
-  @@map("media")
 }

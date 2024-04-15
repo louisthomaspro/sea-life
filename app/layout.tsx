@@ -1,18 +1,16 @@
-import { Inter } from "next/font/google"
-
 import "./globals.css"
 
-import Header from "@/components/header"
+import { fontSans } from "@/lib/font"
+import { cn } from "@/lib/utils"
+import BottomNavigation from "@/components/bottom-navigation"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
-
-const inter = Inter({ subsets: ["latin"] })
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className} suppressHydrationWarning>
-        <Header />
+      <body className={cn("pb-16 font-sans", fontSans.variable)} suppressHydrationWarning>
         {children}
+        <BottomNavigation />
         <TailwindIndicator />
       </body>
     </html>

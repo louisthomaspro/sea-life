@@ -7,7 +7,7 @@ import { createClient } from "@/utils/supabase/server"
 export const signOut = async () => {
   const supabase = createClient()
   await supabase.auth.signOut()
-  return redirect("/login")
+  return redirect("/account")
 }
 
 export const signIn = async (formData: FormData) => {
@@ -21,10 +21,10 @@ export const signIn = async (formData: FormData) => {
   })
 
   if (error) {
-    return redirect("/login?message=Could not authenticate user")
+    return redirect("/account?message=Could not authenticate user")
   }
 
-  return redirect("/protected")
+  return redirect("/")
 }
 
 export const signUp = async (formData: FormData) => {

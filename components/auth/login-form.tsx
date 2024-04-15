@@ -3,7 +3,7 @@ import { signIn, signUp } from "@/utils/supabase/actions"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { SubmitButton } from "@/app/login/submit-button"
+import { SubmitButton } from "@/components/auth/submit-button"
 
 export default function LoginForm(props: React.HTMLAttributes<HTMLDivElement>) {
   return (

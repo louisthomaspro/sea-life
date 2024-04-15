@@ -80,6 +80,10 @@
   height: 5px;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 .hidden-scroll::-webkit-scrollbar {
   display: none !important;
 }

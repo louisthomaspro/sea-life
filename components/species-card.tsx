@@ -11,8 +11,8 @@ export default function SpeciesCard({ species }: { species: Taxa }) {
         </div>
         <div className="grid p-2">
           <div className="overflow-auto">
-            <div className="truncate font-semibold">{species.commonNames.fr[0]}</div>
-            <div className="truncate font-semibold">{species.commonNames.en[0]}</div>
+            <div className="truncate font-semibold">{species.commonNames.fr?.[0]}</div>
+            <div className="truncate font-semibold">{species.commonNames.en?.[0]}</div>
           </div>
           <div className="truncate text-sm italic text-gray-500">Tursiops truncatus</div>
         </div>

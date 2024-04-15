@@ -31,10 +31,10 @@ for (const [key, value] of Object.entries(backup)) {
     id: key,
     parentId: value.parent_id,
     title: value.title,
-    subtitle: value.subtitle ?? {},
-    showSpecies: value.show_species ?? false,
+    subtitle: (value as any).subtitle ?? {},
+    showSpecies: (value as any).show_species ?? false,
     includesTaxa: newIncludes,
-    photos: value.photos ? value.photos.map((photo: any) => photo.original_url) : [],
+    photos: (value as any).photos ? (value as any).photos.map((photo: any) => photo.original_url) : [],
   })
 }
 console.log(JSON.stringify(newArray))

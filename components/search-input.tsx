@@ -50,8 +50,8 @@ export const SearchInput = () => {
         {speciesResults.map((species, i) => (
           <div key={i} className="flex flex-col border">
             <div>{species.scientificName}</div>
-            <div>{species.commonNames["fr"].join(",")}</div>
-            <div>{species.commonNames["en"].join(",")}</div>
+            <div>{species.commonNames.fr?.join(",")}</div>
+            <div>{species.commonNames.en?.join(",")}</div>
             {/* <div>{species.similarity.toFixed(3)}</div> */}
           </div>
         ))}

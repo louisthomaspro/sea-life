@@ -1,88 +1,106 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { groups } from "@/constants/groups"
+import { Prisma } from "@prisma/client"
 
 import { getSpeciesByAncestorList } from "@/lib/database/utils"
+import prisma from "@/lib/prisma"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icons"
-import ImageLoader from "@/components/ui/image-loader"
+import HighLevelGroupCard from "@/components/high-level-group-card"
+import LowLevelGroupCard from "@/components/low-level-group-card"
+import SpeciesCard from "@/components/species-card"
 
 export default async function GroupPage({ params }: { params: { groupId: string } }) {
   // get the group details from groups tree variable
-  const group = groups.find((group) => group.id === params.groupId)
-  const children = groups.filter((group) => group.parentId === params.groupId)
+  const group = await prisma.group.findUnique({
+    include: {
+      parent: {
+        select: {
+          slug: true,
+        },
+      },
+      children: {
+        include: {
+          highlightedSpecies: {
+            include: {
+              medias: {
+                select: {
+                  url: true,
+                },
+              },
+            },
+          },
+          highLevelTaxa: {
+            select: {
+              id: true,
+            },
+          },
+        },
+        orderBy: {
+          commonNames: "asc",
+        },
+      },
+      highLevelTaxa: {
+        select: {
+          id: true,
+        },
+      },
+    },
+    where: {
+      slug: params.groupId,
+    },
+  })
   if (!group) notFound()
 
-  let species: Awaited<ReturnType<typeof getSpeciesByAncestorList>> = []
-  if (group?.showSpecies) {
-    species = await getSpeciesByAncestorList(group.includesTaxa)
+  let species: Prisma.TaxaGetPayload<{
+    include: {
+      medias: {
+        select: {
+          url: true
+        }
+      }
+    }
+  }>[] = []
+  if (group.level > 1) {
+    species = await getSpeciesByAncestorList(group.highLevelTaxa.map((taxa) => taxa.id))
   }
 
   return (
     <div className="container py-6">
       {/* Header */}
       <div className={cn("mb-6 grid grid-cols-[1fr_auto_1fr] items-center gap-2")}>
-        <Link href={group.parentId ? `/explore/${group.parentId}` : "/"}>
+        <Link href={group.parent ? `/explore/${group.parent.slug}` : "/"}>
           <Button variant="outline" size="icon">
             <Icons.chevronLeft className="size-4" />
           </Button>
         </Link>
-        <h1 className="text-center text-3xl font-bold tracking-tighter">{group.title.en}</h1>
+        <h1 className="text-center text-3xl font-bold tracking-tighter">{group.commonNames.en}</h1>
       </div>
 
-      {/* List of groups */}
-      {children && !group.showSpecies && (
+      {/* List of high groups */}
+      {group.level === 0 && (
         <div className="grid grid-cols-2 gap-2">
-          {children.map((child: any) => (
-            <Link key={child.id} href={`/explore/${child.id}`}>
-              <Card>
-                <CardContent className="relative p-0">
-                  <div className="relative aspect-[3/2] w-full">
-                    <ImageLoader src={child.photos[0]} alt={child.title.fr} fill className="rounded-xl object-cover" />
-                  </div>
-                  <div className="grid p-2">
-                    <div className="overflow-auto">
-                      <div className="truncate font-semibold">{child.title.en}</div>
-                      <div className="truncate font-semibold">{child.title.fr}</div>
-                    </div>
-                    <div className="truncate text-sm italic text-gray-500">Tursiops truncatus</div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
+          {group.children.map((child) => (
+            <HighLevelGroupCard key={child.id} group={child as any} />
+          ))}
+        </div>
+      )}
+
+      {/* List of sub-groups */}
+      {group.level === 1 && (
+        <div className="flex flex-col gap-2">
+          {group.children.map((child) => (
+            <LowLevelGroupCard key={child.id} group={child as any} />
           ))}
         </div>
       )}
 
       {/* List of species */}
-      {group.showSpecies && (
+      {group.level === 2 && (
         <div className="grid grid-cols-2 gap-2">
           {species.map((species) => (
-            <Link key={species.id} href={`/species/${species.id}`}>
-              <Card>
-                <CardContent className="relative p-0">
-                  <div className="relative aspect-[3/2] w-full">
-                    {species.medias?.length > 0 && (
-                      <ImageLoader
-                        src={species.medias[0].url}
-                        alt={species.scientificName ?? ""}
-                        fill
-                        className="rounded-xl object-cover"
-                      />
-                    )}
-                  </div>
-                  <div className="grid p-2">
-                    <div className="overflow-auto">
-                      <div className="truncate font-semibold">{species.commonNames.en}</div>
-                      <div className="truncate font-semibold">{species.commonNames.fr}</div>
-                    </div>
-                    <div className="truncate text-sm italic text-gray-500">Tursiops truncatus</div>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
+            <SpeciesCard key={species.id} species={species} />
           ))}
         </div>
       )}

@@ -3,6 +3,9 @@ declare global {
     type CommonNames = {
       [key: string]: string[] | null
     }
+    type GroupName = {
+      [key: string]: string | null
+    }
     type Any = any
   }
 }

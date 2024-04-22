@@ -17,7 +17,7 @@ model Taxa {
   id             Int      @id
   scientificName String
   /// [CommonNames]
-  commonNames    Json     @default("{}") // { "en": "Common name", "fr": "Nom commun" }
+  commonNames    Json     @default("{}") // { "en": ["Common name"], "fr": ["Nom commun"] }
   rank           String
   rankLevel      Int
   parentId       Int?
@@ -32,10 +32,15 @@ model Taxa {
 
   sources Source[]
   medias  TaxaMedia[]
+
+  // Group relations
+  highLevelTaxaOfGroups      Group[] @relation("GroupToHighLevelTaxa")
+  highlightedSpeciesOfGroups Group[] @relation("GroupToHighlightedSpecies")
 }
 
 model Source {
-  id        String // id from the source
+  id        Int      @id @default(autoincrement())
+  sourceId  String // id from the source
   name      String // "inaturalist", "fishbase"...
   context   String // "taxaApi"
   taxaId    Int
@@ -46,7 +51,7 @@ model Source {
 
   taxa Taxa @relation(fields: [taxaId], references: [id])
 
-  @@id([id, name, context, taxaId])
+  @@unique([sourceId, name, context, taxaId])
 }
 
 model TaxaMedia {
@@ -63,4 +68,25 @@ model TaxaMedia {
   taxa Taxa @relation(fields: [taxaId], references: [id])
 
   @@unique([taxaId, url])
+}
+
+model Group {
+  id          Int    @id @default(autoincrement())
+  slug        String @unique
+  /// [GroupName]
+  commonNames Json   @default("{}") // { "en": "Common name", "fr": "Nom commun" }
+  /// [GroupName]
+  subtitle    Json   @default("{}") // { "en": "Subtitle", "fr": "Sous-titre" }
+  level       Int // 0: root, 1: sub-group, 2: sub-sub-group...
+
+  // Hierarchical relations
+  parentId Int?
+  parent   Group?  @relation("GroupToGroup", fields: [parentId], references: [id])
+  children Group[] @relation("GroupToGroup")
+
+  highLevelTaxa      Taxa[] @relation("GroupToHighLevelTaxa") // define the high level taxa of the group
+  highlightedSpecies Taxa[] @relation("GroupToHighlightedSpecies") // define the species to highlight (medias)
+
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @db.Timestamptz(6)
 }

@@ -1,22 +1,41 @@
-import { Taxa } from "@prisma/client"
+import Link from "next/link"
+import { Prisma } from "@prisma/client"
 
 import { Card, CardContent } from "@/components/ui/card"
+import ImageLoader from "@/components/ui/image-loader"
 
-export default function SpeciesCard({ species }: { species: Taxa }) {
+type taxaSpecies = Prisma.TaxaGetPayload<{
+  include: {
+    medias: {
+      select: {
+        url: true
+      }
+    }
+  }
+}>
+
+export default function SpeciesCard({ species }: { species: taxaSpecies }) {
   return (
-    <Card>
-      <CardContent className="relative p-0">
-        <div className="relative aspect-[3/2] w-full">
-          {/* <ImageLoader src={species.photos[0]} alt={child.title.fr} fill className="rounded-xl object-cover" /> */}
-        </div>
-        <div className="grid p-2">
-          <div className="overflow-auto">
-            <div className="truncate font-semibold">{species.commonNames.fr?.[0]}</div>
-            <div className="truncate font-semibold">{species.commonNames.en?.[0]}</div>
+    <Link key={species.id} href={`/species/${species.id}`}>
+      <Card>
+        <CardContent className="relative p-0">
+          <div className="relative aspect-[3/2] w-full">
+            <ImageLoader
+              src={species.medias[0].url}
+              alt={species.commonNames.en?.[0]!}
+              fill
+              className="rounded-xl object-cover"
+            />
           </div>
-          <div className="truncate text-sm italic text-gray-500">Tursiops truncatus</div>
-        </div>
-      </CardContent>
-    </Card>
+          <div className="grid p-2">
+            <div className="overflow-auto">
+              <div className="truncate font-semibold">{species.commonNames.en?.[0]}</div>
+              <div className="truncate font-semibold">{species.commonNames.fr?.[0]}</div>
+            </div>
+            <div className="truncate text-sm italic text-gray-500">{species.scientificName}</div>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   )
 }

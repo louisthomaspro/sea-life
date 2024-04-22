@@ -1,7 +1,11 @@
+import "server-only"
+
+import { cache } from "react"
+import { Prisma } from "@prisma/client"
+
 import prisma from "@/lib/prisma"
 
-// DEPRECATED
-// export const getSpeciesByAncestorList = async (taxaIds: number[]) => {
+// export const getSpeciesByAncestorList2 = async (taxaIds: number[]) => {
 //   const query = Prisma.sql`
 //   WITH RECURSIVE TaxaHierarchy AS (
 //     SELECT * FROM taxa WHERE id IN (${Prisma.join(taxaIds)})
@@ -17,8 +21,15 @@ import prisma from "@/lib/prisma"
 //   return species
 // }
 
-export const getSpeciesByAncestorList = async (taxaIds: number[]) => {
+export const getSpeciesByAncestorList = cache(async (taxaIds: number[]) => {
   const speciesList = await prisma.taxa.findMany({
+    include: {
+      medias: {
+        select: {
+          url: true,
+        },
+      },
+    },
     where: {
       ancestors: {
         some: {
@@ -31,10 +42,7 @@ export const getSpeciesByAncestorList = async (taxaIds: number[]) => {
         equals: "species",
       },
     },
-    include: {
-      medias: true,
-    },
   })
 
   return speciesList
-}
+})

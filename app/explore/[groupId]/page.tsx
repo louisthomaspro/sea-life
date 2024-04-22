@@ -2,7 +2,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Prisma } from "@prisma/client"
 
-import { getSpeciesByAncestorList } from "@/lib/database/utils"
+import { getSpeciesByAncestorList, getSpeciesByAncestorList2 } from "@/lib/database/utils"
 import prisma from "@/lib/prisma"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"

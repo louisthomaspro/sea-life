@@ -5,8 +5,8 @@ export const getOrCreateSourceInaturalistById = async (inaturalistId: number) =>
   // Get inaturalist data from db
   let sourceInaturalist = await prisma.source.findUnique({
     where: {
-      id_name_context_taxaId: {
-        id: inaturalistId.toString(),
+      sourceId_name_context_taxaId: {
+        sourceId: inaturalistId.toString(),
         name: "inaturalist",
         context: "taxa_api",
         taxaId: inaturalistId,
@@ -29,8 +29,8 @@ export const getOrCreateSourceInaturalistById = async (inaturalistId: number) =>
 
   sourceInaturalist = await prisma.source.upsert({
     where: {
-      id_name_context_taxaId: {
-        id: inaturalistId.toString(),
+      sourceId_name_context_taxaId: {
+        sourceId: inaturalistId.toString(),
         name: "inaturalist",
         context: "taxa_api",
         taxaId: inaturalistId,
@@ -41,7 +41,7 @@ export const getOrCreateSourceInaturalistById = async (inaturalistId: number) =>
       updatedAt: new Date(),
     },
     create: {
-      id: inaturalistId.toString(),
+      sourceId: inaturalistId.toString(),
       name: "inaturalist",
       context: "taxa_api",
       taxa: {

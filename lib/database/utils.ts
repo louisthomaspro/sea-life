@@ -1,25 +1,33 @@
 import "server-only"
 
 import { cache } from "react"
-import { Prisma } from "@prisma/client"
+import { Prisma, Taxa } from "@prisma/client"
 
 import prisma from "@/lib/prisma"
 
-// export const getSpeciesByAncestorList2 = async (taxaIds: number[]) => {
-//   const query = Prisma.sql`
-//   WITH RECURSIVE TaxaHierarchy AS (
-//     SELECT * FROM taxa WHERE id IN (${Prisma.join(taxaIds)})
-//     UNION ALL
-//     SELECT t.* FROM taxa t JOIN TaxaHierarchy th ON t."parentId" = th.id
-//   )
-//   SELECT * FROM TaxaHierarchy th
-//   JOIN media m ON th.id = m."taxaId"
-//   WHERE rank = 'species'
-//   `
+export const getSpeciesByAncestorList2 = async (taxaIds: number[]) => {
+  // type
+  type TaxaWithMedia = Taxa & {
+    medias: {
+      url: string
+    }[]
+  }
 
-//   const species = await prisma.$queryRaw<Taxa[]>(query)
-//   return species
-// }
+  const query = Prisma.sql`
+  SELECT 
+  t.*, 
+  array_agg(json_build_object('url', m.url)) AS medias
+  FROM "Taxa" t
+  INNER JOIN "_Ancestors" a ON a."A" = t.id
+  INNER JOIN "TaxaMedia" m ON t.id = m."taxaId"
+  AND t.rank LIKE 'species'
+  AND a."B" IN (${Prisma.join(taxaIds)})
+  GROUP BY t.id
+  `
+
+  const species = await prisma.$queryRaw<TaxaWithMedia[]>(query)
+  return species
+}
 
 export const getSpeciesByAncestorList = cache(async (taxaIds: number[]) => {
   const speciesList = await prisma.taxa.findMany({

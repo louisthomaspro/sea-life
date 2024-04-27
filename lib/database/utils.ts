@@ -1,6 +1,5 @@
 import "server-only"
 
-import { cache } from "react"
 import { Prisma, Taxa } from "@prisma/client"
 
 import prisma from "@/lib/prisma"
@@ -29,7 +28,7 @@ export const getSpeciesByAncestorList2 = async (taxaIds: number[]) => {
   return species
 }
 
-export const getSpeciesByAncestorList = cache(async (taxaIds: number[]) => {
+export const getSpeciesByAncestorList = async (taxaIds: number[], limit = 5) => {
   const speciesList = await prisma.taxa.findMany({
     include: {
       medias: {
@@ -50,8 +49,8 @@ export const getSpeciesByAncestorList = cache(async (taxaIds: number[]) => {
         equals: "species",
       },
     },
-    take: 5,
+    take: limit,
   })
 
   return speciesList
-})
+}

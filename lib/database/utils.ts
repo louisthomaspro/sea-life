@@ -50,6 +50,7 @@ export const getSpeciesByAncestorList = cache(async (taxaIds: number[]) => {
         equals: "species",
       },
     },
+    take: 5,
   })
 
   return speciesList

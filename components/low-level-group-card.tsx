@@ -59,7 +59,7 @@ async function SpeciesList({ group }: { group: groupWithHighlightedSpecies }) {
       }}
       className="-ml-4 -mr-4"
     >
-      <CarouselSpeciesContent className="ml-3 h-24 w-full">
+      <CarouselSpeciesContent className="ml-3 h-20 w-full">
         {species.map((species, index) => (
           <CarouselSpeciesItem key={index} className="flex-none pl-1">
             <Link

@@ -24,6 +24,7 @@ const ImageLoader = React.forwardRef<React.ElementRef<typeof Image>, ImageLoader
       onLoad={(e: any) => {
         setLoaded(true)
       }}
+      unoptimized
       className={cn(
         "bg-white", // for transparent images
         "opacity-0 transition-opacity", // for fadeIn

@@ -23,6 +23,7 @@ export default function SpeciesCard({ species }: { species: taxaSpecies }) {
             <ImageLoader
               src={species.medias[0].url}
               alt={species.commonNames.en?.[0]!}
+              sizes="50vw"
               fill
               className="rounded-xl object-cover"
             />

@@ -27,6 +27,7 @@ export default function HighLevelGroupCard({ group }: { group: groupWithHighligh
                     src={group.highlightedSpecies[index].medias[0].url}
                     alt={group.highlightedSpecies[index].commonNames.en?.[0]!}
                     fill
+                    sizes="25vw"
                     className="object-cover"
                   />
                 ) : (

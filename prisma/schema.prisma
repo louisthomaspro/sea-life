@@ -77,7 +77,7 @@ model Group {
   commonNames Json   @default("{}") // { "en": "Common name", "fr": "Nom commun" }
   /// [GroupName]
   subtitle    Json   @default("{}") // { "en": "Subtitle", "fr": "Sous-titre" }
-  level       Int // 0: root, 1: sub-group, 2: sub-sub-group...
+  level       Int // 0: root, 1: sub-group, 2: sub-sub-group
 
   // Hierarchical relations
   parentId Int?

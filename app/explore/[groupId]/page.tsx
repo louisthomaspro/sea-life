@@ -53,6 +53,8 @@ export default async function GroupPage({ params }: { params: { groupId: string 
   })
   if (!group) notFound()
 
+  const showSpecies = group.children.length === 0
+
   let species: Prisma.TaxaGetPayload<{
     include: {
       medias: {
@@ -62,7 +64,9 @@ export default async function GroupPage({ params }: { params: { groupId: string 
       }
     }
   }>[] = []
-  if (group.level > 1) {
+
+  // if the group has no children, get the species
+  if (showSpecies) {
     species = await getSpeciesByAncestorList(group.highLevelTaxa.map((taxa) => taxa.id))
   }
 
@@ -79,7 +83,7 @@ export default async function GroupPage({ params }: { params: { groupId: string 
       </div>
 
       {/* List of high groups */}
-      {group.level === 0 && (
+      {!showSpecies && group.level === 0 && (
         <div className="grid grid-cols-2 gap-2">
           {group.children.map((child) => (
             <HighLevelGroupCard key={child.id} group={child as any} />
@@ -88,7 +92,7 @@ export default async function GroupPage({ params }: { params: { groupId: string 
       )}
 
       {/* List of sub-groups */}
-      {group.level === 1 && (
+      {!showSpecies && group.level === 1 && (
         <div className="flex flex-col gap-2">
           {group.children.map((child) => (
             <LowLevelGroupCard key={child.id} group={child as any} />
@@ -97,7 +101,7 @@ export default async function GroupPage({ params }: { params: { groupId: string 
       )}
 
       {/* List of species */}
-      {group.level === 2 && (
+      {showSpecies && (
         <div className="grid grid-cols-2 gap-2">
           {species.map((species) => (
             <SpeciesCard key={species.id} species={species} />

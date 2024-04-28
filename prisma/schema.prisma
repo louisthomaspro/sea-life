@@ -85,7 +85,9 @@ model Group {
   children Group[] @relation("GroupToGroup")
 
   highLevelTaxa      Taxa[] @relation("GroupToHighLevelTaxa") // define the high level taxa of the group
-  highlightedSpecies Taxa[] @relation("GroupToHighlightedSpecies") // define the species to highlight (medias)
+  highlightedSpecies Taxa[] @relation("GroupToHighlightedSpecies") // define the species to highlight (for medias)
+
+  speciesCount Int @default(-1) // number of species in the group. -1 means it's not set yet
 
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   updatedAt DateTime @default(now()) @db.Timestamptz(6)

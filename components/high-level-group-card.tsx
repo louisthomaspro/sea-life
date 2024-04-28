@@ -31,7 +31,7 @@ export default function HighLevelGroupCard({ group }: { group: groupWithHighligh
                     className="object-cover"
                   />
                 ) : (
-                  <ImageLoader src="/placeholder.jpg" alt="placeholder" fill className="object-cover" />
+                  <ImageLoader src="/placeholder.jpg" sizes="25vw" alt="placeholder" fill className="object-cover" />
                 )}
               </div>
             ))}

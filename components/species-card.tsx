@@ -21,7 +21,7 @@ export default function SpeciesCard({ species }: { species: taxaSpecies }) {
         <CardContent className="relative p-0">
           <div className="relative aspect-[3/2] w-full">
             <ImageLoader
-              src={species.medias[0].url}
+              src={species.medias[0]?.url}
               alt={species.commonNames.en?.[0]!}
               sizes="50vw"
               fill

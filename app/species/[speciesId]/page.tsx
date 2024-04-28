@@ -9,14 +9,14 @@ import ImageLoader from "@/components/ui/image-loader"
 import { Flag } from "@/components/flag"
 import BackButton from "@/components/species/back-button"
 
-export default async function SpeciesPage({ params }: { params: { id: string } }) {
+export default async function SpeciesPage({ params }: { params: { speciesId: string } }) {
   const species = await prisma.taxa.findUnique({
     include: {
       medias: true,
       ancestors: true,
     },
     where: {
-      id: Number(params.id),
+      id: Number(params.speciesId),
     },
   })
 
@@ -31,7 +31,7 @@ export default async function SpeciesPage({ params }: { params: { id: string } }
             {species.medias.map((media, i) => (
               <CarouselItem key={i}>
                 <ImageLoader
-                  src={media.url}
+                  src={media?.url}
                   width={200}
                   height={200}
                   alt="ads"

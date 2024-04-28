@@ -70,7 +70,7 @@ async function SpeciesList({ group }: { group: groupWithHighlightedSpecies }) {
               className="relative block aspect-[3/2] size-full overflow-hidden rounded-xl"
             >
               <ImageLoader
-                src={species.medias[0].url}
+                src={species.medias[0]?.url}
                 alt={species.commonNames.en?.[0]!}
                 fill
                 sizes="150px"

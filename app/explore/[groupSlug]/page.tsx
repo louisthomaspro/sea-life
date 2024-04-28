@@ -2,7 +2,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Prisma } from "@prisma/client"
 
-import { getSpeciesByAncestorList, getSpeciesByAncestorList2 } from "@/lib/database/utils"
+import { getSpeciesByAncestorList } from "@/lib/database/utils"
 import prisma from "@/lib/prisma"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -11,7 +11,20 @@ import HighLevelGroupCard from "@/components/high-level-group-card"
 import LowLevelGroupCard from "@/components/low-level-group-card"
 import SpeciesCard from "@/components/species-card"
 
-export default async function GroupPage({ params }: { params: { groupId: string } }) {
+export const dynamic = "force-static"
+
+// export async function generateStaticParams() {
+//   const groups = await prisma.group.findMany({
+//     select: {
+//       slug: true,
+//     },
+//   })
+//   return groups.map((group) => ({
+//     groupSlug: group.slug,
+//   }))
+// }
+
+export default async function GroupPage({ params }: { params: { groupSlug: string } }) {
   // get the group details from groups tree variable
   const group = await prisma.group.findUnique({
     include: {
@@ -48,7 +61,7 @@ export default async function GroupPage({ params }: { params: { groupId: string 
       },
     },
     where: {
-      slug: params.groupId,
+      slug: params.groupSlug,
     },
   })
   if (!group) notFound()

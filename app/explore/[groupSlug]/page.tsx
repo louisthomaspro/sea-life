@@ -13,16 +13,16 @@ import SpeciesCard from "@/components/species-card"
 
 export const dynamic = "force-static"
 
-// export async function generateStaticParams() {
-//   const groups = await prisma.group.findMany({
-//     select: {
-//       slug: true,
-//     },
-//   })
-//   return groups.map((group) => ({
-//     groupSlug: group.slug,
-//   }))
-// }
+export async function generateStaticParams() {
+  const groups = await prisma.group.findMany({
+    select: {
+      slug: true,
+    },
+  })
+  return groups.map((group) => ({
+    groupSlug: group.slug,
+  }))
+}
 
 export default async function GroupPage({ params }: { params: { groupSlug: string } }) {
   // get the group details from groups tree variable

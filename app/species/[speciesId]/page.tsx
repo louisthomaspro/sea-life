@@ -14,6 +14,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
     include: {
       medias: true,
       ancestors: true,
+      attributes: true,
     },
     where: {
       id: Number(params.speciesId),
@@ -57,6 +58,17 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
           </h1>
         )}
         <p className="text-gray-600">{capitalizeWords(species.scientificName)}</p>
+      </div>
+      <div className="px-4 pb-4">
+        <h2 className="text-lg font-bold">ATTRIBUTES</h2>
+        <div>
+          {species.attributes.map((attribute, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <span className="font-bold">{attribute.attributeId}</span>
+              <span>{JSON.stringify(attribute.value)}</span>
+            </div>
+          ))}
+        </div>
       </div>
       <div className="px-4 pb-4">
         <h2 className="text-lg font-bold">TAXONOMY</h2>

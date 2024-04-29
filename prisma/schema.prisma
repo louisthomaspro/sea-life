@@ -34,8 +34,9 @@ model Taxa {
   medias  TaxaMedia[]
 
   // Group relations
-  highLevelTaxaOfGroups      Group[] @relation("GroupToHighLevelTaxa")
-  highlightedSpeciesOfGroups Group[] @relation("GroupToHighlightedSpecies")
+  highLevelTaxaOfGroups      Group[]            @relation("GroupToHighLevelTaxa")
+  highlightedSpeciesOfGroups Group[]            @relation("GroupToHighlightedSpecies")
+  attributes                 SpeciesAttribute[]
 }
 
 model Source {
@@ -88,6 +89,33 @@ model Group {
   highlightedSpecies Taxa[] @relation("GroupToHighlightedSpecies") // define the species to highlight (for medias)
 
   speciesCount Int @default(-1) // number of species in the group. -1 means it's not set yet
+
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model SpeciesAttribute {
+  id          Int    @id @default(autoincrement())
+  taxaId      Int
+  attributeId String
+
+  /// [Any] 
+  value Json
+
+  taxa      Taxa      @relation(fields: [taxaId], references: [id])
+  attribute Attribute @relation(fields: [attributeId], references: [id])
+
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @db.Timestamptz(6)
+
+  @@unique([taxaId, attributeId])
+}
+
+model Attribute {
+  id               String             @id
+  definition       String
+  valueType        String // string, number, boolean, integer[], string[]...
+  SpeciesAttribute SpeciesAttribute[]
 
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   updatedAt DateTime @default(now()) @db.Timestamptz(6)

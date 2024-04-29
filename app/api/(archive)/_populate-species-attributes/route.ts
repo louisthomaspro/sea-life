@@ -98,7 +98,7 @@ export async function GET(request: Request) {
     await prisma.taxa.update({
       where: { id: Number(speciesInfo.external_ids.inaturalist) },
       data: {
-        SpeciesAttributes: {
+        attributes: {
           connectOrCreate: [
             ...(speciesInfo.rarity
               ? [

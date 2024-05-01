@@ -10,7 +10,7 @@ import { TailwindIndicator } from "@/components/tailwind-indicator"
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={cn("pb-16 font-sans", fontSans.variable)} suppressHydrationWarning>
+      <body className={cn("mx-auto max-w-md pb-16 font-sans", fontSans.variable)} suppressHydrationWarning>
         {children}
         <BottomNavigation />
         <TailwindIndicator />

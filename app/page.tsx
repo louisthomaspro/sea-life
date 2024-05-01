@@ -16,11 +16,17 @@ export default function HomePage() {
         <SearchInput />
       </div>
       <div className="flex gap-2 pt-6">
-        <Link href="/explore/fauna" className="relative overflow-hidden rounded-xl border border-gray-200">
+        <Link
+          href="/explore/fauna"
+          className="relative overflow-hidden rounded-xl border border-gray-200 transition-transform hover:scale-[99%] active:scale-[98%]"
+        >
           <Image src={Fauna} alt="Fauna" width={300} height={200} />
           <div className="absolute bottom-2 left-4 text-lg font-semibold text-background">Fauna</div>
         </Link>
-        <Link href="/explore/flora" className="relative overflow-hidden rounded-xl border border-gray-200">
+        <Link
+          href="/explore/flora"
+          className="relative overflow-hidden rounded-xl border border-gray-200 transition-transform hover:scale-[99%] active:scale-[98%]"
+        >
           <Image src={Flora} alt="Flora" width={300} height={200} />
           <div className="absolute bottom-2 left-4 text-lg font-semibold text-background">Flora</div>
         </Link>

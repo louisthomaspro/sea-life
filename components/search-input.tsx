@@ -1,7 +1,6 @@
 "use client"
 
 import { useRef, useState } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { useDebouncedCallback } from "use-debounce"
 
@@ -61,7 +60,7 @@ export const SearchInput = ({ className, ...props }: SearchInputProps) => {
         />
 
         <div
-          className="absolute inset-y-0 right-0 flex items-center pr-2"
+          className="absolute inset-y-0 right-0 flex cursor-pointer items-center px-4"
           onClick={() => {
             setTerm("")
             setSpeciesResults([])
@@ -81,7 +80,7 @@ export const SearchInput = ({ className, ...props }: SearchInputProps) => {
         >
           <div className="flex flex-col divide-y">
             {speciesResults.map((species) => (
-              <Link href={`/species/${species.id}`} className="px-2">
+              <Link href={`/species/${species.id}`} className="px-2 transition-colors hover:bg-gray-100">
                 <div key={species.id} className="flex items-center gap-2 p-2">
                   <div className="relative h-10 w-10 overflow-hidden rounded-md bg-gray-200">
                     <ImageLoader

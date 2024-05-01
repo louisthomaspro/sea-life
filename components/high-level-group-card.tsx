@@ -1,23 +1,31 @@
 import Link from "next/link"
 import { Prisma } from "@prisma/client"
 
+import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import ImageLoader from "@/components/ui/image-loader"
 
-type groupWithHighlightedSpecies = Prisma.GroupGetPayload<{
-  include: {
-    highlightedSpecies: {
-      include: {
-        medias: true
+interface HighLevelGroupCardProps extends React.HTMLProps<HTMLAnchorElement> {
+  group: Prisma.GroupGetPayload<{
+    include: {
+      highlightedSpecies: {
+        include: {
+          medias: true
+        }
       }
     }
-  }
-}>
+  }>
+}
 
-export default function HighLevelGroupCard({ group }: { group: groupWithHighlightedSpecies }) {
+export default function HighLevelGroupCard({ group, className, ...props }: HighLevelGroupCardProps) {
   return (
-    <Link key={group.id} href={`/explore/${group.slug}`}>
+    <Link
+      key={group.id}
+      href={`/explore/${group.slug}`}
+      className={cn("transition-transform hover:scale-[99%] active:scale-[98%]", className)}
+      {...props}
+    >
       <Card>
         <CardContent className="relative p-0">
           <div className="relative">

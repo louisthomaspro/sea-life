@@ -19,17 +19,23 @@ type groupWithHighlightedSpecies = Prisma.GroupGetPayload<{
   }
 }>
 
-export default function LowLevelGroupCard({ group }: { group: groupWithHighlightedSpecies }) {
+interface LowLevelGroupCardProps extends React.HTMLProps<HTMLDivElement> {
+  group: groupWithHighlightedSpecies
+}
+
+export default function LowLevelGroupCard({ group, className, ...props }: LowLevelGroupCardProps) {
   return (
-    <div>
+    <div className={cn(className)} {...props}>
       <Link key={group.id} href={`/explore/${group.slug}`} className="flex items-center pb-1">
         <div className="flex grow gap-2 truncate font-semibold">
           <span>{group.commonNames.en}</span>
           <Badge variant={"secondary"}>{group.speciesCount}</Badge>
         </div>
-        <div className="flex flex-none items-center text-sm font-medium text-muted-foreground">
+        <div className="group flex items-center text-sm font-medium text-muted-foreground">
           <span>See more</span>
-          <Icons.chevronRight className="ml-1 size-3" />
+          <div className="transition-transform group-hover:translate-x-0.5">
+            <Icons.chevronRight className="ml-1 size-3" />
+          </div>
         </div>
       </Link>
       <SpeciesList group={group} />
@@ -37,19 +43,9 @@ export default function LowLevelGroupCard({ group }: { group: groupWithHighlight
   )
 }
 
-// function SpeciesListSuspense() {
-//   return (
-//     <div className="flex h-20 gap-1">
-//       {Array.from({ length: 3 }).map((_, index) => (
-//         <Skeleton key={index} className="relative aspect-[3/2] flex-none rounded-xl" />
-//       ))}
-//     </div>
-//   )
-// }
-
 async function SpeciesList({ group }: { group: groupWithHighlightedSpecies }) {
   return (
-    <div className="relative -ml-4 -mr-4 flex">
+    <div className={"relative -ml-4 -mr-4 flex"}>
       <div className="no-scrollbar space-x-1 overflow-auto whitespace-nowrap">
         {group.highlightedSpecies.map((species, index) => (
           <Link
@@ -57,6 +53,7 @@ async function SpeciesList({ group }: { group: groupWithHighlightedSpecies }) {
             href={`/species/${species.id}`}
             className={cn(
               "relative inline-block aspect-[3/2] w-28 overflow-hidden rounded-xl",
+              "transition-transform hover:scale-[99%] active:scale-[98%]",
               group.speciesCount <= 5 && index === group.speciesCount - 1 && "!mr-4",
               index === 0 && "!ml-4"
             )}

@@ -7,6 +7,7 @@ import { useDebouncedCallback } from "use-debounce"
 
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/ui/icons"
+import ImageLoader from "@/components/ui/image-loader"
 import { Input } from "@/components/ui/input"
 import { SearchResult } from "@/app/api/search/route"
 
@@ -75,7 +76,7 @@ export const SearchInput = ({ className, ...props }: SearchInputProps) => {
         <div
           className={cn(
             "absolute left-0 top-full z-10 mt-2 w-full rounded-md border border-gray-300 bg-white shadow-lg",
-            "max-h-96 overflow-y-auto"
+            "max-h-80 overflow-y-auto"
           )}
         >
           <div className="flex flex-col divide-y">
@@ -83,12 +84,12 @@ export const SearchInput = ({ className, ...props }: SearchInputProps) => {
               <Link href={`/species/${species.id}`} className="px-2">
                 <div key={species.id} className="flex items-center gap-2 p-2">
                   <div className="relative h-10 w-10 overflow-hidden rounded-md bg-gray-200">
-                    <Image
+                    <ImageLoader
                       key={species.id}
                       src={species.url}
                       alt={species.scientificName}
-                      width={50}
-                      height={50}
+                      width={40}
+                      height={40}
                       className="size-full object-cover"
                     />
                   </div>

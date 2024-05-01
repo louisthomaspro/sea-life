@@ -1,6 +1,5 @@
-import { signOut } from "@/utils/supabase/actions"
-import { createClient } from "@/utils/supabase/server"
-
+import { signOut } from "@/lib/supabase/actions"
+import { createClient } from "@/lib/supabase/server"
 import { Button } from "@/components/ui/button"
 import LoginForm from "@/components/auth/login-form"
 

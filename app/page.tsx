@@ -3,7 +3,7 @@ import Link from "next/link"
 import Fauna from "@/public/img/fauna.jpg"
 import Flora from "@/public/img/flora.jpg"
 
-import { Input } from "@/components/ui/input"
+import { SearchInput } from "@/components/search-input"
 
 export default function HomePage() {
   return (
@@ -13,7 +13,7 @@ export default function HomePage() {
         <p className="text-gray-500 dark:text-gray-400">Discover the wonders of the ocean.</p>
       </div>
       <div className="pt-4">
-        <Input placeholder="Search for species" className="h-12" />
+        <SearchInput />
       </div>
       <div className="flex gap-2 pt-6">
         <Link href="/explore/fauna" className="relative overflow-hidden rounded-xl border border-gray-200">

@@ -1,4 +1,4 @@
-import { searchSpecies } from "@/lib/actions/search-actions"
+import { searchSpecies } from "@/lib/_actions/search-actions"
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)

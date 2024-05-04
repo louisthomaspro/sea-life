@@ -64,7 +64,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
         <div>
           {species.attributes.map((attribute, i) => (
             <div key={i} className="flex items-center gap-2">
-              <span className="font-bold">{attribute.attributeId}</span>
+              <span className="font-bold">{attribute.attributeDefinitionId}</span>
               <span>{JSON.stringify(attribute.value)}</span>
             </div>
           ))}

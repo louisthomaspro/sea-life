@@ -13,6 +13,17 @@ datasource db {
   extensions = [uuid_ossp(map: "uuid-ossp", schema: "extensions"), vector]
 }
 
+enum Role {
+  admin
+  user
+}
+
+model Profile {
+  id    String @id @db.Uuid
+  role  Role   @default(user)
+  lists List[]
+}
+
 model Taxa {
   id             Int      @id
   scientificName String
@@ -34,9 +45,10 @@ model Taxa {
   medias  TaxaMedia[]
 
   // Group relations
-  highLevelTaxaOfGroups      Group[]            @relation("GroupToHighLevelTaxa")
-  highlightedSpeciesOfGroups Group[]            @relation("GroupToHighlightedSpecies")
-  attributes                 SpeciesAttribute[]
+  highLevelTaxaOfGroups      Group[]         @relation("GroupToHighLevelTaxa")
+  highlightedSpeciesOfGroups Group[]         @relation("GroupToHighlightedSpecies")
+  attributes                 Attribute[]
+  lists                      ListToSpecies[]
 }
 
 model Source {
@@ -94,29 +106,51 @@ model Group {
   updatedAt DateTime @default(now()) @db.Timestamptz(6)
 }
 
-model SpeciesAttribute {
-  id          Int    @id @default(autoincrement())
-  taxaId      Int
-  attributeId String
+model Attribute {
+  id                    Int    @id @default(autoincrement())
+  taxaId                Int
+  attributeDefinitionId String
 
   /// [Any] 
   value Json
 
-  taxa      Taxa      @relation(fields: [taxaId], references: [id])
-  attribute Attribute @relation(fields: [attributeId], references: [id])
+  taxa                Taxa                @relation(fields: [taxaId], references: [id])
+  attributeDefinition AttributeDefinition @relation(fields: [attributeDefinitionId], references: [id])
 
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   updatedAt DateTime @default(now()) @db.Timestamptz(6)
 
-  @@unique([taxaId, attributeId])
+  @@unique([taxaId, attributeDefinitionId])
 }
 
-model Attribute {
-  id               String             @id
+model AttributeDefinition {
+  id               String      @id
   definition       String
   valueType        String // string, number, boolean, integer[], string[]...
-  SpeciesAttribute SpeciesAttribute[]
+  SpeciesAttribute Attribute[]
 
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   updatedAt DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model List {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @db.Timestamptz(6)
+
+  species ListToSpecies[]
+  owner   Profile?        @relation(fields: [ownerId], references: [id])
+  ownerId String?         @db.Uuid
+}
+
+model ListToSpecies {
+  listId Int
+  taxaId Int
+  list   List @relation(fields: [listId], references: [id])
+  taxa   Taxa @relation(fields: [taxaId], references: [id])
+
+  updatedAt DateTime @default(now()) @db.Timestamptz(6)
+
+  @@id([listId, taxaId])
 }

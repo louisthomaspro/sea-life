@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experimental"
 
 import { ModalProvider, ModalProviderNavigationAutoClose } from "@/lib/pushmodal"
+import { AuthProvider } from "@/lib/supabase/auth-provider"
 import { Toaster } from "@/components/ui/sonner"
 
 function makeQueryClient() {
@@ -44,14 +45,16 @@ export function Providers(props: { children: React.ReactNode }) {
   //       render if it suspends and there is no boundary
   const queryClient = getQueryClient()
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryStreamedHydration>
-        {props.children}
-        <Toaster position="top-center" />
-        <ModalProvider />
-        <ModalProviderNavigationAutoClose />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </ReactQueryStreamedHydration>
-    </QueryClientProvider>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryStreamedHydration>
+          {props.children}
+          <Toaster position="top-center" />
+          <ModalProvider />
+          <ModalProviderNavigationAutoClose />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </ReactQueryStreamedHydration>
+      </QueryClientProvider>
+    </AuthProvider>
   )
 }

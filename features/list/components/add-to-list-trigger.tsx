@@ -1,12 +1,14 @@
 "use client"
 
 import { useTransition } from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
 import { popModal, pushModal, replaceWithModal } from "@/lib/pushmodal"
 import { addToListAction, deleteFromListAction, getListsAction } from "@/lib/services/lists-actions"
+import { useAuth } from "@/lib/supabase/auth-provider"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { DrawerClose, DrawerContent, DrawerFooter } from "@/components/ui/drawer"
@@ -17,9 +19,11 @@ interface AddToListTriggerProps {
 }
 
 export default function AddToListTrigger({ speciesId }: AddToListTriggerProps) {
+  const { user } = useAuth()
   let { data: lists } = useQuery({
     queryKey: [`add-to-list-${speciesId}`],
     queryFn: async () => getListsAction(speciesId),
+    enabled: !!user,
   })
 
   // already in list if lists contain speciesId
@@ -30,7 +34,21 @@ export default function AddToListTrigger({ speciesId }: AddToListTriggerProps) {
       className="absolute right-4 top-4 z-10"
       variant="outline"
       size="icon"
-      onClick={() => pushModal("AddToListDrawer", { speciesId })}
+      onClick={() => {
+        if (!user) {
+          toast("Please sign in to add to a list", {
+            action: (
+              <Link href={"/account"} className="ml-auto">
+                <Button size={"sm"} onClick={() => toast.dismiss()}>
+                  Login
+                </Button>
+              </Link>
+            ),
+          })
+        } else {
+          pushModal("AddToListDrawer", { speciesId })
+        }
+      }}
     >
       {isAlreadyInList ? <Icons.listAdded className="size-4" /> : <Icons.list className="size-4" />}
     </Button>

@@ -1,5 +1,6 @@
 import "./globals.css"
 
+import type { Metadata, Viewport } from "next"
 import NextTopLoader from "nextjs-toploader"
 
 import { fontSans } from "@/lib/font"
@@ -7,6 +8,14 @@ import { Providers } from "@/lib/providers"
 import { cn } from "@/lib/utils"
 import BottomNavigation from "@/components/bottom-navigation"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
+
+export const metadata: Metadata = {
+  manifest: "/manifest.json",
+}
+
+export const viewport: Viewport = {
+  themeColor: "#FFFFFF",
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

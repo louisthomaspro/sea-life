@@ -38,6 +38,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
                   height={200}
                   alt="ads"
                   className="h-full w-full object-cover"
+                  priority={i === 0}
                 />
               </CarouselItem>
             ))}

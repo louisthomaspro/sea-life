@@ -22,19 +22,9 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
     },
   })
 
-  const alreadyInList = false
-
   if (!species) notFound()
 
-  // const queryClient = new QueryClient()
-
-  // await queryClient.prefetchQuery({
-  //   queryKey: ["lists"],
-  //   queryFn: getListsAction,
-  // })
-
   return (
-    // <HydrationBoundary state={dehydrate(queryClient)}>
     <div>
       <div className="relative">
         <BackButton />
@@ -87,7 +77,6 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
         {Taxonomy(species.ancestors)}
       </div>
     </div>
-    // </HydrationBoundary>
   )
 }
 

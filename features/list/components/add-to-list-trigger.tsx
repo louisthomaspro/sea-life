@@ -16,12 +16,8 @@ interface AddToListTriggerProps {
 }
 
 export default function AddToListTrigger({ speciesId }: AddToListTriggerProps) {
-  let {
-    data: lists,
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: ["lists"],
+  let { data: lists } = useQuery({
+    queryKey: [`lists-${speciesId}`],
     queryFn: async () => getListsAction(speciesId),
   })
 
@@ -50,11 +46,9 @@ export const AddToListDrawerContent = ({ speciesId }: AddToListDrawerContentProp
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["lists"],
+    queryKey: [`lists-${speciesId}`],
     queryFn: async () => getListsAction(speciesId),
   })
-
-  console.log(lists)
 
   const [isPending, startTransition] = useTransition()
 

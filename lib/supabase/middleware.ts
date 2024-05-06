@@ -1,17 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server"
 import { createServerClient, type CookieOptions } from "@supabase/ssr"
 
-export const updateSession = async (request: NextRequest) => {
+export const updateSession = async (request: NextRequest, response: NextResponse) => {
   // This `try/catch` block is only here for the interactive tutorial.
   // Feel free to remove once you have Supabase connected.
   try {
-    // Create an unmodified response
-    let response = NextResponse.next({
-      request: {
-        headers: request.headers,
-      },
-    })
-
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -62,19 +55,13 @@ export const updateSession = async (request: NextRequest) => {
 
     // This will refresh session if expired - required for Server Components
     // https://supabase.com/docs/guides/auth/server-side/nextjs
-    const auth = await supabase.auth.getUser()
+    const user = await supabase.auth.getUser()
 
-    console.log("auth", auth)
-
-    return response
+    return user
   } catch (e) {
     // If you are here, a Supabase client could not be created!
     // This is likely because you have not set up environment variables.
     // Check out http://localhost:3000 for Next Steps.
-    return NextResponse.next({
-      request: {
-        headers: request.headers,
-      },
-    })
+    return null
   }
 }

@@ -43,7 +43,6 @@ export function Providers(props: { children: React.ReactNode }) {
   //       suspend because React will throw away the client on the initial
   //       render if it suspends and there is no boundary
   const queryClient = getQueryClient()
-
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryStreamedHydration>

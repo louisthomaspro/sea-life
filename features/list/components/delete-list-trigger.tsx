@@ -2,6 +2,7 @@
 
 import { useTransition } from "react"
 import { useParams, useRouter } from "next/navigation"
+import { useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
 import { deleteListAction } from "@/lib/services/lists-actions"
@@ -12,6 +13,7 @@ export default function DeleteListTrigger() {
   const params = useParams()
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
+  const queryClient = useQueryClient()
 
   const handleDelete = async () => {
     startTransition(async () => {
@@ -22,8 +24,10 @@ export default function DeleteListTrigger() {
         toast.error("Failed to delete list")
         return
       }
+      queryClient.invalidateQueries({
+        queryKey: ["lists"],
+      })
       router.push("/lists")
-      router.refresh()
     })
   }
 

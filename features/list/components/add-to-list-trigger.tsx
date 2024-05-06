@@ -1,7 +1,8 @@
 "use client"
 
 import { useTransition } from "react"
-import { useQuery } from "@tanstack/react-query"
+import { useRouter } from "next/navigation"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
 import { popModal, pushModal, replaceWithModal } from "@/lib/pushmodal"
@@ -17,7 +18,7 @@ interface AddToListTriggerProps {
 
 export default function AddToListTrigger({ speciesId }: AddToListTriggerProps) {
   let { data: lists } = useQuery({
-    queryKey: [`lists-${speciesId}`],
+    queryKey: [`add-to-list-${speciesId}`],
     queryFn: async () => getListsAction(speciesId),
   })
 
@@ -41,34 +42,41 @@ interface AddToListDrawerContentProps {
 }
 
 export const AddToListDrawerContent = ({ speciesId }: AddToListDrawerContentProps) => {
-  let {
-    data: lists,
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: [`lists-${speciesId}`],
+  let { data: lists, isLoading } = useQuery({
+    queryKey: [`add-to-list-${speciesId}`],
     queryFn: async () => getListsAction(speciesId),
   })
 
+  const queryClient = useQueryClient()
+
   const [isPending, startTransition] = useTransition()
+  const router = useRouter()
 
   const handleListClick = (listId: number, action: "add" | "remove" = "add") => {
     if (action === "remove") {
-      return startTransition(async () => {
+      startTransition(async () => {
         await deleteFromListAction(listId, speciesId)
         toast.success("Removed from list")
         popModal("AddToListDrawer")
-        refetch()
       })
     }
     if (action === "add") {
-      return startTransition(async () => {
+      startTransition(async () => {
         await addToListAction(listId, speciesId)
         toast.success("Added to list")
         popModal("AddToListDrawer")
-        refetch()
       })
     }
+
+    queryClient.refetchQueries({
+      queryKey: [`add-to-list-${speciesId}`],
+    })
+    queryClient.invalidateQueries({
+      queryKey: [`lists-${listId}`],
+    })
+    queryClient.invalidateQueries({
+      queryKey: ["lists"],
+    })
   }
 
   return (

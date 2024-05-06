@@ -3,6 +3,7 @@
 import { useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useQueryClient } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -10,7 +11,7 @@ import { z } from "zod"
 import { popModal, pushModal } from "@/lib/pushmodal"
 import { createListAction, updateListAction } from "@/lib/services/lists-actions"
 import { Button } from "@/components/ui/button"
-import { DrawerClose, DrawerContent, DrawerFooter, DrawerTrigger } from "@/components/ui/drawer"
+import { DrawerClose, DrawerContent, DrawerFooter } from "@/components/ui/drawer"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Icons } from "@/components/ui/icons"
 import { Input } from "@/components/ui/input"
@@ -50,8 +51,9 @@ interface CreateListDrawerContentProps {
 }
 
 export const CreateListDrawerContent = ({ action, list }: CreateListDrawerContentProps) => {
-  const router = useRouter()
   const [isPending, startTransition] = useTransition()
+  const queryClient = useQueryClient()
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -76,6 +78,9 @@ export const CreateListDrawerContent = ({ action, list }: CreateListDrawerConten
         return
       }
 
+      queryClient.invalidateQueries({
+        queryKey: ["lists"],
+      })
       router.refresh()
 
       form.reset()

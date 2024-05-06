@@ -3,6 +3,37 @@
 import prisma from "@/lib/prisma"
 import { createClient } from "@/lib/supabase/server"
 
+export const getListAction = async (id: number) => {
+  const supabase = createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    throw new Error("User not found")
+  }
+
+  return prisma.list.findFirst({
+    where: {
+      id,
+      ownerId: user.id,
+    },
+    include: {
+      species: {
+        include: {
+          taxa: {
+            include: {
+              medias: {
+                take: 1,
+              },
+            },
+          },
+        },
+      },
+    },
+  })
+}
+
 export const getListsAction = async (speciesId?: number) => {
   const supabase = createClient()
   const {

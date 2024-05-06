@@ -2,14 +2,12 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { EditListTrigger } from "@/features/list/components/create-update-list-trigger"
 import DeleteListTrigger from "@/features/list/components/delete-list-trigger"
+import SpeciesListing from "@/features/list/components/species-listing"
 
 import prisma from "@/lib/prisma"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
-import SpeciesCard from "@/components/species-card"
-
-export const dynamic = "force-dynamic"
 
 export default async function ListDetailsPage({ params }: { params: { listId: string } }) {
   const list = await prisma.list.findUnique({
@@ -52,9 +50,7 @@ export default async function ListDetailsPage({ params }: { params: { listId: st
         <EditListTrigger list={list} />
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-2">
-        {list?.species.map((species, i) => <SpeciesCard key={i} species={species.taxa} />)}
-      </div>
+      <SpeciesListing />
     </div>
   )
 }

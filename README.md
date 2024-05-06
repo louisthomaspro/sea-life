@@ -1,6 +1,8 @@
 ## Getting Started
 
 ```bash
+vercel env pull .env
+
 pnpm i
 
 npx prisma generate

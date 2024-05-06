@@ -22,7 +22,7 @@ export default function AddToListTrigger({ speciesId }: AddToListTriggerProps) {
   })
 
   // already in list if lists contain speciesId
-  const isAlreadyInList = lists?.some((list) => list.species.some((species) => species.taxaId === speciesId))
+  const isAlreadyInList = lists?.some((list) => list._count.species > 0)
 
   return (
     <Button

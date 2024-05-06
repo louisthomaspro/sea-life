@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
 import SpeciesCard from "@/components/species-card"
 
-export const dynamic = "force-static"
+export const dynamic = "force-dynamic"
 
 export default async function ListDetailsPage({ params }: { params: { listId: string } }) {
   const list = await prisma.list.findUnique({

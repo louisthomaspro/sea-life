@@ -28,7 +28,7 @@ export default function DeleteListTrigger() {
   }
 
   return (
-    <Button variant="outline" size="icon" onClick={handleDelete}>
+    <Button variant="outline" size="icon" onClick={handleDelete} disabled={isPending}>
       {isPending ? <Icons.spinner className="size-4" /> : <Icons.delete className="size-4" />}
     </Button>
   )

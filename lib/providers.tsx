@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experimental"
 
-import { ModalProvider } from "@/lib/pushmodal"
+import { ModalProvider, ModalProviderNavigationAutoClose } from "@/lib/pushmodal"
 import { Toaster } from "@/components/ui/sonner"
 
 function makeQueryClient() {
@@ -50,6 +50,7 @@ export function Providers(props: { children: React.ReactNode }) {
         {props.children}
         <Toaster position="top-center" />
         <ModalProvider />
+        <ModalProviderNavigationAutoClose />
         <ReactQueryDevtools initialIsOpen={false} />
       </ReactQueryStreamedHydration>
     </QueryClientProvider>

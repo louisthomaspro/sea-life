@@ -1,3 +1,5 @@
+import { useEffect } from "react"
+import { usePathname } from "next/navigation"
 import { AddToListDrawerContent } from "@/features/list/components/add-to-list-trigger"
 import { CreateListDrawerContent } from "@/features/list/components/create-update-list-trigger"
 import { createPushModal } from "pushmodal"
@@ -24,3 +26,13 @@ export const { pushModal, popModal, popAllModals, replaceWithModal, useOnPushMod
       },
     },
   })
+
+export const ModalProviderNavigationAutoClose = () => {
+  const pathname = usePathname()
+
+  useEffect(() => {
+    popAllModals()
+  }, [pathname])
+
+  return null
+}

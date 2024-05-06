@@ -107,7 +107,7 @@ export const CreateListDrawerContent = ({ action, list }: CreateListDrawerConten
           </Form>
         </div>
         <DrawerFooter>
-          <Button onClick={form.handleSubmit(onSubmit)} size="lg">
+          <Button onClick={form.handleSubmit(onSubmit)} size="lg" disabled={isPending}>
             {isPending ? <Icons.spinner className="size-4" /> : action === "create" ? "Create" : "Save"}
           </Button>
           <DrawerClose asChild>

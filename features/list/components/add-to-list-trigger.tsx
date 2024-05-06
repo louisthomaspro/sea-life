@@ -99,7 +99,7 @@ export const AddToListDrawerContent = ({ speciesId }: AddToListDrawerContentProp
                     key={i}
                     className={cn(
                       "flex cursor-pointer items-center gap-4 rounded-md px-2 py-2 hover:bg-gray-100",
-                      isPending && "opacity-50"
+                      isPending && "pointer-events-none opacity-50"
                     )}
                     onClick={() => handleListClick(list.id, list._count.species ? "remove" : "add")}
                   >

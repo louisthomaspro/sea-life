@@ -34,7 +34,7 @@ export default function HighLevelGroupCard({ group, className, ...props }: HighL
                 <div key={index} className="relative aspect-[3/2] overflow-hidden rounded-sm">
                   {group.highlightedSpecies[index] ? (
                     <ImageLoader
-                      src={group.highlightedSpecies[index].medias[0].url}
+                      src={group.highlightedSpecies[index].medias[0]?.url}
                       alt={group.highlightedSpecies[index].commonNames.en?.[0]!}
                       fill
                       sizes="25vw"

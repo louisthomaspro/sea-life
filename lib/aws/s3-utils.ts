@@ -17,6 +17,7 @@ export const uploadTaxaMedia = async (id: string, file: File | Blob) => {
     ContentType: file.type,
     Body: buffer,
   }
+
   const uploadCommand = new PutObjectCommand(uploadParams)
   await client.send(uploadCommand)
 

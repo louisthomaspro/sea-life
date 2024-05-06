@@ -1,5 +1,6 @@
 import { INaturalistTaxa } from "@/types/inaturalist-taxa"
 import { uploadTaxaMedia } from "@/lib/aws/s3-utils"
+import { getOrCreateSourceInaturalistById } from "@/lib/database/populate/get-or-create-source-inaturalist-by-id"
 import prisma from "@/lib/prisma"
 
 export const populateMediaById = async (id: number) => {
@@ -8,11 +9,6 @@ export const populateMediaById = async (id: number) => {
     select: {
       id: true,
       medias: true,
-      sources: {
-        where: {
-          name: "inaturalist",
-        },
-      },
     },
     where: {
       id: id,
@@ -23,11 +19,20 @@ export const populateMediaById = async (id: number) => {
     throw new Error(`No taxa found for id ${id}`)
   }
 
-  const iNatPhotos = (taxaData.sources[0].json as INaturalistTaxa).taxon_photos
+  const source = await getOrCreateSourceInaturalistById(id)
+
+  if (!source) {
+    throw new Error(`No inaturalist source found for taxa ${id}`)
+  }
+
+  const iNatPhotos = (source.json as INaturalistTaxa).taxon_photos
 
   let position = 1
   for (const [indexPhoto, valuePhoto] of iNatPhotos.entries()) {
-    if (position > 10) break // Upload 20 photos per taxa max
+    const MAX_PHOTOS = 10
+    if (position > MAX_PHOTOS) break // Upload 10 photos per taxa max
+
+    console.log(`Processing photo ${indexPhoto + 1} / ${MAX_PHOTOS}`)
 
     const photoUrl = valuePhoto.photo.original_url
     const photoAttribution = valuePhoto.photo.attribution

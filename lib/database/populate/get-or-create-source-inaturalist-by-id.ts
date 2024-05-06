@@ -44,11 +44,7 @@ export const getOrCreateSourceInaturalistById = async (inaturalistId: number) =>
       sourceId: inaturalistId.toString(),
       name: "inaturalist",
       context: "taxa_api",
-      taxa: {
-        connect: {
-          id: inaturalistId,
-        },
-      },
+      taxaId: inaturalistId,
       json: taxaJson.results[0],
     },
   })

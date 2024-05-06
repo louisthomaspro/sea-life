@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation"
 import { taxonomyRankDict } from "@/constants/taxonomy-rank-dict"
+import AddToListTrigger from "@/features/list/components/add-to-list-trigger"
 import { Taxa } from "@prisma/client"
 
 import prisma from "@/lib/prisma"
@@ -21,13 +22,23 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
     },
   })
 
+  const alreadyInList = false
+
   if (!species) notFound()
 
+  // const queryClient = new QueryClient()
+
+  // await queryClient.prefetchQuery({
+  //   queryKey: ["lists"],
+  //   queryFn: getListsAction,
+  // })
+
   return (
+    // <HydrationBoundary state={dehydrate(queryClient)}>
     <div>
       <div className="relative">
         <BackButton />
-        <Carousel className="aspect-[3/2]">
+        <Carousel className="aspect-[3/2] overflow-hidden rounded-b-md">
           <CarouselContent>
             {species.medias.map((media, i) => (
               <CarouselItem key={i}>
@@ -43,6 +54,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
           </CarouselContent>
           <CarouselDots />
         </Carousel>
+        <AddToListTrigger speciesId={Number(params.speciesId)} />
       </div>
       <div className="p-4">
         {species.commonNames.en && (
@@ -75,6 +87,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
         {Taxonomy(species.ancestors)}
       </div>
     </div>
+    // </HydrationBoundary>
   )
 }
 

@@ -144,7 +144,7 @@ model List {
 model ListToSpecies {
   listId Int
   taxaId Int
-  list   List @relation(fields: [listId], references: [id], onDelete: Cascade)
+  list   List @relation(fields: [listId], references: [id])
   taxa   Taxa @relation(fields: [taxaId], references: [id])
 
   updatedAt DateTime @default(now()) @db.Timestamptz(6)

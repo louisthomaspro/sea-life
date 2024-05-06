@@ -248,7 +248,7 @@ const CarouselDots = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
     return (
       <div
         className={cn(
-          "absolute bottom-2 left-1/2 flex max-w-[90%] -translate-x-1/2 justify-center gap-2",
+          "absolute bottom-3 left-1/2 flex max-w-[90%] -translate-x-1/2 justify-center gap-2",
           (api?.scrollSnapList().length ?? 0) > 12 && "gap-1.5",
           className
         )}

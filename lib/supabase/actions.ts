@@ -22,7 +22,7 @@ export const signIn = async (formData: FormData) => {
   })
 
   if (error) {
-    return redirect("/account?message=Could not authenticate user")
+    return redirect(`/account?message=${error.message}`)
   }
 
   return redirect("/")
@@ -41,4 +41,8 @@ export const signUp = async (formData: FormData) => {
       emailRedirectTo: `${origin}/auth/callback`,
     },
   })
+
+  if (error) {
+    return redirect(`/account?message=${error.message}`)
+  }
 }

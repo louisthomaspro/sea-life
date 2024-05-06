@@ -13,11 +13,16 @@ export const getOrCreateTaxaById = async (taxaId: number) => {
     },
     include: {
       ancestors: true,
-      sources: {
-        where: {
-          name: "inaturalist",
-          context: "taxa_api",
-        },
+    },
+  })
+
+  const source = await prisma.source.findUnique({
+    where: {
+      sourceId_name_context_taxaId: {
+        sourceId: taxaId.toString(),
+        name: "inaturalist",
+        context: "taxa_api",
+        taxaId,
       },
     },
   })
@@ -27,13 +32,10 @@ export const getOrCreateTaxaById = async (taxaId: number) => {
   // 2. GET THE INATURALIST SOURCE
 
   // Check if sources is already linked
-  if (taxa?.sources.length === 1) {
+  if (source) {
     // If there is already a source, use it
     console.log(`Taxa ${taxaId} already has sources`)
-    inaturalist = taxa.sources[0].json as INaturalistTaxa
-  } else if ((taxa?.sources.length ?? 0) > 1) {
-    // If there are multiple sources, throw an error
-    throw new Error(`Taxa ${taxaId} has multiple sources`)
+    inaturalist = source.json as INaturalistTaxa
   } else {
     // Get the source data
     console.log(`Taxa ${taxaId} has no sources`)

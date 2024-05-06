@@ -33,7 +33,7 @@ export default function SpeciesCard({ species, className, ...props }: SpeciesCar
               alt={species.commonNames.en?.[0]!}
               sizes="50vw"
               fill
-              className="rounded-xl object-cover"
+              className="rounded-lg object-cover"
             />
           </div>
           <div className="grid p-2">

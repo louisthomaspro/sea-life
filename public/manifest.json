@@ -7,54 +7,38 @@
   "scope": "/",
   "name": "SeaLife: Explore la vie marine",
   "short_name": "SeaLife",
-  "description": "Explorer la vie marine de la Méditerranée, de l'Océan Indien et du Pacifique tropical avec plus de 1000 fiches d'espèces communes ou insolites. Chaque fiche comporte des photos prises dans leur milieu naturel et des informations sur leur comportement, morphologie et habitat. Recherchez facilement une espèce en utilisant son nom commun ou scientifique. Utilisez les filtres pour retrouver une espèces en fonction de sa couleur, sa forme ou son habitat. Téléchargez notre application maintenant pour une expérience de découverte marine inoubliable !",
+  "description": "Explorer la vie marine de la Méditerranée, de l'Océan Indien et du Pacifique tropical avec plus de 1000 fiches d'espèces communes ou insolites!",
   "dir": "ltr",
-  "lang": "fr",
+  "lang": "en",
   "categories": ["education"],
-  "shortcuts": [
-    {
-      "name": "Explore",
-      "url": "/explore",
-      "icons": [
-        {
-          "src": "/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    }
-  ],
   "screenshots": [
     {
-      "src": "/screenshot/1.jpg",
+      "src": "/screenshots/mobile-1.jpg",
       "sizes": "1080x2280",
       "type": "image/jpg"
     },
     {
-      "src": "/screenshot/2.jpg",
+      "src": "/screenshots/mobile-2.jpg",
       "sizes": "1080x2280",
       "type": "image/jpg"
     },
     {
-      "src": "/screenshot/3.jpg",
+      "src": "/screenshots/mobile-3.jpg",
       "sizes": "1080x2280",
       "type": "image/jpg"
     },
     {
-      "src": "/screenshot/4.jpg",
+      "src": "/screenshots/mobile-4.jpg",
       "sizes": "1080x2280",
       "type": "image/jpg"
     },
     {
-      "src": "/screenshot/5.jpg",
-      "sizes": "1080x2280",
-      "type": "image/jpg"
-    },
-    {
-      "src": "/screenshot/6.jpg",
-      "sizes": "1080x2280",
-      "type": "image/jpg"
-    }
+      "src": "/screenshots/richer.jpg",
+       "sizes": "640x320",
+       "type": "image/jpg",
+       "form_factor": "wide",
+       "label": "SeaLife"
+     }
   ],
   "icons": [
     {

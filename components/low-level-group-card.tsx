@@ -52,7 +52,7 @@ async function SpeciesList({ group }: { group: groupWithHighlightedSpecies }) {
             key={index}
             href={`/species/${species.id}`}
             className={cn(
-              "relative inline-block aspect-[3/2] w-28 overflow-hidden rounded-lg",
+              "relative inline-block aspect-[3/2] w-28",
               "transition-transform hover:scale-[99%] active:scale-[98%]",
               group.speciesCount <= 5 && index === group.speciesCount - 1 && "!mr-4",
               index === 0 && "!ml-4"
@@ -63,7 +63,7 @@ async function SpeciesList({ group }: { group: groupWithHighlightedSpecies }) {
               alt={species.commonNames.en?.[0]!}
               fill
               sizes="150px"
-              className="object-cover"
+              className="rounded-lg object-cover"
             />
           </Link>
         ))}

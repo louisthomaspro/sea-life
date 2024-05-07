@@ -28,8 +28,20 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
     <div>
       <div className="relative">
         <BackButton />
+        <AddToListTrigger speciesId={Number(params.speciesId)} />
         <Carousel className="aspect-[3/2] overflow-hidden rounded-b-md">
           <CarouselContent>
+            {species.medias.length === 0 && (
+              <CarouselItem>
+                <ImageLoader
+                  src={null}
+                  width={200}
+                  height={200}
+                  alt="ads"
+                  className="h-full w-full rounded-b-md object-cover"
+                />
+              </CarouselItem>
+            )}
             {species.medias.map((media, i) => (
               <CarouselItem key={i}>
                 <ImageLoader
@@ -37,7 +49,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
                   width={200}
                   height={200}
                   alt="ads"
-                  className="h-full w-full object-cover"
+                  className="h-full w-full rounded-b-md object-cover"
                   priority={i === 0}
                 />
               </CarouselItem>
@@ -45,7 +57,6 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
           </CarouselContent>
           <CarouselDots />
         </Carousel>
-        <AddToListTrigger speciesId={Number(params.speciesId)} />
       </div>
       <div className="p-4">
         {species.commonNames.en && (

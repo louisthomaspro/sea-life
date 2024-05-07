@@ -4,7 +4,6 @@ const withPWA = require("@ducanh2912/next-pwa").default({
   aggressiveFrontEndNavCaching: false,
   reloadOnOnline: true,
   swcMinify: true,
-  // disable: process.env.NODE_ENV === "development",
   workboxOptions: {
     disableDevLogs: true,
   },
@@ -34,6 +33,8 @@ let nextConfig = {
   },
 }
 
-nextConfig = withPWA(nextConfig)
+if (process.env.VERCEL_ENV === "production") {
+  nextConfig = withPWA(nextConfig)
+}
 
 module.exports = nextConfig

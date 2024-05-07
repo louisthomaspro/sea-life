@@ -32,7 +32,7 @@ export default function HighLevelGroupCard({ group, className, ...props }: HighL
             <div className="grid grid-cols-2 gap-0.5">
               {Array.from({ length: 4 }).map((_, index) => (
                 <div key={index} className="relative aspect-[3/2] overflow-hidden rounded-sm">
-                  {group.highlightedSpecies[index] ? (
+                  {group.highlightedSpecies[index] && (
                     <ImageLoader
                       src={group.highlightedSpecies[index].medias[0]?.url}
                       alt={group.highlightedSpecies[index].commonNames.en?.[0]!}
@@ -40,8 +40,6 @@ export default function HighLevelGroupCard({ group, className, ...props }: HighL
                       sizes="25vw"
                       className="object-cover"
                     />
-                  ) : (
-                    <ImageLoader src="/placeholder.jpg" sizes="25vw" alt="placeholder" fill className="object-cover" />
                   )}
                 </div>
               ))}

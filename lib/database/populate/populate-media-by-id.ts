@@ -19,6 +19,11 @@ export const populateMediaById = async (id: number) => {
     throw new Error(`No taxa found for id ${id}`)
   }
 
+  if (taxaData.medias.length >= 10) {
+    console.log(`Taxa ${id} already has 10 photos, skipping`)
+    return taxaData
+  }
+
   const source = await getOrCreateSourceInaturalistById(id)
 
   if (!source) {
@@ -27,10 +32,14 @@ export const populateMediaById = async (id: number) => {
 
   const iNatPhotos = (source.json as INaturalistTaxa).taxon_photos
 
-  let position = 1
+  if (iNatPhotos.length === taxaData.medias.length) {
+    console.log(`No new photos for ${taxaData.id}`)
+    return taxaData
+  }
+
   for (const [indexPhoto, valuePhoto] of iNatPhotos.entries()) {
     const MAX_PHOTOS = 10
-    if (position > MAX_PHOTOS) break // Upload 10 photos per taxa max
+    if (indexPhoto + 1 > MAX_PHOTOS) break // Upload 10 photos per taxa max
 
     console.log(`Processing photo ${indexPhoto + 1} / ${MAX_PHOTOS}`)
 
@@ -47,14 +56,27 @@ export const populateMediaById = async (id: number) => {
       }
     }
     if (mediaExists) {
-      position++
       continue
     }
 
     // Fetch photo
-    const response = await fetch(photoUrl, {
-      cache: "no-store",
-    })
+    async function fetchWithRetry(url: string, maxRetries = 3, retryDelay = 1000) {
+      let attempt = 0
+      while (attempt < maxRetries) {
+        try {
+          const response = await fetch(url, { cache: "no-store" })
+          return response
+        } catch (error) {
+          console.error(`Fetch failed: ${error}, ${url}`)
+          console.log(`Retrying in ${retryDelay} milliseconds...`)
+          await new Promise((resolve) => setTimeout(resolve, retryDelay))
+          attempt++
+        }
+      }
+      throw new Error(`Failed to fetch after ${maxRetries} attempts`)
+    }
+
+    const response = await fetchWithRetry(photoUrl)
 
     if (!response.ok) {
       console.log(`Failed to fetch photo for ${taxaData.id} - ${photoUrl}`)
@@ -78,10 +100,9 @@ export const populateMediaById = async (id: number) => {
         attribution: photoAttribution,
         taxaId: taxaData.id,
         type: "image",
-        position: position,
+        position: indexPhoto + 1,
       },
     })
-    position++
   }
 
   // Refetch the new medias

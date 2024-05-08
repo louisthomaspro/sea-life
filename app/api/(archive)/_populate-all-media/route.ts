@@ -1,4 +1,3 @@
-import { populateMediaById } from "@/lib/database/populate/populate-media-by-id"
 import prisma from "@/lib/prisma"
 
 export async function GET(request: Request) {

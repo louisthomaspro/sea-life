@@ -24,6 +24,13 @@ let nextConfig = {
       },
     },
   },
+  webpack(config, { isServer }) {
+    config.module.rules.push({
+      test: /\.svg$/i,
+      use: ["@svgr/webpack"],
+    })
+    return config
+  },
   logging: {
     fetches: {
       fullUrl: true,

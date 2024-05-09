@@ -14,6 +14,16 @@ let nextConfig = {
   // experimental: {
   //   ppr: true,
   // },
+  experimental: {
+    turbo: {
+      rules: {
+        "*.svg": {
+          loaders: ["@svgr/webpack"],
+          as: "*.js", // temporary workaround for https://github.com/vercel/turbo/issues/4832
+        },
+      },
+    },
+  },
   logging: {
     fetches: {
       fullUrl: true,

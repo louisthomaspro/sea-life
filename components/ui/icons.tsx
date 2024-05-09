@@ -1,3 +1,5 @@
+import { SVGProps } from "react"
+import GoogleLogo from "@/public/svg/google-logo.svg"
 import {
   Bookmark,
   BookmarkCheck,
@@ -14,6 +16,8 @@ import {
   X,
 } from "lucide-react"
 
+type Icon = Partial<SVGProps<SVGSVGElement>>
+
 export const Icons = {
   spinner: (props: LucideProps) => <LoaderIcon {...props} className="animate-spin" />,
   search: (props: LucideProps) => <Search {...props} />,
@@ -28,4 +32,5 @@ export const Icons = {
   delete: (props: LucideProps) => <Trash {...props} />,
   check: (props: LucideProps) => <CheckCircle2 {...props} />,
   edit: (props: LucideProps) => <Pencil {...props} />,
+  google: (props: Icon) => <GoogleLogo {...props} />,
 }

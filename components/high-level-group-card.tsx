@@ -39,6 +39,7 @@ export default function HighLevelGroupCard({ group, className, ...props }: HighL
                       fill
                       sizes="25vw"
                       className="object-cover"
+                      priority
                     />
                   )}
                 </div>

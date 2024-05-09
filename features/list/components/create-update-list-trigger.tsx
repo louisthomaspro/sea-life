@@ -50,7 +50,7 @@ interface CreateListDrawerContentProps {
   list?: any
 }
 
-export const CreateListDrawerContent = ({ action, list }: CreateListDrawerContentProps) => {
+export default function CreateListDrawerContent({ action, list }: CreateListDrawerContentProps) {
   const [isPending, startTransition] = useTransition()
   const queryClient = useQueryClient()
   const router = useRouter()

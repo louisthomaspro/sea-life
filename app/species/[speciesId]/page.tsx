@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation"
 import { taxonomyRankDict } from "@/constants/taxonomy-rank-dict"
-import AddToListTrigger from "@/features/list/components/add-to-list-trigger"
+import { AddToListTrigger } from "@/features/list/components/add-to-list-trigger"
 import { Taxa } from "@prisma/client"
 
 import prisma from "@/lib/prisma"

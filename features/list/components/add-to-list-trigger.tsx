@@ -1,7 +1,6 @@
 "use client"
 
 import { useTransition } from "react"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
@@ -13,12 +12,13 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { DrawerClose, DrawerContent, DrawerFooter } from "@/components/ui/drawer"
 import { Icons } from "@/components/ui/icons"
+import { GoogleSignInButton } from "@/components/auth/google-signin-button"
 
 interface AddToListTriggerProps {
   speciesId: number
 }
 
-export default function AddToListTrigger({ speciesId }: AddToListTriggerProps) {
+export const AddToListTrigger = ({ speciesId }: AddToListTriggerProps) => {
   const { user } = useAuth()
   let { data: lists } = useQuery({
     queryKey: [`add-to-list-${speciesId}`],
@@ -37,13 +37,7 @@ export default function AddToListTrigger({ speciesId }: AddToListTriggerProps) {
       onClick={() => {
         if (!user) {
           toast("Please sign in to add to a list", {
-            action: (
-              <Link href={"/account"} className="ml-auto">
-                <Button size={"sm"} onClick={() => toast.dismiss()}>
-                  Login
-                </Button>
-              </Link>
-            ),
+            action: <GoogleSignInButton className="ml-auto" onClick={() => toast.dismiss()} />,
           })
         } else {
           pushModal("AddToListDrawer", { speciesId })
@@ -59,7 +53,7 @@ interface AddToListDrawerContentProps {
   speciesId: number
 }
 
-export const AddToListDrawerContent = ({ speciesId }: AddToListDrawerContentProps) => {
+export default function AddToListDrawerContent({ speciesId }: AddToListDrawerContentProps) {
   let { data: lists, isLoading } = useQuery({
     queryKey: [`add-to-list-${speciesId}`],
     queryFn: async () => getListsAction(speciesId),

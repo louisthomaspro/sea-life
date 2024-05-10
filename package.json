@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -38,7 +38,7 @@
     "lodash": "^4.17.21",
     "lucide-react": "^0.365.0",
     "mime": "^4.0.1",
-    "next": "^14.2.3",
+    "next": "14.3.0-canary.53",
     "next-themes": "^0.3.0",
     "nextjs-toploader": "^1.6.12",
     "openai-edge": "^1.2.2",

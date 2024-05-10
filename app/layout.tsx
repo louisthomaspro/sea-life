@@ -20,7 +20,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={cn("h-dvh pb-16 font-sans", fontSans.variable)} suppressHydrationWarning>
+      <body className={cn("min-h-dvh pb-16 font-sans", fontSans.variable)} suppressHydrationWarning>
         <Providers>
           <div className="mx-auto max-w-md">{children}</div>
           <BottomNavigation />

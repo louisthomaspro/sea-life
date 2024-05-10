@@ -1,5 +1,6 @@
 // inport json backup.json
 import jsonBackup from "@/backups/firestore-backup-species.json"
+import { AttributeEnum } from "@prisma/client"
 
 import prisma from "@/lib/prisma"
 
@@ -9,67 +10,67 @@ export async function GET(request: Request) {
   // Create or update attributes
   const attributes = [
     {
-      id: "rarity",
+      id: AttributeEnum.rarity,
       definition: `The rarity of a species in the wild. Values: ["uncommon","abundant","common","rare"]`,
       valueType: "string",
     },
     {
-      id: "primary_habitats",
+      id: AttributeEnum.primary_habitats,
       definition: `The primary habitats of a species. Values: ["reef","open_sea","sandy_muddy_seafloor","seafloor","seagrass_algae","sandy_seafloor","terrestrial","coastal_zone","sandy_silty_seafloor","stagnant_water","beach"]`,
       valueType: "string[]",
     },
     {
-      id: "secondary_habitats",
+      id: AttributeEnum.secondary_habitats,
       definition: `The secondary habitats of a species. Values: ["sheltered_zone","current","cavity_crevices","overhanging","surface","corals"]`,
       valueType: "string[]",
     },
     {
-      id: "depth_min",
+      id: AttributeEnum.depth_min,
       definition: `The minimum depth of a species in meters.`,
       valueType: "number",
     },
     {
-      id: "depth_max",
+      id: AttributeEnum.depth_max,
       definition: `The maximum depth of a species in meters.`,
       valueType: "number",
     },
     {
-      id: "regions",
+      id: AttributeEnum.regions,
       definition: `The regions where a species can be found. Values: ["indian-ocean","tropical-pacific","mediterranean-sea","temperate-atlantic","tropical-atlantic"]`,
       valueType: "string[]",
     },
     {
-      id: "sociability",
+      id: AttributeEnum.sociability,
       definition: `The sociability of a species. Values: ["solitary","group","schooling","couple"]`,
       valueType: "string",
     },
     {
-      id: "max_length",
+      id: AttributeEnum.max_length,
       definition: `The maximum length of a species in centimeters.`,
       valueType: "number",
     },
     {
-      id: "common_length",
+      id: AttributeEnum.common_length,
       definition: `The common length of a species in centimeters.`,
       valueType: "number",
     },
     {
-      id: "common_plume_diameter",
+      id: AttributeEnum.common_plume_diameter,
       definition: `The common plume diameter of a species in centimeters.`,
       valueType: "number",
     },
     {
-      id: "max_colony_size",
+      id: AttributeEnum.max_colony_size,
       definition: `The maximum colony size of a species in centimeters.`,
       valueType: "number",
     },
     {
-      id: "max_polyp_diameter",
+      id: AttributeEnum.max_polyp_diameter,
       definition: `The maximum polyp diameter of a species in centimeters.`,
       valueType: "number",
     },
     {
-      id: "common_diameter",
+      id: AttributeEnum.common_diameter,
       definition: `The common diameter of a species in centimeters.`,
       valueType: "number",
     },
@@ -77,7 +78,7 @@ export async function GET(request: Request) {
 
   for (const attribute of attributes) {
     await prisma.attributeDefinition.upsert({
-      where: { id: attribute.id },
+      where: { id: attribute.id as AttributeEnum },
       update: {
         definition: attribute.definition,
         valueType: attribute.valueType,
@@ -104,12 +105,12 @@ export async function GET(request: Request) {
               ? [
                   {
                     create: {
-                      attributeDefinition: { connect: { id: "rarity" } },
+                      attributeDefinition: { connect: { id: AttributeEnum.rarity } },
                       value: speciesInfo.rarity,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
-                        attributeDefinitionId: "rarity",
+                        attributeDefinitionId: AttributeEnum.rarity,
                         taxaId: Number(speciesInfo.external_ids.inaturalist),
                       },
                     },
@@ -120,12 +121,12 @@ export async function GET(request: Request) {
               ? [
                   {
                     create: {
-                      attributeDefinition: { connect: { id: "regions" } },
+                      attributeDefinition: { connect: { id: AttributeEnum.regions } },
                       value: speciesInfo.regions,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
-                        attributeDefinitionId: "regions",
+                        attributeDefinitionId: AttributeEnum.regions,
                         taxaId: Number(speciesInfo.external_ids.inaturalist),
                       },
                     },
@@ -136,12 +137,12 @@ export async function GET(request: Request) {
               ? [
                   {
                     create: {
-                      attributeDefinition: { connect: { id: "primary_habitats" } },
+                      attributeDefinition: { connect: { id: AttributeEnum.primary_habitats } },
                       value: speciesInfo.habitats_1,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
-                        attributeDefinitionId: "primary_habitats",
+                        attributeDefinitionId: AttributeEnum.primary_habitats,
                         taxaId: Number(speciesInfo.external_ids.inaturalist),
                       },
                     },
@@ -152,12 +153,12 @@ export async function GET(request: Request) {
               ? [
                   {
                     create: {
-                      attributeDefinition: { connect: { id: "secondary_habitats" } },
+                      attributeDefinition: { connect: { id: AttributeEnum.secondary_habitats } },
                       value: speciesInfo.habitats_2,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
-                        attributeDefinitionId: "secondary_habitats",
+                        attributeDefinitionId: AttributeEnum.secondary_habitats,
                         taxaId: Number(speciesInfo.external_ids.inaturalist),
                       },
                     },
@@ -168,12 +169,12 @@ export async function GET(request: Request) {
               ? [
                   {
                     create: {
-                      attributeDefinition: { connect: { id: "depth_min" } },
+                      attributeDefinition: { connect: { id: AttributeEnum.depth_min } },
                       value: speciesInfo.depth_min,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
-                        attributeDefinitionId: "depth_min",
+                        attributeDefinitionId: AttributeEnum.depth_min,
                         taxaId: Number(speciesInfo.external_ids.inaturalist),
                       },
                     },
@@ -184,12 +185,12 @@ export async function GET(request: Request) {
               ? [
                   {
                     create: {
-                      attributeDefinition: { connect: { id: "depth_max" } },
+                      attributeDefinition: { connect: { id: AttributeEnum.depth_max } },
                       value: speciesInfo.depth_max,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
-                        attributeDefinitionId: "depth_max",
+                        attributeDefinitionId: AttributeEnum.depth_max,
                         taxaId: Number(speciesInfo.external_ids.inaturalist),
                       },
                     },
@@ -200,12 +201,12 @@ export async function GET(request: Request) {
               ? [
                   {
                     create: {
-                      attributeDefinition: { connect: { id: "sociability" } },
+                      attributeDefinition: { connect: { id: AttributeEnum.sociability } },
                       value: speciesInfo.sociability,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
-                        attributeDefinitionId: "sociability",
+                        attributeDefinitionId: AttributeEnum.sociability,
                         taxaId: Number(speciesInfo.external_ids.inaturalist),
                       },
                     },
@@ -216,12 +217,12 @@ export async function GET(request: Request) {
               ? [
                   {
                     create: {
-                      attributeDefinition: { connect: { id: "max_length" } },
+                      attributeDefinition: { connect: { id: AttributeEnum.max_length } },
                       value: speciesInfo.max_length,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
-                        attributeDefinitionId: "max_length",
+                        attributeDefinitionId: AttributeEnum.max_length,
                         taxaId: Number(speciesInfo.external_ids.inaturalist),
                       },
                     },
@@ -232,12 +233,12 @@ export async function GET(request: Request) {
               ? [
                   {
                     create: {
-                      attributeDefinition: { connect: { id: "common_length" } },
+                      attributeDefinition: { connect: { id: AttributeEnum.common_length } },
                       value: speciesInfo.common_length,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
-                        attributeDefinitionId: "common_length",
+                        attributeDefinitionId: AttributeEnum.common_length,
                         taxaId: Number(speciesInfo.external_ids.inaturalist),
                       },
                     },
@@ -248,12 +249,12 @@ export async function GET(request: Request) {
               ? [
                   {
                     create: {
-                      attributeDefinition: { connect: { id: "common_plume_diameter" } },
+                      attributeDefinition: { connect: { id: AttributeEnum.common_plume_diameter } },
                       value: speciesInfo.common_plume_diameter,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
-                        attributeDefinitionId: "common_plume_diameter",
+                        attributeDefinitionId: AttributeEnum.common_plume_diameter,
                         taxaId: Number(speciesInfo.external_ids.inaturalist),
                       },
                     },
@@ -264,12 +265,12 @@ export async function GET(request: Request) {
               ? [
                   {
                     create: {
-                      attributeDefinition: { connect: { id: "max_colony_size" } },
+                      attributeDefinition: { connect: { id: AttributeEnum.max_colony_size } },
                       value: speciesInfo.max_colony_size,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
-                        attributeDefinitionId: "max_colony_size",
+                        attributeDefinitionId: AttributeEnum.max_colony_size,
                         taxaId: Number(speciesInfo.external_ids.inaturalist),
                       },
                     },
@@ -280,12 +281,12 @@ export async function GET(request: Request) {
               ? [
                   {
                     create: {
-                      attributeDefinition: { connect: { id: "max_polyp_diameter" } },
+                      attributeDefinition: { connect: { id: AttributeEnum.max_polyp_diameter } },
                       value: speciesInfo.max_polyp_diameter,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
-                        attributeDefinitionId: "max_polyp_diameter",
+                        attributeDefinitionId: AttributeEnum.max_polyp_diameter,
                         taxaId: Number(speciesInfo.external_ids.inaturalist),
                       },
                     },
@@ -296,12 +297,12 @@ export async function GET(request: Request) {
               ? [
                   {
                     create: {
-                      attributeDefinition: { connect: { id: "common_diameter" } },
+                      attributeDefinition: { connect: { id: AttributeEnum.common_diameter } },
                       value: speciesInfo.common_diameter,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
-                        attributeDefinitionId: "common_diameter",
+                        attributeDefinitionId: AttributeEnum.common_diameter,
                         taxaId: Number(speciesInfo.external_ids.inaturalist),
                       },
                     },
@@ -312,12 +313,12 @@ export async function GET(request: Request) {
               ? [
                   {
                     create: {
-                      attributeDefinition: { connect: { id: "common_diameter" } },
+                      attributeDefinition: { connect: { id: AttributeEnum.common_diameter } },
                       value: speciesInfo.common_diameter,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
-                        attributeDefinitionId: "common_diameter",
+                        attributeDefinitionId: AttributeEnum.common_diameter,
                         taxaId: Number(speciesInfo.external_ids.inaturalist),
                       },
                     },

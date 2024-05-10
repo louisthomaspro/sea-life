@@ -13,14 +13,14 @@ datasource db {
   extensions = [uuid_ossp(map: "uuid-ossp", schema: "extensions"), vector]
 }
 
-enum Role {
+enum RoleEnum {
   admin
   user
 }
 
 model Profile {
-  id    String @id @db.Uuid
-  role  Role   @default(user)
+  id    String   @id @db.Uuid
+  role  RoleEnum @default(user)
   lists List[]
 }
 
@@ -103,10 +103,26 @@ model Group {
   updatedAt DateTime @default(now()) @db.Timestamptz(6)
 }
 
+enum AttributeEnum {
+  rarity
+  primary_habitats
+  secondary_habitats
+  depth_min
+  depth_max
+  regions
+  sociability
+  max_length
+  common_length
+  common_plume_diameter
+  max_colony_size
+  max_polyp_diameter
+  common_diameter
+}
+
 model Attribute {
-  id                    Int    @id @default(autoincrement())
+  id                    Int           @id @default(autoincrement())
   taxaId                Int
-  attributeDefinitionId String
+  attributeDefinitionId AttributeEnum
 
   /// [Any] 
   value Json
@@ -121,7 +137,7 @@ model Attribute {
 }
 
 model AttributeDefinition {
-  id               String      @id
+  id               AttributeEnum @id
   definition       String
   valueType        String // string, number, boolean, integer[], string[]...
   SpeciesAttribute Attribute[]

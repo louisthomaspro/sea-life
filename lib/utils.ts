@@ -5,9 +5,13 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+// Capitalize words by splitting the string into words and capitalizing the first letter of each word. and the other letter should be smallcase!
 export function capitalizeWords(str: string): string {
   if (!str) return str
-  return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  return str
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ")
 }
 
 export const awsLoader = ({ src, width, quality }: { src: string; width?: number; quality?: number }) => {

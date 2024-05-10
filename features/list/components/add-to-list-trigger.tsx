@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
-import { popModal, pushModal, replaceWithModal } from "@/lib/pushmodal"
+import { popModal, pushModal, replaceWithModal } from "@/lib/pushmodal/pushmodal"
 import { addToListAction, deleteFromListAction, getListsAction } from "@/lib/services/lists-actions"
 import { useAuth } from "@/lib/supabase/auth-provider"
 import { cn } from "@/lib/utils"

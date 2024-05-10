@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
-import { popModal, pushModal } from "@/lib/pushmodal"
+import { popModal, pushModal } from "@/lib/pushmodal/pushmodal"
 import { createListAction, updateListAction } from "@/lib/services/lists-actions"
 import { Button } from "@/components/ui/button"
 import { DrawerClose, DrawerContent, DrawerFooter } from "@/components/ui/drawer"

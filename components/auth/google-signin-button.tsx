@@ -1,6 +1,6 @@
 "use client"
 
-import { useParams, usePathname, useSearchParams } from "next/navigation"
+import { usePathname } from "next/navigation"
 
 import { signInWithProvider } from "@/lib/supabase/actions"
 import { Button } from "@/components/ui/button"

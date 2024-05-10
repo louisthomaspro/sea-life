@@ -43,7 +43,7 @@ export default function ListsListing() {
                         />
                       ) : (
                         <ImageLoader
-                          src="/placeholder.jpg"
+                          src="/img/fallback.jpg"
                           sizes="25vw"
                           alt="placeholder"
                           fill

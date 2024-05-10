@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { Session, User } from "@supabase/supabase-js"
 
 import { createClient } from "@/lib/supabase/client"
+import { Icons } from "@/components/ui/icons"
 
 const AuthContext = createContext<{
   session: Session | null | undefined
@@ -50,7 +51,17 @@ export const AuthProvider = ({ children }: any) => {
   }
 
   // use a provider to pass down the value
-  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={value}>
+      {loading ? (
+        <div className="flex h-full items-center justify-center">
+          <Icons.spinner className="size-4" />
+        </div>
+      ) : (
+        children
+      )}
+    </AuthContext.Provider>
+  )
 }
 
 // export the useAuth hook

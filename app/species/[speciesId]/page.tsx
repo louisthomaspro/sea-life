@@ -58,7 +58,8 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
           <CarouselDots />
         </Carousel>
       </div>
-      <div className="p-4">
+      {/* Title */}
+      <div className="p-3">
         {species.commonNames.en && (
           <h1 className="flex items-center gap-2 text-lg font-bold">
             <Flag className="flex-none" countryCode="uk" />
@@ -73,6 +74,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
         )}
         <p className="text-gray-600">{capitalizeWords(species.scientificName)}</p>
       </div>
+      {/* Attributes */}
       <div className="px-4 pb-4">
         <h2 className="text-lg font-bold">ATTRIBUTES</h2>
         <div>
@@ -84,6 +86,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
           ))}
         </div>
       </div>
+      {/* Taxonomy */}
       <div className="px-4 pb-4">
         <h2 className="text-lg font-bold">TAXONOMY</h2>
         {Taxonomy(species.ancestors)}

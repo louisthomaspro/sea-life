@@ -15,7 +15,7 @@ export function Providers(props: { children: React.ReactNode }) {
       <ReactQueryProviders>
         <ReactQueryStreamedHydration>
           {props.children}
-          <Toaster position="top-center" />
+          <Toaster position="bottom-center" />
           <ModalProvider />
           <ModalProviderNavigationAutoClose />
           <ReactQueryDevtools initialIsOpen={false} />

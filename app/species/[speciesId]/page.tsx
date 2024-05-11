@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation"
 import { habitatsDict } from "@/constants/habitats_dict"
+import { rarityDict } from "@/constants/rarity_dict"
 import { regionsDict } from "@/constants/regions_dict"
 import { sociabilityDict } from "@/constants/sociability_dict"
 import { taxonomyRankDict } from "@/constants/taxonomy-rank-dict"
@@ -75,43 +76,44 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
           <CarouselDots />
         </Carousel>
       </div>
-      {/* Title */}
-      <div className="p-3">
-        {species.commonNames.en && (
-          <h1 className="flex items-center gap-2 text-lg font-semibold">
-            <Flag className="flex-none" countryCode="uk" />
-            <span className="truncate">{capitalizeWords(species.commonNames.en[0])}</span>
-          </h1>
-        )}
-        {species.commonNames.fr && (
-          <h1 className="flex items-center gap-2 text-lg font-semibold">
-            <Flag className="flex-none" countryCode="fr" />
-            <span className="truncate">{capitalizeWords(species.commonNames.fr[0])}</span>
-          </h1>
-        )}
-        <p className="text-gray-600">{capitalizeWords(species.scientificName)}</p>
-      </div>
-      <HighlightAttributes className="m-3">
-        {attributesMap.max_length?.value && (
+      <div className="container">
+        {/* Title */}
+        <div className="py-3">
+          {species.commonNames.en && (
+            <h1 className="flex items-center gap-2 text-lg font-semibold">
+              <Flag className="flex-none" countryCode="uk" />
+              <span className="truncate">{capitalizeWords(species.commonNames.en[0])}</span>
+            </h1>
+          )}
+          {species.commonNames.fr && (
+            <h1 className="flex items-center gap-2 text-lg font-semibold">
+              <Flag className="flex-none" countryCode="fr" />
+              <span className="truncate">{capitalizeWords(species.commonNames.fr[0])}</span>
+            </h1>
+          )}
+          <p className="text-gray-600">{capitalizeWords(species.scientificName)}</p>
+        </div>
+        <HighlightAttributes>
+          {attributesMap.max_length?.value && (
+            <Attribute>
+              <Icons.maxLength className="size-6" />
+              <span>
+                {"<"} {attributesMap.max_length?.value} cm
+              </span>
+            </Attribute>
+          )}
           <Attribute>
-            <Icons.maxLength className="size-6" />
+            <Icons.depth className="size-6" />
             <span>
-              {"<"} {attributesMap.max_length?.value} cm
+              {attributesMap.depth_min?.value ?? 0} - {attributesMap.depth_max?.value} m
             </span>
           </Attribute>
-        )}
-        <Attribute>
-          <Icons.depth className="size-6" />
-          <span>
-            {attributesMap.depth_min?.value ?? 0} - {attributesMap.depth_max?.value} m
-          </span>
-        </Attribute>
-        <Attribute>
-          <Icons.rarity className="size-6" />
-          <span>{attributesMap.rarity?.value}</span>
-        </Attribute>
-      </HighlightAttributes>
-      {/* <Section>
+          <Attribute>
+            <Icons.rarity className="size-6" />
+            <span>{rarityDict[attributesMap.rarity?.value].name.en}</span>
+          </Attribute>
+        </HighlightAttributes>
+        {/* <Section>
         <SectionTitle>Test</SectionTitle>
         <SectionContent>
           {species.attributes.map((attribute) => (
@@ -121,47 +123,48 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
           ))}
         </SectionContent>
       </Section> */}
-      {/* Attributes */}
-      <Section>
-        <SectionTitle>Environment</SectionTitle>
-        <SectionContent>
-          <div className="flex items-center gap-2">
-            <Icons.habitat className="size-5" />
-            <div className="flex flex-col">
+        {/* Attributes */}
+        <Section>
+          <SectionTitle>Environment</SectionTitle>
+          <SectionContent>
+            <div className="flex items-center gap-2">
+              <Icons.habitat className="size-5" />
+              <div className="flex flex-col">
+                <div className="font-medium">
+                  {attributesMap.primary_habitats?.value
+                    .map((habitat: string) => habitatsDict[habitat].title.en)
+                    .join(", ")}
+                </div>
+                <div className="text-muted-foreground">
+                  {attributesMap.secondary_habitats?.value
+                    .map((habitat: string) => habitatsDict[habitat].title.en)
+                    .join(", ")}
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Icons.region className="size-5" />
               <div className="font-medium">
-                {attributesMap.primary_habitats?.value
-                  .map((habitat: string) => habitatsDict[habitat].title.en)
-                  .join(", ")}
-              </div>
-              <div className="text-muted-foreground">
-                {attributesMap.secondary_habitats?.value
-                  .map((habitat: string) => habitatsDict[habitat].title.en)
-                  .join(", ")}
+                {attributesMap.regions?.value.map((region: string) => regionsDict[region].name.en).join(", ")}
               </div>
             </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Icons.region className="size-5" />
-            <div className="font-medium">
-              {attributesMap.regions?.value.map((region: string) => regionsDict[region].name.en).join(", ")}
+          </SectionContent>
+        </Section>
+        <Section>
+          <SectionTitle>Lifestyle and behavior</SectionTitle>
+          <SectionContent>
+            <div className="flex items-center gap-2">
+              <Icons.sociability className="size-5" />
+              <div className="font-medium">{sociabilityDict[attributesMap.sociability?.value].name.en}</div>
             </div>
-          </div>
-        </SectionContent>
-      </Section>
-      <Section>
-        <SectionTitle>Lifestyle and behavior</SectionTitle>
-        <SectionContent>
-          <div className="flex items-center gap-2">
-            <Icons.sociability className="size-5" />
-            <div className="font-medium">{sociabilityDict[attributesMap.sociability?.value].name.en}</div>
-          </div>
-        </SectionContent>
-      </Section>
-      {/* Taxonomy */}
-      <Section>
-        <SectionTitle>Taxonomy</SectionTitle>
-        {Taxonomy(species.ancestors)}
-      </Section>
+          </SectionContent>
+        </Section>
+        {/* Taxonomy */}
+        <Section>
+          <SectionTitle>Taxonomy</SectionTitle>
+          {Taxonomy(species.ancestors)}
+        </Section>
+      </div>
     </div>
   )
 }

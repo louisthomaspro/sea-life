@@ -31,7 +31,7 @@ export default async function Account() {
       <Separator className="mb-2" />
       <div className="grid">
         <Link href="/lists" className="flex items-center gap-4 rounded-md px-5 py-4 hover:bg-gray-100">
-          <Icons.bookmark className="h-5 w-5" />
+          <Icons.list className="size-5" />
           <div className="grid gap-1">
             <p className="text-sm font-medium leading-none">Lists</p>
           </div>

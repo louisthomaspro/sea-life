@@ -45,9 +45,9 @@ export const AddToListTrigger = ({ speciesId }: AddToListTriggerProps) => {
       }}
     >
       {isAlreadyInList ? (
-        <Icons.bookmarkAdded className="size-4 text-sealife" />
+        <Icons.bookmarkAdded className="size-5 text-sealife" />
       ) : (
-        <Icons.bookmark className="size-4" />
+        <Icons.bookmark className="size-5" />
       )}
     </Button>
   )

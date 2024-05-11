@@ -18,7 +18,7 @@ export default function BackButton() {
         else router.push("/")
       }}
     >
-      <Icons.chevronLeft className="size-4" />
+      <Icons.chevronLeft className="size-5" />
     </Button>
   )
 }

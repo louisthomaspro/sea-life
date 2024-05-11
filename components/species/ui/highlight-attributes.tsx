@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils"
 
 export const HighlightAttributes = ({ className, ...props }: any) => (
-  <div className={cn("flex items-center justify-center rounded-lg bg-blue-50 p-3", className)} {...props} />
+  <div className={cn("flex items-center justify-center rounded-[26px] bg-blue-50 p-3", className)} {...props} />
 )
 
 export const Attribute = ({ className, ...props }: any) => (

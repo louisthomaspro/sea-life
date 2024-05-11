@@ -39,7 +39,7 @@ export default async function ListDetailsPage({ params }: { params: { listId: st
       <div className={cn("mb-6 grid grid-cols-[1fr_auto_1fr] items-center gap-2")}>
         <Link href={"/lists"}>
           <Button variant="outline" size="icon">
-            <Icons.chevronLeft className="size-4" />
+            <Icons.chevronLeft className="size-5" />
           </Button>
         </Link>
         <h1 className="text-center text-3xl font-bold tracking-tighter">{list.name}</h1>

@@ -1,4 +1,7 @@
 import { notFound } from "next/navigation"
+import { habitatsDict } from "@/constants/habitats_dict"
+import { regionsDict } from "@/constants/regions_dict"
+import { sociabilityDict } from "@/constants/sociability_dict"
 import { taxonomyRankDict } from "@/constants/taxonomy-rank-dict"
 import { AddToListTrigger } from "@/features/list/components/add-to-list-trigger"
 import { AttributeEnum, Prisma, Taxa } from "@prisma/client"
@@ -10,7 +13,7 @@ import { Icons } from "@/components/ui/icons"
 import ImageLoader from "@/components/ui/image-loader"
 import { Flag } from "@/components/flag"
 import BackButton from "@/components/species/back-button"
-import { HighlightAttributes, HighlightAttributesElement } from "@/components/species/ui/highlight-attributes"
+import { Attribute, HighlightAttributes } from "@/components/species/ui/highlight-attributes"
 import { Section, SectionContent, SectionTitle } from "@/components/species/ui/section"
 
 export default async function SpeciesPage({ params }: { params: { speciesId: string } }) {
@@ -90,24 +93,34 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
       </div>
       <HighlightAttributes className="m-3">
         {attributesMap.max_length?.value && (
-          <HighlightAttributesElement>
+          <Attribute>
             <Icons.maxLength className="size-6" />
             <span>
               {"<"} {attributesMap.max_length?.value}
             </span>
-          </HighlightAttributesElement>
+          </Attribute>
         )}
-        <HighlightAttributesElement>
+        <Attribute>
           <Icons.depth className="size-6" />
           <span>
             {attributesMap.depth_min?.value ?? 0} - {attributesMap.depth_max?.value}
           </span>
-        </HighlightAttributesElement>
-        <HighlightAttributesElement>
+        </Attribute>
+        <Attribute>
           <Icons.rarity className="size-6" />
           <span>{attributesMap.rarity?.value}</span>
-        </HighlightAttributesElement>
+        </Attribute>
       </HighlightAttributes>
+      {/* <Section>
+        <SectionTitle>Test</SectionTitle>
+        <SectionContent>
+          {species.attributes.map((attribute) => (
+            <div key={attribute.attributeDefinitionId}>
+              {attribute.attributeDefinition.id}: {attribute.value}
+            </div>
+          ))}
+        </SectionContent>
+      </Section> */}
       {/* Attributes */}
       <Section>
         <SectionTitle>Environment</SectionTitle>
@@ -116,17 +129,21 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
             <Icons.habitat className="size-5" />
             <div className="flex flex-col">
               <div className="font-medium">
-                {attributesMap.primary_habitats?.value.map((habitat: string) => capitalizeWords(habitat)).join(", ")}
+                {attributesMap.primary_habitats?.value
+                  .map((habitat: string) => habitatsDict[habitat].title.en)
+                  .join(", ")}
               </div>
               <div className="text-muted-foreground">
-                {attributesMap.secondary_habitats?.value.map((habitat: string) => capitalizeWords(habitat)).join(", ")}
+                {attributesMap.secondary_habitats?.value
+                  .map((habitat: string) => habitatsDict[habitat].title.en)
+                  .join(", ")}
               </div>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <Icons.region className="size-5" />
             <div className="font-medium">
-              {attributesMap.regions?.value.map((region: string) => capitalizeWords(region)).join(", ")}
+              {attributesMap.regions?.value.map((region: string) => regionsDict[region].name.en).join(", ")}
             </div>
           </div>
         </SectionContent>
@@ -136,7 +153,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
         <SectionContent>
           <div className="flex items-center gap-2">
             <Icons.sociability className="size-5" />
-            <div className="font-medium">{capitalizeWords(attributesMap.sociability?.value)}</div>
+            <div className="font-medium">{sociabilityDict[attributesMap.sociability?.value].name.en}</div>
           </div>
         </SectionContent>
       </Section>

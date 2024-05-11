@@ -213,12 +213,12 @@ export async function GET(request: Request) {
                   },
                 ]
               : []),
-            ...(speciesInfo.max_length
+            ...(speciesInfo.sizes.max_length
               ? [
                   {
                     create: {
                       attributeDefinition: { connect: { id: AttributeEnum.max_length } },
-                      value: speciesInfo.max_length,
+                      value: speciesInfo.sizes.max_length,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
@@ -229,12 +229,12 @@ export async function GET(request: Request) {
                   },
                 ]
               : []),
-            ...(speciesInfo.common_length
+            ...(speciesInfo.sizes.common_length
               ? [
                   {
                     create: {
                       attributeDefinition: { connect: { id: AttributeEnum.common_length } },
-                      value: speciesInfo.common_length,
+                      value: speciesInfo.sizes.common_length,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
@@ -245,12 +245,12 @@ export async function GET(request: Request) {
                   },
                 ]
               : []),
-            ...(speciesInfo.common_plume_diameter
+            ...(speciesInfo.sizes.common_plume_diameter
               ? [
                   {
                     create: {
                       attributeDefinition: { connect: { id: AttributeEnum.common_plume_diameter } },
-                      value: speciesInfo.common_plume_diameter,
+                      value: speciesInfo.sizes.common_plume_diameter,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
@@ -261,12 +261,12 @@ export async function GET(request: Request) {
                   },
                 ]
               : []),
-            ...(speciesInfo.max_colony_size
+            ...(speciesInfo.sizes.max_colony_size
               ? [
                   {
                     create: {
                       attributeDefinition: { connect: { id: AttributeEnum.max_colony_size } },
-                      value: speciesInfo.max_colony_size,
+                      value: speciesInfo.sizes.max_colony_size,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
@@ -277,12 +277,12 @@ export async function GET(request: Request) {
                   },
                 ]
               : []),
-            ...(speciesInfo.max_polyp_diameter
+            ...(speciesInfo.sizes.max_polyp_diameter
               ? [
                   {
                     create: {
                       attributeDefinition: { connect: { id: AttributeEnum.max_polyp_diameter } },
-                      value: speciesInfo.max_polyp_diameter,
+                      value: speciesInfo.sizes.max_polyp_diameter,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
@@ -293,12 +293,12 @@ export async function GET(request: Request) {
                   },
                 ]
               : []),
-            ...(speciesInfo.common_diameter
+            ...(speciesInfo.sizes.common_diameter
               ? [
                   {
                     create: {
                       attributeDefinition: { connect: { id: AttributeEnum.common_diameter } },
-                      value: speciesInfo.common_diameter,
+                      value: speciesInfo.sizes.common_diameter,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {
@@ -309,12 +309,12 @@ export async function GET(request: Request) {
                   },
                 ]
               : []),
-            ...(speciesInfo.common_diameter
+            ...(speciesInfo.sizes.common_diameter
               ? [
                   {
                     create: {
                       attributeDefinition: { connect: { id: AttributeEnum.common_diameter } },
-                      value: speciesInfo.common_diameter,
+                      value: speciesInfo.sizes.common_diameter,
                     },
                     where: {
                       taxaId_attributeDefinitionId: {

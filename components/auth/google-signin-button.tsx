@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation"
 
 import { signInWithProvider } from "@/lib/supabase/actions"
 import { Button } from "@/components/ui/button"
-import { Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons/icons"
 
 interface GoogleSignInButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 

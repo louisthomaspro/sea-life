@@ -7,7 +7,7 @@ import SpeciesListing from "@/features/list/components/species-listing"
 import prisma from "@/lib/prisma"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons/icons"
 
 export default async function ListDetailsPage({ params }: { params: { listId: string } }) {
   const list = await prisma.list.findUnique({

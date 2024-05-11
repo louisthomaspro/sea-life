@@ -5,7 +5,7 @@ import { signOut } from "@/lib/supabase/actions"
 import { supabaseServerAuth } from "@/lib/supabase/server"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons/icons"
 import { Separator } from "@/components/ui/separator"
 import LoginForm from "@/components/auth/login-form"
 
@@ -31,7 +31,7 @@ export default async function Account() {
       <Separator className="mb-2" />
       <div className="grid">
         <Link href="/lists" className="flex items-center gap-4 rounded-md px-5 py-4 hover:bg-gray-100">
-          <Icons.list className="h-5 w-5" />
+          <Icons.bookmark className="h-5 w-5" />
           <div className="grid gap-1">
             <p className="text-sm font-medium leading-none">Lists</p>
           </div>

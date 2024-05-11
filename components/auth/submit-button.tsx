@@ -3,7 +3,7 @@
 import { useFormStatus } from "react-dom"
 
 import { Button, ButtonProps } from "@/components/ui/button"
-import { Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons/icons"
 
 export function SubmitButton({ children, ...props }: ButtonProps) {
   const { pending, action } = useFormStatus()

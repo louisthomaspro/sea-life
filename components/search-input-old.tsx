@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import { Taxa } from "@prisma/client"
 import { debounce } from "lodash"
 
-import { Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons/icons"
 import { Input } from "@/components/ui/input"
 
 export const SearchInput = () => {

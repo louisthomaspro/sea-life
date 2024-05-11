@@ -5,7 +5,7 @@ import { Prisma } from "@prisma/client"
 
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
-import { Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons/icons"
 import ImageLoader from "@/components/ui/image-loader"
 
 type groupWithHighlightedSpecies = Prisma.GroupGetPayload<{

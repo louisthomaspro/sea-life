@@ -7,7 +7,7 @@ import { toast } from "sonner"
 
 import { deleteListAction } from "@/lib/services/lists-actions"
 import { Button } from "@/components/ui/button"
-import { Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons/icons"
 
 export default function DeleteListTrigger() {
   const params = useParams()

@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { Session, User } from "@supabase/supabase-js"
 
 import { createClient } from "@/lib/supabase/client"
-import { Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons/icons"
 
 const AuthContext = createContext<{
   session: Session | null | undefined

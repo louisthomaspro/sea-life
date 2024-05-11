@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons/icons"
 
 export default function BottomNavigation() {
   return (
@@ -8,11 +8,11 @@ export default function BottomNavigation() {
       <div className="mx-auto grid h-full max-w-md grid-cols-2">
         <Link href="/" className="group inline-flex flex-col items-center justify-center px-5">
           <Icons.home />
-          <span className="text-sm">Home</span>
+          <span className="text-sm font-medium">Home</span>
         </Link>
         <Link href="/account" className="group inline-flex flex-col items-center justify-center px-5">
           <Icons.account />
-          <span className="text-sm">Account</span>
+          <span className="text-sm font-medium">Account</span>
         </Link>
       </div>
     </div>

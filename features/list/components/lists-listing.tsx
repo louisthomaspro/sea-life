@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query"
 import { getListsAction } from "@/lib/services/lists-actions"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons/icons"
 import ImageLoader from "@/components/ui/image-loader"
 
 export default function ListsListing() {

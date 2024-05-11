@@ -11,7 +11,7 @@ import { useAuth } from "@/lib/supabase/auth-provider"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { DrawerClose, DrawerContent, DrawerFooter } from "@/components/ui/drawer"
-import { Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons/icons"
 import { GoogleSignInButton } from "@/components/auth/google-signin-button"
 
 interface AddToListTriggerProps {
@@ -44,7 +44,11 @@ export const AddToListTrigger = ({ speciesId }: AddToListTriggerProps) => {
         }
       }}
     >
-      {isAlreadyInList ? <Icons.listAdded className="size-4" /> : <Icons.list className="size-4" />}
+      {isAlreadyInList ? (
+        <Icons.bookmarkAdded className="size-4 text-sealife" />
+      ) : (
+        <Icons.bookmark className="size-4" />
+      )}
     </Button>
   )
 }
@@ -62,24 +66,33 @@ export default function AddToListDrawerContent({ speciesId }: AddToListDrawerCon
   const queryClient = useQueryClient()
 
   const [isPending, startTransition] = useTransition()
-  const router = useRouter()
 
   const handleListClick = (listId: number, action: "add" | "remove" = "add") => {
+    popModal("AddToListDrawer")
+
     if (action === "remove") {
-      startTransition(async () => {
-        await deleteFromListAction(listId, speciesId)
-        toast.success("Removed from list")
-        popModal("AddToListDrawer")
+      toast.promise(deleteFromListAction(listId, speciesId), {
+        loading: "Removing from list...",
+        success: (data) => {
+          clearCache(listId)
+          return "Removed from list"
+        },
+        error: "Error removing from list",
       })
     }
     if (action === "add") {
-      startTransition(async () => {
-        await addToListAction(listId, speciesId)
-        toast.success("Added to list")
-        popModal("AddToListDrawer")
+      toast.promise(addToListAction(listId, speciesId), {
+        loading: "Adding to list...",
+        success: (data) => {
+          clearCache(listId)
+          return "Added to list"
+        },
+        error: "Error adding to list",
       })
     }
+  }
 
+  const clearCache = (listId: number) => {
     queryClient.refetchQueries({
       queryKey: [`add-to-list-${speciesId}`],
     })
@@ -102,7 +115,7 @@ export default function AddToListDrawerContent({ speciesId }: AddToListDrawerCon
               onClick={() => replaceWithModal("CreateListDrawer", { action: "create" })}
             >
               <div className="flex size-10 items-center justify-center rounded-md border border-gray-300">
-                <Icons.add className="size-4" />
+                <Icons.plus className="size-4" />
               </div>
               <div className="grid gap-1">
                 <p className="font-medium">Create a list</p>
@@ -124,14 +137,14 @@ export default function AddToListDrawerContent({ speciesId }: AddToListDrawerCon
                     onClick={() => handleListClick(list.id, list._count.species ? "remove" : "add")}
                   >
                     <div className="flex size-10 items-center justify-center rounded-md bg-gray-200">
-                      <Icons.list className="size-4" />
+                      <Icons.list className="size-5 text-foreground/50" />
                     </div>
                     <div className="grid gap-1">
                       <p className="font-medium">{list.name}</p>
                     </div>
                     {list._count.species > 0 && (
                       <div className="ml-auto">
-                        <Icons.check className="size-4" />
+                        <Icons.check className="text size-5 text-sealife" />
                       </div>
                     )}
                   </div>

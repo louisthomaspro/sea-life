@@ -9,7 +9,7 @@ import { AttributeEnum, Prisma, Taxa } from "@prisma/client"
 import prisma from "@/lib/prisma"
 import { capitalizeWords } from "@/lib/utils"
 import { Carousel, CarouselContent, CarouselDots, CarouselItem } from "@/components/ui/carousel"
-import { Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons/icons"
 import ImageLoader from "@/components/ui/image-loader"
 import { Flag } from "@/components/flag"
 import BackButton from "@/components/species/back-button"
@@ -96,14 +96,14 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
           <Attribute>
             <Icons.maxLength className="size-6" />
             <span>
-              {"<"} {attributesMap.max_length?.value}
+              {"<"} {attributesMap.max_length?.value} cm
             </span>
           </Attribute>
         )}
         <Attribute>
           <Icons.depth className="size-6" />
           <span>
-            {attributesMap.depth_min?.value ?? 0} - {attributesMap.depth_max?.value}
+            {attributesMap.depth_min?.value ?? 0} - {attributesMap.depth_max?.value} m
           </span>
         </Attribute>
         <Attribute>

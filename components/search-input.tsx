@@ -5,7 +5,7 @@ import Link from "next/link"
 import { useDebouncedCallback } from "use-debounce"
 
 import { cn } from "@/lib/utils"
-import { Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons/icons"
 import ImageLoader from "@/components/ui/image-loader"
 import { Input } from "@/components/ui/input"
 import { SearchResult } from "@/app/api/search/route"

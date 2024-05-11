@@ -4,7 +4,7 @@ import { useParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 
 import { getListAction } from "@/lib/services/lists-actions"
-import { Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons/icons"
 import SpeciesCard from "@/components/species-card"
 
 export default function SpeciesListing() {

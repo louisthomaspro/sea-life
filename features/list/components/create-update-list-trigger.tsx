@@ -13,7 +13,7 @@ import { createListAction, updateListAction } from "@/lib/services/lists-actions
 import { Button } from "@/components/ui/button"
 import { DrawerClose, DrawerContent, DrawerFooter } from "@/components/ui/drawer"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Icons } from "@/components/ui/icons"
+import { Icons } from "@/components/ui/icons/icons"
 import { Input } from "@/components/ui/input"
 
 const formSchema = z.object({
@@ -25,7 +25,7 @@ interface CreateListTriggerProps {}
 export const CreateListTrigger = (props: CreateListTriggerProps) => {
   return (
     <Button className="flex items-center" onClick={() => pushModal("CreateListDrawer", { action: "create" })}>
-      <Icons.add className="h-5 w-5" />
+      <Icons.plus className="h-5 w-5" />
       <div className="grid gap-1">
         <p className="text-sm font-medium leading-none">Create a list</p>
       </div>

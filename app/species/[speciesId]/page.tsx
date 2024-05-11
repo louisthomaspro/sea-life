@@ -100,7 +100,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
         <HighlightAttributesElement>
           <Icons.depth className="size-6" />
           <span>
-            {attributesMap.depth_min?.value} - {attributesMap.depth_max?.value}
+            {attributesMap.depth_min?.value ?? 0} - {attributesMap.depth_max?.value}
           </span>
         </HighlightAttributesElement>
         <HighlightAttributesElement>
@@ -142,7 +142,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
       </Section>
       {/* Taxonomy */}
       <Section>
-        <SectionTitle>TAXONOMY</SectionTitle>
+        <SectionTitle>Taxonomy</SectionTitle>
         {Taxonomy(species.ancestors)}
       </Section>
     </div>

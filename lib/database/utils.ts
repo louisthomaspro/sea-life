@@ -28,7 +28,7 @@ export const getSpeciesByAncestorList2 = async (taxaIds: number[]) => {
   return species
 }
 
-export const getSpeciesByAncestorList = async (taxaIds: number[], limit = 5) => {
+export const getSpeciesByAncestorList = async (taxaIds: number[]) => {
   const speciesList = await prisma.taxa.findMany({
     include: {
       medias: {
@@ -49,7 +49,6 @@ export const getSpeciesByAncestorList = async (taxaIds: number[], limit = 5) => 
         equals: "species",
       },
     },
-    take: limit,
   })
 
   return speciesList

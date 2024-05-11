@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { EditGroupTrigger } from "@/features/admin/create-update-group"
 import { Prisma } from "@prisma/client"
 
 import { getSpeciesByAncestorList } from "@/lib/database/utils"
@@ -48,9 +49,6 @@ export default async function GroupPage({ params }: { params: { groupSlug: strin
             },
           },
         },
-        orderBy: {
-          commonNames: "asc",
-        },
       },
       highLevelTaxa: {
         select: {
@@ -63,6 +61,9 @@ export default async function GroupPage({ params }: { params: { groupSlug: strin
     },
   })
   if (!group) notFound()
+
+  // sort group by common name en
+  group.children.sort((a, b) => (a.commonNames.en ?? "").localeCompare(b.commonNames.en ?? ""))
 
   const showSpecies = group.children.length === 0
 
@@ -92,6 +93,7 @@ export default async function GroupPage({ params }: { params: { groupSlug: strin
         </Link>
         <h1 className="text-center text-3xl font-bold tracking-tighter">{group.commonNames.en}</h1>
       </div>
+      {process.env.NODE_ENV === "development" && <EditGroupTrigger group={group} />}
 
       {/* List of high groups */}
       {!showSpecies && group.level === 0 && (

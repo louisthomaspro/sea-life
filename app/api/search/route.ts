@@ -41,7 +41,7 @@ SIMILARITY(${term}, t."scientificName") similarity_scientific_name,
 SIMILARITY(${term}, t."commonNames"::TEXT) similarity_common_names,
 SIMILARITY(${term}, t."scientificName" || t."commonNames"::TEXT) similarity
 
-WHERE query @@ document OR similarity_scientific_name > 0
+WHERE (query @@ document OR similarity_scientific_name > 0)
 and t."rank" = 'species'
 
 GROUP BY

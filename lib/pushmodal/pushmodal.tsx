@@ -1,5 +1,6 @@
 "use client"
 
+import CreateGroupDrawerContent from "@/features/admin/create-update-group"
 import AddToListDrawerContent from "@/features/list/components/add-to-list-trigger"
 import CreateListDrawerContent from "@/features/list/components/create-update-list-trigger"
 import { createPushModal } from "pushmodal"
@@ -19,6 +20,10 @@ export const { pushModal, popModal, popAllModals, replaceWithModal, useOnPushMod
       CreateListDrawer: {
         Wrapper: Drawer,
         Component: CreateListDrawerContent,
+      },
+      CreateGroupDrawer: {
+        Wrapper: Drawer,
+        Component: CreateGroupDrawerContent,
       },
       AddToListDrawer: {
         Wrapper: Drawer,

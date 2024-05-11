@@ -21,7 +21,11 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
   const species = await prisma.taxa.findUnique({
     include: {
       medias: true,
-      ancestors: true,
+      ancestors: {
+        orderBy: {
+          rankLevel: "desc",
+        },
+      },
       attributes: {
         include: {
           attributeDefinition: true,
@@ -44,6 +48,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
 
   return (
     <div>
+      {/* Carousel */}
       <div className="relative">
         <BackButton />
         <AddToListTrigger speciesId={Number(params.speciesId)} />
@@ -93,72 +98,96 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
           )}
           <p className="text-gray-600">{capitalizeWords(species.scientificName)}</p>
         </div>
-        <HighlightAttributes>
-          {attributesMap.max_length?.value && (
-            <Attribute>
-              <Icons.maxLength className="size-6" />
-              <span>
-                {"<"} {attributesMap.max_length?.value} cm
-              </span>
-            </Attribute>
-          )}
-          <Attribute>
-            <Icons.depth className="size-6" />
-            <span>
-              {attributesMap.depth_min?.value ?? 0} - {attributesMap.depth_max?.value} m
-            </span>
-          </Attribute>
-          <Attribute>
-            <Icons.rarity className="size-6" />
-            <span>{rarityDict[attributesMap.rarity?.value].name.en}</span>
-          </Attribute>
-        </HighlightAttributes>
-        {/* <Section>
-        <SectionTitle>Test</SectionTitle>
-        <SectionContent>
-          {species.attributes.map((attribute) => (
-            <div key={attribute.attributeDefinitionId}>
-              {attribute.attributeDefinition.id}: {attribute.value}
-            </div>
-          ))}
-        </SectionContent>
-      </Section> */}
-        {/* Attributes */}
-        <Section>
-          <SectionTitle>Environment</SectionTitle>
-          <SectionContent>
-            <div className="flex items-center gap-2">
-              <Icons.habitat className="size-5" />
-              <div className="flex flex-col">
-                <div className="font-medium">
-                  {attributesMap.primary_habitats?.value
-                    .map((habitat: string) => habitatsDict[habitat].title.en)
-                    .join(", ")}
+        {/* HighlightAttributes */}
+        {(attributesMap.max_length || attributesMap.depth_max || attributesMap.rarity) && (
+          <HighlightAttributes>
+            {attributesMap.max_length && (
+              <Attribute>
+                <Icons.maxLength className="size-6" />
+                <span>
+                  {"<"} {attributesMap.max_length.value} cm
+                </span>
+              </Attribute>
+            )}
+            {attributesMap.depth_max && (
+              <Attribute>
+                <Icons.depth className="size-6" />
+                <span>
+                  {attributesMap.depth_min?.value ?? 0} - {attributesMap.depth_max.value} m
+                </span>
+              </Attribute>
+            )}
+            {attributesMap.rarity && (
+              <Attribute>
+                <Icons.rarity className="size-6" />
+                <span>{rarityDict[attributesMap.rarity.value].name.en}</span>
+              </Attribute>
+            )}
+          </HighlightAttributes>
+        )}
+        {process.env.VERCEL_ENV === "development" && (
+          <Section>
+            <SectionTitle>Test</SectionTitle>
+            <SectionContent>
+              {species.attributes.map((attribute) => (
+                <div key={attribute.attributeDefinitionId}>
+                  {attribute.attributeDefinition.id}: {attribute.value}
                 </div>
-                <div className="text-muted-foreground">
-                  {attributesMap.secondary_habitats?.value
-                    .map((habitat: string) => habitatsDict[habitat].title.en)
-                    .join(", ")}
+              ))}
+            </SectionContent>
+          </Section>
+        )}
+        {/* Environment */}
+        {(attributesMap.primary_habitats || attributesMap.secondary_habitats || attributesMap.regions) && (
+          <Section>
+            <SectionTitle>Environment</SectionTitle>
+            <SectionContent>
+              {(attributesMap.primary_habitats || attributesMap.secondary_habitats) && (
+                <div className="flex items-center gap-2">
+                  <Icons.habitat className="size-5" />
+                  <div className="flex flex-col">
+                    {attributesMap.primary_habitats && (
+                      <div className="font-medium">
+                        {attributesMap.primary_habitats?.value
+                          .map((habitat: string) => habitatsDict[habitat].title.en)
+                          .join(", ")}
+                      </div>
+                    )}
+                    {attributesMap.secondary_habitats && (
+                      <div className="text-muted-foreground">
+                        {attributesMap.secondary_habitats?.value
+                          .map((habitat: string) => habitatsDict[habitat].title.en)
+                          .join(", ")}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Icons.region className="size-5" />
-              <div className="font-medium">
-                {attributesMap.regions?.value.map((region: string) => regionsDict[region].name.en).join(", ")}
-              </div>
-            </div>
-          </SectionContent>
-        </Section>
-        <Section>
-          <SectionTitle>Lifestyle and behavior</SectionTitle>
-          <SectionContent>
-            <div className="flex items-center gap-2">
-              <Icons.sociability className="size-5" />
-              <div className="font-medium">{sociabilityDict[attributesMap.sociability?.value].name.en}</div>
-            </div>
-          </SectionContent>
-        </Section>
+              )}
+              {attributesMap.regions && (
+                <div className="flex items-center gap-2">
+                  <Icons.region className="size-5" />
+                  <div className="font-medium">
+                    {attributesMap.regions?.value.map((region: string) => regionsDict[region].name.en).join(", ")}
+                  </div>
+                </div>
+              )}
+            </SectionContent>
+          </Section>
+        )}
+        {/* LifeStyle and behavior */}
+        {attributesMap.sociability && (
+          <Section>
+            <SectionTitle>Lifestyle and behavior</SectionTitle>
+            <SectionContent>
+              {attributesMap.sociability && (
+                <div className="flex items-center gap-2">
+                  <Icons.sociability className="size-5" />
+                  <div className="font-medium">{sociabilityDict[attributesMap.sociability.value].name.en}</div>
+                </div>
+              )}
+            </SectionContent>
+          </Section>
+        )}
         {/* Taxonomy */}
         <Section>
           <SectionTitle>Taxonomy</SectionTitle>
@@ -181,7 +210,7 @@ const Taxonomy = (ancestors: Taxa[]) => {
       <li>
         {/* Name */}
         <div className="font-medium">
-          {taxa.commonNames.fr ? capitalizeWords(taxa.commonNames.fr[0]) : capitalizeWords(taxa.scientificName)}
+          {taxa.commonNames.en ? capitalizeWords(taxa.commonNames.en[0]) : capitalizeWords(taxa.scientificName)}
         </div>
         {/* Rank */}
         <div className="text-sm text-muted-foreground">{taxonomyRankDict[taxa.rank].en}</div>

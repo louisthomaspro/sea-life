@@ -33,7 +33,7 @@ export default function DeleteListTrigger() {
 
   return (
     <Button variant="outline" size="icon" onClick={handleDelete} disabled={isPending}>
-      {isPending ? <Icons.spinner className="size-4" /> : <Icons.delete className="size-4" />}
+      {isPending ? <Icons.spinner className="size-5" /> : <Icons.delete className="size-5" />}
     </Button>
   )
 }

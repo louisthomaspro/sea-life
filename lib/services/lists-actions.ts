@@ -1,10 +1,13 @@
 "use server"
 
 import prisma from "@/lib/prisma"
-import { createClient, supabaseServerAuth } from "@/lib/supabase/server"
+import { createClient } from "@/lib/supabase/server"
 
 export const getListAction = async (id: number) => {
-  const { data: user } = await supabaseServerAuth().getSafeSession()
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   if (!user) {
     throw new Error("User not found")
@@ -32,7 +35,10 @@ export const getListAction = async (id: number) => {
 }
 
 export const getListsAction = async (speciesId?: number) => {
-  const { data: user } = await supabaseServerAuth().getSafeSession()
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   if (!user) {
     throw new Error("User not found")
@@ -88,7 +94,10 @@ export const getListsAction = async (speciesId?: number) => {
 }
 
 export const createListAction = async (name: string) => {
-  const { data: user } = await supabaseServerAuth().getSafeSession()
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   if (!user) {
     throw new Error("User not found")
@@ -103,7 +112,10 @@ export const createListAction = async (name: string) => {
 }
 
 export const updateListAction = async (id: number, name: string) => {
-  const { data: user } = await supabaseServerAuth().getSafeSession()
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   if (!user) {
     throw new Error("User not found")
@@ -131,7 +143,10 @@ export const updateListAction = async (id: number, name: string) => {
 }
 
 export const deleteListAction = async (id: number) => {
-  const { data: user } = await supabaseServerAuth().getSafeSession()
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   if (!user) {
     throw new Error("User not found")
@@ -156,7 +171,10 @@ export const deleteListAction = async (id: number) => {
 }
 
 export const addToListAction = async (listId: number, speciesId: number) => {
-  const { data: user } = await supabaseServerAuth().getSafeSession()
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   if (!user) {
     throw new Error("User not found")
@@ -189,7 +207,10 @@ export const addToListAction = async (listId: number, speciesId: number) => {
 }
 
 export const deleteFromListAction = async (listId: number, speciesId: number) => {
-  const { data: user } = await supabaseServerAuth().getSafeSession()
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   if (!user) {
     throw new Error("User not found")

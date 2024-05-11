@@ -24,11 +24,9 @@ interface CreateListTriggerProps {}
 
 export const CreateListTrigger = (props: CreateListTriggerProps) => {
   return (
-    <Button className="flex items-center" onClick={() => pushModal("CreateListDrawer", { action: "create" })}>
+    <Button className="flex items-center gap-1.5" onClick={() => pushModal("CreateListDrawer", { action: "create" })}>
       <Icons.plus className="h-5 w-5" />
-      <div className="grid gap-1">
-        <p className="text-sm font-medium leading-none">Create a list</p>
-      </div>
+      <p className="text-sm font-medium leading-none">Create a list</p>
     </Button>
   )
 }
@@ -40,7 +38,7 @@ interface EditListTriggerProps {
 export const EditListTrigger = ({ list }: EditListTriggerProps) => {
   return (
     <Button variant="outline" size="icon" onClick={() => pushModal("CreateListDrawer", { action: "edit", list })}>
-      <Icons.edit className="size-4" />
+      <Icons.edit className="size-5" />
     </Button>
   )
 }
@@ -94,7 +92,7 @@ export default function CreateListDrawerContent({ action, list }: CreateListDraw
       <div className="mx-auto w-full max-w-sm">
         <div className="p-4 pb-0">
           <Form {...form}>
-            <form>
+            <form id="create-form">
               <FormField
                 control={form.control}
                 name="name"
@@ -102,7 +100,7 @@ export default function CreateListDrawerContent({ action, list }: CreateListDraw
                   <FormItem>
                     <FormLabel>List name</FormLabel>
                     <FormControl>
-                      <Input placeholder="My list" {...field} />
+                      <Input autoFocus placeholder="My list" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -112,7 +110,7 @@ export default function CreateListDrawerContent({ action, list }: CreateListDraw
           </Form>
         </div>
         <DrawerFooter>
-          <Button onClick={form.handleSubmit(onSubmit)} size="lg" disabled={isPending}>
+          <Button type="submit" form="create-form" onClick={form.handleSubmit(onSubmit)} size="lg" disabled={isPending}>
             {isPending ? <Icons.spinner className="size-4" /> : action === "create" ? "Create" : "Save"}
           </Button>
           <DrawerClose asChild>

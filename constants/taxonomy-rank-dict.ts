@@ -24,7 +24,7 @@ export const taxonomyRankDict: TaxonomyRankDict = {
   },
   superclass: {
     en: "Superclass",
-    fr: "Super-classe",
+    fr: "Superclass",
   },
   class: {
     en: "Class",
@@ -36,11 +36,15 @@ export const taxonomyRankDict: TaxonomyRankDict = {
   },
   infraclass: {
     en: "Infraclass",
-    fr: "Infra-classe",
+    fr: "Infraclasse",
+  },
+  subterclass: {
+    en: "Subterclass",
+    fr: "Sous-classe",
   },
   superorder: {
     en: "Superorder",
-    fr: "Super-ordre",
+    fr: "Superorder",
   },
   order: {
     en: "Order",
@@ -52,11 +56,11 @@ export const taxonomyRankDict: TaxonomyRankDict = {
   },
   infraorder: {
     en: "Infraorder",
-    fr: "Infra-ordre",
+    fr: "Infraordre",
   },
   parvorder: {
     en: "Parvorder",
-    fr: "Parv-ordre",
+    fr: "Micro-ordre",
   },
   zoosection: {
     en: "Zoosection",
@@ -64,15 +68,15 @@ export const taxonomyRankDict: TaxonomyRankDict = {
   },
   zoosubsection: {
     en: "Zoosubsection",
-    fr: "Zoosous-section",
+    fr: "Sous-zoosection",
   },
   superfamily: {
     en: "Superfamily",
-    fr: "Super-famille",
+    fr: "Superfamille",
   },
   epifamily: {
     en: "Epifamily",
-    fr: "Epifamille",
+    fr: "Épifamille",
   },
   family: {
     en: "Family",
@@ -84,7 +88,7 @@ export const taxonomyRankDict: TaxonomyRankDict = {
   },
   supertribe: {
     en: "Supertribe",
-    fr: "Super-tribu",
+    fr: "Supertribu",
   },
   tribe: {
     en: "Tribe",
@@ -116,7 +120,7 @@ export const taxonomyRankDict: TaxonomyRankDict = {
   },
   complex: {
     en: "Complex",
-    fr: "Complex",
+    fr: "Complexe",
   },
   species: {
     en: "Species",

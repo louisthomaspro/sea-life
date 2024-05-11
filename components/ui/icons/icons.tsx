@@ -19,6 +19,7 @@ import {
   CentralRulerFilledOffStroke2Radius2,
   CentralSquareGridCircleFilledOnStroke2Radius2,
   CentralTrashCanFilledOffStroke2Radius2,
+  CentralTriangleExclamationFilledOffStroke2Radius2,
   CustomDepthIcon,
 } from "@/components/ui/icons/central-icons"
 
@@ -49,4 +50,5 @@ export const Icons = {
   sociability: (props: Icon) => <CentralGroup2FilledOffStroke2Radius2 {...props} />,
   habitat: (props: Icon) => <CentralHomeOpenFilledOffStroke2Radius2 {...props} />,
   region: (props: Icon) => <CentralEarthFilledOffStroke2Radius2 {...props} />,
+  warning: (props: Icon) => <CentralTriangleExclamationFilledOffStroke2Radius2 {...props} />,
 }

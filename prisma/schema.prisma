@@ -20,6 +20,7 @@ enum RoleEnum {
 
 model Profile {
   id    String   @id @db.Uuid
+  email String   @unique
   role  RoleEnum @default(user)
   lists List[]
 }
@@ -153,7 +154,7 @@ model List {
   updatedAt DateTime @default(now()) @db.Timestamptz(6)
 
   species ListToSpecies[]
-  owner   Profile?        @relation(fields: [ownerId], references: [id])
+  owner   Profile?        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId String?         @db.Uuid
 }
 

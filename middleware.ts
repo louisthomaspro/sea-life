@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server"
 import { pathToRegexp } from "path-to-regexp"
 
-import { updateSession } from "@/lib/supabase/middleware"
+import { createClient } from "@/lib/supabase/middleware"
 
 const publicRoutes = [
   "/",
@@ -13,25 +13,20 @@ const publicRoutes = [
 ]
 
 export async function middleware(request: NextRequest) {
-  // Create an unmodified response
-  let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  })
+  const { supabase, response } = createClient(request)
+
+  // This will refresh session if expired - required as server component cannot update cookies
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   // Check if public route using pathToRegexp
   const regexPatterns = publicRoutes.map((route) => pathToRegexp(route))
   const isPublicPage = !!regexPatterns.find((pattern) => pattern.test(request.nextUrl.pathname))
   if (isPublicPage) return response
 
-  let newUrl = new URL(`/`, request.url)
-
-  // Refresh session
-  const session = await updateSession(request, response)
-
-  if (!session || !session.data.user) {
-    return NextResponse.redirect(newUrl)
+  if (!user) {
+    return NextResponse.redirect(new URL("/account", request.url))
   }
 
   return response

@@ -1,5 +1,9 @@
+import "server-only"
+
 import { cookies } from "next/headers"
 import { createServerClient, type CookieOptions } from "@supabase/ssr"
+
+import AuthManager from "@/lib/supabase/supabase-safesession/auth-manager"
 
 export const createClient = () => {
   const cookieStore = cookies()
@@ -30,3 +34,7 @@ export const createClient = () => {
     },
   })
 }
+
+// Export the initialized Supabase client and AuthManager
+export const supabaseServerClient = () => createClient()
+export const supabaseServerAuth = () => new AuthManager(supabaseServerClient(), process.env.SUPABASE_JWT_SECRET!)

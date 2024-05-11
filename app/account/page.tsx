@@ -2,7 +2,7 @@ import Link from "next/link"
 
 import prisma from "@/lib/prisma"
 import { signOut } from "@/lib/supabase/actions"
-import { createClient } from "@/lib/supabase/server"
+import { supabaseServerAuth } from "@/lib/supabase/server"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
@@ -10,10 +10,7 @@ import { Separator } from "@/components/ui/separator"
 import LoginForm from "@/components/auth/login-form"
 
 export default async function Account() {
-  const supabase = createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { data: user } = await supabaseServerAuth().getSafeSession()
 
   if (!user) {
     return <LoginForm className="my-6 flex justify-center" />

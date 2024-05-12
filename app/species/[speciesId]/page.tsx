@@ -157,7 +157,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
         </div>
         {/* HighlightAttributes */}
         {(attributesMap.max_length || attributesMap.depth_max || attributesMap.rarity) && (
-          <HighlightAttributes>
+          <HighlightAttributes className="my-2">
             {attributesMap.max_length && (
               <Attribute>
                 <Icons.maxLength className="size-6" />

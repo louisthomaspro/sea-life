@@ -36,7 +36,7 @@ export default function ListsListing() {
                       {list.species[index] ? (
                         <ImageLoader
                           src={list.species[index].taxa.medias[0]?.url}
-                          alt={list.species[index].taxa.commonNames.en?.[0]!}
+                          alt={list.species[index].taxa.commonNames.en?.[0] ?? ""}
                           fill
                           sizes="25vw"
                           className="object-cover"

@@ -129,10 +129,10 @@ export default function CreateGroupDrawerContent({ action, group }: CreateGroupD
             <AutoFormSubmit disabled={isPending}>
               {isPending ? <Icons.spinner className="size-4" /> : action === "create" ? "Create" : "Save"}
             </AutoFormSubmit>
-            <Button variant="outline" size={"lg"} onClick={() => popModal("CreateGroupDrawer")}>
-              Cancel
-            </Button>
           </AutoForm>
+          <Button variant="outline" size={"lg"} onClick={() => popModal("CreateGroupDrawer")}>
+            Cancel
+          </Button>
         </div>
       </div>
     </DrawerContent>

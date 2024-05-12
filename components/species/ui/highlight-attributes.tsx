@@ -5,5 +5,8 @@ export const HighlightAttributes = ({ className, ...props }: any) => (
 )
 
 export const Attribute = ({ className, ...props }: any) => (
-  <div className={cn("flex max-w-28 flex-1 flex-col items-center gap-y-1 font-medium", className)} {...props} />
+  <div
+    className={cn("flex max-w-28 flex-1 flex-col items-center gap-y-1.5 text-sm font-medium", className)}
+    {...props}
+  />
 )

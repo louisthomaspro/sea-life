@@ -50,7 +50,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
                 {scientificName}
               </div>
             </div>
-            <div tw="flex items-center justify-center rounded-[26px] bg-blue-50 p-3" style={{ gap: 10 }}>
+            <div tw="flex items-center justify-center rounded-[26px] bg-blue-50 p-3.5" style={{ gap: 10 }}>
               <div tw="flex max-w-40 flex-1 flex-col items-center font-medium text-[26px]" style={{ gap: 10 }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none">
                   <path
@@ -67,10 +67,16 @@ export async function GET(request: Request, { params }: { params: { id: string }
               </div>
 
               <div tw="flex max-w-40 flex-1 flex-col items-center font-medium text-[26px]" style={{ gap: 10 }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none">
+                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
-                    d="M8.9997 8.99994L11.2497 11.2499M8.9997 8.99994L12.4997 5.49994M8.9997 8.99994L5.4997 12.4999M12.4997 5.49994L14.5855 3.41416C15.3665 2.63311 16.6329 2.63311 17.4139 3.41416L20.5855 6.58573C21.3665 7.36678 21.3665 8.63311 20.5855 9.41416L9.41391 20.5857C8.63286 21.3668 7.36653 21.3668 6.58548 20.5857L3.41391 17.4142C2.63286 16.6331 2.63286 15.3668 3.41391 14.5857L5.4997 12.4999M12.4997 5.49994L13.7497 6.74994M5.4997 12.4999L6.7497 13.7499"
-                    stroke="currentColor"
+                    d="M4 10C5.35118 10 6.68014 8.2 8 8.2C9.33812 8.2 10.6669 10 12 10C13.3246 10 14.6534 8.2 16 8.2C17.3124 8.2 18.6416 10 20 10M4 4.8C5.35118 4.8 6.68014 3 8 3C9.33812 3 10.6669 4.8 12 4.8C13.3246 4.8 14.6534 3 16 3C17.3124 3 18.6416 4.8 20 4.8"
+                    stroke="black"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M15.5 19L12.5 22L9.5 19M12.5 21.4483V14.5"
+                    stroke="black"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -85,7 +91,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
                 <div tw="flex max-w-40 flex-1 flex-col items-center font-medium text-[26px]" style={{ gap: 10 }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none">
                     <path
-                      d="M8.9997 8.99994L11.2497 11.2499M8.9997 8.99994L12.4997 5.49994M8.9997 8.99994L5.4997 12.4999M12.4997 5.49994L14.5855 3.41416C15.3665 2.63311 16.6329 2.63311 17.4139 3.41416L20.5855 6.58573C21.3665 7.36678 21.3665 8.63311 20.5855 9.41416L9.41391 20.5857C8.63286 21.3668 7.36653 21.3668 6.58548 20.5857L3.41391 17.4142C2.63286 16.6331 2.63286 15.3668 3.41391 14.5857L5.4997 12.4999M12.4997 5.49994L13.7497 6.74994M5.4997 12.4999L6.7497 13.7499"
+                      d="M9.50059 8L7.50059 10L9.50059 12M13.4148 19.5858L21.5287 11.4719C22.3319 10.6687 22.3057 9.35857 21.471 8.58809L17.0752 4.53039C16.7057 4.18937 16.2214 4 15.7186 4H8.28256C7.77978 4 7.29545 4.18937 6.926 4.53039L2.53016 8.58809C1.69548 9.35857 1.66929 10.6687 2.47251 11.4719L10.5864 19.5858C11.3674 20.3668 12.6338 20.3668 13.4148 19.5858Z"
                       stroke="currentColor"
                       strokeWidth="2"
                       strokeLinecap="round"

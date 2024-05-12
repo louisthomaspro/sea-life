@@ -1,3 +1,4 @@
+import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { habitatsDict } from "@/constants/habitats_dict"
 import { rarityDict } from "@/constants/rarity_dict"
@@ -8,14 +9,65 @@ import { AddToListTrigger } from "@/features/list/components/add-to-list-trigger
 import { AttributeEnum, Prisma, Taxa } from "@prisma/client"
 
 import prisma from "@/lib/prisma"
-import { capitalizeWords } from "@/lib/utils"
+import { buildUrl, capitalizeWords } from "@/lib/utils"
 import { Carousel, CarouselContent, CarouselDots, CarouselItem } from "@/components/ui/carousel"
 import { Icons } from "@/components/ui/icons/icons"
 import ImageLoader from "@/components/ui/image-loader"
 import { Flag } from "@/components/flag"
 import BackButton from "@/components/species/back-button"
+import ShareButton from "@/components/species/share-button"
 import { Attribute, HighlightAttributes } from "@/components/species/ui/highlight-attributes"
 import { Section, SectionContent, SectionTitle } from "@/components/species/ui/section"
+
+export async function generateMetadata({ params }: { params: { speciesId: string } }): Promise<Metadata> {
+  const species = await prisma.taxa.findUnique({
+    include: {
+      medias: true,
+      attributes: {
+        include: {
+          attributeDefinition: true,
+        },
+      },
+    },
+    where: {
+      id: Number(params.speciesId),
+    },
+  })
+
+  if (!species) notFound()
+
+  return {
+    title: species.commonNames.en
+      ? capitalizeWords(species.commonNames.en[0])
+      : capitalizeWords(species.scientificName),
+    openGraph: {
+      title: species.commonNames.en
+        ? capitalizeWords(species.commonNames.en[0])
+        : capitalizeWords(species.scientificName),
+
+      ...(species.commonNames.en && { description: capitalizeWords(species.scientificName) }),
+      images: [
+        {
+          url: buildUrl("http://localhost:3000/api/og", {
+            name: species.commonNames.en ? capitalizeWords(species.commonNames.en[0]) : "",
+            imageUrl: species.medias[0]?.url ?? "",
+            scientificName: capitalizeWords(species.scientificName) ?? "",
+            maxLength:
+              species.attributes.find((attribute) => attribute.attributeDefinitionId === "max_length")?.value ?? "",
+            maxDepth:
+              species.attributes.find((attribute) => attribute.attributeDefinitionId === "depth_max")?.value ?? "",
+            minDepth:
+              species.attributes.find((attribute) => attribute.attributeDefinitionId === "depth_min")?.value ?? "",
+            rarity: species.attributes.find((attribute) => attribute.attributeDefinitionId === "rarity")?.value ?? "",
+          }),
+          width: 200,
+          height: 200,
+          alt: "Species image",
+        },
+      ],
+    },
+  }
+}
 
 export default async function SpeciesPage({ params }: { params: { speciesId: string } }) {
   const species = await prisma.taxa.findUnique({
@@ -52,6 +104,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
       <div className="relative">
         <BackButton />
         <AddToListTrigger speciesId={Number(params.speciesId)} />
+        <ShareButton />
         <Carousel className="aspect-[3/2] overflow-hidden rounded-b-md">
           <CarouselContent>
             {species.medias.length === 0 && (

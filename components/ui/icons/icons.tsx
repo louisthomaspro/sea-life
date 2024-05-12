@@ -17,6 +17,7 @@ import {
   CentralPeopleFilledOffStroke2Radius2,
   CentralPlusLargeFilledOffStroke2Radius2,
   CentralRulerFilledOffStroke2Radius2,
+  CentralShareFilledOffStroke2Radius2,
   CentralSquareGridCircleFilledOnStroke2Radius2,
   CentralTrashCanFilledOffStroke2Radius2,
   CentralTriangleExclamationFilledOffStroke2Radius2,
@@ -51,4 +52,5 @@ export const Icons = {
   habitat: (props: Icon) => <CentralHomeOpenFilledOffStroke2Radius2 {...props} />,
   region: (props: Icon) => <CentralEarthFilledOffStroke2Radius2 {...props} />,
   warning: (props: Icon) => <CentralTriangleExclamationFilledOffStroke2Radius2 {...props} />,
+  share: (props: Icon) => <CentralShareFilledOffStroke2Radius2 {...props} />,
 }

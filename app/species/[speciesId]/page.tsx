@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: { params: { speciesId: string
       description: "Discover the species",
       images: [
         {
-          url: buildSpeciesOgImage("http://localhost:3000", {
+          url: buildSpeciesOgImage(process.env.NEXT_PUBLIC_BASE_URL!, {
             name: species.commonNames.en ? capitalizeWords(species.commonNames.en[0]) : "",
             imageUrl: species.medias[0]?.url ?? "",
             scientificName: capitalizeWords(species.scientificName) ?? "",

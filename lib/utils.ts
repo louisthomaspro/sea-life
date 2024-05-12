@@ -26,8 +26,7 @@ export const rewriteDomain = (url: string, newDomain: string | null | undefined)
   return url.replace(/(https?:\/\/)(.*?)(\/.*)/, `${newDomain}$3`)
 }
 
-export const buildSpeciesOgImage = (params: Record<string, string>) => {
-  const url = process.env.NEXT_PUBLIC_BASE_URL
+export const buildSpeciesOgImage = (url: string, params: Record<string, string>) => {
   const searchParams = new URLSearchParams()
   Object.entries(params).forEach(([key, value]) => {
     searchParams.append(key, value)

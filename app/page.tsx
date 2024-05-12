@@ -20,14 +20,14 @@ export default function HomePage() {
           href="/explore/fauna"
           className="relative aspect-square overflow-hidden rounded-lg border border-gray-200 transition-transform hover:scale-[99%] active:scale-[98%]"
         >
-          <Image src={Fauna} alt="Fauna" width={300} height={200} />
+          <Image src={Fauna} alt="Fauna" width={300} height={300} priority />
           <div className="absolute bottom-2 left-4 text-lg font-semibold text-background">Fauna</div>
         </Link>
         <Link
           href="/explore/flora"
           className="relative aspect-square overflow-hidden rounded-lg border border-gray-200 transition-transform hover:scale-[99%] active:scale-[98%]"
         >
-          <Image src={Flora} alt="Flora" width={300} height={300} />
+          <Image src={Flora} alt="Flora" width={300} height={300} priority />
           <div className="absolute bottom-2 left-4 text-lg font-semibold text-background">Flora</div>
         </Link>
       </div>

@@ -138,8 +138,11 @@ export default function AddToListDrawerContent({ speciesId }: AddToListDrawerCon
                     <div className="flex size-10 items-center justify-center rounded-md bg-gray-200">
                       <Icons.list className="size-5 text-foreground/50" />
                     </div>
-                    <div className="grid gap-1">
-                      <p className="font-medium">{list.name}</p>
+                    <div className="flex flex-col">
+                      <span>{list.name}</span>
+                      <span className="text-xs font-medium text-muted-foreground">
+                        {list.speciesCount.species ?? 0} species
+                      </span>
                     </div>
                     {list._count.species > 0 && (
                       <div className="ml-auto">

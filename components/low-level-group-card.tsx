@@ -60,7 +60,7 @@ async function SpeciesList({ group }: { group: groupWithHighlightedSpecies }) {
           >
             <ImageLoader
               src={species.medias[0]?.url}
-              alt={species.commonNames.en?.[0]!}
+              alt={species.commonNames.en?.[0] ?? ""}
               fill
               sizes="150px"
               className="rounded-lg object-cover"
@@ -71,7 +71,10 @@ async function SpeciesList({ group }: { group: groupWithHighlightedSpecies }) {
         {group.speciesCount > 5 && (
           <Link
             href={`/explore/${group.slug}`}
-            className="relative !mr-4 inline-block aspect-[3/2] w-28 overflow-hidden rounded-lg border border-gray-200 bg-gray-50"
+            className={cn(
+              "relative !mr-4 inline-block aspect-[3/2] w-28 overflow-hidden rounded-lg border border-gray-200 bg-gray-50",
+              "transition-transform hover:scale-[99%] active:scale-[98%]"
+            )}
           >
             <div className="flex h-full flex-col items-center justify-center gap-2 text-muted-foreground">
               <div className="rounded-full bg-gray-200 p-1">

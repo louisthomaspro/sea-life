@@ -40,15 +40,17 @@ export async function generateMetadata({ params }: { params: { speciesId: string
     title: species.commonNames.en
       ? capitalizeWords(species.commonNames.en[0])
       : capitalizeWords(species.scientificName),
+    description: "Discover the species",
+
     openGraph: {
       title: species.commonNames.en
         ? capitalizeWords(species.commonNames.en[0])
         : capitalizeWords(species.scientificName),
 
-      ...(species.commonNames.en?.[0] ? { description: capitalizeWords(species.scientificName) } : {}),
+      description: "Discover the species",
       images: [
         {
-          url: buildSpeciesOgImage({
+          url: buildSpeciesOgImage("http://localhost:3000", {
             name: species.commonNames.en ? capitalizeWords(species.commonNames.en[0]) : "",
             imageUrl: species.medias[0]?.url ?? "",
             scientificName: capitalizeWords(species.scientificName) ?? "",

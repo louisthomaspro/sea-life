@@ -32,15 +32,15 @@ export function CustomDepthIcon(props: JSX.IntrinsicElements["svg"]) {
       <path
         d="M4 10C5.35118 10 6.68014 8.2 8 8.2C9.33812 8.2 10.6669 10 12 10C13.3246 10 14.6534 8.2 16 8.2C17.3124 8.2 18.6416 10 20 10M4 4.8C5.35118 4.8 6.68014 3 8 3C9.33812 3 10.6669 4.8 12 4.8C13.3246 4.8 14.6534 3 16 3C17.3124 3 18.6416 4.8 20 4.8"
         stroke="black"
-        stroke-width="2"
-        stroke-linecap="round"
+        strokeWidth="2"
+        strokeLinecap="round"
       />
       <path
         d="M15.5 19L12.5 22L9.5 19M12.5 21.4483V14.5"
         stroke="black"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   )

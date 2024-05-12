@@ -35,7 +35,7 @@ export default function HighLevelGroupCard({ group, className, ...props }: HighL
                   {group.highlightedSpecies[index] && (
                     <ImageLoader
                       src={group.highlightedSpecies[index].medias[0]?.url}
-                      alt={group.highlightedSpecies[index].commonNames.en?.[0]!}
+                      alt={group.highlightedSpecies[index].commonNames.en?.[0] ?? ""}
                       fill
                       sizes="25vw"
                       className="object-cover"

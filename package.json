@@ -81,6 +81,7 @@
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.24",
     "autoprefixer": "^10.4.19",
+    "cross-env": "^7.0.3",
     "drizzle-kit": "^0.20.14",
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.2.3",

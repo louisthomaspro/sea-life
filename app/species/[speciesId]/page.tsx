@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { headers } from "next/headers"
 import { notFound } from "next/navigation"
 import { habitatsDict } from "@/constants/habitats_dict"
 import { rarityDict } from "@/constants/rarity_dict"
@@ -9,7 +10,7 @@ import { AddToListTrigger } from "@/features/list/components/add-to-list-trigger
 import { AttributeEnum, Prisma, Taxa } from "@prisma/client"
 
 import prisma from "@/lib/prisma"
-import { buildSpeciesOgImage, capitalizeWords } from "@/lib/utils"
+import { buildSpeciesOgImageUrl, capitalizeWords } from "@/lib/utils"
 import { Carousel, CarouselContent, CarouselDots, CarouselItem } from "@/components/ui/carousel"
 import { Icons } from "@/components/ui/icons/icons"
 import ImageLoader from "@/components/ui/image-loader"
@@ -50,7 +51,7 @@ export async function generateMetadata({ params }: { params: { speciesId: string
       description: "Discover the species",
       images: [
         {
-          url: buildSpeciesOgImage(process.env.NEXT_PUBLIC_BASE_URL!, {
+          url: buildSpeciesOgImageUrl(`/api/og`, {
             name: species.commonNames.en ? capitalizeWords(species.commonNames.en[0]) : "",
             imageUrl: species.medias[0]?.url ?? "",
             scientificName: capitalizeWords(species.scientificName) ?? "",

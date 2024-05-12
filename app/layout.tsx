@@ -11,6 +11,11 @@ import { TailwindIndicator } from "@/components/tailwind-indicator"
 
 export const metadata: Metadata = {
   manifest: "/manifest.json",
+  ...(process.env.VERCEL_ENV === "development"
+    ? {
+        metadataBase: new URL("http://localhost:3000"),
+      }
+    : {}),
 }
 
 export const viewport: Viewport = {

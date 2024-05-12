@@ -1,6 +1,6 @@
 "use client"
 
-import { useTransition } from "react"
+import { useCallback, useEffect, useRef, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useQueryClient } from "@tanstack/react-query"
@@ -8,8 +8,8 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
 
-import { popModal, pushModal } from "@/lib/pushmodal/pushmodal"
-import { createListAction, updateListAction } from "@/lib/services/lists-actions"
+import { popModal, pushModal, useOnPushModal } from "@/lib/pushmodal/pushmodal"
+import { addToListAction, createListAction, updateListAction } from "@/lib/services/lists-actions"
 import { Button } from "@/components/ui/button"
 import { DrawerClose, DrawerContent, DrawerFooter } from "@/components/ui/drawer"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -45,10 +45,11 @@ export const EditListTrigger = ({ list }: EditListTriggerProps) => {
 
 interface CreateListDrawerContentProps {
   action: "create" | "edit"
+  speciesId?: number
   list?: any
 }
 
-export default function CreateListDrawerContent({ action, list }: CreateListDrawerContentProps) {
+export default function CreateListDrawerContent({ action, list, speciesId }: CreateListDrawerContentProps) {
   const [isPending, startTransition] = useTransition()
   const queryClient = useQueryClient()
   const router = useRouter()
@@ -60,12 +61,22 @@ export default function CreateListDrawerContent({ action, list }: CreateListDraw
     },
   })
 
+  useEffect(() => {
+    setTimeout(() => {
+      form.setFocus("name")
+    })
+  }, [])
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    let newList: any = null
+
     startTransition(async () => {
       try {
         if (action === "create") {
-          await createListAction(values.name)
+          newList = await createListAction(values.name)
+          if (speciesId) {
+            await addToListAction(newList.id, speciesId)
+          }
         }
         if (action === "edit") {
           await updateListAction(list.id, values.name)
@@ -79,10 +90,20 @@ export default function CreateListDrawerContent({ action, list }: CreateListDraw
       queryClient.invalidateQueries({
         queryKey: ["lists"],
       })
+
+      if (speciesId) {
+        queryClient.refetchQueries({
+          queryKey: [`add-to-list-${speciesId}`],
+        })
+        queryClient.invalidateQueries({
+          queryKey: [`lists-${newList.id}`],
+        })
+      }
+
       router.refresh()
 
       form.reset()
-      toast.success("List created")
+      toast.success(`List created ${speciesId && "and species added"}`)
       popModal("CreateListDrawer")
     })
   }
@@ -100,7 +121,7 @@ export default function CreateListDrawerContent({ action, list }: CreateListDraw
                   <FormItem>
                     <FormLabel>List name</FormLabel>
                     <FormControl>
-                      <Input autoFocus placeholder="My list" {...field} />
+                      <Input placeholder="My list" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

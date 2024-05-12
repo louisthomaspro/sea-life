@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Prisma } from "@prisma/client"
 
-import { cn } from "@/lib/utils"
+import { capitalizeWords, cn } from "@/lib/utils"
 import { Card, CardContent } from "@/components/ui/card"
 import ImageLoader from "@/components/ui/image-loader"
 
@@ -38,10 +38,14 @@ export default function SpeciesCard({ species, className, ...props }: SpeciesCar
           </div>
           <div className="grid p-2">
             <div className="overflow-auto">
-              <div className="truncate font-semibold">{species.commonNames.en?.[0]}</div>
-              <div className="truncate font-semibold">{species.commonNames.fr?.[0]}</div>
+              <div className="truncate font-semibold">
+                {species.commonNames.en?.[0] && capitalizeWords(species.commonNames.en?.[0])}
+              </div>
+              <div className="truncate font-semibold">
+                {species.commonNames.fr?.[0] && capitalizeWords(species.commonNames.fr?.[0])}
+              </div>
             </div>
-            <div className="truncate text-sm italic text-gray-500">{species.scientificName}</div>
+            <div className="truncate text-sm italic text-gray-500">{capitalizeWords(species.scientificName)}</div>
           </div>
         </CardContent>
       </Card>

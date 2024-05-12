@@ -19,12 +19,6 @@ export default async function Account() {
     return <LoginForm className="my-6 flex justify-center" />
   }
 
-  const profile = await prisma.profile.findFirst({
-    where: {
-      id: user?.id,
-    },
-  })
-
   const listCount = await prisma.list.count({
     where: {
       ownerId: user?.id,
@@ -46,7 +40,7 @@ export default async function Account() {
           </div>
           <div className="ml-auto font-medium">{listCount}</div>
         </Link>
-        {profile?.role === "admin" && (
+        {process.env.NODE_ENV === "development" && (
           <Link href="/admin/lost-species" className="flex items-center gap-4 rounded-md px-5 py-4 hover:bg-gray-100">
             <Icons.warning className="size-5" />
             <div className="grid gap-1">

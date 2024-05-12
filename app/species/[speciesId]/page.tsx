@@ -9,7 +9,7 @@ import { AddToListTrigger } from "@/features/list/components/add-to-list-trigger
 import { AttributeEnum, Prisma, Taxa } from "@prisma/client"
 
 import prisma from "@/lib/prisma"
-import { buildUrl, capitalizeWords } from "@/lib/utils"
+import { buildSpeciesOgImage, capitalizeWords } from "@/lib/utils"
 import { Carousel, CarouselContent, CarouselDots, CarouselItem } from "@/components/ui/carousel"
 import { Icons } from "@/components/ui/icons/icons"
 import ImageLoader from "@/components/ui/image-loader"
@@ -45,10 +45,10 @@ export async function generateMetadata({ params }: { params: { speciesId: string
         ? capitalizeWords(species.commonNames.en[0])
         : capitalizeWords(species.scientificName),
 
-      ...(species.commonNames.en && { description: capitalizeWords(species.scientificName) }),
+      ...(species.commonNames.en?.[0] ? { description: capitalizeWords(species.scientificName) } : {}),
       images: [
         {
-          url: buildUrl("http://localhost:3000/api/og", {
+          url: buildSpeciesOgImage({
             name: species.commonNames.en ? capitalizeWords(species.commonNames.en[0]) : "",
             imageUrl: species.medias[0]?.url ?? "",
             scientificName: capitalizeWords(species.scientificName) ?? "",
@@ -65,6 +65,7 @@ export async function generateMetadata({ params }: { params: { speciesId: string
           alt: "Species image",
         },
       ],
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/species/${params.speciesId}`,
     },
   }
 }
@@ -197,7 +198,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
             <SectionContent>
               {(attributesMap.primary_habitats || attributesMap.secondary_habitats) && (
                 <div className="flex items-center gap-2">
-                  <Icons.habitat className="size-5" />
+                  <Icons.habitat className="size-5 flex-none" />
                   <div className="flex flex-col">
                     {attributesMap.primary_habitats && (
                       <div className="font-medium">
@@ -218,7 +219,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
               )}
               {attributesMap.regions && (
                 <div className="flex items-center gap-2">
-                  <Icons.region className="size-5" />
+                  <Icons.region className="size-5 flex-none" />
                   <div className="font-medium">
                     {attributesMap.regions?.value.map((region: string) => regionsDict[region].name.en).join(", ")}
                   </div>
@@ -234,7 +235,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
             <SectionContent>
               {attributesMap.sociability && (
                 <div className="flex items-center gap-2">
-                  <Icons.sociability className="size-5" />
+                  <Icons.sociability className="size-5 flex-none" />
                   <div className="font-medium">{sociabilityDict[attributesMap.sociability.value].name.en}</div>
                 </div>
               )}

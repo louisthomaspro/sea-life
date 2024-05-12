@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "cross-env NEXT_PUBLIC_BASE_URL=\"http://localhost:3000\" next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

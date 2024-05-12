@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={cn("min-h-dvh pb-16 font-sans", fontSans.variable)} suppressHydrationWarning>
         <Providers>
-          <div className="mx-auto max-w-md">{children}</div>
+          <div className="mx-auto max-w-lg">{children}</div>
           <BottomNavigation />
           <TailwindIndicator />
           <NextTopLoader

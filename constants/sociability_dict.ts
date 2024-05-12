@@ -26,6 +26,7 @@ export const sociabilityList: {
     },
   },
   {
+    // https://en.wikipedia.org/wiki/Shoaling_and_schooling
     id: "shoal",
     name: {
       fr: "Vivant en banc",

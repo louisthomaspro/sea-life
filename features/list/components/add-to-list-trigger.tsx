@@ -111,7 +111,7 @@ export default function AddToListDrawerContent({ speciesId }: AddToListDrawerCon
           <div className="grid">
             <div
               className="flex cursor-pointer items-center gap-4 rounded-md px-2 py-2 hover:bg-gray-100"
-              onClick={() => replaceWithModal("CreateListDrawer", { action: "create" })}
+              onClick={() => replaceWithModal("CreateListDrawer", { action: "create", speciesId })}
             >
               <div className="flex size-10 items-center justify-center rounded-md border border-gray-300">
                 <Icons.plus className="size-4" />

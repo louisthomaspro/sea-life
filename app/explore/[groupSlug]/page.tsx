@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { EditGroupTrigger } from "@/features/admin/create-update-group"
+import { EditGroupTrigger } from "@/features/admin/components/create-update-group"
 import { Prisma } from "@prisma/client"
 
 import { getSpeciesByAncestorList } from "@/lib/database/utils"
@@ -39,6 +39,10 @@ export default async function GroupPage({ params }: { params: { groupSlug: strin
               medias: {
                 select: {
                   url: true,
+                  blurhashDataUrl: true,
+                },
+                orderBy: {
+                  position: "asc",
                 },
               },
             },
@@ -72,6 +76,7 @@ export default async function GroupPage({ params }: { params: { groupSlug: strin
       medias: {
         select: {
           url: true
+          blurhashDataUrl: true
         }
       }
     }

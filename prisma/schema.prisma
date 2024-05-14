@@ -26,21 +26,22 @@ model Profile {
 }
 
 model Taxa {
-  id             Int      @id
-  scientificName String
+  id                                Int                    @id
+  scientificName                    String
   /// [CommonNames]
-  commonNames    Json     @default("{}") // { "en": ["Common name"], "fr": ["Nom commun"] }
-  rank           String
-  rankLevel      Int
-  parentId       Int?
-  // embedding        Unsupported("vector")?
+  commonNames                       Json                   @default("{}") // { "en": ["Common name"], "fr": ["Nom commun"] }
+  rank                              String
+  rankLevel                         Int
+  parentId                          Int?
+  morphologicalDescription          String?
+  embeddingMorphologicalDescription Unsupported("vector")?
   // embeddingContent String?
-  createdAt      DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt      DateTime @default(now()) @db.Timestamptz(6)
-  parent         Taxa?    @relation("TaxaToTaxa", fields: [parentId], references: [id])
-  children       Taxa[]   @relation("TaxaToTaxa")
-  ancestors      Taxa[]   @relation("Ancestors")
-  isAncestorOf   Taxa[]   @relation("Ancestors") // not used
+  createdAt                         DateTime               @default(now()) @db.Timestamptz(6)
+  updatedAt                         DateTime               @default(now()) @db.Timestamptz(6)
+  parent                            Taxa?                  @relation("TaxaToTaxa", fields: [parentId], references: [id])
+  children                          Taxa[]                 @relation("TaxaToTaxa")
+  ancestors                         Taxa[]                 @relation("Ancestors")
+  isAncestorOf                      Taxa[]                 @relation("Ancestors") // not used
 
   medias TaxaMedia[]
 
@@ -66,15 +67,17 @@ model Source {
 }
 
 model TaxaMedia {
-  id          Int      @id @default(autoincrement())
-  taxaId      Int
-  type        String // "image", "video"...
-  url         String
-  originalUrl String?
-  attribution String?
-  position    Int?
-  createdAt   DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt   DateTime @default(now()) @db.Timestamptz(6)
+  id              Int      @id @default(autoincrement())
+  taxaId          Int
+  type            String // "image", "video"...
+  url             String
+  blurhash        Bytes?
+  blurhashDataUrl String?
+  originalUrl     String?
+  attribution     String?
+  position        Int?
+  createdAt       DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime @default(now()) @db.Timestamptz(6)
 
   taxa Taxa @relation(fields: [taxaId], references: [id])
 
@@ -118,6 +121,12 @@ enum AttributeEnum {
   max_colony_size
   max_polyp_diameter
   common_diameter
+
+  // morphological attributes
+  colors
+  patterns
+  body_shape
+  caudal_fin_shape
 }
 
 model Attribute {

@@ -12,7 +12,12 @@ type groupWithHighlightedSpecies = Prisma.GroupGetPayload<{
   include: {
     highlightedSpecies: {
       include: {
-        medias: true
+        medias: {
+          select: {
+            url: true
+            blurhashDataUrl: true
+          }
+        }
       }
     }
     highLevelTaxa: true
@@ -61,6 +66,7 @@ async function SpeciesList({ group }: { group: groupWithHighlightedSpecies }) {
             <ImageLoader
               src={species.medias[0]?.url}
               alt={species.commonNames.en?.[0] ?? ""}
+              blurhashDataURL={species.medias[0]?.blurhashDataUrl}
               fill
               sizes="150px"
               className="rounded-lg object-cover"

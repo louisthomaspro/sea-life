@@ -1,3 +1,6 @@
+import sharp from "sharp"
+import { rgbaToThumbHash, thumbHashToDataURL } from "thumbhash"
+
 import { INaturalistTaxa } from "@/types/inaturalist-taxa"
 import { uploadTaxaMedia } from "@/lib/aws/s3-utils"
 import { getOrCreateSourceInaturalistById } from "@/lib/database/populate/get-or-create-source-inaturalist-by-id"
@@ -19,11 +22,6 @@ export const populateMediaById = async (id: number) => {
     throw new Error(`No taxa found for id ${id}`)
   }
 
-  if (taxaData.medias.length >= 10) {
-    console.log(`Taxa ${id} already has 10 photos, skipping`)
-    return taxaData
-  }
-
   const source = await getOrCreateSourceInaturalistById(id)
 
   if (!source) {
@@ -32,18 +30,13 @@ export const populateMediaById = async (id: number) => {
 
   const iNatPhotos = (source.json as INaturalistTaxa).taxon_photos
 
-  if (iNatPhotos.length === taxaData.medias.length) {
-    console.log(`No new photos for ${taxaData.id}`)
-    return taxaData
-  }
-
   for (const [indexPhoto, valuePhoto] of iNatPhotos.entries()) {
     const MAX_PHOTOS = 10
     if (indexPhoto + 1 > MAX_PHOTOS) break // Upload 10 photos per taxa max
 
     console.log(`Processing photo ${indexPhoto + 1} / ${MAX_PHOTOS}`)
 
-    const photoUrl = valuePhoto.photo.original_url
+    const photoUrl = valuePhoto.photo.large_url
     const photoAttribution = valuePhoto.photo.attribution
 
     // Check if media already exists
@@ -89,7 +82,16 @@ export const populateMediaById = async (id: number) => {
       continue
     }
 
-    const blob = await response.blob()
+    // Get thumbhash
+    // https://evanw.github.io/thumbhash/
+    const buffer = Buffer.from(await response.arrayBuffer())
+    const image = sharp(buffer).resize(100, 100, { fit: "inside" })
+    const { data, info } = await image.ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+    const binaryThumbHash = rgbaToThumbHash(info.width, info.height, data)
+    const placeholderURL = thumbHashToDataURL(binaryThumbHash)
+
+    // Upload photo
+    const blob = new Blob([buffer])
     const publicUrl = await uploadTaxaMedia(taxaData.id.toString(), blob)
     console.log(`${taxaData.id} - Uploaded ${publicUrl}`)
 
@@ -97,6 +99,8 @@ export const populateMediaById = async (id: number) => {
       data: {
         url: publicUrl,
         originalUrl: photoUrl,
+        blurhash: Buffer.from(binaryThumbHash),
+        blurhashDataUrl: placeholderURL,
         attribution: photoAttribution,
         taxaId: taxaData.id,
         type: "image",

@@ -11,7 +11,12 @@ interface HighLevelGroupCardProps extends React.HTMLProps<HTMLAnchorElement> {
     include: {
       highlightedSpecies: {
         include: {
-          medias: true
+          medias: {
+            select: {
+              url: true
+              blurhashDataUrl: true
+            }
+          }
         }
       }
     }
@@ -37,6 +42,7 @@ export default function HighLevelGroupCard({ group, className, ...props }: HighL
                       src={group.highlightedSpecies[index].medias[0]?.url}
                       alt={group.highlightedSpecies[index].commonNames.en?.[0] ?? ""}
                       fill
+                      blurhashDataURL={group.highlightedSpecies[index].medias[0]?.blurhashDataUrl!}
                       sizes="25vw"
                       className="object-cover"
                       priority

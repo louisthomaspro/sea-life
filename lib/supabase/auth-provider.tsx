@@ -50,7 +50,6 @@ export const AuthProvider = ({ children }: any) => {
     signOut: () => supabase.auth.signOut(),
   }
 
-  // use a provider to pass down the value
   return (
     <AuthContext.Provider value={value}>
       {loading ? (
@@ -64,7 +63,6 @@ export const AuthProvider = ({ children }: any) => {
   )
 }
 
-// export the useAuth hook
 export const useAuth = () => {
   return useContext(AuthContext)
 }

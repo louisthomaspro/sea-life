@@ -1,10 +1,7 @@
-import { CreateGroupTrigger } from "@/features/admin/create-update-group"
+import { CreateGroupTrigger } from "@/features/admin/components/create-update-group"
 
 import prisma from "@/lib/prisma"
-import { pushModal } from "@/lib/pushmodal/pushmodal"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Icons } from "@/components/ui/icons/icons"
 
 export default async function LostSpeciesPage() {
   const groups = await prisma.group.findMany({

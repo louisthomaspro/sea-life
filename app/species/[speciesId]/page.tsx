@@ -23,7 +23,15 @@ import { Section, SectionContent, SectionTitle } from "@/components/species/ui/s
 export async function generateMetadata({ params }: { params: { speciesId: string } }): Promise<Metadata> {
   const species = await prisma.taxa.findUnique({
     include: {
-      medias: true,
+      medias: {
+        select: {
+          url: true,
+          blurhashDataUrl: true,
+        },
+        orderBy: {
+          position: "asc",
+        },
+      },
       attributes: {
         include: {
           attributeDefinition: true,
@@ -76,7 +84,15 @@ export async function generateMetadata({ params }: { params: { speciesId: string
 export default async function SpeciesPage({ params }: { params: { speciesId: string } }) {
   const species = await prisma.taxa.findUnique({
     include: {
-      medias: true,
+      medias: {
+        select: {
+          url: true,
+          blurhashDataUrl: true,
+        },
+        orderBy: {
+          position: "asc",
+        },
+      },
       ancestors: {
         orderBy: {
           rankLevel: "desc",
@@ -126,6 +142,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
               <CarouselItem key={i}>
                 <ImageLoader
                   src={media?.url}
+                  blurhashDataURL={media?.blurhashDataUrl}
                   width={200}
                   height={200}
                   alt="ads"
@@ -153,7 +170,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
               <span className="truncate">{capitalizeWords(species.commonNames.fr[0])}</span>
             </h1>
           )}
-          <p className="text-gray-600">{capitalizeWords(species.scientificName)}</p>
+          <p className="italic text-gray-600">{capitalizeWords(species.scientificName)}</p>
         </div>
         {/* HighlightAttributes */}
         {(attributesMap.max_length || attributesMap.depth_max || attributesMap.rarity) && (
@@ -182,74 +199,76 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
             )}
           </HighlightAttributes>
         )}
-        {process.env.VERCEL_ENV === "development" && (
-          <Section>
-            <SectionTitle>Test</SectionTitle>
-            <SectionContent>
-              {species.attributes.map((attribute) => (
-                <div key={attribute.attributeDefinitionId}>
-                  {attribute.attributeDefinition.id}: {attribute.value}
-                </div>
-              ))}
-            </SectionContent>
-          </Section>
-        )}
-        {/* Environment */}
-        {(attributesMap.primary_habitats || attributesMap.secondary_habitats || attributesMap.regions) && (
-          <Section>
-            <SectionTitle>Environment</SectionTitle>
-            <SectionContent>
-              {(attributesMap.primary_habitats || attributesMap.secondary_habitats) && (
-                <div className="flex items-center gap-2">
-                  <Icons.habitat className="size-5 flex-none" />
-                  <div className="flex flex-col">
-                    {attributesMap.primary_habitats && (
-                      <div className="font-medium">
-                        {attributesMap.primary_habitats?.value
-                          .map((habitat: string) => habitatsDict[habitat].title.en)
-                          .join(", ")}
-                      </div>
-                    )}
-                    {attributesMap.secondary_habitats && (
-                      <div className="text-muted-foreground">
-                        {attributesMap.secondary_habitats?.value
-                          .map((habitat: string) => habitatsDict[habitat].title.en)
-                          .join(", ")}
-                      </div>
-                    )}
+        <div className="mt-5 flex flex-col gap-4">
+          {process.env.VERCEL_ENV === "development" && (
+            <Section>
+              <SectionTitle>Test</SectionTitle>
+              <SectionContent>
+                {species.attributes.map((attribute) => (
+                  <div key={attribute.attributeDefinitionId}>
+                    {attribute.attributeDefinition.id}: {attribute.value}
                   </div>
-                </div>
-              )}
-              {attributesMap.regions && (
-                <div className="flex items-center gap-2">
-                  <Icons.region className="size-5 flex-none" />
-                  <div className="font-medium">
-                    {attributesMap.regions?.value.map((region: string) => regionsDict[region].name.en).join(", ")}
+                ))}
+              </SectionContent>
+            </Section>
+          )}
+          {/* Environment */}
+          {(attributesMap.primary_habitats || attributesMap.secondary_habitats || attributesMap.regions) && (
+            <Section>
+              <SectionTitle>Environment</SectionTitle>
+              <SectionContent>
+                {(attributesMap.primary_habitats || attributesMap.secondary_habitats) && (
+                  <div className="flex items-center gap-2">
+                    <Icons.habitat className="size-5 flex-none" />
+                    <div className="flex flex-col">
+                      {attributesMap.primary_habitats && (
+                        <div className="font-medium">
+                          {attributesMap.primary_habitats?.value
+                            .map((habitat: string) => habitatsDict[habitat].title.en)
+                            .join(", ")}
+                        </div>
+                      )}
+                      {attributesMap.secondary_habitats && (
+                        <div className="text-muted-foreground">
+                          {attributesMap.secondary_habitats?.value
+                            .map((habitat: string) => habitatsDict[habitat].title.en)
+                            .join(", ")}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
-            </SectionContent>
-          </Section>
-        )}
-        {/* LifeStyle and behavior */}
-        {attributesMap.sociability && (
+                )}
+                {attributesMap.regions && (
+                  <div className="flex items-center gap-2">
+                    <Icons.region className="size-5 flex-none" />
+                    <div className="font-medium">
+                      {attributesMap.regions?.value.map((region: string) => regionsDict[region].name.en).join(", ")}
+                    </div>
+                  </div>
+                )}
+              </SectionContent>
+            </Section>
+          )}
+          {/* LifeStyle and behavior */}
+          {attributesMap.sociability && (
+            <Section>
+              <SectionTitle>Lifestyle and behavior</SectionTitle>
+              <SectionContent>
+                {attributesMap.sociability && (
+                  <div className="flex items-center gap-2">
+                    <Icons.sociability className="size-5 flex-none" />
+                    <div className="font-medium">{sociabilityDict[attributesMap.sociability.value].name.en}</div>
+                  </div>
+                )}
+              </SectionContent>
+            </Section>
+          )}
+          {/* Taxonomy */}
           <Section>
-            <SectionTitle>Lifestyle and behavior</SectionTitle>
-            <SectionContent>
-              {attributesMap.sociability && (
-                <div className="flex items-center gap-2">
-                  <Icons.sociability className="size-5 flex-none" />
-                  <div className="font-medium">{sociabilityDict[attributesMap.sociability.value].name.en}</div>
-                </div>
-              )}
-            </SectionContent>
+            <SectionTitle>Taxonomy</SectionTitle>
+            {Taxonomy(species.ancestors)}
           </Section>
-        )}
-        {/* Taxonomy */}
-        <Section>
-          <SectionTitle>Taxonomy</SectionTitle>
-          {Taxonomy(species.ancestors)}
-        </Section>
+        </div>
       </div>
     </div>
   )

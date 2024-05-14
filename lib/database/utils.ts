@@ -34,6 +34,10 @@ export const getSpeciesByAncestorList = async (taxaIds: number[]) => {
       medias: {
         select: {
           url: true,
+          blurhashDataUrl: true,
+        },
+        orderBy: {
+          position: "asc",
         },
       },
     },

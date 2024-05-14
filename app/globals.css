@@ -122,3 +122,12 @@ html {
     scrollbar-width: none; /* Firefox */
   }
 }
+
+/* Animated gradient */
+
+#gradient-canvas {
+  --gradient-color-1: #c3e4ff;
+  --gradient-color-2: #6ec3f4;
+  --gradient-color-3: #eae2ff;
+  --gradient-color-4: #b9beff;
+}

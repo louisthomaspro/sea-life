@@ -20,7 +20,9 @@ export async function GET(request: Request) {
 
   const query = Prisma.sql`
   SELECT
-t.*,
+  t.id,
+  t."scientificName",
+  t."commonNames",
 m.url,
 rank_scientific_name,
 rank_common_names,

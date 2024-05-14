@@ -11,6 +11,7 @@ interface SpeciesCardProps extends Omit<React.ComponentPropsWithoutRef<typeof Li
       medias: {
         select: {
           url: true
+          blurhashDataUrl: true
         }
       }
     }
@@ -31,6 +32,7 @@ export default function SpeciesCard({ species, className, ...props }: SpeciesCar
             <ImageLoader
               src={species.medias[0]?.url}
               alt={species.commonNames.en?.[0]!}
+              blurhashDataURL={species.medias[0]?.blurhashDataUrl}
               sizes="50vw"
               fill
               className="rounded-lg object-cover"

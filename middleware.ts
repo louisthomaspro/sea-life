@@ -26,7 +26,7 @@ export async function middleware(request: NextRequest) {
   if (isPublicPage) return response
 
   if (!user) {
-    return NextResponse.redirect(new URL("/account", request.url))
+    return NextResponse.redirect(new URL(`/account?next=${request.url}`, request.url))
   }
 
   return response

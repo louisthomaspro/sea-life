@@ -24,6 +24,10 @@ export const getListAction = async (id: number) => {
           taxa: {
             include: {
               medias: {
+                select: {
+                  url: true,
+                  blurhashDataUrl: true,
+                },
                 take: 1,
               },
             },
@@ -62,6 +66,10 @@ export const getListsAction = async (speciesId?: number) => {
             taxa: {
               include: {
                 medias: {
+                  select: {
+                    url: true,
+                    blurhashDataUrl: true,
+                  },
                   take: 1,
                 },
               },

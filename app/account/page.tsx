@@ -16,7 +16,11 @@ export default async function Account() {
   } = await supabase.auth.getUser()
 
   if (!user) {
-    return <LoginForm className="my-6 flex justify-center" />
+    return (
+      <div className="flex h-[80vh] items-center justify-center">
+        <LoginForm className="container flex justify-center" />
+      </div>
+    )
   }
 
   const listCount = await prisma.list.count({
@@ -28,9 +32,7 @@ export default async function Account() {
   return (
     <div className="container py-10">
       {/* Header */}
-      <div className={cn("mb-6 grid grid-cols-[1fr_auto_1fr] items-center gap-2")}>
-        <h1 className="text-center text-3xl font-bold tracking-tighter">Account</h1>
-      </div>
+      <h1 className="mb-6 px-5 text-3xl font-bold tracking-tighter">Account</h1>
       <Separator className="mb-2" />
       <div className="grid">
         <Link href="/lists" className="flex items-center gap-4 rounded-md px-5 py-4 hover:bg-gray-100">

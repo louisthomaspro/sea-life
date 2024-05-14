@@ -59,6 +59,17 @@ export function CentralHomeOpenFilledOffStroke2Radius2(props: JSX.IntrinsicEleme
   )
 }
 
+export function CentralHomeRoundDoorFilledOnStroke2Radius2(props: JSX.IntrinsicElements["svg"]) {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M13.6996 3.45488C12.6758 2.75104 11.3242 2.75104 10.3004 3.45488L4.30041 7.57988C3.48635 8.13954 3 9.06411 3 10.052V17.9999C3 19.6568 4.34315 20.9999 6 20.9999H8.5C9.05228 20.9999 9.5 20.5522 9.5 19.9999V16.4999C9.5 15.1192 10.6193 13.9999 12 13.9999C13.3807 13.9999 14.5 15.1192 14.5 16.4999V19.9999C14.5 20.5522 14.9477 20.9999 15.5 20.9999H18C19.6569 20.9999 21 19.6568 21 17.9999V10.052C21 9.06411 20.5136 8.13954 19.6996 7.57988L13.6996 3.45488Z"
+        fill="currentColor"
+      />
+    </svg>
+  )
+}
+
 export function CentralEarthFilledOffStroke2Radius2(props: JSX.IntrinsicElements["svg"]) {
   return (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -115,6 +126,21 @@ export function CentralPeopleFilledOffStroke2Radius2(props: JSX.IntrinsicElement
         stroke="currentColor"
         strokeWidth="2"
         strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+export function CentralPeopleFilledOnStroke2Radius2(props: JSX.IntrinsicElements["svg"]) {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M12 2C9.51472 2 7.5 4.01472 7.5 6.5C7.5 8.98528 9.51472 11 12 11C14.4853 11 16.5 8.98528 16.5 6.5C16.5 4.01472 14.4853 2 12 2Z"
+        fill="currentColor"
+      />
+      <path
+        d="M12.0015 12C8.16958 12 5.23686 14.2962 4.04605 17.516C3.70562 18.4365 3.93869 19.3438 4.47985 19.9887C5.00722 20.6172 5.82133 21 6.69832 21H17.3046C18.1816 21 18.9957 20.6172 19.5231 19.9887C20.0643 19.3438 20.2973 18.4365 19.9569 17.516C18.7661 14.2962 15.8334 12 12.0015 12Z"
+        fill="currentColor"
       />
     </svg>
   )
@@ -253,6 +279,23 @@ export function CentralMagnifyingGlassFilledOffStroke2Radius2(props: JSX.Intrins
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+export function CentralMagnifyingGlassFilledOnStroke2Radius2(props: JSX.IntrinsicElements["svg"]) {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M11 15C13.2091 15 15 13.2091 15 11C15 8.79086 13.2091 7 11 7C8.79086 7 7 8.79086 7 11C7 13.2091 8.79086 15 11 15Z"
+        fill="currentColor"
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M11 5C7.68629 5 5 7.68629 5 11C5 14.3137 7.68629 17 11 17C14.3137 17 17 14.3137 17 11C17 7.68629 14.3137 5 11 5ZM3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11C19 12.8487 18.3729 14.551 17.3199 15.9056L20.7071 19.2929C21.0976 19.6834 21.0976 20.3166 20.7071 20.7071C20.3166 21.0976 19.6834 21.0976 19.2929 20.7071L15.9056 17.3199C14.551 18.3729 12.8487 19 11 19C6.58172 19 3 15.4183 3 11Z"
+        fill="currentColor"
       />
     </svg>
   )

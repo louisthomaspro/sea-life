@@ -42,4 +42,19 @@ if (process.env.NODE_ENV === "production") {
   }
 }
 
+// let prisma = prisma.$extends({
+//   result: {
+//     taxaMedia: {
+//       blurhashDataUrl: {
+//         needs: {
+//           blurhash: true,
+//         },
+//         compute(data) {
+//           return thumbHashToDataURL(data.blurhash!) as string
+//         },
+//       },
+//     },
+//   },
+// })
+
 export default prisma

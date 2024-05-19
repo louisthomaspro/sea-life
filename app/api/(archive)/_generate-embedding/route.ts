@@ -1,4 +1,4 @@
-import { generateEmbedding } from "@/lib/_actions/search-actions"
+// import { generateEmbedding } from "@/lib/_actions/search-actions"
 import prisma from "@/lib/prisma"
 
 export async function GET(request: Request) {

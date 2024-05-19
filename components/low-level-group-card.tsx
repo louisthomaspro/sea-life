@@ -1,4 +1,4 @@
-import "server-only"
+import "server-cli-only"
 
 import Link from "next/link"
 import { Prisma } from "@prisma/client"

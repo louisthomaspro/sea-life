@@ -1,3 +1,4 @@
+import mime from "mime"
 import sharp from "sharp"
 import { rgbaToThumbHash, thumbHashToDataURL } from "thumbhash"
 
@@ -53,7 +54,7 @@ export const populateMediaById = async (id: number) => {
     }
 
     // Fetch photo
-    async function fetchWithRetry(url: string, maxRetries = 3, retryDelay = 1000) {
+    async function fetchWithRetry(url: string, maxRetries = 3, retryDelay = 3) {
       let attempt = 0
       while (attempt < maxRetries) {
         try {
@@ -61,8 +62,8 @@ export const populateMediaById = async (id: number) => {
           return response
         } catch (error) {
           console.error(`Fetch failed: ${error}, ${url}`)
-          console.log(`Retrying in ${retryDelay} milliseconds...`)
-          await new Promise((resolve) => setTimeout(resolve, retryDelay))
+          console.log(`Retrying in ${retryDelay} s...`)
+          await new Promise((resolve) => setTimeout(resolve, retryDelay * 1000))
           attempt++
         }
       }
@@ -91,13 +92,15 @@ export const populateMediaById = async (id: number) => {
     const placeholderURL = thumbHashToDataURL(binaryThumbHash)
 
     // Upload photo
-    const blob = new Blob([buffer])
-    const publicUrl = await uploadTaxaMedia(taxaData.id.toString(), blob)
+    const extension = mime.getExtension(contentType)
+    const file = new File([buffer], `photo.${extension}`, { type: contentType })
+    const { publicUrl, s3Key } = await uploadTaxaMedia(taxaData.id.toString(), file)
     console.log(`${taxaData.id} - Uploaded ${publicUrl}`)
 
     await prisma.taxaMedia.create({
       data: {
         url: publicUrl,
+        s3Key: s3Key,
         originalUrl: photoUrl,
         blurhash: Buffer.from(binaryThumbHash),
         blurhashDataUrl: placeholderURL,

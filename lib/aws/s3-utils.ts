@@ -1,12 +1,16 @@
-import "server-only"
+import "server-cli-only"
 
 import { PutObjectCommand, PutObjectCommandInput, S3Client } from "@aws-sdk/client-s3"
 import mime from "mime"
 
-export const uploadTaxaMedia = async (id: string, file: File | Blob) => {
-  const fileContent = await file.arrayBuffer()
+export const uploadTaxaMedia = async (id: string, file: File) => {
   const extension = mime.getExtension(file.type)
+  const fileContent = await file.arrayBuffer()
   const buffer = Buffer.from(fileContent)
+
+  if (!extension) {
+    throw new Error(`Failed to get extension for file type: ${file.type}`)
+  }
 
   // Upload
   const client = new S3Client()
@@ -23,5 +27,5 @@ export const uploadTaxaMedia = async (id: string, file: File | Blob) => {
 
   // Return the public URL
   const publicUrl = `https://${uploadParams.Bucket}.s3.amazonaws.com/${uploadParams.Key}`
-  return publicUrl
+  return { publicUrl, s3Key: uploadParams.Key! }
 }

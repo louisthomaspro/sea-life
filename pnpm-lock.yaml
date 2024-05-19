@@ -98,6 +98,9 @@ dependencies:
   embla-carousel-react:
     specifier: ^8.0.2
     version: 8.0.4(react@18.3.1)
+  framer-motion:
+    specifier: ^11.2.4
+    version: 11.2.4(react-dom@18.3.1)(react@18.3.1)
   jsonwebtoken:
     specifier: ^9.0.2
     version: 9.0.2
@@ -152,6 +155,9 @@ dependencies:
   react-map-gl:
     specifier: ^7.1.7
     version: 7.1.7(react-dom@18.3.1)(react@18.3.1)
+  server-cli-only:
+    specifier: ^0.3.2
+    version: 0.3.2
   server-only:
     specifier: ^0.0.1
     version: 0.0.1
@@ -7627,6 +7633,26 @@ packages:
       { integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew== }
     dev: true
 
+  /framer-motion@11.2.4(react-dom@18.3.1)(react@18.3.1):
+    resolution:
+      { integrity: sha512-D+EXd0lspaZijv3BJhAcSsyGz+gnvoEdnf+QWkPZdhoFzbeX/2skrH9XSVFb0osgUnCajW8x1frjhLuKwa/Reg== }
+    peerDependencies:
+      "@emotion/is-prop-valid": "*"
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    peerDependenciesMeta:
+      "@emotion/is-prop-valid":
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      tslib: 2.6.2
+    dev: false
+
   /fs-extra@9.1.0:
     resolution:
       { integrity: sha512-hcg3ZmepS30/7BSFqRvoo3DOMQu7IjqxO5nCDt+zM9XWjb33Wg7ziNT+Qvqbuc3+gWpzO02JubVyk2G4Zvo1OQ== }
@@ -9932,6 +9958,11 @@ packages:
       { integrity: sha512-Saa1xPByTTq2gdeFZYLLo+RFE35NHZkAbqZeWNd3BpzppeVisAqpDjcp8dyf6uIvEqJRd46jemmyA4iFIeVk8g== }
     dependencies:
       randombytes: 2.1.0
+
+  /server-cli-only@0.3.2:
+    resolution:
+      { integrity: sha512-t8cH7ZPomACZ+T+yb5s9TjVjjMe62DLgT5VXkN71Ix7nuPQfR6HQMM/XG1k4MesiHiRKw5mpwwZC7A+bzuZRfw== }
+    dev: false
 
   /server-only@0.0.1:
     resolution:

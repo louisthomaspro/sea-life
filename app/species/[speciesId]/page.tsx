@@ -11,9 +11,14 @@ import { AttributeEnum, Prisma, Taxa } from "@prisma/client"
 
 import prisma from "@/lib/prisma"
 import { buildSpeciesOgImageUrl, capitalizeWords } from "@/lib/utils"
-import { Carousel, CarouselContent, CarouselDots, CarouselItem } from "@/components/ui/carousel"
 import { Icons } from "@/components/ui/icons/icons"
 import ImageLoader from "@/components/ui/image-loader"
+import {
+  SpeciesCarousel,
+  SpeciesCarouselContent,
+  SpeciesCarouselDots,
+  SpeciesCarouselItem,
+} from "@/components/ui/species-carousel"
 import { Flag } from "@/components/flag"
 import BackButton from "@/components/species/back-button"
 import ShareButton from "@/components/species/share-button"
@@ -125,10 +130,10 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
         <BackButton />
         <AddToListTrigger speciesId={Number(params.speciesId)} />
         <ShareButton />
-        <Carousel className="aspect-[3/2] overflow-hidden rounded-b-md">
-          <CarouselContent>
+        <SpeciesCarousel className="aspect-[3/2] overflow-hidden rounded-b-md">
+          <SpeciesCarouselContent>
             {species.medias.length === 0 && (
-              <CarouselItem>
+              <SpeciesCarouselItem>
                 <ImageLoader
                   src={null}
                   width={200}
@@ -136,10 +141,10 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
                   alt="ads"
                   className="h-full w-full rounded-b-md object-cover"
                 />
-              </CarouselItem>
+              </SpeciesCarouselItem>
             )}
             {species.medias.map((media, i) => (
-              <CarouselItem key={i}>
+              <SpeciesCarouselItem key={i}>
                 <ImageLoader
                   src={media?.url}
                   blurhashDataURL={media?.blurhashDataUrl}
@@ -149,11 +154,11 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
                   className="h-full w-full rounded-b-md object-cover"
                   priority={i === 0}
                 />
-              </CarouselItem>
+              </SpeciesCarouselItem>
             ))}
-          </CarouselContent>
-          <CarouselDots />
-        </Carousel>
+          </SpeciesCarouselContent>
+          <SpeciesCarouselDots />
+        </SpeciesCarousel>
       </div>
       <div className="container">
         {/* Title */}

@@ -1,10 +1,11 @@
 "use client"
 
 import * as React from "react"
-import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons"
 import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react"
+import { motion, Variants } from "framer-motion"
+import { ArrowLeft, ArrowRight } from "lucide-react"
 
-import { cn } from "@/lib/utils"
+import { capitalizeWords, cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
 type CarouselApi = UseEmblaCarouselType[1]
@@ -138,10 +139,10 @@ const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
     const { carouselRef, orientation } = useCarousel()
 
     return (
-      <div ref={carouselRef} className="flex h-full w-full overflow-hidden">
+      <div ref={carouselRef} className="overflow-hidden">
         <div
           ref={ref}
-          className={cn("flex", orientation === "horizontal" ? "w-full" : "flex-col", className)}
+          className={cn("flex", orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col", className)}
           {...props}
         />
       </div>
@@ -159,7 +160,7 @@ const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
         ref={ref}
         role="group"
         aria-roledescription="slide"
-        className={cn("min-w-0 shrink-0 grow-0 basis-full", orientation === "horizontal" ? "" : "", className)}
+        className={cn("min-w-0 shrink-0 grow-0 basis-full", orientation === "horizontal" ? "pl-4" : "pt-4", className)}
         {...props}
       />
     )
@@ -187,7 +188,7 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
         onClick={scrollPrev}
         {...props}
       >
-        <ArrowLeftIcon className="h-4 w-4" />
+        <ArrowLeft className="h-4 w-4" />
         <span className="sr-only">Previous slide</span>
       </Button>
     )
@@ -215,7 +216,7 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
         onClick={scrollNext}
         {...props}
       >
-        <ArrowRightIcon className="h-4 w-4" />
+        <ArrowRight className="h-4 w-4" />
         <span className="sr-only">Next slide</span>
       </Button>
     )
@@ -223,9 +224,14 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
 )
 CarouselNext.displayName = "CarouselNext"
 
-const CarouselDots = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => {
-    const { api } = useCarousel()
+interface CarouselItemTitleProps extends React.HTMLAttributes<HTMLDivElement> {
+  title: string
+  i: number
+}
+
+const CarouselItemTitle = React.forwardRef<HTMLDivElement, CarouselItemTitleProps>(
+  ({ className, children, title, i, ...props }, ref) => {
+    const { orientation, api } = useCarousel()
 
     const [selectedIndex, setSelectedIndex] = React.useState(0)
 
@@ -250,30 +256,74 @@ const CarouselDots = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
     }, [api, onSelect])
 
     return (
-      <div
-        className={cn(
-          "absolute bottom-3 left-1/2 flex max-w-[90%] -translate-x-1/2 justify-center gap-2",
-          (api?.scrollSnapList().length ?? 0) > 12 && "gap-1.5",
-          className
-        )}
-        {...props}
-      >
-        {api
-          ?.scrollSnapList()
-          .map((_, i) => (
-            <button
-              key={i}
-              className={cn(
-                "h-2 w-2 rounded-full bg-white opacity-50 transition-opacity hover:opacity-70",
-                selectedIndex === i && "opacity-100"
-              )}
-              onClick={() => api?.scrollTo(i)}
-            />
+      <div ref={ref} className={cn(className)} {...props}>
+        {children}
+        <motion.h1
+          style={{ display: "flex", overflow: "hidden" }}
+          variants={container}
+          initial="hidden"
+          animate={selectedIndex === i ? "visible" : "hidden"}
+          className="absolute bottom-2 right-4 z-30 text-sm font-medium text-background opacity-80"
+        >
+          {Array.from(capitalizeWords(title)).map((letter, i) => (
+            <motion.span key={i} variants={child}>
+              {letter === " " ? "\u00A0" : letter}
+            </motion.span>
           ))}
+        </motion.h1>
+        {/* gradient black from bottom to top */}
+        <div className="absolute bottom-0 left-0 right-0 z-20 h-12 bg-gradient-to-t from-black/50 to-transparent" />
       </div>
     )
   }
 )
-CarouselDots.displayName = "CarouselDots"
+CarouselItemTitle.displayName = "CarouselItemTitle"
 
-export { type CarouselApi, Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, CarouselDots }
+export {
+  type CarouselApi,
+  Carousel as DashboardCarousel,
+  CarouselContent as DashboardCarouselContent,
+  CarouselItem as DashboardCarouselItem,
+  CarouselPrevious as DashboardCarouselPrevious,
+  CarouselNext as DashboardCarouselNext,
+  CarouselItemTitle as DashboardCarouselItemTitle,
+}
+
+// Animate each letter
+
+const delay = 0
+const animationDuration = 0.03
+const letterAnimationDuration = 0.15
+
+const container: Variants = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: (i: number = 1) => ({
+    opacity: 1,
+    transition: { staggerChildren: animationDuration, delayChildren: i * delay },
+  }),
+}
+
+const child: Variants = {
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: letterAnimationDuration,
+      // type: "spring",
+      damping: 12,
+      stiffness: 200,
+    },
+  },
+  hidden: {
+    opacity: 0,
+    y: 4,
+    transition: {
+      duration: letterAnimationDuration,
+      // type: "spring",
+      damping: 12,
+      stiffness: 200,
+    },
+  },
+}

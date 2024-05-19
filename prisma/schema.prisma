@@ -71,6 +71,7 @@ model TaxaMedia {
   taxaId          Int
   type            String // "image", "video"...
   url             String
+  s3Key           String
   blurhash        Bytes?
   blurhashDataUrl String?
   originalUrl     String?

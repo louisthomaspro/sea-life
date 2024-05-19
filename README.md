@@ -41,6 +41,10 @@ npx supabase db restore -f "supabase/backups/2021-10-06/schema_2021-10-06_14-00-
 ```bash
 # Reset triggers
 npx prisma db execute --file ./lib/database/seeds/triggers.sql
+npx prisma db execute --file ./supabase/backups/data.sql
+
+psql -h aws-0-ap-southeast-1.pooler.supabase.com -p 5432 -U postgres.etbfmqkktewuqbpktqvf -d postgres -f data-3.sql
+
 ```
 
 ## Export firestore data

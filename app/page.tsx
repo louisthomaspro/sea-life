@@ -1,14 +1,16 @@
+import { Suspense } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import Fauna from "@/public/img/fauna.jpg"
 import Flora from "@/public/img/flora.jpg"
 
 import { SearchInput } from "@/components/search-input"
+import TodaysPicks from "@/components/todays-picks"
 
 export default function HomePage() {
   return (
-    <>
-      <div className="container pt-10">
+    <div className="pt-10">
+      <div className="container">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold tracking-tighter">Explore Marine Life</h1>
           <p className="text-gray-500 dark:text-gray-400">Discover the wonders of the ocean.</p>
@@ -33,6 +35,15 @@ export default function HomePage() {
           </Link>
         </div>
       </div>
-    </>
+      {/* Today's Picks */}
+      <div className="mt-4">
+        <div className={"container mb-1 flex items-center gap-4"}>
+          <div className="text-lg font-semibold">Today's picks</div>
+        </div>
+        <Suspense>
+          <TodaysPicks />
+        </Suspense>
+      </div>
+    </div>
   )
 }

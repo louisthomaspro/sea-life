@@ -1,4 +1,4 @@
-import "server-only"
+import "server-cli-only"
 
 import { Prisma, Taxa } from "@prisma/client"
 

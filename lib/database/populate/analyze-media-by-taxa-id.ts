@@ -5,51 +5,16 @@ import prisma from "@/lib/prisma"
 
 import "server-cli-only"
 
+import { bodyShapes, caudalFinShapes, colors, patterns } from "@/constants/morphology"
 import { z } from "zod"
-
-const colors = [
-  "white",
-  "brown",
-  "yellow",
-  "black",
-  "blue",
-  "orange",
-  "dark-gray",
-  "red",
-  "green",
-  "purple",
-  "pink",
-  "light-gray",
-]
-const patterns = [
-  "blotches-or-dots",
-  "vertical-marking",
-  "horizontal-marking",
-  "reticulations-pattern",
-  "oblique-markings",
-  "streaks-pattern",
-  "banded-pattern",
-  "grid-pattern",
-  "chevrons-pattern",
-  "camouflage-pattern",
-  "tubercles-pattern",
-  "spines-pattern",
-  "barbels-pattern",
-  "none",
-]
-const caudalFinShapes = ["rounded", "forked", "truncated", "pointed", "lunate"]
-const bodyShapes = ["fusiform", "compressed", "elongated", "globelike", "anguilliform", "flat", "rectangular", "other"]
 
 export const analyzeMediaByTaxaId = async (id: number) => {
   const taxaData = await prisma.taxa.findFirst({
     select: {
       id: true,
       medias: true,
-      attributes: {
-        include: {
-          attributeDefinition: true,
-        },
-      },
+      morphologicalDescription: true,
+      attributes: true,
     },
     where: {
       id: id,
@@ -62,31 +27,56 @@ export const analyzeMediaByTaxaId = async (id: number) => {
 
   if (!taxaData.medias || !taxaData.medias[0]) {
     console.log(`No media found for taxa ${id}`)
-    throw new Error(`No media found for taxa ${id}`)
+    return
   }
 
   console.log(`Analyze taxa ${id} - ${taxaData.medias[0].url}`)
 
   // Check if data already exists
-  const existingAttributes = taxaData.attributes.map((a) => a.attributeDefinitionId)
-
-  const existingColors = existingAttributes.filter((a) => colors.includes(a))
-  const existingPatterns = existingAttributes.filter((a) => patterns.includes(a))
-  const existingCaudalFinShapes = existingAttributes.filter((a) => caudalFinShapes.includes(a))
-  const existingBodyShapes = existingAttributes.filter((a) => bodyShapes.includes(a))
-
   if (
-    existingColors.length === colors.length &&
-    existingPatterns.length === patterns.length &&
-    existingCaudalFinShapes.length === caudalFinShapes.length &&
-    existingBodyShapes.length === bodyShapes.length
+    taxaData.attributes.find((attribute) => attribute.attributeDefinitionId === AttributeEnum.colors) &&
+    taxaData.attributes.find((attribute) => attribute.attributeDefinitionId === AttributeEnum.patterns) &&
+    taxaData.attributes.find((attribute) => attribute.attributeDefinitionId === AttributeEnum.caudal_fin_shape) &&
+    taxaData.attributes.find((attribute) => attribute.attributeDefinitionId === AttributeEnum.body_shape) &&
+    taxaData.morphologicalDescription
   ) {
     console.log(`All attributes already exist for taxa ${id}`)
     return
   }
 
   // Otherwise, re-populate attributes
-  const results = await getMorphologicalAttributes(taxaData.medias[0].url)
+  let results: MorphologicalAttributes | undefined
+  let retryCount = 0
+  const maxRetries = 3
+
+  while (!results && retryCount < maxRetries) {
+    try {
+      results = await getMorphologicalAttributes(taxaData.medias[0].url)
+    } catch (e) {
+      console.error(`Error analyzing taxa ${id}`, e)
+      retryCount++
+    }
+  }
+
+  if (!results) {
+    console.error(`Failed to analyze taxa ${id} after ${maxRetries} retries`)
+    return
+  }
+
+  const embeddingResponse = await openai.embeddings.create({
+    model: "text-embedding-ada-002",
+    input: results.description,
+    encoding_format: "float",
+  })
+
+  const [{ embedding }] = embeddingResponse.data
+
+  // Update embedding in database
+  await prisma.$executeRaw`
+    UPDATE "Taxa"
+    SET "embeddingMorphologicalDescription" = ${JSON.stringify(embedding)}::vector
+    WHERE "id" = ${id}
+      `
 
   // Save in database
   await prisma.taxa.update({
@@ -94,6 +84,7 @@ export const analyzeMediaByTaxaId = async (id: number) => {
       id: id,
     },
     data: {
+      morphologicalDescription: results.description,
       attributes: {
         connectOrCreate: [
           {
@@ -104,6 +95,42 @@ export const analyzeMediaByTaxaId = async (id: number) => {
             where: {
               taxaId_attributeDefinitionId: {
                 attributeDefinitionId: AttributeEnum.colors,
+                taxaId: id,
+              },
+            },
+          },
+          {
+            create: {
+              attributeDefinitionId: AttributeEnum.patterns,
+              value: results.patterns,
+            },
+            where: {
+              taxaId_attributeDefinitionId: {
+                attributeDefinitionId: AttributeEnum.patterns,
+                taxaId: id,
+              },
+            },
+          },
+          {
+            create: {
+              attributeDefinitionId: AttributeEnum.caudal_fin_shape,
+              value: results.caudal_fin_shape,
+            },
+            where: {
+              taxaId_attributeDefinitionId: {
+                attributeDefinitionId: AttributeEnum.caudal_fin_shape,
+                taxaId: id,
+              },
+            },
+          },
+          {
+            create: {
+              attributeDefinitionId: AttributeEnum.body_shape,
+              value: results.body_shape,
+            },
+            where: {
+              taxaId_attributeDefinitionId: {
+                attributeDefinitionId: AttributeEnum.body_shape,
                 taxaId: id,
               },
             },
@@ -123,6 +150,64 @@ interface MorphologicalAttributes {
 }
 
 async function getMorphologicalAttributes(url: string) {
+  const jsonSchema = {
+    $schema: "http://json-schema.org/draft-07/schema#",
+    title: "Fish Species Analysis",
+    type: "object",
+    properties: {
+      colors: {
+        type: "array",
+        items: {
+          type: "string",
+          enum: colors.map((color) => color),
+        },
+        description: "An array listing the colors of the fish.",
+      },
+      patterns: {
+        type: "array",
+        items: {
+          type: "string",
+          enum: patterns.map((pattern) => pattern),
+        },
+        description: "An array listing the patterns observed on the fish.",
+      },
+      caudal_fin_shape: {
+        type: "string",
+        enum: caudalFinShapes.map((shape) => shape),
+        description: "The shape of the caudal fin (tail fin) of the fish. Set to 'null' if you cannot determine.",
+      },
+      body_shape: {
+        type: "string",
+        enum: bodyShapes.map((shape) => shape),
+        description: "The shape of the body of the fish.",
+      },
+      description: {
+        type: "string",
+        maxLength: 200,
+        description:
+          "Describe the fish's distinctively observed features in maximum 20 words. Use simple words and short sentences. Specify the location of these features. Avoid subjective or interpretive comments.",
+      },
+    },
+    required: ["colors", "patterns", "caudal_fin_shape", "body_shape", "description"],
+  }
+
+  const newPrompt = `
+  Analyze the fish in the image and return a JSON object following the schema below:
+  ---
+  ${JSON.stringify(jsonSchema, null, 2)}
+  ---
+
+  Do not return values that are not mentioned in the JSON schema.
+
+  Example of the expected JSON object:
+  {
+    "colors": ["red", "blue", "green"],
+    "patterns": ["blotches-or-dots", "vertical-marking"],
+    "caudal_fin_shape": "rounded",
+    "body_shape": "elongated",
+    "description": "The fish has a red body with blue vertical stripes."
+  }`
+
   const response = await openai.chat.completions.create({
     model: "gpt-4o",
     response_format: {
@@ -134,36 +219,7 @@ async function getMorphologicalAttributes(url: string) {
         content: [
           {
             type: "text",
-            text: `
-            Analyze the provided images and return a JSON object containing the following details about the fish species present in the images:
-
-            1. Colors: An array listing the colors of the fish. Be careful with the light and shadow.
-            Use only the allowed colors: ${colors.join(", ")}.
-
-            2. Patterns: An array listing the the patterns observed on the fish.
-            Use only the allowed patterns: ${patterns.join(", ")}.
-
-            3. Caudal Fin Shape: The shape of the caudal fin (tail fin) of the fish.
-            Use only the allowed shapes: ${caudalFinShapes.join(", ")}. This field can be null if the caudal fin is not visible in the images.
-
-            4. Body Shape: The shape of the body of the fish.
-            Use only the allowed shapes: ${bodyShapes.join(", ")}.
-
-            5. Description: Describe the fish in around 20 words using simple words and short sentence for each detail.
-            Include details like color, patterns, and other distinctive features. Specify the location of these features.
-            Avoid subjective or interpretive comments about the fish's appearance, the image or the background.
-
-            Ensure the response starts with the character "{" to produce valid JSON.
-
-            Example of the expected JSON object:
-            {
-              "colors": ["red", "blue", "green"],
-              "patterns": ["blotches-or-dots", "vertical-marking"],
-              "caudal_fin_shape": "rounded",
-              "body_shape": "elongated",
-              "description": "The fish has a red body with blue vertical stripes."
-            }
-          `,
+            text: newPrompt,
           },
           {
             type: "image_url",
@@ -180,7 +236,7 @@ async function getMorphologicalAttributes(url: string) {
   const schema = z.object({
     colors: z.array(z.enum(colors as [string, ...string[]])),
     patterns: z.array(z.enum(patterns as [string, ...string[]])),
-    caudal_fin_shape: z.enum(caudalFinShapes as [string, ...string[]]),
+    caudal_fin_shape: z.enum(caudalFinShapes as [string, ...string[]]).nullable(),
     body_shape: z.enum(bodyShapes as [string, ...string[]]),
     description: z.string(),
   })

@@ -12,13 +12,21 @@ async function mainBatch() {
     select: {
       id: true,
     },
+    where: {
+      rank: "species",
+      morphologicalDescription: null,
+      ancestors: {
+        some: {
+          id: 47178,
+        },
+      },
+    },
     orderBy: {
       id: "asc",
     },
-    take: 1,
   })
 
-  const BATCH_SIZE = 10 // number of parallel executions
+  const BATCH_SIZE = 5 // number of parallel executions
   for (let i = 0; i < taxaData.length; i += BATCH_SIZE) {
     const batch = taxaData.slice(i, i + BATCH_SIZE).map((valueTaxa, index) => {
       console.log(`processing taxa ${i + index + 1} / ${taxaData.length}, id: ${valueTaxa.id}`)

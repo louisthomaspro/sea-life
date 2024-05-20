@@ -1,0 +1,40 @@
+export const colors = [
+  "white",
+  "brown",
+  "yellow",
+  "black",
+  "blue",
+  "orange",
+  "dark-gray",
+  "red",
+  "green",
+  "purple",
+  "pink",
+  "light-gray",
+]
+export const patterns = [
+  "blotches-or-dots",
+  "vertical-marking",
+  "horizontal-marking",
+  "reticulations-pattern",
+  "oblique-markings",
+  "streaks-pattern",
+  "banded-pattern",
+  "grid-pattern",
+  "chevrons-pattern",
+  "camouflage-pattern",
+  "tubercles-pattern",
+  "spines-pattern",
+  "barbels-pattern",
+]
+export const caudalFinShapes = ["rounded", "forked", "truncated", "pointed", "lunate"]
+export const bodyShapes = [
+  "fusiform",
+  "compressed",
+  "elongated",
+  "globelike",
+  "anguilliform",
+  "flat",
+  "rectangular",
+  "other",
+]

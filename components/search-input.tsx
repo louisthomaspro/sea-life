@@ -48,16 +48,18 @@ export const SearchInput = ({ className, ...props }: SearchInputProps) => {
 
   return (
     <div className={cn("relative", className)} {...props}>
-      <div className="relative">
+      <div className="flex items-center">
         <Input
           placeholder="Search for species"
           value={term}
-          className="h-12"
+          className="h-12 pl-11"
           onChange={(e) => {
             setTerm(e.target.value)
             handleSearch(e.target.value)
           }}
         />
+
+        <Icons.search className="absolute left-4 size-5 text-gray-400" />
 
         <div
           className="absolute inset-y-0 right-0 flex cursor-pointer items-center px-4"

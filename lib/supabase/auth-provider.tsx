@@ -53,8 +53,8 @@ export const AuthProvider = ({ children }: any) => {
   return (
     <AuthContext.Provider value={value}>
       {loading ? (
-        <div className="fixed flex size-full items-center justify-center">
-          <Icons.spinner className="size-4" />
+        <div className="flex size-full h-[100vh] items-center justify-center">
+          <Icons.spinner className="size-6" />
         </div>
       ) : (
         children

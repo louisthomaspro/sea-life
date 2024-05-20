@@ -36,8 +36,8 @@ export default function HomePage() {
         </div>
       </div>
       {/* Today's Picks */}
-      <div className="mt-4">
-        <div className={"container mb-1 flex items-center gap-4"}>
+      <div className="mt-5">
+        <div className={"container mb-2 flex items-center gap-4"}>
           <div className="text-lg font-semibold">Today's picks</div>
         </div>
         <Suspense>

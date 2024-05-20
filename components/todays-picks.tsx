@@ -1,8 +1,8 @@
 import "server-cli-only"
 
 import { unstable_cache } from "next/cache"
+import Link from "next/link"
 import { Prisma } from "@prisma/client"
-import { motion, Variants } from "framer-motion"
 
 import prisma from "@/lib/prisma"
 import {
@@ -26,7 +26,7 @@ interface Species {
 const getPicks = unstable_cache(
   async () => {
     const query = Prisma.sql`
-    SELECT "Taxa"."commonNames", "Taxa"."scientificName", media."url", media."blurhashDataUrl"
+    SELECT "Taxa".id, "Taxa"."commonNames", "Taxa"."scientificName", media."url", media."blurhashDataUrl"
     FROM "Taxa"
     LEFT JOIN (
         SELECT "taxaId", "url", "blurhashDataUrl"
@@ -59,22 +59,24 @@ export default async function TodaysPicks() {
       <DashboardCarouselContent className="-ml-1">
         {picks.map((species, index) => (
           <DashboardCarouselItem key={index} className="aspect-video basis-2/3">
-            <div className="relative size-full overflow-hidden rounded-lg">
-              <ImageLoader
-                fill
-                src={species.url}
-                sizes="100vw"
-                blurhashDataURL={species.blurhashDataUrl}
-                alt={species.scientificName!}
-                className="size-full object-cover"
-              />
-              <DashboardCarouselItemTitle title={species.scientificName} i={index} />
-            </div>
+            <Link href={`/species/${species.id}`}>
+              <div className="relative size-full overflow-hidden rounded-lg border border-gray-200 transition-transform hover:scale-[99%] active:scale-[98%]">
+                <ImageLoader
+                  fill
+                  src={species.url}
+                  sizes="100vw"
+                  blurhashDataURL={species.blurhashDataUrl}
+                  alt={species.scientificName!}
+                  className="size-full object-cover"
+                />
+                <DashboardCarouselItemTitle title={species.commonNames.en[0]} i={index} />
+              </div>
+            </Link>
           </DashboardCarouselItem>
         ))}
       </DashboardCarouselContent>
-      <DashboardCarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
-      <DashboardCarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
+      <DashboardCarouselNext className="absolute right-4 top-1/2 -translate-y-1/2" />
+      <DashboardCarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2" />
     </DashboardCarousel>
   )
 }

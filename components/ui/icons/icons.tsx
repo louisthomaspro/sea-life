@@ -1,6 +1,7 @@
 import { SVGProps } from "react"
 import GoogleLogo from "@/public/svg/google-logo.svg"
 
+import { cn } from "@/lib/utils"
 import {
   CentralBookmarkCheckFilledOnStroke2Radius2,
   CentralBookmarkFilledOffStroke2Radius2,
@@ -30,7 +31,9 @@ import {
 type Icon = Partial<SVGProps<SVGSVGElement>>
 
 export const Icons = {
-  spinner: (props: Icon) => <CentralLoaderFilledOffStroke2Radius2 {...props} className="animate-spin" />,
+  spinner: ({ className, ...props }: Icon) => (
+    <CentralLoaderFilledOffStroke2Radius2 {...props} className={cn("animate-spin", className)} />
+  ),
   search: (props: Icon) => <CentralMagnifyingGlassFilledOffStroke2Radius2 {...props} />,
   searchActive: (props: Icon) => <CentralMagnifyingGlassFilledOnStroke2Radius2 {...props} />,
   chevronLeft: (props: Icon) => <CentralChevronLeftFilledOffStroke2Radius2 {...props} />,

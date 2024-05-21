@@ -1,48 +1,7 @@
+import { bodyShapes, caudalFinShapes, colors, patterns } from "@/constants/morphology"
 import { AttributeEnum } from "@prisma/client"
 
 import prisma from "@/lib/prisma"
-
-export const colors = [
-  "white",
-  "brown",
-  "yellow",
-  "black",
-  "blue",
-  "orange",
-  "dark-gray",
-  "red",
-  "green",
-  "purple",
-  "pink",
-  "light-gray",
-]
-export const patterns = [
-  "blotches-or-dots",
-  "vertical-marking",
-  "horizontal-marking",
-  "reticulations-pattern",
-  "oblique-markings",
-  "streaks-pattern",
-  "banded-pattern",
-  "grid-pattern",
-  "chevrons-pattern",
-  "camouflage-pattern",
-  "tubercles-pattern",
-  "spines-pattern",
-  "barbels-pattern",
-  "none",
-]
-export const caudalFinShapes = ["rounded", "forked", "truncated", "pointed", "lunate"]
-export const bodyShapes = [
-  "fusiform",
-  "compressed",
-  "elongated",
-  "globelike",
-  "anguilliform",
-  "flat",
-  "rectangular",
-  "other",
-]
 
 export const generateAttributes = async () => {
   const attributes = [
@@ -114,22 +73,22 @@ export const generateAttributes = async () => {
     // MORPHOLOGICAL ATTRIBUTES
     {
       id: AttributeEnum.colors,
-      definition: `The colors of a species. Values: ["${colors.join(", ")}"]`,
+      definition: `The colors of a species. Values: ["${colors.map((color) => color.id).join(", ")}"]`,
       valueType: "string",
     },
     {
       id: AttributeEnum.patterns,
-      definition: `The patterns of a species. Values: ["${patterns.join(", ")}"]`,
+      definition: `The patterns of a species. Values: ["${patterns.map((pattern) => pattern.id).join(", ")}"]`,
       valueType: "string",
     },
     {
       id: AttributeEnum.caudal_fin_shape,
-      definition: `The shape of the caudal fin of a species. Values: ["${caudalFinShapes.join(", ")}"]`,
+      definition: `The shape of the caudal fin of a species. Values: ["${caudalFinShapes.map((caudalFinShape) => caudalFinShape.id).join(", ")}"]`,
       valueType: "string",
     },
     {
       id: AttributeEnum.body_shape,
-      definition: `The shape of the body of a species. Values: ["${bodyShapes.join(", ")}"]`,
+      definition: `The shape of the body of a species. Values: ["${bodyShapes.map((bodyShape) => bodyShape.id).join(", ")}"]`,
       valueType: "string",
     },
   ]

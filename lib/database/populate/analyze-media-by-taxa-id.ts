@@ -159,7 +159,7 @@ async function getMorphologicalAttributes(url: string) {
         type: "array",
         items: {
           type: "string",
-          enum: colors.map((color) => color),
+          enum: colors.map((color) => color.id),
         },
         description: "An array listing the colors of the fish.",
       },
@@ -167,18 +167,18 @@ async function getMorphologicalAttributes(url: string) {
         type: "array",
         items: {
           type: "string",
-          enum: patterns.map((pattern) => pattern),
+          enum: patterns.map((pattern) => pattern.id),
         },
         description: "An array listing the patterns observed on the fish.",
       },
       caudal_fin_shape: {
         type: "string",
-        enum: caudalFinShapes.map((shape) => shape),
+        enum: caudalFinShapes.map((shape) => shape.id),
         description: "The shape of the caudal fin (tail fin) of the fish. Set to 'null' if you cannot determine.",
       },
       body_shape: {
         type: "string",
-        enum: bodyShapes.map((shape) => shape),
+        enum: bodyShapes.map((shape) => shape.id),
         description: "The shape of the body of the fish.",
       },
       description: {
@@ -234,10 +234,10 @@ async function getMorphologicalAttributes(url: string) {
 
   // Validate with zod
   const schema = z.object({
-    colors: z.array(z.enum(colors as [string, ...string[]])),
-    patterns: z.array(z.enum(patterns as [string, ...string[]])),
-    caudal_fin_shape: z.enum(caudalFinShapes as [string, ...string[]]).nullable(),
-    body_shape: z.enum(bodyShapes as [string, ...string[]]),
+    colors: z.array(z.enum(colors.map((color) => color.id) as [string, ...string[]])),
+    patterns: z.array(z.enum(patterns.map((pattern) => pattern.id) as [string, ...string[]])),
+    caudal_fin_shape: z.enum(caudalFinShapes.map((shape) => shape.id) as [string, ...string[]]).nullable(),
+    body_shape: z.enum(bodyShapes.map((shape) => shape.id) as [string, ...string[]]),
     description: z.string(),
   })
 

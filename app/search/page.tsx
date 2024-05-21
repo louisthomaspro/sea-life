@@ -1,3 +1,4 @@
+import AiSearchForm from "@/features/search/components/ai-search-form"
 import FishesSearchForm from "@/features/search/components/fishes-search-form"
 import { SearchResultsButton } from "@/features/search/components/search-results-drawer-content"
 
@@ -5,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function SearchPage() {
   return (
-    <div className="container pb-20 pt-10">
+    <div className="container relative pb-20 pt-10">
       {/* Header */}
       <h1 className="px-5 py-4 text-3xl font-bold tracking-tighter">Search (in progress)</h1>
       <Tabs defaultValue="fishes">
@@ -13,16 +14,17 @@ export default function SearchPage() {
           <TabsTrigger className="flex-1" value="fishes">
             Fishes
           </TabsTrigger>
-          <TabsTrigger className="flex-1" value="all">
-            All
+          <TabsTrigger className="flex-1" value="ai">
+            AI
           </TabsTrigger>
         </TabsList>
         <TabsContent value="fishes">
           <FishesSearchForm />
         </TabsContent>
-        <TabsContent value="all">Todo</TabsContent>
+        <TabsContent value="ai">
+          <AiSearchForm />
+        </TabsContent>
       </Tabs>
-      <SearchResultsButton />
     </div>
   )
 }

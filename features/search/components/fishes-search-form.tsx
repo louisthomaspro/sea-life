@@ -1,81 +1,28 @@
 "use client"
 
-import { FormEventHandler, useEffect, useState } from "react"
-import { regionsDict, regionsList } from "@/constants/regions_dict"
-import { sociabilityList } from "@/constants/sociability_dict"
+import { useEffect, useRef, useState } from "react"
+import { bodyShapes, caudalFinShapes, colors, patterns } from "@/constants/morphology"
+import { regionsList } from "@/constants/regions_dict"
+import { SearchResultsButton } from "@/features/search/components/search-results-drawer-content"
 import { ColorCheckbox } from "@/features/search/components/ui/color-checkbox"
-import { InputDescription, InputGroup } from "@/features/search/components/ui/form"
-import { PatternCheckbox } from "@/features/search/components/ui/pattern-checkbox"
+import { InputGroup } from "@/features/search/components/ui/form"
+import { useDebouncedCallback } from "use-debounce"
 
-import { Icons } from "@/components/ui/icons/icons"
 import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-
-const colors = [
-  { id: "red", hex: "#FF0000" },
-  { id: "green", hex: "#00FF00" },
-  { id: "blue", hex: "#0000FF" },
-  { id: "yellow", hex: "#FFFF00" },
-  { id: "purple", hex: "#800080" },
-  { id: "orange", hex: "#FFA500" },
-  { id: "black", hex: "#000000" },
-  { id: "white", hex: "#FFFFFF" },
-  { id: "gray", hex: "#808080" },
-  { id: "brown", hex: "#A52A2A" },
-  { id: "pink", hex: "#FFC0CB" },
-  { id: "cyan", hex: "#00FFFF" },
-]
-
-const patterns = [
-  { id: "blotches", name: "Blotches or dots" },
-  { id: "stripes", name: "Stripes" },
-  { id: "lines", name: "Lines" },
-  { id: "spotted", name: "Spotted" },
-  { id: "zigzag", name: "Zigzag" },
-  { id: "solid", name: "Solid" },
-  { id: "mottled", name: "Mottled" },
-  { id: "banded", name: "Banded" },
-  { id: "checkered", name: "Checkered" },
-  { id: "speckled", name: "Speckled" },
-  { id: "marbled", name: "Marbled" },
-  { id: "brindle", name: "Brindle" },
-  { id: "freckled", name: "Freckled" },
-  { id: "splotched", name: "Splotched" },
-  { id: "variegated", name: "Variegated" },
-]
-
-const caudalFinTypes = [
-  { id: "lunate", name: "Lunate" },
-  { id: "truncated", name: "Truncated" },
-  { id: "emarginate", name: "Emarginate" },
-  { id: "rounded", name: "Rounded" },
-  { id: "forked", name: "Forked" },
-  { id: "doubleForked", name: "Double forked" },
-  { id: "concave", name: "Concave" },
-  { id: "convex", name: "Convex" },
-  { id: "emarginate", name: "Emarginate" },
-  { id: "lunate", name: "Lunate" },
-  { id: "truncated", name: "Truncated" },
-  { id: "emarginate", name: "Emarginate" },
-  { id: "rounded", name: "Rounded" },
-  { id: "forked", name: "Forked" },
-  { id: "doubleForked", name: "Double forked" },
-  { id: "concave", name: "Concave" },
-  { id: "convex", name: "Convex" },
-]
+import { SearchResult } from "@/app/api/search-advanced/route"
 
 export default function FishesSearchForm() {
+  const [isSearching, setIsSearching] = useState(false)
+  const [speciesResults, setSpeciesResults] = useState<SearchResult[]>([])
   const [selectedColors, setSelectedColors] = useState<string[]>([])
-  const [selectedPatterns, setSelectedPatterns] = useState<string[]>([])
+  const [selectedPattern, setSelectedPattern] = useState<string>("all")
+  const [selectedCaudalFinShape, setSelectedCaudalFinShape] = useState<string>("all")
+  const [selectedRegion, setSelectedRegion] = useState<string>("all")
+  const [selectedBodyShape, setSelectedBodyShape] = useState<string>("all")
+
+  const controller = useRef<AbortController>()
 
   const handleColors = (value: boolean, colorId: string) => {
     if (value) {
@@ -85,23 +32,45 @@ export default function FishesSearchForm() {
     }
   }
 
-  const handlePatterns = (value: boolean, patternId: string) => {
-    if (value) {
-      setSelectedPatterns((prev) => [...prev, patternId])
-    } else {
-      setSelectedPatterns((prev) => prev.filter((id) => id !== patternId))
+  const handleSearch = useDebouncedCallback(async () => {
+    setIsSearching(true)
+    console.log(`Searching...`)
+
+    controller.current?.abort()
+    controller.current = new AbortController()
+
+    try {
+      const data = await fetch(`/api/search-advanced`, {
+        method: "POST",
+        signal: controller.current.signal,
+        body: JSON.stringify({
+          ...(selectedPattern !== "all" && { pattern: selectedPattern }),
+          ...(selectedRegion !== "all" && { region: selectedRegion }),
+          ...(selectedCaudalFinShape !== "all" && { caudal_fin_shape: selectedCaudalFinShape }),
+          ...(selectedColors.length && { colors: selectedColors }),
+          ...(selectedBodyShape !== "all" && { body_shape: selectedBodyShape }),
+        }),
+      }).then((res) => res.json())
+
+      setSpeciesResults(data)
+      console.log(data)
+    } catch (err) {
+      if (err instanceof Error && err.name !== "AbortError") {
+        console.error(err)
+      }
     }
-  }
+    setIsSearching(false)
+  }, 150)
+
+  useEffect(() => {
+    handleSearch()
+  }, [selectedColors, selectedCaudalFinShape, selectedRegion, selectedPattern, selectedBodyShape])
 
   return (
     <div className="flex flex-col gap-4">
       <InputGroup>
-        <Label>Description</Label>
-        <Textarea placeholder="Yellow, with white stripes and a big tail." />
-      </InputGroup>
-      <InputGroup>
         <Label>Regions</Label>
-        <Select defaultValue="all">
+        <Select defaultValue="all" onValueChange={(value) => setSelectedRegion(value)}>
           <SelectTrigger>
             <SelectValue placeholder="Select a region" />
           </SelectTrigger>
@@ -133,33 +102,16 @@ export default function FishesSearchForm() {
       </InputGroup>
       <InputGroup>
         <Label>Pattern</Label>
-        <div className="flex overflow-auto">
-          {patterns.map((pattern, i) => (
-            <PatternCheckbox
-              key={i}
-              pattern={pattern.id}
-              onCheckedChange={(value) => handlePatterns(!!value, pattern.id)}
-            >
-              <div className="flex h-20 w-28 flex-col items-center justify-center gap-2">
-                <Icons.bookmark className="size-8" />
-                <div className="text-xs font-medium">{pattern.name}</div>
-              </div>
-            </PatternCheckbox>
-          ))}
-        </div>
-      </InputGroup>
-      <InputGroup>
-        <Label>Social behavior</Label>
-        <Select defaultValue="all">
+        <Select defaultValue="all" onValueChange={(value) => setSelectedPattern(value)}>
           <SelectTrigger>
-            <SelectValue placeholder="Select a social behavior" />
+            <SelectValue placeholder="Select a pattern" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectItem value="all">Any</SelectItem>
-              {sociabilityList.map((sociability, i) => (
-                <SelectItem key={i} value={sociability.id}>
-                  {sociability.name.en}
+              {patterns.map((pattern, i) => (
+                <SelectItem key={i} value={pattern.id}>
+                  {pattern.label}
                 </SelectItem>
               ))}
             </SelectGroup>
@@ -168,17 +120,41 @@ export default function FishesSearchForm() {
       </InputGroup>
       <InputGroup>
         <Label>Caudal Fin</Label>
-        <div className="flex overflow-auto">
-          {caudalFinTypes.map((caudalFinType, i) => (
-            <PatternCheckbox key={i} pattern={caudalFinType.id}>
-              <div className="flex h-20 w-28 flex-col items-center justify-center gap-2">
-                <Icons.bookmark className="size-8" />
-                <div className="text-xs font-medium">{caudalFinType.name}</div>
-              </div>
-            </PatternCheckbox>
-          ))}
-        </div>
+        <Select defaultValue="all" onValueChange={(value) => setSelectedCaudalFinShape(value)}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a Caudal Fin" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="all">Any</SelectItem>
+              {caudalFinShapes.map((caudalFinShape, i) => (
+                <SelectItem key={i} value={caudalFinShape.id}>
+                  {caudalFinShape.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </InputGroup>
+      <InputGroup>
+        <Label>Body Shape</Label>
+        <Select defaultValue="all" onValueChange={(value) => setSelectedBodyShape(value)}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a body shape" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="all">Any</SelectItem>
+              {bodyShapes.map((bodyShape, i) => (
+                <SelectItem key={i} value={bodyShape.id}>
+                  {bodyShape.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </InputGroup>
+      <SearchResultsButton results={speciesResults} />
     </div>
   )
 }

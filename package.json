@@ -41,6 +41,7 @@
     "@tanstack/react-query": "^5.34.2",
     "@tanstack/react-query-devtools": "^5.34.2",
     "@tanstack/react-query-next-experimental": "^5.34.2",
+    "@vercel/analytics": "^1.2.2",
     "blurhash": "^2.0.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

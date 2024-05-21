@@ -2,6 +2,7 @@
 import * as React from "react"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experimental"
+import { Analytics } from "@vercel/analytics/react"
 
 import NavigationProvider from "@/lib/navigation-provider"
 import { ModalProvider } from "@/lib/pushmodal/pushmodal"
@@ -21,6 +22,7 @@ export function Providers(props: { children: React.ReactNode }) {
             <ModalProvider />
             <ModalProviderNavigationAutoClose />
             <ReactQueryDevtools initialIsOpen={false} />
+            <Analytics />
           </ReactQueryStreamedHydration>
         </ReactQueryProviders>
       </AuthProvider>

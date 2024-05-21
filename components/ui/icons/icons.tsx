@@ -27,6 +27,33 @@ import {
   CentralTriangleExclamationFilledOffStroke2Radius2,
   CustomDepthIcon,
 } from "@/components/ui/icons/central-icons"
+import {
+  AnguilliformIcon,
+  BandedPatternIcon,
+  BarbelsPatternIcon,
+  BlotchesOrDotsIcon,
+  CamouflagePatternIcon,
+  ChevronsPatternIcon,
+  CompressedIcon,
+  ElongatedIcon,
+  FlatIcon,
+  ForkedIcon,
+  FusiformIcon,
+  GlobelikeIcon,
+  GridPatternIcon,
+  HorizontalMarkingIcon,
+  LunateIcon,
+  ObliqueMarkingsIcon,
+  OtherIcon,
+  PointedIcon,
+  ReticulationsPatternIcon,
+  RoundedIcon,
+  SpinesPatternIcon,
+  StreaksPatternIcon,
+  TruncatedIcon,
+  TuberclesPatternIcon,
+  VerticalMarkingIcon,
+} from "@/components/ui/icons/search-icons"
 
 type Icon = Partial<SVGProps<SVGSVGElement>>
 
@@ -62,4 +89,37 @@ export const Icons = {
   region: (props: Icon) => <CentralEarthFilledOffStroke2Radius2 {...props} />,
   warning: (props: Icon) => <CentralTriangleExclamationFilledOffStroke2Radius2 {...props} />,
   share: (props: Icon) => <CentralShareFilledOffStroke2Radius2 {...props} />,
+
+  // Search
+  // Body Shapes
+  fusiform: (props: Icon) => <FusiformIcon {...props} />,
+  compressed: (props: Icon) => <CompressedIcon {...props} />,
+  elongated: (props: Icon) => <ElongatedIcon {...props} />,
+  globelike: (props: Icon) => <GlobelikeIcon {...props} />,
+  anguilliform: (props: Icon) => <AnguilliformIcon {...props} />,
+  flat: (props: Icon) => <FlatIcon {...props} />,
+  rectangular: (props: Icon) => <CompressedIcon {...props} />,
+  other: (props: Icon) => <OtherIcon {...props} />,
+
+  // Caudal Fin Shapes
+  rounded: (props: Icon) => <RoundedIcon {...props} />,
+  forked: (props: Icon) => <ForkedIcon {...props} />,
+  truncated: (props: Icon) => <TruncatedIcon {...props} />,
+  pointed: (props: Icon) => <PointedIcon {...props} />,
+  lunate: (props: Icon) => <LunateIcon {...props} />,
+
+  // Patterns
+  blotchesOrDots: (props: Icon) => <BlotchesOrDotsIcon {...props} />,
+  verticalMarking: (props: Icon) => <VerticalMarkingIcon {...props} />,
+  horizontalMarking: (props: Icon) => <HorizontalMarkingIcon {...props} />,
+  reticulationsPattern: (props: Icon) => <ReticulationsPatternIcon {...props} />,
+  obliqueMarkings: (props: Icon) => <ObliqueMarkingsIcon {...props} />,
+  streaksPattern: (props: Icon) => <StreaksPatternIcon {...props} />,
+  bandedPattern: (props: Icon) => <BandedPatternIcon {...props} />,
+  gridPattern: (props: Icon) => <GridPatternIcon {...props} />,
+  chevronsPattern: (props: Icon) => <ChevronsPatternIcon {...props} />,
+  camouflagePattern: (props: Icon) => <CamouflagePatternIcon {...props} />,
+  tuberclesPattern: (props: Icon) => <TuberclesPatternIcon {...props} />,
+  spinesPattern: (props: Icon) => <SpinesPatternIcon {...props} />,
+  barbelsPattern: (props: Icon) => <BarbelsPatternIcon {...props} />,
 }

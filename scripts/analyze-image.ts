@@ -5,6 +5,7 @@ require("dotenv").config()
 
 /**
  * Analyze image and populate attributes like colors, pattern, description, etc.
+ * 93059
  */
 
 async function mainBatch() {
@@ -14,7 +15,6 @@ async function mainBatch() {
     },
     where: {
       rank: "species",
-      morphologicalDescription: null,
       ancestors: {
         some: {
           id: 47178,

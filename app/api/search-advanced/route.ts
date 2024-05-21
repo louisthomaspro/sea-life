@@ -60,7 +60,7 @@ export async function POST(request: Request) {
 
   const query = Prisma.sql`
   WITH fishes as (SELECT
-    t."id" AS taxa_id,
+    t."id" AS id,
     t."scientificName",
     t."commonNames",
     caudal_fin_shape.value AS caudal_fin_shape,

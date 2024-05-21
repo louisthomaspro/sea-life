@@ -8,8 +8,9 @@ export default function SearchPage() {
   return (
     <div className="container relative pb-20 pt-10">
       {/* Header */}
-      <h1 className="px-5 py-4 text-3xl font-bold tracking-tighter">Search (in progress)</h1>
-      <Tabs defaultValue="fishes">
+      <h1 className="px-5 py-4 text-3xl font-bold tracking-tighter">Search</h1>
+      <FishesSearchForm />
+      {/* <Tabs defaultValue="fishes">
         <TabsList className="w-full">
           <TabsTrigger className="flex-1" value="fishes">
             Fishes
@@ -24,7 +25,7 @@ export default function SearchPage() {
         <TabsContent value="ai">
           <AiSearchForm />
         </TabsContent>
-      </Tabs>
+      </Tabs> */}
     </div>
   )
 }

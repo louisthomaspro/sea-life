@@ -6,11 +6,13 @@ import { regionsList } from "@/constants/regions_dict"
 import { SearchResultsButton } from "@/features/search/components/search-results-drawer-content"
 import { ColorCheckbox } from "@/features/search/components/ui/color-checkbox"
 import { InputGroup } from "@/features/search/components/ui/form"
+import { SimpleCheckbox } from "@/features/search/components/ui/simple-checkbox"
 import { useDebouncedCallback } from "use-debounce"
 
+import { cn } from "@/lib/utils"
+import { Icons } from "@/components/ui/icons/icons"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
 import { SearchResult } from "@/app/api/search-advanced/route"
 
 export default function FishesSearchForm() {
@@ -24,11 +26,35 @@ export default function FishesSearchForm() {
 
   const controller = useRef<AbortController>()
 
-  const handleColors = (value: boolean, colorId: string) => {
+  const handleColors = (value: boolean, selectedId: string) => {
     if (value) {
-      setSelectedColors((prev) => [...prev, colorId])
+      setSelectedColors((prev) => [...prev, selectedId])
     } else {
-      setSelectedColors((prev) => prev.filter((id) => id !== colorId))
+      setSelectedColors((prev) => prev.filter((id) => id !== selectedId))
+    }
+  }
+
+  const handlePattern = (value: boolean, id: string) => {
+    if (value) {
+      setSelectedPattern(id)
+    } else {
+      setSelectedPattern("all")
+    }
+  }
+
+  const handleBodyShape = (value: boolean, id: string) => {
+    if (value) {
+      setSelectedBodyShape(id)
+    } else {
+      setSelectedBodyShape("all")
+    }
+  }
+
+  const handleCaudalFin = (value: boolean, id: string) => {
+    if (value) {
+      setSelectedCaudalFinShape(id)
+    } else {
+      setSelectedCaudalFinShape("all")
     }
   }
 
@@ -53,7 +79,6 @@ export default function FishesSearchForm() {
       }).then((res) => res.json())
 
       setSpeciesResults(data)
-      console.log(data)
     } catch (err) {
       if (err instanceof Error && err.name !== "AbortError") {
         console.error(err)
@@ -85,9 +110,10 @@ export default function FishesSearchForm() {
           </SelectContent>
         </Select>
       </InputGroup>
+
       <InputGroup>
         <Label>Colors</Label>
-        <div className="flex overflow-auto">
+        <div className="no-scrollbar flex overflow-auto">
           {colors.map((color, i) => (
             <ColorCheckbox
               color={color.hex}
@@ -100,60 +126,69 @@ export default function FishesSearchForm() {
           ))}
         </div>
       </InputGroup>
+
       <InputGroup>
         <Label>Pattern</Label>
-        <Select defaultValue="all" onValueChange={(value) => setSelectedPattern(value)}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select a pattern" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="all">Any</SelectItem>
-              {patterns.map((pattern, i) => (
-                <SelectItem key={i} value={pattern.id}>
-                  {pattern.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <div className="no-scrollbar flex overflow-auto">
+          {patterns.map((pattern, i) => (
+            <SimpleCheckbox
+              key={i}
+              pattern={pattern.id}
+              checked={selectedPattern === pattern.id}
+              onCheckedChange={(value) => handlePattern(!!value, pattern.id)}
+              className="text-gray-500"
+            >
+              <div className="flex h-20 w-28 flex-col items-center justify-center gap-1">
+                {pattern.icon({ className: cn("size-12", selectedPattern === pattern.id && "text-background") })}
+                <div className="text-xs font-medium">{pattern.label}</div>
+              </div>
+            </SimpleCheckbox>
+          ))}
+        </div>
       </InputGroup>
-      <InputGroup>
-        <Label>Caudal Fin</Label>
-        <Select defaultValue="all" onValueChange={(value) => setSelectedCaudalFinShape(value)}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select a Caudal Fin" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="all">Any</SelectItem>
-              {caudalFinShapes.map((caudalFinShape, i) => (
-                <SelectItem key={i} value={caudalFinShape.id}>
-                  {caudalFinShape.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </InputGroup>
+
       <InputGroup>
         <Label>Body Shape</Label>
-        <Select defaultValue="all" onValueChange={(value) => setSelectedBodyShape(value)}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select a body shape" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="all">Any</SelectItem>
-              {bodyShapes.map((bodyShape, i) => (
-                <SelectItem key={i} value={bodyShape.id}>
-                  {bodyShape.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <div className="no-scrollbar flex overflow-auto">
+          {bodyShapes.map((bodyShape, i) => (
+            <SimpleCheckbox
+              key={i}
+              pattern={bodyShape.id}
+              checked={selectedBodyShape === bodyShape.id}
+              onCheckedChange={(value) => handleBodyShape(!!value, bodyShape.id)}
+              className="text-gray-500"
+            >
+              <div className="flex h-20 w-28 flex-col items-center justify-center gap-1">
+                {bodyShape.icon({ className: cn("size-12", selectedBodyShape === bodyShape.id && "text-background") })}
+                <div className="text-xs font-medium">{bodyShape.label}</div>
+              </div>
+            </SimpleCheckbox>
+          ))}
+        </div>
       </InputGroup>
+
+      <InputGroup>
+        <Label>Caudal Fin</Label>
+        <div className="no-scrollbar flex overflow-auto">
+          {caudalFinShapes.map((caudalFin, i) => (
+            <SimpleCheckbox
+              key={i}
+              pattern={caudalFin.id}
+              checked={selectedCaudalFinShape === caudalFin.id}
+              onCheckedChange={(value) => handleCaudalFin(!!value, caudalFin.id)}
+              className="text-gray-500"
+            >
+              <div className="flex h-20 w-28 flex-col items-center justify-center gap-1">
+                {caudalFin.icon({
+                  className: cn("size-12", selectedCaudalFinShape === caudalFin.id && "text-background"),
+                })}
+                <div className="text-xs font-medium">{caudalFin.label}</div>
+              </div>
+            </SimpleCheckbox>
+          ))}
+        </div>
+      </InputGroup>
+
       <SearchResultsButton results={speciesResults} />
     </div>
   )

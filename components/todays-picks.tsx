@@ -56,27 +56,30 @@ export default async function TodaysPicks() {
         loop: true,
       }}
     >
-      <DashboardCarouselContent className="-ml-1">
-        {picks.map((species, index) => (
-          <DashboardCarouselItem key={index} className="aspect-video basis-2/3">
-            <Link href={`/species/${species.id}`}>
-              <div className="relative size-full overflow-hidden rounded-lg border border-gray-200 transition-transform hover:scale-[99%] active:scale-[98%]">
-                <ImageLoader
-                  fill
-                  src={species.url}
-                  sizes="100vw"
-                  blurhashDataURL={species.blurhashDataUrl}
-                  alt={species.scientificName!}
-                  className="size-full object-cover"
-                />
-                <DashboardCarouselItemTitle title={species.commonNames.en[0]} i={index} />
-              </div>
-            </Link>
-          </DashboardCarouselItem>
-        ))}
-      </DashboardCarouselContent>
-      <DashboardCarouselNext className="absolute right-4 top-1/2 -translate-y-1/2" />
-      <DashboardCarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2" />
+      <div className="container relative overflow-hidden">
+        <DashboardCarouselContent className="">
+          {picks.map((species, index) => (
+            <DashboardCarouselItem key={index} className="aspect-video">
+              <Link href={`/species/${species.id}`}>
+                <div className="relative size-full overflow-hidden rounded-[30px] border border-gray-200 transition-transform hover:scale-[99%] active:scale-[98%]">
+                  <ImageLoader
+                    fill
+                    src={species.url}
+                    sizes="100vw"
+                    blurhashDataURL={species.blurhashDataUrl}
+                    alt={species.scientificName!}
+                    priority={index === 1}
+                    className="size-full object-cover"
+                  />
+                  <DashboardCarouselItemTitle title={species.commonNames.en?.[0] ?? species.scientificName} i={index} />
+                </div>
+              </Link>
+            </DashboardCarouselItem>
+          ))}
+        </DashboardCarouselContent>
+      </div>
+      <DashboardCarouselNext className="absolute right-8 top-1/2 -translate-y-1/2" />
+      <DashboardCarouselPrevious className="absolute left-8 top-1/2 -translate-y-1/2" />
     </DashboardCarousel>
   )
 }

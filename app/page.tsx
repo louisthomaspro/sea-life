@@ -4,10 +4,33 @@ import Link from "next/link"
 import Fauna from "@/public/img/fauna.jpg"
 import Flora from "@/public/img/flora.jpg"
 
+import { getSpeciesByAncestorList } from "@/lib/database/utils"
+import prisma from "@/lib/prisma"
 import { SearchInput } from "@/components/search-input"
 import TodaysPicks from "@/components/todays-picks"
 
 export default function HomePage() {
+  // const groups = await prisma.group.findMany({
+  //   include: {
+  //     highLevelTaxa: true,
+  //   },
+  //   where: {
+  //     slug: {
+  //       in: ["fauna", "flora"],
+  //     },
+  //   },
+  // })
+
+  // const fauna = groups.find((group) => group.slug === "fauna")
+  // const flora = groups.find((group) => group.slug === "flora")
+
+  // if (!fauna || !flora) {
+  //   throw new Error("Groups not found")
+  // }
+
+  // const faunaSpecies = await getSpeciesByAncestorList(fauna.highLevelTaxa.map((taxa) => taxa.id))
+  // const floraSpecies = await getSpeciesByAncestorList(flora.highLevelTaxa.map((taxa) => taxa.id))
+
   return (
     <div className="pt-10">
       <div className="container">
@@ -21,17 +44,42 @@ export default function HomePage() {
         <div className="flex gap-2 pt-6">
           <Link
             href="/explore/fauna"
-            className="relative aspect-square overflow-hidden rounded-lg border border-gray-200 transition-transform hover:scale-[99%] active:scale-[98%]"
+            className="relative flex-1 rounded-[30px] bg-[#1F3192] transition-transform hover:scale-[99%] active:scale-[98%]"
           >
-            <Image src={Fauna} alt="Fauna" width={300} height={300} priority />
-            <div className="absolute bottom-2 left-4 text-lg font-semibold text-background">Fauna</div>
+            {/* Square */}
+            <div className="relative aspect-square rounded-[30px] shadow-md">
+              <div>
+                <video width="100%" height="100%" autoPlay loop className="size-full rounded-[30px]" muted>
+                  <source src="/videos/fauna-loop.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+                <div className="absolute top-0 size-full rounded-[30px] shadow-[0_0_70px_rgba(0,0,0,0.9)_inset]" />
+              </div>
+              <div className="absolute bottom-4 left-5 space-y-0.5">
+                <div className="text-xl font-medium text-background">Fauna</div>
+                <div className="text-xs text-muted">1025 species</div>
+              </div>
+            </div>
+            <div className="h-2" />
           </Link>
           <Link
             href="/explore/flora"
-            className="relative aspect-square overflow-hidden rounded-lg border border-gray-200 transition-transform hover:scale-[99%] active:scale-[98%]"
+            className="relative flex-1 rounded-[30px] bg-[#095413] transition-transform hover:scale-[99%] active:scale-[98%]"
           >
-            <Image src={Flora} alt="Flora" width={300} height={300} priority />
-            <div className="absolute bottom-2 left-4 text-lg font-semibold text-background">Flora</div>
+            <div className="relative aspect-square rounded-[30px] shadow-md">
+              <div>
+                <video width="100%" height="100%" autoPlay loop className="size-full rounded-[30px]" muted>
+                  <source src="/videos/flora-loop.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+                <div className="absolute top-0 size-full rounded-[30px] shadow-[0_0_70px_rgba(0,0,0,0.9)_inset]" />
+              </div>
+              <div className="absolute bottom-4 left-5 space-y-0.5">
+                <div className="text-xl font-medium text-background">Flora</div>
+                <div className="text-xs text-muted">64 species</div>
+              </div>
+            </div>
+            <div className="h-2" />
           </Link>
         </div>
       </div>

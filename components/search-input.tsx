@@ -52,7 +52,7 @@ export const SearchInput = ({ className, ...props }: SearchInputProps) => {
         <Input
           placeholder="Search for species"
           value={term}
-          className="h-12 pl-11"
+          className="h-12 rounded-full pl-11"
           onChange={(e) => {
             setTerm(e.target.value)
             handleSearch(e.target.value)

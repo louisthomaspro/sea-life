@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { SearchResultsButton } from "@/features/search/components/search-results-drawer-content"
+import { ShowResultsButton } from "@/features/search/components/search-results-drawer-content"
 import { InputGroup } from "@/features/search/components/ui/form"
 import { useDebouncedCallback } from "use-debounce"
 
@@ -55,7 +55,7 @@ export default function AiSearchForm() {
           }}
         />
       </InputGroup>
-      <SearchResultsButton results={speciesResults} />
+      <ShowResultsButton results={speciesResults} />
     </div>
   )
 }

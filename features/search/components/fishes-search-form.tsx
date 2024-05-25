@@ -1,101 +1,100 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import { bodyShapes, caudalFinShapes, colors, patterns } from "@/constants/morphology"
 import { regionsList } from "@/constants/regions_dict"
-import { SearchResultsButton } from "@/features/search/components/search-results-drawer-content"
 import { ColorCheckbox } from "@/features/search/components/ui/color-checkbox"
 import { InputGroup } from "@/features/search/components/ui/form"
 import { SimpleCheckbox } from "@/features/search/components/ui/simple-checkbox"
+import { SearchFilterEnum } from "@/features/search/enum"
+import { useSearch } from "@/features/search/search-provider"
 import { useDebouncedCallback } from "use-debounce"
 
 import { cn } from "@/lib/utils"
-import { Icons } from "@/components/ui/icons/icons"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { SearchResult } from "@/app/api/search-advanced/route"
 
 export default function FishesSearchForm() {
-  const [isSearching, setIsSearching] = useState(false)
-  const [speciesResults, setSpeciesResults] = useState<SearchResult[]>([])
-  const [selectedColors, setSelectedColors] = useState<string[]>([])
-  const [selectedPattern, setSelectedPattern] = useState<string>("all")
-  const [selectedCaudalFinShape, setSelectedCaudalFinShape] = useState<string>("all")
-  const [selectedRegion, setSelectedRegion] = useState<string>("all")
-  const [selectedBodyShape, setSelectedBodyShape] = useState<string>("all")
+  const { setValue, filterState, setIsSearching: setIsLoading } = useSearch()
 
   const controller = useRef<AbortController>()
 
   const handleColors = (value: boolean, selectedId: string) => {
     if (value) {
-      setSelectedColors((prev) => [...prev, selectedId])
+      setValue(SearchFilterEnum.Colors, [...(filterState.colors ?? []), selectedId])
     } else {
-      setSelectedColors((prev) => prev.filter((id) => id !== selectedId))
+      setValue(
+        SearchFilterEnum.Colors,
+        (filterState.colors ?? []).filter((id) => id !== selectedId)
+      )
     }
   }
 
   const handlePattern = (value: boolean, id: string) => {
     if (value) {
-      setSelectedPattern(id)
+      setValue(SearchFilterEnum.Pattern, id)
     } else {
-      setSelectedPattern("all")
+      setValue(SearchFilterEnum.Pattern, undefined)
     }
   }
 
   const handleBodyShape = (value: boolean, id: string) => {
     if (value) {
-      setSelectedBodyShape(id)
+      setValue(SearchFilterEnum.BodyShape, id)
     } else {
-      setSelectedBodyShape("all")
+      setValue(SearchFilterEnum.BodyShape, undefined)
     }
   }
 
   const handleCaudalFin = (value: boolean, id: string) => {
     if (value) {
-      setSelectedCaudalFinShape(id)
+      setValue(SearchFilterEnum.CaudalFinShape, id)
     } else {
-      setSelectedCaudalFinShape("all")
+      setValue(SearchFilterEnum.CaudalFinShape, undefined)
     }
   }
 
   const handleSearch = useDebouncedCallback(async () => {
-    setIsSearching(true)
+    setIsLoading(true)
     console.log(`Searching...`)
 
     controller.current?.abort()
     controller.current = new AbortController()
 
-    try {
-      const data = await fetch(`/api/search-advanced`, {
-        method: "POST",
-        signal: controller.current.signal,
-        body: JSON.stringify({
-          ...(selectedPattern !== "all" && { pattern: selectedPattern }),
-          ...(selectedRegion !== "all" && { region: selectedRegion }),
-          ...(selectedCaudalFinShape !== "all" && { caudal_fin_shape: selectedCaudalFinShape }),
-          ...(selectedColors.length && { colors: selectedColors }),
-          ...(selectedBodyShape !== "all" && { body_shape: selectedBodyShape }),
-        }),
-      }).then((res) => res.json())
+    // try {
+    //   const data = await fetch(`/api/search-advanced`, {
+    //     method: "POST",
+    //     signal: controller.current.signal,
+    //     body: JSON.stringify({
+    //   }).then((res) => res.json())
 
-      setSpeciesResults(data)
-    } catch (err) {
-      if (err instanceof Error && err.name !== "AbortError") {
-        console.error(err)
-      }
-    }
-    setIsSearching(false)
+    //   setSpeciesResults(data)
+    // } catch (err) {
+    //   if (err instanceof Error && err.name !== "AbortError") {
+    //     console.error(err)
+    //   }
+    // }
+    // setIsSearching(false)
   }, 150)
 
   useEffect(() => {
     handleSearch()
-  }, [selectedColors, selectedCaudalFinShape, selectedRegion, selectedPattern, selectedBodyShape])
+  }, [filterState])
 
   return (
     <div className="flex flex-col gap-4">
       <InputGroup>
         <Label>Regions</Label>
-        <Select defaultValue="all" onValueChange={(value) => setSelectedRegion(value)}>
+        <Select
+          defaultValue={filterState[SearchFilterEnum.Region] ?? "all"}
+          onValueChange={(value) => {
+            if (value === "all") {
+              setValue(SearchFilterEnum.Region, undefined)
+            } else {
+              setValue(SearchFilterEnum.Region, value)
+            }
+          }}
+        >
           <SelectTrigger>
             <SelectValue placeholder="Select a region" />
           </SelectTrigger>
@@ -117,7 +116,7 @@ export default function FishesSearchForm() {
           {colors.map((color, i) => (
             <ColorCheckbox
               color={color.hex}
-              defaultChecked={selectedColors.includes(color.id)}
+              defaultChecked={filterState.colors?.includes(color.id)}
               key={i}
               onCheckedChange={(value) => handleColors(!!value, color.id)}
             >
@@ -134,12 +133,12 @@ export default function FishesSearchForm() {
             <SimpleCheckbox
               key={i}
               pattern={pattern.id}
-              checked={selectedPattern === pattern.id}
+              checked={filterState.pattern === pattern.id}
               onCheckedChange={(value) => handlePattern(!!value, pattern.id)}
               className="text-gray-500"
             >
               <div className="flex h-20 w-28 flex-col items-center justify-center gap-1">
-                {pattern.icon({ className: cn("size-12", selectedPattern === pattern.id && "text-background") })}
+                {pattern.icon({ className: cn("size-12", filterState.pattern === pattern.id && "text-background") })}
                 <div className="text-xs font-medium">{pattern.label}</div>
               </div>
             </SimpleCheckbox>
@@ -154,12 +153,14 @@ export default function FishesSearchForm() {
             <SimpleCheckbox
               key={i}
               pattern={bodyShape.id}
-              checked={selectedBodyShape === bodyShape.id}
+              checked={filterState.body_shape === bodyShape.id}
               onCheckedChange={(value) => handleBodyShape(!!value, bodyShape.id)}
               className="text-gray-500"
             >
               <div className="flex h-20 w-28 flex-col items-center justify-center gap-1">
-                {bodyShape.icon({ className: cn("size-12", selectedBodyShape === bodyShape.id && "text-background") })}
+                {bodyShape.icon({
+                  className: cn("size-12", filterState.body_shape === bodyShape.id && "text-background"),
+                })}
                 <div className="text-xs font-medium">{bodyShape.label}</div>
               </div>
             </SimpleCheckbox>
@@ -174,13 +175,13 @@ export default function FishesSearchForm() {
             <SimpleCheckbox
               key={i}
               pattern={caudalFin.id}
-              checked={selectedCaudalFinShape === caudalFin.id}
+              checked={filterState.caudal_fin_shape === caudalFin.id}
               onCheckedChange={(value) => handleCaudalFin(!!value, caudalFin.id)}
               className="text-gray-500"
             >
               <div className="flex h-20 w-28 flex-col items-center justify-center gap-1">
                 {caudalFin.icon({
-                  className: cn("size-12", selectedCaudalFinShape === caudalFin.id && "text-background"),
+                  className: cn("size-12", filterState.caudal_fin_shape === caudalFin.id && "text-background"),
                 })}
                 <div className="text-xs font-medium">{caudalFin.label}</div>
               </div>
@@ -188,8 +189,6 @@ export default function FishesSearchForm() {
           ))}
         </div>
       </InputGroup>
-
-      <SearchResultsButton results={speciesResults} />
     </div>
   )
 }

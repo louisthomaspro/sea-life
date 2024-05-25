@@ -1,12 +1,19 @@
 "use client"
 
+import { useEffect } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 import { useNavigation } from "@/lib/navigation-provider"
 import { Icons } from "@/components/ui/icons/icons"
 
 export default function BottomNavigation() {
   const { activeTab } = useNavigation()
+  const pathname = usePathname()
+
+  if (pathname.startsWith("/search/results")) {
+    return null
+  }
 
   return (
     <div className="fixed bottom-0 left-0 z-50 h-16 w-full border-t border-gray-200 bg-white">

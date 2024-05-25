@@ -1,7 +1,4 @@
-import { searchSpecies } from "@/features/search/search-utils"
-import { Prisma } from "@prisma/client"
-
-import prisma from "@/lib/prisma"
+import { searchSpecies } from "@/features/search/search-server-utils"
 
 export type SearchResult = {
   id: string

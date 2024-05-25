@@ -1,22 +1,37 @@
 "use client"
 
-import { useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { motion, useMotionValueEvent, useScroll } from "framer-motion"
 
 import { useNavigation } from "@/lib/navigation-provider"
 import { Icons } from "@/components/ui/icons/icons"
 
 export default function BottomNavigation() {
   const { activeTab } = useNavigation()
-  const pathname = usePathname()
+  const { scrollY } = useScroll()
+  const [hidden, setHidden] = useState(false)
 
-  if (pathname.startsWith("/search/results")) {
-    return null
-  }
+  // https://www.youtube.com/watch?v=qc2kQcicNNc
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0
+    if (latest > previous && latest > 100) {
+      setHidden(true)
+    } else {
+      setHidden(false)
+    }
+  })
 
   return (
-    <div className="fixed bottom-0 left-0 z-50 h-16 w-full border-t border-gray-200 bg-white">
+    <motion.nav
+      variants={{
+        visible: { y: 0 },
+        hidden: { y: "100%" },
+      }}
+      animate={hidden ? "hidden" : "visible"}
+      transition={{ ease: "easeInOut", duration: 0.35 }}
+      className="fixed bottom-0 left-0 z-50 h-16 w-full border-t border-gray-200 bg-white"
+    >
       <div className="mx-auto flex h-full max-w-md grid-cols-2 justify-center px-3">
         <Link href="/" className="group inline-flex max-w-40 flex-1 flex-col items-center justify-center px-5">
           {activeTab === "home" ? <Icons.homeActive /> : <Icons.home />}
@@ -31,6 +46,6 @@ export default function BottomNavigation() {
           <span className="text-sm font-medium">Account</span>
         </Link>
       </div>
-    </div>
+    </motion.nav>
   )
 }

@@ -5,7 +5,6 @@ export default function ListsPage() {
   return (
     <div className="container pt-10">
       <CreateListTrigger />
-
       <ListsListing />
     </div>
   )

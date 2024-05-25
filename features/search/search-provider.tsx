@@ -3,6 +3,8 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { SearchFilterEnum } from "@/features/search/enum"
+import { parseUrl } from "@/features/search/search-utils"
+import { IFilterState } from "@/features/search/types"
 import { useDebouncedCallback } from "use-debounce"
 
 type FilterValue<K extends SearchFilterEnum> = IFilterState[K]
@@ -27,30 +29,6 @@ export function useSearch() {
     throw new Error("useSearch must be used within a SearchProvider")
   }
   return useContext(SearchContext)
-}
-
-export type IFilterState = {
-  [SearchFilterEnum.Colors]?: string[]
-  [SearchFilterEnum.Pattern]?: string
-  [SearchFilterEnum.Region]?: string
-  [SearchFilterEnum.CaudalFinShape]?: string
-  [SearchFilterEnum.BodyShape]?: string
-}
-
-const parseUrl = (searchParams: URLSearchParams) => {
-  const state: IFilterState = {}
-
-  for (const key of Object.values(SearchFilterEnum)) {
-    const value = searchParams.get(key)
-    if (value) {
-      if (key === SearchFilterEnum.Colors) {
-        state[key] = value.split(",")
-      } else {
-        state[key] = value
-      }
-    }
-  }
-  return state
 }
 
 function SearchProvider({ children }: { children: React.ReactNode }) {

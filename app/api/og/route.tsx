@@ -21,13 +21,16 @@ export async function GET(request: Request, { params }: { params: { id: string }
         <div tw="absolute h-[20px] bg-[#064F83] w-[100%]" />
         <div tw="p-10 flex w-full h-full items-center jutify-center">
           <div tw="flex h-[450px] w-[450px] overflow-hidden rounded-[50px]">
-            <img
-              src={imageUrl!}
-              tw="h-full w-full"
-              style={{
-                objectFit: "cover",
-              }}
-            />
+            <picture>
+              <img
+                src={imageUrl!}
+                tw="h-full w-full"
+                alt=""
+                style={{
+                  objectFit: "cover",
+                }}
+              />
+            </picture>
           </div>
           <div tw="flex flex-col w-[720px] px-12" style={{ gap: 40 }}>
             <div tw="flex flex-col" style={{ gap: 2 }}>

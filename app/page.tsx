@@ -61,7 +61,7 @@ export default function HomePage() {
                 className="absolute top-0 size-full rounded-[30px] duration-500"
                 muted
               >
-                <source src="/videos/fauna-loop.mp4" type="video/mp4" />
+                <source src="/videos/test1.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </VideoLoader>
               <div className="absolute top-0 size-full rounded-[30px] shadow-[0_0_70px_rgba(0,0,0,0.9)_inset]" />
@@ -95,6 +95,7 @@ export default function HomePage() {
                 muted
               >
                 <source src="/videos/flora-loop.mp4" type="video/mp4" />
+                <source src="/videos/test2.webm" type="video/webm" />
                 Your browser does not support the video tag.
               </VideoLoader>
               <div className="absolute top-0 size-full rounded-[30px] shadow-[0_0_70px_rgba(0,0,0,0.9)_inset]" />

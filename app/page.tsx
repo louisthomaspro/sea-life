@@ -57,6 +57,7 @@ export default function HomePage() {
                 autoPlay
                 playsInline
                 loop
+                preload="auto"
                 className="absolute top-0 size-full rounded-[30px] duration-500"
                 muted
               >
@@ -85,6 +86,8 @@ export default function HomePage() {
                 className="absolute top-0 size-full rounded-[30px] object-cover"
               />
               <VideoLoader
+                width="100%"
+                height="100%"
                 autoPlay
                 playsInline
                 loop

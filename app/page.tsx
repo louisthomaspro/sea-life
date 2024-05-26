@@ -48,7 +48,8 @@ export default function HomePage() {
             {/* Square */}
             <div className="relative aspect-square rounded-[30px] shadow-md">
               <ImageLoader
-                src={FaunaPlaceholder.blurDataURL}
+                src={FaunaPlaceholder}
+                placeholder="blur"
                 alt="Fauna"
                 fill
                 className="absolute top-0 size-full rounded-[30px] object-cover"
@@ -57,11 +58,10 @@ export default function HomePage() {
                 autoPlay
                 playsInline
                 loop
-                preload="auto"
                 className="absolute top-0 size-full rounded-[30px] duration-500"
                 muted
               >
-                <source src="/videos/test1.mp4" type="video/mp4" />
+                <source src="/videos/fauna-loop.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </VideoLoader>
               <div className="absolute top-0 size-full rounded-[30px] shadow-[0_0_70px_rgba(0,0,0,0.9)_inset]" />
@@ -80,14 +80,13 @@ export default function HomePage() {
             {/* Square */}
             <div className="relative aspect-square rounded-[30px] shadow-md">
               <ImageLoader
-                src={FloraPlaceholder.blurDataURL}
+                src={FloraPlaceholder}
+                placeholder="blur"
                 alt="Flora"
                 fill
                 className="absolute top-0 size-full rounded-[30px] object-cover"
               />
               <VideoLoader
-                width="100%"
-                height="100%"
                 autoPlay
                 playsInline
                 loop
@@ -95,7 +94,6 @@ export default function HomePage() {
                 muted
               >
                 <source src="/videos/flora-loop.mp4" type="video/mp4" />
-                <source src="/videos/test2.webm" type="video/webm" />
                 Your browser does not support the video tag.
               </VideoLoader>
               <div className="absolute top-0 size-full rounded-[30px] shadow-[0_0_70px_rgba(0,0,0,0.9)_inset]" />

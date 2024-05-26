@@ -1,13 +1,12 @@
 import { Suspense } from "react"
-import Image from "next/image"
 import Link from "next/link"
-import Fauna from "@/public/img/fauna.jpg"
-import Flora from "@/public/img/flora.jpg"
+import FaunaPlaceholder from "@/public/videos/fauna-loop-placeholder.png"
+import FloraPlaceholder from "@/public/videos/flora-loop-placeholder.png"
 
-import { getSpeciesByAncestorList } from "@/lib/database/utils"
-import prisma from "@/lib/prisma"
+import ImageLoader from "@/components/ui/image-loader"
 import { SearchInput } from "@/components/search-input"
 import TodaysPicks from "@/components/todays-picks"
+import VideoLoader from "@/components/video-loader"
 
 export default function HomePage() {
   // const groups = await prisma.group.findMany({
@@ -48,13 +47,24 @@ export default function HomePage() {
           >
             {/* Square */}
             <div className="relative aspect-square rounded-[30px] shadow-md">
-              <div>
-                <video width="100%" height="100%" autoPlay loop className="size-full rounded-[30px]" muted>
-                  <source src="/videos/fauna-loop.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-                <div className="absolute top-0 size-full rounded-[30px] shadow-[0_0_70px_rgba(0,0,0,0.9)_inset]" />
-              </div>
+              <ImageLoader
+                src={FaunaPlaceholder.blurDataURL}
+                alt="Fauna"
+                fill
+                className="absolute top-0 size-full rounded-[30px] object-cover"
+              />
+              <VideoLoader
+                autoPlay
+                playsInline
+                loop
+                className="absolute top-0 size-full rounded-[30px] duration-500"
+                muted
+              >
+                <source src="/videos/fauna-loop.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </VideoLoader>
+              <div className="absolute top-0 size-full rounded-[30px] shadow-[0_0_70px_rgba(0,0,0,0.9)_inset]" />
+              {/* Title */}
               <div className="absolute bottom-4 left-5 space-y-0.5">
                 <div className="text-xl font-medium text-background">Fauna</div>
                 <div className="text-xs text-muted">1025 species</div>
@@ -66,14 +76,26 @@ export default function HomePage() {
             href="/explore/flora"
             className="relative flex-1 rounded-[30px] bg-[#095413] transition-transform hover:scale-[99%] active:scale-[98%]"
           >
+            {/* Square */}
             <div className="relative aspect-square rounded-[30px] shadow-md">
-              <div>
-                <video width="100%" height="100%" autoPlay loop className="size-full rounded-[30px]" muted>
-                  <source src="/videos/flora-loop.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-                <div className="absolute top-0 size-full rounded-[30px] shadow-[0_0_70px_rgba(0,0,0,0.9)_inset]" />
-              </div>
+              <ImageLoader
+                src={FloraPlaceholder.blurDataURL}
+                alt="Flora"
+                fill
+                className="absolute top-0 size-full rounded-[30px] object-cover"
+              />
+              <VideoLoader
+                autoPlay
+                playsInline
+                loop
+                className="absolute top-0 size-full rounded-[30px] duration-500"
+                muted
+              >
+                <source src="/videos/flora-loop.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </VideoLoader>
+              <div className="absolute top-0 size-full rounded-[30px] shadow-[0_0_70px_rgba(0,0,0,0.9)_inset]" />
+              {/* Title */}
               <div className="absolute bottom-4 left-5 space-y-0.5">
                 <div className="text-xl font-medium text-background">Flora</div>
                 <div className="text-xs text-muted">64 species</div>

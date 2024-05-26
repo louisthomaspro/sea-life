@@ -1,13 +1,14 @@
 "use client"
 
 import React from "react"
+import { StaticImport } from "next/dist/shared/lib/get-img-props"
 import Image from "next/image"
 import fallbackImage from "@/public/img/fallback.jpg"
 
 import { awsLoader, cn } from "@/lib/utils"
 
 interface ImageLoaderProps extends Omit<React.ComponentPropsWithoutRef<typeof Image>, "src"> {
-  src: string | null | undefined
+  src: string | StaticImport | null | undefined
   blurhashDataURL?: string | null | undefined
 }
 

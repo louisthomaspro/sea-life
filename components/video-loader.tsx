@@ -12,7 +12,7 @@ const VideoLoader = React.forwardRef<React.ElementRef<"video">, VideoLoaderProps
     return (
       <video
         className={cn("size-full rounded-[30px] opacity-0 transition-opacity", className)}
-        onCanPlay={(video) => video.currentTarget.classList.remove("opacity-0")}
+        onCanPlayThrough={(video) => video.currentTarget.classList.remove("opacity-0")}
         ref={ref}
         {...props}
       >

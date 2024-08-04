@@ -49,7 +49,7 @@ export default function HomePage() {
             <div className="relative aspect-square rounded-[30px] shadow-md">
               <ImageLoader
                 src={FaunaPlaceholder}
-                placeholder="blur"
+                blurhashDataURL={FaunaPlaceholder.blurDataURL}
                 alt="Fauna"
                 fill
                 className="absolute top-0 size-full rounded-[30px] object-cover"
@@ -81,7 +81,7 @@ export default function HomePage() {
             <div className="relative aspect-square rounded-[30px] shadow-md">
               <ImageLoader
                 src={FloraPlaceholder}
-                placeholder="blur"
+                blurhashDataURL={FloraPlaceholder.blurDataURL}
                 alt="Flora"
                 fill
                 className="absolute top-0 size-full rounded-[30px] object-cover"
@@ -108,7 +108,7 @@ export default function HomePage() {
         </div>
       </div>
       {/* Today's Picks */}
-      <div className="mt-5">
+      <div className="mb-5 mt-5">
         <div className={"container mb-2 flex items-center gap-4"}>
           <div className="text-lg font-semibold">Today's picks</div>
         </div>

@@ -1,5 +1,10 @@
 import prisma from "@/lib/prisma"
 
+/**
+ * Populates following fields for a group:
+ * - speciesCount
+ * - highlightedSpecies (5 species randomly selected from group)
+ */
 export const populateGroupById = async (id: number) => {
   const group = await prisma.group.findFirst({
     include: {

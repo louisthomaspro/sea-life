@@ -8,6 +8,10 @@ import "server-cli-only"
 import { bodyShapes, caudalFinShapes, colors, patterns } from "@/constants/morphology"
 import { z } from "zod"
 
+/**
+ * Analyzes media for a taxa by id
+ * Returns morphological attributes and description
+ */
 export const analyzeMediaByTaxaId = async (id: number) => {
   const taxaData = await prisma.taxa.findFirst({
     select: {
@@ -209,7 +213,7 @@ async function getMorphologicalAttributes(url: string) {
   }`
 
   const response = await openai.chat.completions.create({
-    model: "gpt-4o",
+    model: "gpt-4o-mini",
     response_format: {
       type: "json_object",
     },

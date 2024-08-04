@@ -27,7 +27,7 @@ const ImageLoader = React.forwardRef<React.ElementRef<typeof Image>, ImageLoader
           src={src}
           alt={props.alt}
           ref={ref}
-          onLoadingComplete={(image) => image.classList.remove("opacity-0")}
+          onLoad={(image) => image.currentTarget.classList.remove("opacity-0")}
           loader={awsLoader}
           className={cn(
             "bg-white", // for transparent images

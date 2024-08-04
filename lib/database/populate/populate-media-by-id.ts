@@ -7,6 +7,12 @@ import { uploadTaxaMedia } from "@/lib/aws/s3-utils"
 import { getOrCreateSourceInaturalistById } from "@/lib/database/populate/get-or-create-source-inaturalist-by-id"
 import prisma from "@/lib/prisma"
 
+/**
+ * Populates media for a taxa by id
+ * 1. Fetches inaturalist images
+ * 2. Calculates thumbhash
+ * 3. Uploads to S3 and saves to db
+ */
 export const populateMediaById = async (id: number) => {
   // Get inaturalist data from db
   const taxaData = await prisma.taxa.findFirst({

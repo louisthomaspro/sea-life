@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import { bodyShapes, caudalFinShapes, colors, patterns } from "@/constants/morphology"
 import { regionsList } from "@/constants/regions_dict"
 import { ColorCheckbox } from "@/features/search/components/ui/color-checkbox"
@@ -8,7 +8,6 @@ import { InputGroup } from "@/features/search/components/ui/form"
 import { SimpleCheckbox } from "@/features/search/components/ui/simple-checkbox"
 import { SearchFilterEnum } from "@/features/search/enum"
 import { useSearch } from "@/features/search/search-provider"
-import { useDebouncedCallback } from "use-debounce"
 
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
@@ -53,33 +52,6 @@ export default function FishesSearchForm() {
       setValue(SearchFilterEnum.CaudalFinShape, undefined)
     }
   }
-
-  const handleSearch = useDebouncedCallback(async () => {
-    setIsLoading(true)
-    console.log(`Searching...`)
-
-    controller.current?.abort()
-    controller.current = new AbortController()
-
-    // try {
-    //   const data = await fetch(`/api/search-advanced`, {
-    //     method: "POST",
-    //     signal: controller.current.signal,
-    //     body: JSON.stringify({
-    //   }).then((res) => res.json())
-
-    //   setSpeciesResults(data)
-    // } catch (err) {
-    //   if (err instanceof Error && err.name !== "AbortError") {
-    //     console.error(err)
-    //   }
-    // }
-    // setIsSearching(false)
-  }, 150)
-
-  useEffect(() => {
-    handleSearch()
-  }, [filterState])
 
   return (
     <div className="flex flex-col gap-4">

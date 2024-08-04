@@ -38,12 +38,7 @@ export const ShowResultsButton = () => {
       }}
       className="sticky bottom-20 right-2 float-end ml-auto w-max"
     >
-      <Button
-        className={cn("flex gap-2", !isSearching && "animate-buttonheartbeat")}
-        variant={"outline"}
-        size={"lg"}
-        // onClick={() => pushModal("SearchResultsDrawer", { results })}
-      >
+      <Button className={cn("flex gap-2", !isSearching && "animate-buttonheartbeat")} variant={"outline"} size={"lg"}>
         <span>Show results</span>
         <Badge className="w-[44px] justify-center">{results.length}</Badge>
       </Button>

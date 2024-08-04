@@ -4,13 +4,13 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { Session, User } from "@supabase/supabase-js"
 
 import { createClient } from "@/lib/supabase/client"
-import { Icons } from "@/components/ui/icons/icons"
 
 const AuthContext = createContext<{
   session: Session | null | undefined
   user: User | null | undefined
+  loading: boolean
   signOut: () => void
-}>({ session: null, user: null, signOut: () => {} })
+}>({ session: null, user: null, signOut: () => {}, loading: true })
 
 const supabase = createClient()
 
@@ -20,7 +20,8 @@ export const AuthProvider = ({ children }: any) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const setData = async () => {
+    // Get the auth session from Supabase
+    const getSession = async () => {
       const {
         data: { session },
         error,
@@ -30,14 +31,14 @@ export const AuthProvider = ({ children }: any) => {
       setUser(session?.user)
       setLoading(false)
     }
+    getSession()
 
+    // Listen for changes on auth state (logged in, logged out, etc.)
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
       setUser(session?.user)
       setLoading(false)
     })
-
-    setData()
 
     return () => {
       listener?.subscription.unsubscribe()
@@ -47,20 +48,11 @@ export const AuthProvider = ({ children }: any) => {
   const value = {
     session,
     user,
+    loading,
     signOut: () => supabase.auth.signOut(),
   }
 
-  return (
-    <AuthContext.Provider value={value}>
-      {loading ? (
-        <div className="flex size-full h-[100vh] items-center justify-center">
-          <Icons.spinner className="size-6" />
-        </div>
-      ) : (
-        children
-      )}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 export const useAuth = () => {

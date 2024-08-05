@@ -14,9 +14,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export default function FishesSearchForm() {
-  const { setValue, filterState, setIsSearching: setIsLoading } = useSearch()
-
-  const controller = useRef<AbortController>()
+  const { setValue, filterState } = useSearch()
 
   const handleColors = (value: boolean, selectedId: string) => {
     if (value) {
@@ -58,7 +56,7 @@ export default function FishesSearchForm() {
       <InputGroup>
         <Label>Regions</Label>
         <Select
-          defaultValue={filterState[SearchFilterEnum.Region] ?? "all"}
+          defaultValue={filterState.region ?? "all"}
           onValueChange={(value) => {
             if (value === "all") {
               setValue(SearchFilterEnum.Region, undefined)

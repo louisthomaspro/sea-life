@@ -1,5 +1,4 @@
 import FishesSearchForm from "@/features/search/components/fishes-search-form"
-import { ShowResultsButton } from "@/features/search/components/show-results-button"
 
 export default function SearchPage() {
   return (

@@ -48,24 +48,25 @@ export const signUp = async (formData: FormData) => {
   }
 }
 
+// https://supabase.com/docs/guides/auth/redirect-urls#vercel-preview-urls
 const getURL = () => {
   let url =
     process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
     process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
     "http://localhost:3000/"
   // Make sure to include `https://` when not localhost.
-  url = url.includes("http") ? url : `https://${url}`
+  url = url.startsWith("http") ? url : `https://${url}`
   // Make sure to include a trailing `/`.
-  url = url.charAt(url.length - 1) === "/" ? url : `${url}/`
+  url = url.endsWith("/") ? url : `${url}/`
   return url
 }
 
-export const signInWithProvider = async ({ provider, from }: { provider: Provider; from: string }) => {
+export const signInWithProvider = async ({ provider, next }: { provider: Provider; next?: string | null }) => {
   const supabase = createClient()
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: `${getURL()}auth/callback?from=${encodeURIComponent(from)}`,
+      redirectTo: `${getURL()}auth/callback${next && `?next=${encodeURIComponent(next)}`}`,
     },
   })
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { usePathname } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import { signInWithProvider } from "@/lib/supabase/actions"
 import { cn } from "@/lib/utils"
@@ -11,7 +11,7 @@ import { Icons } from "@/components/ui/icons/icons"
 interface GoogleSignInButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const GoogleSignInButton = ({ className, ...props }: GoogleSignInButtonProps) => {
-  const pathname = usePathname()
+  const searchparams = useSearchParams()
   const [isLoading, setIsLoading] = useState(false)
 
   return (
@@ -24,7 +24,7 @@ export const GoogleSignInButton = ({ className, ...props }: GoogleSignInButtonPr
       onClick={async () => {
         setIsLoading(true)
         try {
-          signInWithProvider({ provider: "google", from: pathname })
+          signInWithProvider({ provider: "google", next: searchparams.get("next") })
         } catch (error) {
           setIsLoading(false)
         }

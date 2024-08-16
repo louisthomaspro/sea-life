@@ -15,9 +15,6 @@ export const searchSpecies = async ({
   caudal_fin_shape?: string
   body_shape?: string
 }) => {
-  console.log(`Searching...`)
-  console.log(colors, pattern, region, caudal_fin_shape, body_shape)
-
   const filters = []
 
   if (colors?.length) {
@@ -39,8 +36,6 @@ export const searchSpecies = async ({
   if (body_shape) {
     filters.push(`body_shape::text LIKE '%${body_shape}%'`)
   }
-
-  console.log(filters)
 
   let filterQuery: Prisma.Sql = Prisma.raw("")
   if (filters.length) {

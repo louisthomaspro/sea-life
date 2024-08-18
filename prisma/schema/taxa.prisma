@@ -1,0 +1,74 @@
+model Taxa {
+  id                                Int                    @id
+  scientificName                    String
+  /// [CommonNames]
+  commonNames                       Json                   @default("{}") // { "en": ["Common name"], "fr": ["Nom commun"] }
+  rank                              String
+  rankLevel                         Int
+  parentId                          Int?
+  morphologicalDescription          String?
+  embeddingMorphologicalDescription Unsupported("vector")?
+  // embeddingContent String?
+  createdAt                         DateTime               @default(now()) @db.Timestamptz(6)
+  updatedAt                         DateTime               @default(now()) @db.Timestamptz(6)
+  parent                            Taxa?                  @relation("TaxaToTaxa", fields: [parentId], references: [id])
+  children                          Taxa[]                 @relation("TaxaToTaxa")
+  ancestors                         Taxa[]                 @relation("Ancestors")
+  isAncestorOf                      Taxa[]                 @relation("Ancestors") // not used
+
+  medias TaxaMedia[]
+
+  // Group relations
+  highLevelTaxaOfGroups      Group[]         @relation("GroupToHighLevelTaxa")
+  highlightedSpeciesOfGroups Group[]         @relation("GroupToHighlightedSpecies")
+  lists                      ListToSpecies[]
+  attributes                 Attributes?
+}
+
+model TaxaMedia {
+  id              Int      @id @default(autoincrement())
+  taxaId          Int
+  type            String // "image", "video"...
+  url             String
+  s3Key           String
+  blurhash        Bytes?
+  blurhashDataUrl String?
+  originalUrl     String?
+  attribution     String?
+  position        Int?
+  createdAt       DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt       DateTime @default(now()) @db.Timestamptz(6)
+
+  taxa Taxa @relation(fields: [taxaId], references: [id])
+
+  @@unique([taxaId, url])
+}
+
+model Attributes {
+  id     Int @id @default(autoincrement())
+  taxaId Int @unique
+
+  rarity              String?
+  habitats            String?
+  depthMin            Float?
+  depthMax            Float?
+  regions             String?
+  sociability         String?
+  maxLength           Float?
+  commonLength        Float?
+  commonPlumeDiameter Float?
+  maxColonySize       Float?
+  maxPolypDiameter    Float?
+  commonDiameter      Float?
+
+  // morphological attributes
+  colors         String[]
+  patterns       String[]
+  bodyShape      String?
+  caudalFinShape String?
+
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @db.Timestamptz(6)
+
+  taxa Taxa @relation(fields: [taxaId], references: [id])
+}

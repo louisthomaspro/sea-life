@@ -1,0 +1,21 @@
+model List {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @db.Timestamptz(6)
+
+  species ListToSpecies[]
+  owner   Profile?        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId String?         @db.Uuid
+}
+
+model ListToSpecies {
+  listId Int
+  taxaId Int
+  list   List @relation(fields: [listId], references: [id], onDelete: Cascade)
+  taxa   Taxa @relation(fields: [taxaId], references: [id])
+
+  updatedAt DateTime @default(now()) @db.Timestamptz(6)
+
+  @@id([listId, taxaId])
+}

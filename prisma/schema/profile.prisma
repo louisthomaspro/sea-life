@@ -1,0 +1,11 @@
+enum RoleEnum {
+  admin
+  user
+}
+
+model Profile {
+  id    String   @id @db.Uuid
+  email String   @unique
+  role  RoleEnum @default(user)
+  lists List[]
+}

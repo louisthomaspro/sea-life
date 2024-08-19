@@ -45,14 +45,15 @@ model TaxaMedia {
 }
 
 model Attributes {
-  id     Int @id @default(autoincrement())
-  taxaId Int @unique
+  taxaId  Int     @id
+  version String? // ex: gp4o-mini-${version}
 
   rarity              String?
-  habitats            String?
+  primaryHabitats     String[]
+  secondaryHabitats   String[]
   depthMin            Float?
   depthMax            Float?
-  regions             String?
+  regions             String[]
   sociability         String?
   maxLength           Float?
   commonLength        Float?

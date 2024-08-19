@@ -56,3 +56,9 @@ pg_restore -j 5 --clean -d "postgres://postgres.etbfmqkktewuqbpktqvf:<PASSWORD>@
 // https://www.npmjs.com/package/node-firestore-import-export
  npx -p node-firestore-import-export firestore-export -a test.json -b backup.json -n species
 ```
+
+## Execute scripts
+
+```bash
+bun ./script/{script_name}.ts
+```

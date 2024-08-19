@@ -137,6 +137,14 @@ export const getOrCreateTaxaById = async (taxaId: number) => {
           : []),
       ],
     },
+    attributes: {
+      connectOrCreate: {
+        where: {
+          taxaId,
+        },
+        create: {},
+      },
+    },
   }
 
   const newTaxa = await prisma.taxa.upsert({

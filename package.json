@@ -10,12 +10,14 @@
     "prepare": "husky install",
     "postinstall": "prisma generate",
     "migrate-dev": "prisma migrate dev && tsx lib/seedTriggers.ts",
-    "ngrok": "npx ngrok http 3000"
+    "ngrok": "npx ngrok http 3000",
+    "script": "bun --env-file=.env "
   },
   "lint-staged": {
     "*": "prettier --ignore-unknown --write"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^0.0.48",
     "@aws-sdk/client-s3": "^3.550.0",
     "@ducanh2912/next-pwa": "^10.2.7",
     "@fortawesome/react-fontawesome": "^0.2.0",
@@ -42,6 +44,7 @@
     "@tanstack/react-query-devtools": "^5.34.2",
     "@tanstack/react-query-next-experimental": "^5.34.2",
     "@vercel/analytics": "^1.2.2",
+    "ai": "^3.3.9",
     "blurhash": "^2.0.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
@@ -90,8 +93,8 @@
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.24",
     "autoprefixer": "^10.4.19",
+    "bun": "^1.1.24",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.4.5",
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.2.5",
     "eslint-config-prettier": "^9.1.0",

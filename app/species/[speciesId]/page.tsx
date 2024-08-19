@@ -7,7 +7,7 @@ import { regionsDict } from "@/constants/regions_dict"
 import { sociabilityDict } from "@/constants/sociability_dict"
 import { taxonomyRankDict } from "@/constants/taxonomy-rank-dict"
 import { AddToListTrigger } from "@/features/list/components/add-to-list-trigger"
-import { AttributeEnum, Prisma, Taxa } from "@prisma/client"
+import { Prisma, Taxa } from "@prisma/client"
 
 import prisma from "@/lib/prisma"
 import { buildSpeciesOgImageUrl, capitalizeWords } from "@/lib/utils"
@@ -37,11 +37,7 @@ export async function generateMetadata({ params }: { params: { speciesId: string
           position: "asc",
         },
       },
-      attributes: {
-        include: {
-          attributeDefinition: true,
-        },
-      },
+      attributes: true,
     },
     where: {
       id: Number(params.speciesId),
@@ -68,13 +64,10 @@ export async function generateMetadata({ params }: { params: { speciesId: string
             name: species.commonNames.en ? capitalizeWords(species.commonNames.en[0]) : "",
             imageUrl: species.medias[0]?.url ?? "",
             scientificName: capitalizeWords(species.scientificName) ?? "",
-            maxLength:
-              species.attributes.find((attribute) => attribute.attributeDefinitionId === "max_length")?.value ?? "",
-            maxDepth:
-              species.attributes.find((attribute) => attribute.attributeDefinitionId === "depth_max")?.value ?? "",
-            minDepth:
-              species.attributes.find((attribute) => attribute.attributeDefinitionId === "depth_min")?.value ?? "",
-            rarity: species.attributes.find((attribute) => attribute.attributeDefinitionId === "rarity")?.value ?? "",
+            maxLength: String(species.attributes?.maxLength),
+            maxDepth: String(species.attributes?.depthMax),
+            minDepth: String(species.attributes?.depthMin),
+            rarity: species.attributes?.rarity ?? "",
           }),
           width: 200,
           height: 200,
@@ -103,11 +96,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
           rankLevel: "desc",
         },
       },
-      attributes: {
-        include: {
-          attributeDefinition: true,
-        },
-      },
+      attributes: true,
     },
     where: {
       id: Number(params.speciesId),
@@ -116,12 +105,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
 
   if (!species) notFound()
 
-  let attributesMap: {
-    [key in AttributeEnum]?: Prisma.AttributeGetPayload<{ include: { attributeDefinition: true } }>
-  } = {}
-  species.attributes.forEach((attribute) => {
-    attributesMap[attribute.attributeDefinitionId] = attribute
-  })
+  let attributes = species.attributes!
 
   return (
     <div>
@@ -178,28 +162,28 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
           <p className="italic text-gray-600">{capitalizeWords(species.scientificName)}</p>
         </div>
         {/* HighlightAttributes */}
-        {(attributesMap.max_length || attributesMap.depth_max || attributesMap.rarity) && (
+        {(attributes.maxLength || attributes.depthMax || attributes.depthMin) && (
           <HighlightAttributes className="my-2">
-            {attributesMap.max_length && (
+            {attributes.maxLength && (
               <Attribute>
                 <Icons.maxLength className="size-6" />
                 <span>
-                  {"<"} {attributesMap.max_length.value} cm
+                  {"<"} {attributes.maxLength} cm
                 </span>
               </Attribute>
             )}
-            {attributesMap.depth_max && (
+            {attributes.depthMax && (
               <Attribute>
                 <Icons.depth className="size-6" />
                 <span>
-                  {attributesMap.depth_min?.value ?? 0} - {attributesMap.depth_max.value} m
+                  {attributes.depthMin ?? 0} - {attributes.depthMax} m
                 </span>
               </Attribute>
             )}
-            {attributesMap.rarity && (
+            {attributes.rarity && (
               <Attribute>
                 <Icons.rarity className="size-6" />
-                <span>{rarityDict[attributesMap.rarity.value].name.en}</span>
+                <span>{rarityDict[attributes.rarity].name.en}</span>
               </Attribute>
             )}
           </HighlightAttributes>
@@ -209,33 +193,39 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
             <Section>
               <SectionTitle>Test</SectionTitle>
               <SectionContent>
-                {species.attributes.map((attribute) => (
-                  <div key={attribute.attributeDefinitionId}>
-                    {attribute.attributeDefinition.id}: {attribute.value}
-                  </div>
+                {Object.keys(attributes ?? {}).map((attribute) => (
+                  <>
+                    {(attributes as any)[attribute] && (attributes as any)[attribute].toString() && (
+                      <div key={attribute}>
+                        {attribute}: {(attributes as any)[attribute].toString()}
+                      </div>
+                    )}
+                  </>
                 ))}
               </SectionContent>
             </Section>
           )}
           {/* Environment */}
-          {(attributesMap.primary_habitats || attributesMap.secondary_habitats || attributesMap.regions) && (
+          {(attributes.primaryHabitats.length > 0 ||
+            attributes.secondaryHabitats.length > 0 ||
+            attributes.regions.length > 0) && (
             <Section>
               <SectionTitle>Environment</SectionTitle>
               <SectionContent>
-                {(attributesMap.primary_habitats || attributesMap.secondary_habitats) && (
+                {(attributes.primaryHabitats.length > 0 || attributes.secondaryHabitats.length > 0) && (
                   <div className="flex items-center gap-2">
                     <Icons.habitat className="size-5 flex-none" />
                     <div className="flex flex-col">
-                      {attributesMap.primary_habitats && (
+                      {attributes.primaryHabitats.length && (
                         <div className="font-medium">
-                          {attributesMap.primary_habitats?.value
+                          {attributes.primaryHabitats
                             .map((habitat: string) => habitatsDict[habitat].title.en)
                             .join(", ")}
                         </div>
                       )}
-                      {attributesMap.secondary_habitats && (
+                      {attributes.secondaryHabitats.length > 0 && (
                         <div className="text-muted-foreground">
-                          {attributesMap.secondary_habitats?.value
+                          {attributes.secondaryHabitats
                             .map((habitat: string) => habitatsDict[habitat].title.en)
                             .join(", ")}
                         </div>
@@ -243,11 +233,11 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
                     </div>
                   </div>
                 )}
-                {attributesMap.regions && (
+                {attributes.regions.length > 0 && (
                   <div className="flex items-center gap-2">
                     <Icons.region className="size-5 flex-none" />
                     <div className="font-medium">
-                      {attributesMap.regions?.value.map((region: string) => regionsDict[region].name.en).join(", ")}
+                      {attributes.regions.map((region: string) => regionsDict[region].name.en).join(", ")}
                     </div>
                   </div>
                 )}
@@ -255,14 +245,14 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
             </Section>
           )}
           {/* LifeStyle and behavior */}
-          {attributesMap.sociability && (
+          {attributes.sociability && (
             <Section>
               <SectionTitle>Lifestyle and behavior</SectionTitle>
               <SectionContent>
-                {attributesMap.sociability && (
+                {attributes.sociability && (
                   <div className="flex items-center gap-2">
                     <Icons.sociability className="size-5 flex-none" />
-                    <div className="font-medium">{sociabilityDict[attributesMap.sociability.value].name.en}</div>
+                    <div className="font-medium">{sociabilityDict[attributes.sociability].name.en}</div>
                   </div>
                 )}
               </SectionContent>

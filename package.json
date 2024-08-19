@@ -10,17 +10,19 @@
     "prepare": "husky install",
     "postinstall": "prisma generate",
     "migrate-dev": "prisma migrate dev && tsx lib/seedTriggers.ts",
-    "ngrok": "npx ngrok http 3000"
+    "ngrok": "npx ngrok http 3000",
+    "script": "bun --env-file=.env "
   },
   "lint-staged": {
     "*": "prettier --ignore-unknown --write"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^0.0.48",
     "@aws-sdk/client-s3": "^3.550.0",
     "@ducanh2912/next-pwa": "^10.2.7",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@hookform/resolvers": "^3.3.4",
-    "@prisma/client": "5.12.1",
+    "@prisma/client": "5.18.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -42,6 +44,7 @@
     "@tanstack/react-query-devtools": "^5.34.2",
     "@tanstack/react-query-next-experimental": "^5.34.2",
     "@vercel/analytics": "^1.2.2",
+    "ai": "^3.3.9",
     "blurhash": "^2.0.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
@@ -60,7 +63,7 @@
     "optional": "^0.1.4",
     "path-to-regexp": "^6.2.2",
     "pg": "^8.11.5",
-    "prisma": "^5.12.1",
+    "prisma": "^5.18.0",
     "pushmodal": "^1.0.3",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
@@ -90,8 +93,8 @@
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.24",
     "autoprefixer": "^10.4.19",
+    "bun": "^1.1.24",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.4.5",
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.2.5",
     "eslint-config-prettier": "^9.1.0",
@@ -101,7 +104,7 @@
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.13",
-    "prisma-json-types-generator": "^3.0.3",
+    "prisma-json-types-generator": "^3.0.4",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.3.3",
     "webpack": "^5.91.0"

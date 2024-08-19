@@ -1,0 +1,13 @@
+model Source {
+  id        Int      @id @default(autoincrement())
+  sourceId  String // id from the source
+  name      String // "inaturalist", "fishbase"...
+  context   String // "taxaApi"
+  taxaId    Int
+  /// [Any]
+  json      Json
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @db.Timestamptz(6)
+
+  @@unique([sourceId, name, context, taxaId])
+}

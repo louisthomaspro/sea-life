@@ -1,5 +1,6 @@
 // lib/prisma.ts
 import { PrismaClient } from "@prisma/client"
+import { withOptimize } from "@prisma/extension-optimize"
 
 let prisma: PrismaClient
 
@@ -28,7 +29,7 @@ if (process.env.NODE_ENV === "production") {
           level: "warn",
         },
       ],
-    })
+    }).$extends(withOptimize({ apiKey: process.env.OPTIMIZE_API_KEY! }))
   }
   prisma = (global as any).prisma
 

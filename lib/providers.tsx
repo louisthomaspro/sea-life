@@ -7,7 +7,7 @@ import { Analytics } from "@vercel/analytics/react"
 import NavigationProvider from "@/lib/navigation-provider"
 import { ModalProvider } from "@/lib/pushmodal/pushmodal"
 import { ModalProviderNavigationAutoClose } from "@/lib/pushmodal/pushmodal-navigation-auto-close"
-import { ReactQueryProviders } from "@/lib/react-query/react-query-provider"
+import { ReactQueryProviders } from "@/lib/react-query/react-query-providers"
 import { AuthProvider } from "@/lib/supabase/auth-provider"
 import { Toaster } from "@/components/ui/sonner"
 

@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 import { signOut } from "@/lib/supabase/actions"
-import { createClient } from "@/lib/supabase/server"
+import { getSafeUser } from "@/lib/supabase/server"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons/icons"
 import { Separator } from "@/components/ui/separator"
@@ -9,10 +9,7 @@ import LoginForm from "@/components/auth/login-form"
 import { ListCountSuspense } from "@/app/account/_components/list-count"
 
 export default async function Account() {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const user = await getSafeUser()
 
   if (!user) {
     return (

@@ -1,10 +1,15 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useState } from "react"
 import Link from "next/link"
-import { useDebouncedCallback } from "use-debounce"
+import { keepPreviousData, useQuery } from "@tanstack/react-query"
+import { motion } from "framer-motion"
+import { useDebounce } from "use-debounce"
 
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogClose, DialogTrigger } from "@/components/ui/dialog"
+import { DialogSearchContent } from "@/components/ui/dialog-search"
 import { Icons } from "@/components/ui/icons/icons"
 import ImageLoader from "@/components/ui/image-loader"
 import { Input } from "@/components/ui/input"
@@ -14,99 +19,105 @@ interface SearchInputProps extends React.HTMLProps<HTMLInputElement> {}
 
 export const SearchInput = ({ className, ...props }: SearchInputProps) => {
   const [term, setTerm] = useState("")
-  const [speciesResults, setSpeciesResults] = useState<SearchResult[]>([])
-  const [isSearching, setIsSearching] = useState(false)
 
-  const controller = useRef<AbortController>()
-
-  const handleSearch = useDebouncedCallback(async (term) => {
-    setIsSearching(true)
-    console.log(`Searching... ${term}`)
-
-    controller.current?.abort()
-    controller.current = new AbortController()
-
-    if (!term) {
-      setSpeciesResults([])
-      setIsSearching(false)
-      return
-    }
-
-    try {
-      const data = await fetch(`/api/search?term=${term}`, { signal: controller.current.signal }).then((res) =>
-        res.json()
-      )
-
-      setSpeciesResults(data)
-    } catch (err) {
-      if (err instanceof Error && err.name !== "AbortError") {
-        console.error(err)
-      }
-    }
-    setIsSearching(false)
-  }, 150)
+  const debouncedSearchQuery = useDebounce(term.trim(), 150)
+  const { data: speciesResults, isFetching } = useQuery<SearchResult[]>({
+    queryKey: ["search", ...debouncedSearchQuery],
+    queryFn: async () => {
+      const data = await fetch(`/api/search?term=${term}`).then((res) => res.json())
+      return data
+    },
+    enabled: !!term,
+    placeholderData: keepPreviousData,
+  })
 
   return (
-    <div className={cn("relative", className)} {...props}>
-      <div className="flex items-center">
-        <Input
-          placeholder="Search for species"
-          value={term}
-          className="h-12 rounded-full pl-11"
-          onChange={(e) => {
-            setTerm(e.target.value)
-            handleSearch(e.target.value)
-          }}
-        />
+    <div className="relative flex grow items-center" {...props}>
+      <Dialog>
+        <DialogTrigger asChild>
+          <div className="flex w-full items-center">
+            <Input placeholder="Search for species" className="h-12 rounded-full pl-11" />
+            <Icons.search className="absolute left-4 size-5 text-gray-400" />
+          </div>
+        </DialogTrigger>
+        <DialogSearchContent className="overflow-auto">
+          <div className="container flex max-w-lg flex-col gap-4 overflow-auto">
+            <div className="flex w-full items-center gap-2">
+              <div className="relative flex grow items-center">
+                <Input
+                  placeholder="Search for species"
+                  autoFocus
+                  value={term}
+                  className="mt-0.5 h-12 rounded-full pl-11"
+                  onChange={(e) => {
+                    setTerm(e.target.value)
+                  }}
+                />
 
-        <Icons.search className="absolute left-4 size-5 text-gray-400" />
+                <Icons.search className="absolute left-4 size-5 text-gray-400" />
 
-        <div
-          className="absolute inset-y-0 right-0 flex cursor-pointer items-center px-4"
-          onClick={() => {
-            setTerm("")
-            setSpeciesResults([])
-            handleSearch("")
-          }}
-        >
-          {isSearching && <Icons.spinner height={16} width={16} />}
-          {!isSearching && term && <Icons.close height={16} width={16} />}
-        </div>
-      </div>
-      {speciesResults.length > 0 && (
-        <div
-          className={cn(
-            "absolute left-0 top-full z-10 mt-2 w-full rounded-md border border-gray-300 bg-white shadow-lg",
-            "max-h-80 overflow-y-auto"
-          )}
-        >
-          <div className="flex flex-col divide-y">
-            {speciesResults.map((species) => (
-              <Link href={`/species/${species.id}`} className="px-2 transition-colors hover:bg-gray-100">
-                <div key={species.id} className="flex items-center gap-2 p-2">
-                  <div className="relative h-10 w-10 overflow-hidden rounded-md bg-gray-200">
-                    <ImageLoader
-                      key={species.id}
-                      src={species.url}
-                      alt={species.scientificName}
-                      width={40}
-                      height={40}
-                      className="size-full object-cover"
-                    />
+                {isFetching && (
+                  <div className="absolute inset-y-0 right-0 flex cursor-pointer items-center px-4">
+                    <Icons.spinner className="size-5" />
                   </div>
-                  <div>
-                    <div className="overflow-auto">
-                      <div className="truncate text-sm font-semibold">{species.commonNames.en?.[0]}</div>
-                      <div className="truncate text-sm font-semibold">{species.commonNames.fr?.[0]}</div>
-                    </div>
-                    <div className="truncate text-xs italic text-gray-500">{species.scientificName}</div>
+                )}
+
+                {!isFetching && term && (
+                  <div
+                    className="absolute inset-y-0 right-0 flex cursor-pointer items-center px-4"
+                    onClick={() => {
+                      setTerm("")
+                    }}
+                  >
+                    <Icons.close className="size-5" />
+                  </div>
+                )}
+              </div>
+              <DialogClose onClick={() => setTerm("")}>
+                <Button id="cancel-search" variant="outline" className="whitespace-nowrap">
+                  Cancel
+                </Button>
+              </DialogClose>
+            </div>
+            <div className="grow overflow-auto">
+              {term && speciesResults && speciesResults.length > 0 && (
+                <div
+                  className={cn(
+                    "mt-2 w-full rounded-md border border-gray-300 bg-white shadow-lg",
+                    "grow overflow-y-auto"
+                  )}
+                >
+                  <div className="flex flex-col divide-y">
+                    {speciesResults.map((species) => (
+                      <Link href={`/species/${species.id}`} className="px-2 transition-colors hover:bg-gray-100">
+                        <div key={species.id} className="flex items-center gap-2 p-2">
+                          <div className="relative h-10 w-10 overflow-hidden rounded-md bg-gray-200">
+                            <ImageLoader
+                              key={species.id}
+                              src={species.url}
+                              alt={species.scientificName}
+                              width={40}
+                              height={40}
+                              className="size-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <div className="overflow-auto">
+                              <div className="truncate text-sm font-semibold">{species.commonNames.en?.[0]}</div>
+                              <div className="truncate text-sm font-semibold">{species.commonNames.fr?.[0]}</div>
+                            </div>
+                            <div className="truncate text-xs italic text-gray-500">{species.scientificName}</div>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
                   </div>
                 </div>
-              </Link>
-            ))}
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        </DialogSearchContent>
+      </Dialog>
     </div>
   )
 }

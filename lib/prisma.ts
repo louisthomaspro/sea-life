@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === "production") {
           level: "warn",
         },
       ],
-    }).$extends(withOptimize({ apiKey: process.env.OPTIMIZE_API_KEY! }))
+    })
   }
   prisma = (global as any).prisma
 
@@ -40,6 +40,7 @@ if (process.env.NODE_ENV === "production") {
       console.log("Params: " + e.params)
       console.log("Duration: " + e.duration + "ms")
     })
+    prisma.$extends(withOptimize({ apiKey: process.env.OPTIMIZE_API_KEY! }))
   }
 }
 

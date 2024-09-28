@@ -1,6 +1,8 @@
 import { cookies } from "next/headers"
 import { createServerClient } from "@supabase/ssr"
 
+import { SupabaseSafeSession } from "@/lib/supabase/supabase-safe-session"
+
 export function createClient() {
   const cookieStore = cookies()
 
@@ -20,4 +22,14 @@ export function createClient() {
       },
     },
   })
+}
+
+export const getSafeUser = async () => {
+  const supabase = createClient()
+  const safeUserSession = new SupabaseSafeSession(supabase, process.env.SUPABASE_JWT_SECRET!)
+  const { data, error } = await safeUserSession.getUser()
+  if (error) {
+    throw new Error(error.message)
+  }
+  return data
 }

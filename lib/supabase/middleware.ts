@@ -1,6 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server"
 import { createServerClient } from "@supabase/ssr"
 
+import { SupabaseSafeSession } from "@/lib/supabase/supabase-safe-session"
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -29,9 +31,14 @@ export async function updateSession(request: NextRequest) {
   // supabase.auth.getUser(). A simple mistake could make it very hard to debug
   // issues with users being randomly logged out.
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  // RECOMMENDED
+  // const {
+  //   data: { user },
+  // } = await supabase.auth.getUser()
+
+  // NOT RECOMMENDED BUT AVOID NETWORK CALL
+  const safeSession = new SupabaseSafeSession(supabase, process.env.SUPABASE_JWT_SECRET!)
+  const { data: user, error } = await safeSession.getUser()
 
   // if (!user && !request.nextUrl.pathname.startsWith("/login") && !request.nextUrl.pathname.startsWith("/auth")) {
   //   // no user, potentially respond by redirecting the user to the login page

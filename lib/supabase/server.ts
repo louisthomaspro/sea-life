@@ -29,7 +29,9 @@ export const getSafeUser = async () => {
   const safeUserSession = new SupabaseSafeSession(supabase, process.env.SUPABASE_JWT_SECRET!)
   const { data, error } = await safeUserSession.getUser()
   if (error) {
-    throw new Error(error.message)
+    // throw new Error(error.message)
+    console.log("error", error.message)
+    return null
   }
   return data
 }

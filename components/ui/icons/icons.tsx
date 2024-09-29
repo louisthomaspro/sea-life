@@ -3,6 +3,7 @@ import GoogleLogo from "@/public/svg/google-logo.svg"
 
 import { cn } from "@/lib/utils"
 import {
+  CentralAtFilledOnStroke2Radius0JoinSharp,
   CentralBookmarkCheckFilledOnStroke2Radius2,
   CentralBookmarkFilledOffStroke2Radius2,
   CentralChevronLeftFilledOffStroke2Radius2,
@@ -80,6 +81,8 @@ export const Icons = {
   check: (props: Icon) => <CentralCircleCheckFilledOnStroke2Radius2 {...props} />,
   edit: (props: Icon) => <CentralPencilLineFilledOffStroke2Radius2 {...props} />,
   google: (props: Icon) => <GoogleLogo {...props} />,
+  at: (props: Icon) => <CentralAtFilledOnStroke2Radius0JoinSharp {...props} />,
+
   // Icons species details
   maxLength: (props: Icon) => <CentralRulerFilledOffStroke2Radius2 {...props} />,
   depth: (props: Icon) => <CustomDepthIcon {...props} />,

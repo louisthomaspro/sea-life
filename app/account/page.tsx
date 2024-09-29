@@ -34,6 +34,12 @@ export default async function Account() {
             <ListCountSuspense ownerId={user.id} />
           </div>
         </Link>
+        <Link href="/contact" className="flex h-14 items-center gap-4 rounded-md px-5 hover:bg-gray-100">
+          <Icons.at className="size-5" />
+          <div className="grid gap-1">
+            <p className="text-sm font-medium leading-none">Contact</p>
+          </div>
+        </Link>
         {process.env.NODE_ENV === "development" && (
           <Link href="/admin/lost-species" className="flex h-14 items-center gap-4 rounded-md px-5 hover:bg-gray-100">
             <Icons.warning className="size-5" />

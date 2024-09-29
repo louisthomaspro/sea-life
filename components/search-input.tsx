@@ -40,15 +40,15 @@ export const SearchInput = ({ className, ...props }: SearchInputProps) => {
             <Icons.search className="absolute left-4 size-5 text-gray-400" />
           </div>
         </DialogTrigger>
-        <DialogSearchContent className="overflow-auto">
-          <div className="container flex max-w-lg flex-col gap-4 overflow-auto">
-            <div className="flex w-full items-center gap-2">
-              <div className="relative flex grow items-center">
+        <DialogSearchContent className="flex w-full flex-col justify-center overflow-auto">
+          <div className="relative w-full py-3 shadow-md">
+            <div className="container flex max-w-lg items-center gap-2">
+              <div className="relative flex w-full grow items-center">
                 <Input
                   placeholder="Search for species"
                   autoFocus
                   value={term}
-                  className="mt-0.5 h-12 rounded-full pl-11"
+                  className="h-12 rounded-full pl-11"
                   onChange={(e) => {
                     setTerm(e.target.value)
                   }}
@@ -79,42 +79,40 @@ export const SearchInput = ({ className, ...props }: SearchInputProps) => {
                 </Button>
               </DialogClose>
             </div>
-            <div className="grow overflow-auto">
-              {term && speciesResults && speciesResults.length > 0 && (
-                <div
-                  className={cn(
-                    "mt-2 w-full rounded-md border border-gray-300 bg-white shadow-lg",
-                    "grow overflow-y-auto"
-                  )}
-                >
-                  <div className="flex flex-col divide-y">
-                    {speciesResults.map((species) => (
-                      <Link href={`/species/${species.id}`} className="px-2 transition-colors hover:bg-gray-100">
-                        <div key={species.id} className="flex items-center gap-2 p-2">
-                          <div className="relative h-10 w-10 overflow-hidden rounded-md bg-gray-200">
-                            <ImageLoader
-                              key={species.id}
-                              src={species.url}
-                              alt={species.scientificName}
-                              width={40}
-                              height={40}
-                              className="size-full object-cover"
-                            />
-                          </div>
-                          <div>
-                            <div className="overflow-auto">
-                              <div className="truncate text-sm font-semibold">{species.commonNames.en?.[0]}</div>
-                              <div className="truncate text-sm font-semibold">{species.commonNames.fr?.[0]}</div>
-                            </div>
-                            <div className="truncate text-xs italic text-gray-500">{species.scientificName}</div>
-                          </div>
+          </div>
+          <div className="container max-w-lg grow overflow-auto py-4">
+            {term && speciesResults && speciesResults.length > 0 && (
+              <div className={cn("w-full grow")}>
+                <div className="flex flex-col gap-2">
+                  {speciesResults.map((species) => (
+                    <Link
+                      href={`/species/${species.id}`}
+                      className="rounded-md border bg-white px-2 shadow transition-colors hover:bg-gray-100"
+                    >
+                      <div key={species.id} className="flex items-center gap-2 p-2">
+                        <div className="relative h-10 w-10 overflow-hidden rounded-md bg-gray-200">
+                          <ImageLoader
+                            key={species.id}
+                            src={species.url}
+                            alt={species.scientificName}
+                            width={40}
+                            height={40}
+                            className="size-full object-cover"
+                          />
                         </div>
-                      </Link>
-                    ))}
-                  </div>
+                        <div>
+                          <div className="overflow-auto">
+                            <div className="truncate text-sm font-semibold">{species.commonNames.en?.[0] ?? "-"}</div>
+                            <div className="truncate text-sm font-semibold">{species.commonNames.fr?.[0] ?? "-"}</div>
+                          </div>
+                          <div className="truncate text-xs italic text-gray-500">{species.scientificName}</div>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </DialogSearchContent>
       </Dialog>

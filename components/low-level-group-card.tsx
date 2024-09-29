@@ -69,7 +69,7 @@ async function SpeciesList({ group }: { group: groupWithHighlightedSpecies }) {
               blurhashDataURL={species.medias[0]?.blurhashDataUrl}
               fill
               sizes="150px"
-              className="rounded-lg object-cover"
+              className="rounded-lg object-cover shadow"
             />
           </Link>
         ))}

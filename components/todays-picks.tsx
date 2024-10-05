@@ -56,10 +56,10 @@ export default async function TodaysPicks() {
         loop: true,
       }}
     >
-      <div className="container relative overflow-hidden">
-        <DashboardCarouselContent className="">
+      <div className="relative overflow-hidden">
+        <DashboardCarouselContent className="-ml-3">
           {picks.map((species, index) => (
-            <DashboardCarouselItem key={index} className="aspect-video">
+            <DashboardCarouselItem key={index} className="aspect-video pl-3">
               <Link href={`/species/${species.id}`}>
                 <div className="relative size-full overflow-hidden rounded-[30px] border border-gray-200 transition-transform hover:scale-[99%] active:scale-[98%]">
                   <ImageLoader
@@ -78,8 +78,8 @@ export default async function TodaysPicks() {
           ))}
         </DashboardCarouselContent>
       </div>
-      <DashboardCarouselNext className="absolute right-8 top-1/2 -translate-y-1/2" />
-      <DashboardCarouselPrevious className="absolute left-8 top-1/2 -translate-y-1/2" />
+      <DashboardCarouselNext className="absolute right-4 top-1/2 -translate-y-1/2" />
+      <DashboardCarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2" />
     </DashboardCarousel>
   )
 }

@@ -9,10 +9,10 @@ module.exports = {
       center: true,
       padding: {
         DEFAULT: "1rem",
-        // sm: "2rem",
-        // lg: "2rem",
-        // xl: "2rem",
-        // "2xl": "4rem",
+        sm: "2rem",
+        lg: "4rem",
+        xl: "5rem",
+        "2xl": "6rem",
       },
       screens: {
         DEFAULT: "100%",
@@ -20,7 +20,7 @@ module.exports = {
         md: "768px",
         lg: "1024px",
         xl: "1280px",
-        "2xl": "1440px",
+        "2xl": "1536px",
       },
     },
     extend: {

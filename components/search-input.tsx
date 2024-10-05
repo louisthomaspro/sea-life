@@ -35,8 +35,11 @@ export const SearchInput = ({ className, ...props }: SearchInputProps) => {
     <div className="relative flex grow items-center" {...props}>
       <Dialog>
         <DialogTrigger asChild>
-          <div className="flex w-full items-center">
-            <Input placeholder="Search for species" className="h-12 rounded-full pl-11" />
+          <div className="flex w-full max-w-md items-center">
+            <Input
+              placeholder="Search for species"
+              className="h-12 border-none bg-neutral-50 pl-11 focus-visible:ring-0"
+            />
             <Icons.search className="absolute left-4 size-5 text-gray-400" />
           </div>
         </DialogTrigger>
@@ -48,7 +51,7 @@ export const SearchInput = ({ className, ...props }: SearchInputProps) => {
                   placeholder="Search for species"
                   autoFocus
                   value={term}
-                  className="h-12 rounded-full pl-11"
+                  className="h-12 border-none bg-neutral-50 pl-11 focus-visible:ring-0"
                   onChange={(e) => {
                     setTerm(e.target.value)
                   }}

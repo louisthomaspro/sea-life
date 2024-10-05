@@ -6,7 +6,7 @@ import { useDebouncedCallback } from "use-debounce"
 
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { SearchResult } from "@/app/api/search-advanced/route"
+import { SearchResult } from "@/app/(main)/api/search-advanced/route"
 
 export default function AiSearchForm() {
   const [term, setTerm] = useState("")

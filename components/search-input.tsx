@@ -13,7 +13,8 @@ import { DialogSearchContent } from "@/components/ui/dialog-search"
 import { Icons } from "@/components/ui/icons/icons"
 import ImageLoader from "@/components/ui/image-loader"
 import { Input } from "@/components/ui/input"
-import { SearchResult } from "@/app/api/search/route"
+import { Separator } from "@/components/ui/separator"
+import { SearchResult } from "@/app/(main)/api/search/route"
 
 interface SearchInputProps extends React.HTMLProps<HTMLInputElement> {}
 
@@ -32,10 +33,10 @@ export const SearchInput = ({ className, ...props }: SearchInputProps) => {
   })
 
   return (
-    <div className="relative flex grow items-center" {...props}>
+    <div className="relative flex max-w-sm grow flex-col gap-4" {...props}>
       <Dialog>
         <DialogTrigger asChild>
-          <div className="flex w-full max-w-md items-center">
+          <div className="flex w-full items-center">
             <Input
               placeholder="Search for species"
               className="h-12 border-none bg-neutral-50 pl-11 focus-visible:ring-0"
@@ -119,6 +120,21 @@ export const SearchInput = ({ className, ...props }: SearchInputProps) => {
           </div>
         </DialogSearchContent>
       </Dialog>
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <Separator className="w-full" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-background px-2 text-muted-foreground">or</span>
+        </div>
+      </div>
+      <div className="flex justify-center">
+        <Link href="/search">
+          <Button variant="outline" className="whitespace-nowrap">
+            Search by criteria
+          </Button>
+        </Link>
+      </div>
     </div>
   )
 }

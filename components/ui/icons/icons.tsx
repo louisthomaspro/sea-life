@@ -1,5 +1,6 @@
 import { SVGProps } from "react"
 import GoogleLogo from "@/public/svg/google-logo.svg"
+import LogoWithTextWhite from "@/public/svg/logo-with-text-white.svg"
 import LogoWithText from "@/public/svg/logo-with-text.svg"
 import Logo from "@/public/svg/logo.svg"
 
@@ -65,6 +66,7 @@ type Icon = Partial<SVGProps<SVGSVGElement>>
 export const Icons = {
   logo: (props: Icon) => <Logo {...props} />,
   logoWithText: (props: Icon) => <LogoWithText {...props} />,
+  logoWithTextWhite: (props: Icon) => <LogoWithTextWhite {...props} />,
   spinner: ({ className, ...props }: Icon) => (
     <CentralLoaderFilledOffStroke2Radius2 {...props} className={cn("animate-spin", className)} />
   ),

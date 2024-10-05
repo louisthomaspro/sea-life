@@ -15,7 +15,7 @@ const categories = [
 
 export default function Categories() {
   return (
-    <div className="flex max-w-md gap-3">
+    <div className="flex w-full max-w-md gap-3">
       <Link
         href="/explore/fauna"
         className="relative flex-1 rounded-[30px] bg-[#1F3192] transition-transform hover:scale-[99%] active:scale-[98%]"

@@ -6,7 +6,6 @@ import NextTopLoader from "nextjs-toploader"
 import { fontSans } from "@/lib/font"
 import { Providers } from "@/lib/providers"
 import { cn } from "@/lib/utils"
-import Header from "@/components/header/header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 
 export const metadata: Metadata = {
@@ -27,10 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={cn("font-sans", fontSans.variable)} suppressHydrationWarning>
         <Providers>
-          <div className="mx-auto flex h-screen min-h-dvh flex-col overflow-y-auto bg-white">
-            <Header />
-            <main className="grow">{children}</main>
-          </div>
+          {children}
           {/* <BottomNavigation /> */}
           <TailwindIndicator />
           <NextTopLoader

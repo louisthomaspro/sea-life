@@ -9,7 +9,7 @@ import { createClient } from "@/lib/supabase/server"
 export const signOut = async () => {
   const supabase = createClient()
   await supabase.auth.signOut()
-  return redirect("/account")
+  return redirect("/")
 }
 
 export const signIn = async (formData: FormData) => {
@@ -23,7 +23,7 @@ export const signIn = async (formData: FormData) => {
   })
 
   if (error) {
-    return redirect(`/account?message=${error.message}`)
+    return redirect(`/?message=${error.message}`)
   }
 
   return redirect("/")
@@ -33,6 +33,7 @@ export const signUp = async (formData: FormData) => {
   const origin = headers().get("origin")
   const email = formData.get("email") as string
   const password = formData.get("password") as string
+  const next = formData.get("next") as string | null
   const supabase = createClient()
 
   const { error } = await supabase.auth.signUp({
@@ -44,7 +45,8 @@ export const signUp = async (formData: FormData) => {
   })
 
   if (error) {
-    return redirect(`/account?message=${error.message}`)
+    console.error(error)
+    return redirect(`/login?type=register&message=${error.message}`)
   }
 }
 

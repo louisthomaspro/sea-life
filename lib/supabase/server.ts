@@ -30,7 +30,7 @@ export const getSafeUser = async () => {
   const { data, error } = await safeUserSession.getUser()
   if (error) {
     // throw new Error(error.message)
-    console.log("error", error.message)
+    // console.log("error", error.message)
     return null
   }
   return data

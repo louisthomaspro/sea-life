@@ -4,10 +4,11 @@ import { pathToRegexp } from "path-to-regexp"
 import { updateSession } from "@/lib/supabase/middleware"
 
 const publicRoutes = [
+  "/login",
+  "/signup",
   "/",
   "/species/:speciesId",
   "/explore/:groupSlug",
-  "/account",
   "/privacy-policy",
   "/terms-of-service",
 ]

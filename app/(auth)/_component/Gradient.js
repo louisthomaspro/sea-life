@@ -474,8 +474,12 @@ class Gradient {
           }
           ;(this.mesh.material.uniforms.u_time.value = this.t), this.minigl.render()
         }
-        if (0 !== this.last && this.isStatic) return this.minigl.render(), void this.disconnect()
-        /*this.isIntersecting && */ ;(this.conf.playing || this.isMouseDown) && requestAnimationFrame(this.animate)
+        if (0 !== this.last && this.isStatic)
+          return (
+            this.minigl.render(), void this.disconnect()
+            /*this.isIntersecting && */
+          )
+        ;(this.conf.playing || this.isMouseDown) && requestAnimationFrame(this.animate)
       }),
       e(this, "addIsLoadedClass", () => {
         /*this.isIntersecting && */ !this.isLoadedClass &&

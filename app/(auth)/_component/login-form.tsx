@@ -1,21 +1,21 @@
 import Link from "next/link"
 
-import { signUp } from "@/lib/supabase/actions"
+import { signIn } from "@/lib/supabase/actions"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { GoogleSignInButton } from "@/components/auth/google-signin-button"
-import RegisterButton from "@/app/(auth)/login/_component/register-button"
+import LoginButton from "@/app/(auth)/_component/login-button"
 
-export default function RegisterForm() {
+export default function LoginForm() {
   return (
     <div className="mx-auto grid w-[350px] gap-6">
       <div className="grid gap-2 text-center">
-        <h1 className="text-3xl font-bold">Create an account</h1>
-        <p className="text-balance text-muted-foreground">Choose your preferred registration method</p>
+        <h1 className="text-3xl font-bold">Welcome back</h1>
+        <p className="text-balance text-muted-foreground">Choose your preferred login method</p>
       </div>
-      {/* Registration options */}
+      {/* Login options */}
       <div className="grid gap-4">
         <GoogleSignInButton className="w-full" />
         <div className="relative">
@@ -26,23 +26,28 @@ export default function RegisterForm() {
             <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
           </div>
         </div>
-        <form className="grid gap-4" action={signUp}>
+        <form className="grid gap-4" action={signIn}>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" name="email" type="email" placeholder="m@example.com" required />
+            <Input id="email" type="email" placeholder="m@example.com" required />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" name="password" type="password" required />
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">Password</Label>
+              <Link href="/forgot-password" className="text-sm text-muted-foreground hover:underline">
+                Forgot password?
+              </Link>
+            </div>
+            <Input id="password" type="password" required />
           </div>
-          <RegisterButton />
+          <LoginButton />
         </form>
       </div>
-      {/* Login */}
+      {/* Signup */}
       <div className="text-center text-sm text-muted-foreground">
-        Already have an account?
+        Don't have an account?
         <Button variant="link" className="p-2" asChild>
-          <Link href="/login">Login</Link>
+          <Link href="/register">Register</Link>
         </Button>
       </div>
     </div>

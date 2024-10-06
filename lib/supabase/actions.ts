@@ -23,7 +23,7 @@ export const signIn = async (formData: FormData) => {
   })
 
   if (error) {
-    return redirect(`/?message=${error.message}`)
+    return redirect(`/login?message=${error.message}`)
   }
 
   return redirect("/")
@@ -33,10 +33,9 @@ export const signUp = async (formData: FormData) => {
   const origin = headers().get("origin")
   const email = formData.get("email") as string
   const password = formData.get("password") as string
-  const next = formData.get("next") as string | null
   const supabase = createClient()
 
-  const { error } = await supabase.auth.signUp({
+  const { error, data } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -46,8 +45,10 @@ export const signUp = async (formData: FormData) => {
 
   if (error) {
     console.error(error)
-    return redirect(`/login?type=register&message=${error.message}`)
+    return redirect(`/register?message=${error.message}`)
   }
+
+  console.log("success", data)
 }
 
 // https://supabase.com/docs/guides/auth/redirect-urls#vercel-preview-urls

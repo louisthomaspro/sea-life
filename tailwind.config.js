@@ -89,11 +89,20 @@ module.exports = {
             "box-shadow": "0 0 0 0 #DFE2EC00",
           },
         },
+        shimmer: {
+          from: {
+            backgroundPosition: "0 0",
+          },
+          to: {
+            backgroundPosition: "-200% 0",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         buttonheartbeat: "buttonheartbeat 2s cubic-bezier(0, 0, 0.2, 1) 1",
+        shimmer: "shimmer 2s linear infinite",
       },
     },
   },

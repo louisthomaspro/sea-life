@@ -4,7 +4,7 @@ import "./blue-gradient.css"
 
 import { useEffect } from "react"
 
-import { Gradient } from "@/app/(auth)/login/_component/Gradient"
+import { Gradient } from "./Gradient"
 
 const gradient = new Gradient()
 

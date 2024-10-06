@@ -1,0 +1,38 @@
+/* Academy Button */
+.academy-fancy-button {
+  border: none;
+  outline: none;
+  position: relative;
+  z-index: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 184, 0, 1) 0%,
+    rgba(255, 92, 22, 1) 35%,
+    rgba(255, 22, 232, 1) 67%,
+    rgba(22, 143, 255, 1) 100%
+  );
+}
+.academy-fancy-button::before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  top: 1px;
+  bottom: 1px;
+  border-radius: 7px;
+  background-color: white;
+  z-index: -1;
+}
+
+.academy-fancy-button > .mask,
+.academy-fancy-button > .academy-text {
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 184, 0, 1) 0%,
+    rgba(255, 92, 22, 1) 35%,
+    rgba(255, 22, 232, 1) 67%,
+    rgba(22, 143, 255, 1) 100%
+  );
+}

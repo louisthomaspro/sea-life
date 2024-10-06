@@ -14,6 +14,7 @@ import { Icons } from "@/components/ui/icons/icons"
 import ImageLoader from "@/components/ui/image-loader"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
+import AdvancedSearchButton from "@/components/advanced-search-button/advanced-search-button"
 import { SearchResult } from "@/app/(main)/api/search/route"
 
 interface SearchInputProps extends React.HTMLProps<HTMLInputElement> {}
@@ -129,11 +130,7 @@ export const SearchInput = ({ className, ...props }: SearchInputProps) => {
         </div>
       </div>
       <div className="flex justify-center">
-        <Link href="/search">
-          <Button variant="outline" className="whitespace-nowrap">
-            Search by criteria
-          </Button>
-        </Link>
+        <AdvancedSearchButton />
       </div>
     </div>
   )

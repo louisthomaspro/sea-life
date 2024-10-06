@@ -1,6 +1,4 @@
 import { Suspense } from "react"
-import Image from "next/image"
-import Whaleshark from "@/public/img/whaleshark.jpg"
 
 import { SearchInput } from "@/components/search-input"
 import TodaysPicks from "@/components/todays-picks"
@@ -8,7 +6,7 @@ import Categories from "@/app/(main)/(homepage)/_components/categories"
 
 export default function HomePage() {
   return (
-    <div className="container py-6">
+    <div className="container pb-10 pt-6">
       <div className="mb-8 flex flex-col items-center justify-between gap-8 lg:mb-10 lg:flex-row lg:gap-14">
         <div className="w-full sm:w-1/2">
           <div className="pt-0 text-center lg:pt-10 lg:text-left">

@@ -8,7 +8,7 @@ create or replace function public.handle_new_user()
   end;
   $$ language plpgsql security definer;
 
-  -- Create a trigger that will create a profile for a user when they are created
+  -- Create a trigger that triggers handle_new_user()
   create or replace trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
@@ -24,7 +24,7 @@ create or replace function public.handle_new_user()
   $$ language plpgsql security definer;
 
 
-  -- Create a trigger that will delete a user's profile when the user is deleted
+  -- Create a trigger that triggers handle_user_delete()
   create or replace trigger on_profile_user_deleted
   after delete on public."Profile"
   for each row execute procedure public.handle_user_delete()

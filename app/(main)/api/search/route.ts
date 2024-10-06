@@ -15,57 +15,66 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const term = searchParams.get("term") || ""
   const termQuery = term.replace(/\s/g, "&") // & means words can be in any order
-
   console.log(`Searching... ${term}`)
 
+  const time = performance.now()
+
   const query = Prisma.sql`
+  WITH ranked_taxa AS (
+    SELECT
+      t.id,
+      t."scientificName",
+      t."commonNameEn",
+      t."commonNameFr",
+      t."commonNames",
+      ts_rank(to_tsvector('simple', t."scientificName"), query) AS rank_scientific_name,
+      ts_rank(to_tsvector('simple', COALESCE(t."commonNameEn", '')), query) AS rank_common_name_en,
+      ts_rank(to_tsvector('simple', COALESCE(t."commonNameFr", '')), query) AS rank_common_name_fr,
+      GREATEST(
+        SIMILARITY(${term}, t."scientificName"),
+        SIMILARITY(${term}, COALESCE(t."commonNameEn", '')),
+        SIMILARITY(${term}, COALESCE(t."commonNameFr", ''))
+      ) AS similarity
+    FROM
+      "Taxa" t,
+      to_tsquery('simple', ${termQuery} || ':*') query
+    WHERE
+      t."rank" = 'species'
+      AND (
+        to_tsvector('simple', t."scientificName") @@ query
+        OR to_tsvector('simple', COALESCE(t."commonNameEn", '')) @@ query
+        OR to_tsvector('simple', COALESCE(t."commonNameFr", '')) @@ query
+        OR SIMILARITY(${term}, t."scientificName") > 0
+        OR SIMILARITY(${term}, COALESCE(t."commonNameEn", '')) > 0
+        OR SIMILARITY(${term}, COALESCE(t."commonNameFr", '')) > 0
+      )
+  )
   SELECT
-  t.id,
-  t."scientificName",
-  t."commonNames",
-m.url,
-rank_scientific_name,
-rank_common_names,
-similarity_scientific_name,
-similarity_common_names,
-similarity
-
-FROM
-"Taxa" t INNER JOIN (
-    SELECT DISTINCT ON (m."taxaId") m.*
-    FROM "TaxaMedia" m
-) m ON t.id = m."taxaId",
-to_tsvector(t."scientificName" || t."commonNames"::TEXT) document,
-to_tsquery(${termQuery} || ':*') query,
-NULLIF(ts_rank(to_tsvector(t."scientificName"), query), 0) rank_scientific_name,
-NULLIF(ts_rank(to_tsvector(t."commonNames"::TEXT), query), 0) rank_common_names,
-SIMILARITY(${term}, t."scientificName") similarity_scientific_name,
-SIMILARITY(${term}, t."commonNames"::TEXT) similarity_common_names,
-SIMILARITY(${term}, t."scientificName" || t."commonNames"::TEXT) similarity
-
-WHERE (query @@ document OR similarity_scientific_name > 0)
-and t."rank" = 'species'
-
-GROUP BY
-t.id,
-m.url,
-rank_scientific_name,
-rank_common_names,
-similarity_scientific_name,
-similarity_common_names,
-similarity
-
-ORDER BY
-rank_scientific_name DESC NULLS LAST,
-rank_common_names DESC NULLS LAST,
-similarity_scientific_name DESC NULLS LAST,
-similarity_common_names DESC NULLS LAST,
-similarity DESC NULLS LAST
-
-LIMIT 10
+    rt.*,
+    m.url,
+    rt.similarity AS similarity_scientific_name,
+    rt.similarity AS similarity_common_name_en,
+    rt.similarity AS similarity_common_name_fr
+  FROM
+    ranked_taxa rt
+  INNER JOIN LATERAL (
+    SELECT url
+    FROM "TaxaMedia"
+    WHERE "taxaId" = rt.id
+    LIMIT 1
+  ) m ON true
+  ORDER BY
+    COALESCE(rt.rank_scientific_name, 0) DESC,
+    COALESCE(rt.rank_common_name_en, 0) DESC,
+    COALESCE(rt.rank_common_name_fr, 0) DESC,
+    rt.similarity DESC
+  LIMIT 10
   `
 
   const searchResults = await prisma.$queryRaw<SearchResult[]>(query)
+
+  const timeTaken = performance.now() - time
+  console.log(`Time taken: ${Math.floor(timeTaken)} ms`)
 
   return Response.json(searchResults)
 }

@@ -1,7 +1,7 @@
 ## Getting Started
 
 ```bash
-vercel env pull .env
+npx vercel@latest env pull .env
 
 pnpm i
 
@@ -13,28 +13,23 @@ pnpm dev
 ## Prisma commands
 
 ```bash
-npx prisma db pull
-npx prisma db push
-npx prisma generate
+# Init migration
+mkdir prisma/migrations/0_init
+npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema --script > prisma/migrations/0_init/migration.sql
+npx prisma migrate resolve --applied 0_init
 ```
-
-## Supabase backup
 
 ```bash
-npx supabase login
-npx supabase link -p XXX
-# Dump schema
-mkdir -p "supabase/backups/$(date +'%Y-%m-%d')" && npx supabase db dump -f "supabase/backups/$(date +'%Y-%m-%d')/schema_$(date +'%Y-%m-%d_%H-%M-%S').sql"
-# Dump data
-mkdir -p "supabase/backups/$(date +'%Y-%m-%d')" && npx supabase db dump -f "supabase/backups/$(date +'%Y-%m-%d')/data_$(date +'%Y-%m-%d_%H-%M-%S').sql" --data-only
+npx prisma db push
+npx prisma generate
 
-npx supabase db dump -f "supabase/backups/schema.sql"
-npx supabase db dump -f "supabase/backups/data.sql" --data-only
+# Create migration
+pnpm run migrate-dev
+
+# Create migration without running it, useful to create a migration with a sql query (ex: Generated column)
+npx prisma migrate dev --create-only
+npx prisma migrate dev
 ```
-
-# Restore schema
-
-npx supabase db restore -f "supabase/backups/2021-10-06/schema_2021-10-06_14-00-00.sql"
 
 ## Database
 
@@ -48,6 +43,10 @@ npx prisma db execute --file ./supabase/backups/data.sql
 pg_dump -d "postgres://postgres.etbfmqkktewuqbpktqvf:<PASSWORD>@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres" -Fc -b -v -f file.dump
 
 pg_restore -j 5 --clean -d "postgres://postgres.etbfmqkktewuqbpktqvf:<PASSWORD>@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres" file.dump
+
+pg_restore --clean --schema=public --schema-only -d "postgres://postgres.etbfmqkktewuqbpktqvf:<PASSWORD>@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres" file.dump
+
+pg_restore --schema=public --data-only -d "postgres://postgres.etbfmqkktewuqbpktqvf:<PASSWORD>@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres" file.dump
 ```
 
 ## Export firestore data

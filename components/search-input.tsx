@@ -3,10 +3,8 @@
 import { useState } from "react"
 import Link from "next/link"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
-import { motion } from "framer-motion"
 import { useDebounce } from "use-debounce"
 
-import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogClose, DialogTrigger } from "@/components/ui/dialog"
 import { DialogSearchContent } from "@/components/ui/dialog-search"
@@ -22,7 +20,7 @@ interface SearchInputProps extends React.HTMLProps<HTMLInputElement> {}
 export const SearchInput = ({ className, ...props }: SearchInputProps) => {
   const [term, setTerm] = useState("")
 
-  const debouncedSearchQuery = useDebounce(term.trim(), 150)
+  const debouncedSearchQuery = useDebounce(term.trim(), 200)
   const { data: speciesResults, isFetching } = useQuery<SearchResult[]>({
     queryKey: ["search", ...debouncedSearchQuery],
     queryFn: async () => {
@@ -45,7 +43,7 @@ export const SearchInput = ({ className, ...props }: SearchInputProps) => {
             <Icons.search className="absolute left-4 size-5 text-gray-400" />
           </div>
         </DialogTrigger>
-        <DialogSearchContent className="flex w-full flex-col justify-center overflow-auto">
+        <DialogSearchContent className="flex w-full flex-col overflow-auto">
           <div className="relative w-full py-3 shadow-md">
             <div className="container flex max-w-lg items-center gap-2">
               <div className="relative flex w-full grow items-center">
@@ -87,15 +85,15 @@ export const SearchInput = ({ className, ...props }: SearchInputProps) => {
           </div>
           <div className="container max-w-lg grow overflow-auto py-4">
             {term && speciesResults && speciesResults.length > 0 && (
-              <div className={cn("w-full grow")}>
+              <div className={"h-full w-full grow overflow-auto px-2"}>
                 <div className="flex flex-col gap-2">
                   {speciesResults.map((species) => (
                     <Link
                       href={`/species/${species.id}`}
-                      className="rounded-md border bg-white px-2 shadow transition-colors hover:bg-gray-100"
+                      className="rounded-md border bg-white p-2 shadow transition-colors hover:bg-gray-100"
                     >
-                      <div key={species.id} className="flex items-center gap-2 p-2">
-                        <div className="relative h-10 w-10 overflow-hidden rounded-md bg-gray-200">
+                      <div key={species.id} className="flex items-center gap-2.5">
+                        <div className="relative size-14 flex-none overflow-hidden rounded-sm bg-gray-200">
                           <ImageLoader
                             key={species.id}
                             src={species.url}

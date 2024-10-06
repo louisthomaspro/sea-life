@@ -9,7 +9,9 @@
     "lint": "next lint",
     "prepare": "husky install",
     "postinstall": "prisma generate",
-    "migrate-dev": "prisma migrate dev && tsx lib/seedTriggers.ts",
+    "migrate:create": "prisma migrate dev --create-only",
+    "migrate:dev": "prisma migrate dev",
+    "migrate:prod": "prisma migrate deploy",
     "ngrok": "npx ngrok http 3000",
     "script": "bun --env-file=.env "
   },
@@ -109,6 +111,7 @@
     "prettier-plugin-tailwindcss": "^0.5.13",
     "prisma-json-types-generator": "^3.0.4",
     "tailwindcss": "^3.4.3",
+    "tsx": "^4.19.1",
     "typescript": "^5.3.3",
     "webpack": "^5.91.0"
   }

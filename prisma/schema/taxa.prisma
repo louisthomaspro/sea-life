@@ -1,20 +1,19 @@
 model Taxa {
-  id                                Int                    @id
-  scientificName                    String
+  id             Int      @id
+  scientificName String
   /// [CommonNames]
-  commonNames                       Json                   @default("{}") // { "en": ["Common name"], "fr": ["Nom commun"] }
-  rank                              String
-  rankLevel                         Int
-  parentId                          Int?
-  morphologicalDescription          String?
-  embeddingMorphologicalDescription Unsupported("vector")?
-  // embeddingContent String?
-  createdAt                         DateTime               @default(now()) @db.Timestamptz(6)
-  updatedAt                         DateTime               @default(now()) @db.Timestamptz(6)
-  parent                            Taxa?                  @relation("TaxaToTaxa", fields: [parentId], references: [id])
-  children                          Taxa[]                 @relation("TaxaToTaxa")
-  ancestors                         Taxa[]                 @relation("Ancestors")
-  isAncestorOf                      Taxa[]                 @relation("Ancestors") // not used
+  commonNames    Json     @default("{}") // { "en": ["Common name"], "fr": ["Nom commun"] }
+  commonNameFr   String?
+  commonNameEn   String?
+  rank           String
+  rankLevel      Int
+  parentId       Int?
+  createdAt      DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime @default(now()) @db.Timestamptz(6)
+  parent         Taxa?    @relation("TaxaToTaxa", fields: [parentId], references: [id])
+  children       Taxa[]   @relation("TaxaToTaxa")
+  ancestors      Taxa[]   @relation("Ancestors")
+  isAncestorOf   Taxa[]   @relation("Ancestors") // not used
 
   medias TaxaMedia[]
 

@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation"
+import { EmailOtpType } from "@supabase/supabase-js"
 
 import { createClient } from "@/lib/supabase/server"
 
@@ -12,11 +13,17 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = createClient()
+
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
       redirect(next)
     }
+    if (!error) {
+      // redirect user to specified redirect URL or root of app
+      redirect(next)
+    }
+    redirect(`/login?error=${error.message}`)
   }
 
-  redirect("/error")
+  redirect(`/login?error=Something went wrong.`)
 }

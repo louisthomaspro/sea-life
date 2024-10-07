@@ -4,10 +4,11 @@ import { pathToRegexp } from "path-to-regexp"
 import { updateSession } from "@/lib/supabase/middleware"
 
 const publicRoutes = [
+  "/login",
+  "/register",
   "/",
   "/species/:speciesId",
   "/explore/:groupSlug",
-  "/account",
   "/privacy-policy",
   "/terms-of-service",
 ]
@@ -21,7 +22,7 @@ export async function middleware(request: NextRequest) {
   if (isPublicPage) return response
 
   if (!user) {
-    return NextResponse.redirect(new URL(`/account?next=${request.url}`, request.url))
+    return NextResponse.redirect(new URL(`/login?next=${request.url}`, request.url))
   }
 
   return response

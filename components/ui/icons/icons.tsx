@@ -1,9 +1,14 @@
 import { SVGProps } from "react"
 import GoogleLogo from "@/public/svg/google-logo.svg"
+import LogoWithTextWhite from "@/public/svg/logo-with-text-white.svg"
+import LogoWithText from "@/public/svg/logo-with-text.svg"
+import Logo from "@/public/svg/logo.svg"
 
 import { cn } from "@/lib/utils"
 import {
-  CentralAtFilledOnStroke2Radius0JoinSharp,
+  CentralArrowBoxLeftFilledOffStroke2Radius2,
+  CentralAtFilledOffStroke2Radius2,
+  CentralBarsThree2FilledOffStroke2Radius2,
   CentralBookmarkCheckFilledOnStroke2Radius2,
   CentralBookmarkFilledOffStroke2Radius2,
   CentralChevronLeftFilledOffStroke2Radius2,
@@ -59,6 +64,9 @@ import {
 type Icon = Partial<SVGProps<SVGSVGElement>>
 
 export const Icons = {
+  logo: (props: Icon) => <Logo {...props} />,
+  logoWithText: (props: Icon) => <LogoWithText {...props} />,
+  logoWithTextWhite: (props: Icon) => <LogoWithTextWhite {...props} />,
   spinner: ({ className, ...props }: Icon) => (
     <CentralLoaderFilledOffStroke2Radius2 {...props} className={cn("animate-spin", className)} />
   ),
@@ -81,7 +89,9 @@ export const Icons = {
   check: (props: Icon) => <CentralCircleCheckFilledOnStroke2Radius2 {...props} />,
   edit: (props: Icon) => <CentralPencilLineFilledOffStroke2Radius2 {...props} />,
   google: (props: Icon) => <GoogleLogo {...props} />,
-  at: (props: Icon) => <CentralAtFilledOnStroke2Radius0JoinSharp {...props} />,
+  at: (props: Icon) => <CentralAtFilledOffStroke2Radius2 {...props} />,
+  bars: (props: Icon) => <CentralBarsThree2FilledOffStroke2Radius2 {...props} />,
+  logout: (props: Icon) => <CentralArrowBoxLeftFilledOffStroke2Radius2 {...props} />,
 
   // Icons species details
   maxLength: (props: Icon) => <CentralRulerFilledOffStroke2Radius2 {...props} />,

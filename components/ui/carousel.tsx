@@ -1,11 +1,11 @@
 "use client"
 
 import * as React from "react"
+import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons"
 import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react"
 
-import { capitalizeWords, cn } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Icons } from "@/components/ui/icons/icons"
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -139,7 +139,11 @@ const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
 
     return (
       <div ref={carouselRef} className="overflow-hidden">
-        <div ref={ref} className={cn("flex", orientation === "horizontal" ? "" : "flex-col", className)} {...props} />
+        <div
+          ref={ref}
+          className={cn("flex", orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col", className)}
+          {...props}
+        />
       </div>
     )
   }
@@ -155,11 +159,7 @@ const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
         ref={ref}
         role="group"
         aria-roledescription="slide"
-        className={cn(
-          "w-full min-w-0 max-w-[300px] shrink-0 grow-0 basis-auto",
-          orientation === "horizontal" ? "" : "",
-          className
-        )}
+        className={cn("min-w-0 shrink-0 grow-0 basis-full", orientation === "horizontal" ? "pl-4" : "pt-4", className)}
         {...props}
       />
     )
@@ -177,18 +177,17 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
         variant={variant}
         size={size}
         className={cn(
-          "absolute z-10 size-9 rounded-full",
+          "absolute  h-8 w-8 rounded-full",
           orientation === "horizontal"
             ? "-left-12 top-1/2 -translate-y-1/2"
             : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
-          !canScrollPrev && "!pointer-events-auto",
           className
         )}
         disabled={!canScrollPrev}
         onClick={scrollPrev}
         {...props}
       >
-        <Icons.chevronLeft className="size-4" />
+        <ArrowLeftIcon className="h-4 w-4" />
         <span className="sr-only">Previous slide</span>
       </Button>
     )
@@ -206,18 +205,17 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
         variant={variant}
         size={size}
         className={cn(
-          "absolute size-9 rounded-full",
+          "absolute h-8 w-8 rounded-full",
           orientation === "horizontal"
             ? "-right-12 top-1/2 -translate-y-1/2"
             : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-          !canScrollNext && "!pointer-events-auto",
           className
         )}
         disabled={!canScrollNext}
         onClick={scrollNext}
         {...props}
       >
-        <Icons.chevronRight className="size-4" />
+        <ArrowRightIcon className="h-4 w-4" />
         <span className="sr-only">Next slide</span>
       </Button>
     )
@@ -225,55 +223,4 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
 )
 CarouselNext.displayName = "CarouselNext"
 
-interface CarouselItemTitleProps extends React.HTMLAttributes<HTMLDivElement> {
-  title: string
-  i: number
-}
-
-const CarouselItemTitle = React.forwardRef<HTMLDivElement, CarouselItemTitleProps>(
-  ({ className, children, title, i, ...props }, ref) => {
-    const { orientation, api } = useCarousel()
-
-    const [selectedIndex, setSelectedIndex] = React.useState(0)
-
-    const onSelect = React.useCallback((api: CarouselApi) => {
-      if (api) {
-        setSelectedIndex(api.selectedScrollSnap())
-      }
-    }, [])
-
-    React.useEffect(() => {
-      if (!api) {
-        return
-      }
-
-      onSelect(api)
-      api.on("reInit", onSelect)
-      api.on("select", onSelect)
-
-      return () => {
-        api?.off("select", onSelect)
-      }
-    }, [api, onSelect])
-
-    return (
-      <div ref={ref} className={cn(className)} {...props}>
-        {children}
-        <h1 className="absolute bottom-2 right-4 z-30 text-sm font-medium text-background">{capitalizeWords(title)}</h1>
-        {/* gradient black from bottom to top */}
-        <div className="absolute bottom-0 left-0 right-0 z-20 h-12 bg-gradient-to-t from-black/50 to-transparent" />
-      </div>
-    )
-  }
-)
-CarouselItemTitle.displayName = "CarouselItemTitle"
-
-export {
-  type CarouselApi,
-  Carousel as DashboardCarousel,
-  CarouselContent as DashboardCarouselContent,
-  CarouselItem as DashboardCarouselItem,
-  CarouselPrevious as DashboardCarouselPrevious,
-  CarouselNext as DashboardCarouselNext,
-  CarouselItemTitle as DashboardCarouselItemTitle,
-}
+export { type CarouselApi, Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext }

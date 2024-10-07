@@ -334,14 +334,42 @@ export function CentralShareFilledOffStroke2Radius2(props: JSX.IntrinsicElements
   )
 }
 
-export function CentralAtFilledOnStroke2Radius0JoinSharp(props: JSX.IntrinsicElements["svg"]) {
+export function CentralAtFilledOffStroke2Radius2(props: JSX.IntrinsicElements["svg"]) {
   return (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
       <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C13.5465 20 14.9876 19.5622 16.2098 18.8042L17.0596 18.2772L18.1137 19.9768L17.2639 20.5039C15.7343 21.4525 13.9296 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 13.1044 21.7294 14.3102 21.051 15.2429C20.3349 16.2275 19.202 16.8431 17.7196 16.7084C16.5162 16.599 15.4815 15.9967 14.7903 15.1228C13.8495 16.3323 12.4017 17.0622 10.805 16.8378C8.27559 16.4823 6.76534 13.9275 7.12331 11.3804C7.48128 8.83335 9.63723 6.79377 12.1667 7.14926C13.0709 7.27634 13.8449 7.6845 14.4499 8.2729L14.5815 7.36665L16.5607 7.65412L15.902 12.1893C15.902 12.1897 15.9019 12.1901 15.9019 12.1905C15.7227 13.4492 16.6343 14.6015 17.9006 14.7166C18.6508 14.7848 19.1129 14.5073 19.4336 14.0665C19.792 13.5737 20 12.8218 20 12C20 7.58172 16.4183 4 12 4ZM11.8883 9.12979C10.6929 8.96178 9.34417 9.94883 9.10385 11.6588C8.86353 13.3687 9.8879 14.6893 11.0834 14.8573C12.2788 15.0253 13.6275 14.0383 13.8678 12.3283C14.1082 10.6184 13.0838 9.29781 11.8883 9.12979Z"
-        fill="currentColor"
+        d="M16.7368 19.6541C15.361 20.5073 13.738 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 13.9262 20.0428 15.9154 17.8101 15.7125C15.9733 15.5455 14.6512 13.8737 14.9121 12.0479L15.4274 8.5M14.8581 12.4675C14.559 14.596 12.8066 16.1093 10.9442 15.8476C9.08175 15.5858 7.81444 13.6481 8.11358 11.5196C8.41272 9.39109 10.165 7.87778 12.0275 8.13953C13.8899 8.40128 15.1573 10.339 14.8581 12.4675Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+export function CentralBarsThree2FilledOffStroke2Radius2(props: JSX.IntrinsicElements["svg"]) {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M3 12H21M3 6H21M3 18H11"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+export function CentralArrowBoxLeftFilledOffStroke2Radius2(props: JSX.IntrinsicElements["svg"]) {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M11.25 20H6C4.89543 20 4 19.1046 4 18L4 6C4 4.89543 4.89543 4 6 4L11.25 4M20 12L8.75 12M20 12L15.5 16.5M20 12L15.5 7.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   )

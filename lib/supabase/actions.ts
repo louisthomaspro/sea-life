@@ -9,7 +9,7 @@ import { createClient } from "@/lib/supabase/server"
 export const signOut = async () => {
   const supabase = createClient()
   await supabase.auth.signOut()
-  return redirect("/account")
+  return redirect("/")
 }
 
 export const signIn = async (formData: FormData) => {
@@ -23,7 +23,11 @@ export const signIn = async (formData: FormData) => {
   })
 
   if (error) {
-    return redirect(`/account?message=${error.message}`)
+    if (error.code === "validation_failed") {
+      return redirect(`/login?error=Invalid email or password or email not verified.`)
+    } else {
+      return redirect(`/login?error=${error.message}`)
+    }
   }
 
   return redirect("/")
@@ -35,7 +39,7 @@ export const signUp = async (formData: FormData) => {
   const password = formData.get("password") as string
   const supabase = createClient()
 
-  const { error } = await supabase.auth.signUp({
+  const { error, data } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -44,8 +48,11 @@ export const signUp = async (formData: FormData) => {
   })
 
   if (error) {
-    return redirect(`/account?message=${error.message}`)
+    console.error(error)
+    return redirect(`/register?error=${error.message}`)
   }
+
+  return redirect("/login?message=Account created successfully. Please check your email for verification.")
 }
 
 // https://supabase.com/docs/guides/auth/redirect-urls#vercel-preview-urls

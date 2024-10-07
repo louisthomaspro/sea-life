@@ -9,7 +9,9 @@
     "lint": "next lint",
     "prepare": "husky install",
     "postinstall": "prisma generate",
-    "migrate-dev": "prisma migrate dev && tsx lib/seedTriggers.ts",
+    "migrate:create": "prisma migrate dev --create-only",
+    "migrate:dev": "prisma migrate dev",
+    "migrate:prod": "prisma migrate deploy",
     "ngrok": "npx ngrok http 3000",
     "script": "bun --env-file=.env "
   },
@@ -24,6 +26,7 @@
     "@hookform/resolvers": "^3.3.4",
     "@prisma/client": "5.20.0",
     "@radix-ui/react-accordion": "^1.1.2",
+    "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -50,7 +53,7 @@
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
     "drizzle-orm": "^0.30.7",
-    "embla-carousel-react": "^8.0.2",
+    "embla-carousel-react": "^8.0.4",
     "framer-motion": "^11.2.4",
     "jose": "^5.9.3",
     "jsonwebtoken": "^9.0.2",
@@ -108,6 +111,7 @@
     "prettier-plugin-tailwindcss": "^0.5.13",
     "prisma-json-types-generator": "^3.0.4",
     "tailwindcss": "^3.4.3",
+    "tsx": "^4.19.1",
     "typescript": "^5.3.3",
     "webpack": "^5.91.0"
   }

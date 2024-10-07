@@ -18,13 +18,13 @@ export default function ListsListing() {
   if (isLoading) {
     return (
       <div className="flex h-32 items-center justify-center">
-        <Icons.spinner className="h-5 w-5" />
+        <Icons.spinner className="size-5" />
       </div>
     )
   }
 
   return (
-    <div className="mb-10 mt-4 grid grid-cols-2 gap-4">
+    <div className="mb-10 mt-4 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {lists?.map((list, i) => (
         <Link key={i} href={`/lists/${list.id}`}>
           <Card>

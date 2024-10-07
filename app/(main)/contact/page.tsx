@@ -7,7 +7,7 @@ export default function ContactPage() {
   const supportEmail = "louisthomas.pro@gmail.com"
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+    <div className="flex h-full items-center justify-center bg-background p-4">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-center text-2xl font-bold">Contact Support</CardTitle>

@@ -1,5 +1,4 @@
 import { Metadata } from "next"
-import { headers } from "next/headers"
 import { notFound } from "next/navigation"
 import { habitatsDict } from "@/constants/habitats_dict"
 import { rarityDict } from "@/constants/rarity_dict"
@@ -7,7 +6,8 @@ import { regionsDict } from "@/constants/regions_dict"
 import { sociabilityDict } from "@/constants/sociability_dict"
 import { taxonomyRankDict } from "@/constants/taxonomy-rank-dict"
 import { AddToListTrigger } from "@/features/list/components/add-to-list-trigger"
-import { Prisma, Taxa } from "@prisma/client"
+import { Taxa } from "@prisma/client"
+import { z } from "zod"
 
 import prisma from "@/lib/prisma"
 import { buildSpeciesOgImageUrl, capitalizeWords } from "@/lib/utils"
@@ -25,7 +25,22 @@ import ShareButton from "@/components/species/share-button"
 import { Attribute, HighlightAttributes } from "@/components/species/ui/highlight-attributes"
 import { Section, SectionContent, SectionTitle } from "@/components/species/ui/section"
 
+function getSpeciesId(speciesId: string) {
+  const paramsSchema = z.object({
+    speciesId: z.string().regex(/^\d+$/, "Species ID must be a number"),
+  })
+  const validatedParams = paramsSchema.safeParse(speciesId)
+
+  if (!validatedParams.success) {
+    notFound()
+  }
+
+  return Number(validatedParams.data.speciesId)
+}
+
 export async function generateMetadata({ params }: { params: { speciesId: string } }): Promise<Metadata> {
+  const id = getSpeciesId(params.speciesId)
+
   const species = await prisma.taxa.findUnique({
     include: {
       medias: {
@@ -40,7 +55,7 @@ export async function generateMetadata({ params }: { params: { speciesId: string
       attributes: true,
     },
     where: {
-      id: Number(params.speciesId),
+      id,
     },
   })
 
@@ -74,12 +89,14 @@ export async function generateMetadata({ params }: { params: { speciesId: string
           alt: "Species image",
         },
       ],
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/species/${params.speciesId}`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/species/${id}`,
     },
   }
 }
 
 export default async function SpeciesPage({ params }: { params: { speciesId: string } }) {
+  const id = getSpeciesId(params.speciesId)
+
   const species = await prisma.taxa.findUnique({
     include: {
       medias: {
@@ -112,7 +129,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
       {/* Carousel */}
       <div className="relative">
         <BackButton />
-        <AddToListTrigger speciesId={Number(params.speciesId)} />
+        <AddToListTrigger speciesId={Number(id)} />
         <ShareButton />
         <SpeciesCarousel className="aspect-[3/2] overflow-hidden rounded-b-md">
           <SpeciesCarouselContent>

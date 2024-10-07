@@ -35,7 +35,7 @@ export default function LoginForm() {
         <form className="grid gap-4" action={signIn}>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="m@example.com" required />
+            <Input id="email" name="email" type="email" placeholder="m@example.com" required />
           </div>
           <div className="grid gap-2">
             <div className="flex items-center justify-between">
@@ -44,7 +44,7 @@ export default function LoginForm() {
                 Forgot password?
               </Link>
             </div>
-            <Input id="password" type="password" required />
+            <Input id="password" name="password" type="password" required />
           </div>
           <LoginButton />
         </form>

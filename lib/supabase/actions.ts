@@ -17,17 +17,16 @@ export const signIn = async (formData: FormData) => {
   const password = formData.get("password") as string
   const supabase = createClient()
 
+  console.log(email, password)
+
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
   })
 
   if (error) {
-    if (error.code === "validation_failed") {
-      return redirect(`/login?error=Invalid email or password or email not verified.`)
-    } else {
-      return redirect(`/login?error=${error.message}`)
-    }
+    console.error(error)
+    return redirect(`/login?error=${error.message}`)
   }
 
   return redirect("/")

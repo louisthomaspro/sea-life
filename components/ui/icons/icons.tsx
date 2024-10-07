@@ -27,6 +27,7 @@ import {
   CentralPeopleFilledOnStroke2Radius2,
   CentralPlusLargeFilledOffStroke2Radius2,
   CentralRulerFilledOffStroke2Radius2,
+  CentralSettingsGear2FilledOffStroke2Radius3,
   CentralShareFilledOffStroke2Radius2,
   CentralSquareGridCircleFilledOnStroke2Radius2,
   CentralTrashCanFilledOffStroke2Radius2,
@@ -92,6 +93,7 @@ export const Icons = {
   at: (props: Icon) => <CentralAtFilledOffStroke2Radius2 {...props} />,
   bars: (props: Icon) => <CentralBarsThree2FilledOffStroke2Radius2 {...props} />,
   logout: (props: Icon) => <CentralArrowBoxLeftFilledOffStroke2Radius2 {...props} />,
+  gear: (props: Icon) => <CentralSettingsGear2FilledOffStroke2Radius3 {...props} />,
 
   // Icons species details
   maxLength: (props: Icon) => <CentralRulerFilledOffStroke2Radius2 {...props} />,

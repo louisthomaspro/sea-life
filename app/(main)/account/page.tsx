@@ -36,6 +36,15 @@ export default async function Account() {
             <p className="text-sm font-medium leading-none">Contact</p>
           </div>
         </Link>
+        <Link
+          href="/account/settings"
+          className="flex h-14 items-center gap-4 rounded-md border px-5 hover:bg-gray-100 sm:h-20"
+        >
+          <Icons.gear className="size-5" />
+          <div className="grid gap-1">
+            <p className="text-sm font-medium leading-none">Settings</p>
+          </div>
+        </Link>
         {process.env.NODE_ENV === "development" && (
           <Link
             href="/admin/lost-species"

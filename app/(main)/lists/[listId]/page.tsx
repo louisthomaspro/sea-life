@@ -34,7 +34,7 @@ export default async function ListDetailsPage({ params }: { params: { listId: st
   }
 
   return (
-    <div className="container py-6">
+    <div className="container max-w-screen-md py-6">
       {/* Header */}
       <div className={cn("mb-6 grid grid-cols-[1fr_auto_1fr] items-center gap-2")}>
         <Link href={"/lists"}>

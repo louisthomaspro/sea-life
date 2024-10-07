@@ -26,16 +26,14 @@ import { Attribute, HighlightAttributes } from "@/components/species/ui/highligh
 import { Section, SectionContent, SectionTitle } from "@/components/species/ui/section"
 
 function getSpeciesId(speciesId: string) {
-  const paramsSchema = z.object({
-    speciesId: z.string().regex(/^\d+$/, "Species ID must be a number"),
-  })
+  const paramsSchema = z.string().regex(/^\d+$/, "Species ID must be a number")
   const validatedParams = paramsSchema.safeParse(speciesId)
 
   if (!validatedParams.success) {
     notFound()
   }
 
-  return Number(validatedParams.data.speciesId)
+  return Number(validatedParams.data)
 }
 
 export async function generateMetadata({ params }: { params: { speciesId: string } }): Promise<Metadata> {
@@ -125,7 +123,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
   let attributes = species.attributes!
 
   return (
-    <div>
+    <div className="mx-auto max-w-screen-md">
       {/* Carousel */}
       <div className="relative">
         <BackButton />

@@ -1,4 +1,7 @@
+"use client"
+
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 
 import { signIn } from "@/lib/supabase/actions"
 import { Button } from "@/components/ui/button"
@@ -9,6 +12,9 @@ import { GoogleSignInButton } from "@/components/auth/google-signin-button"
 import LoginButton from "@/app/(auth)/_component/login-button"
 
 export default function LoginForm() {
+  const searchParams = useSearchParams()
+  const next = searchParams.get("next")
+
   return (
     <div className="mx-auto grid w-[350px] gap-6">
       <div className="grid gap-2 text-center">
@@ -47,7 +53,7 @@ export default function LoginForm() {
       <div className="text-center text-sm text-muted-foreground">
         Don't have an account?
         <Button variant="link" className="p-2" asChild>
-          <Link href="/register">Register</Link>
+          <Link href={`/register${next ? `?next=${encodeURIComponent(next)}` : ""}`}>Register</Link>
         </Button>
       </div>
     </div>

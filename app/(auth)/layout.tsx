@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import Link from "next/link"
 
 import { Icons } from "@/components/ui/icons/icons"
@@ -7,7 +8,9 @@ import ErrorMessages from "@/app/(auth)/_component/error-messages"
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <ErrorMessages />
+      <Suspense>
+        <ErrorMessages />
+      </Suspense>
       <div className="h-screen w-full lg:grid lg:grid-cols-2">
         <div className="relative hidden bg-muted lg:block">
           <div className="absolute left-5 top-5 z-10">

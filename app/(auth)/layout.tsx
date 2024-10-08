@@ -30,7 +30,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             <p className="text-sm">Jacques Cousteau</p>
           </div>
         </div>
-        <div className="flex items-center justify-center py-12">{children}</div>
+        <div className="flex items-center justify-center px-4 py-12">{children}</div>
       </div>
     </>
   )

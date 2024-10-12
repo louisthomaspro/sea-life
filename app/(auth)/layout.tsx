@@ -1,37 +1,18 @@
-"use client"
-
-import { Suspense, useEffect, useState } from "react"
+import { Suspense } from "react"
 import Link from "next/link"
 
 import { Icons } from "@/components/ui/icons/icons"
 import { BlueGradient } from "@/app/(auth)/_component/blue-gradient"
 import ErrorMessages from "@/app/(auth)/_component/error-messages"
 
-type Platform = "android" | "ios" | "macos" | "windows" | "unknown"
-
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
-  const [platform, setPlatform] = useState<Platform>("unknown")
-
-  useEffect(() => {
-    const userAgent = window.navigator.userAgent
-    if (/android/i.test(userAgent)) {
-      setPlatform("android")
-    } else if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
-      setPlatform("ios")
-    } else if (/Mac/i.test(userAgent)) {
-      setPlatform("macos")
-    } else if (/Win/i.test(userAgent)) {
-      setPlatform("windows")
-    }
-  }, [])
-
   return (
     <>
       <Suspense>
         <ErrorMessages />
       </Suspense>
       <div className="h-screen w-full lg:grid lg:grid-cols-2">
-        <div className="relative hidden bg-muted lg:block">
+        <div className="relative hidden h-full bg-muted lg:block">
           <div className="absolute left-5 top-5 z-10">
             <Link href="/">
               <Icons.logoWithTextWhite className="h-8 w-auto" />
@@ -47,10 +28,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <div className="absolute bottom-5 left-5 right-5 flex flex-col gap-2 text-white">
             <p className="italic">"The sea, once it casts its spell, holds one in its net of wonder forever."</p>
             <p className="text-sm">Jacques Cousteau</p>
-            {platform !== "unknown" && <div className="text-right text-xs opacity-20">{platform}</div>}
           </div>
         </div>
-        <div className="flex items-center justify-center px-4 py-12">{children}</div>
+        <div className="flex h-full items-center justify-center px-4 py-12">{children}</div>
       </div>
     </>
   )

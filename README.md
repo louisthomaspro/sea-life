@@ -91,3 +91,7 @@ Issues:
 
 - https://stackoverflow.com/questions/73982121/google-login-after-successfully-auth-not-redirect-to-native-build-of-pwa
 - https://github.com/pwa-builder/PWABuilder/issues/4672
+
+## Auth
+
+Refresh every 6 months, apple token => https://supabase.com/docs/guides/auth/social-login/auth-apple?queryGroups=environment&environment=client&queryGroups=framework&framework=nextjs&queryGroups=platform&platform=web#configuration-web

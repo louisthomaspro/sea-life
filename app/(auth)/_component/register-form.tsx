@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 
@@ -15,6 +16,21 @@ import RegisterButton from "@/app/(auth)/_component/register-button"
 export default function RegisterForm() {
   const searchParams = useSearchParams()
   const next = searchParams.get("next")
+
+  const [platform, setPlatform] = useState<"android" | "ios" | "macos" | "windows" | "unknown">("unknown")
+
+  useEffect(() => {
+    const userAgent = window.navigator.userAgent
+    if (/android/i.test(userAgent)) {
+      setPlatform("android")
+    } else if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
+      setPlatform("ios")
+    } else if (/Mac/i.test(userAgent)) {
+      setPlatform("macos")
+    } else if (/Win/i.test(userAgent)) {
+      setPlatform("windows")
+    }
+  }, [])
 
   return (
     <div className="mx-auto grid w-full max-w-[350px] gap-6">
@@ -54,6 +70,7 @@ export default function RegisterForm() {
         <Button variant="link" className="p-2" asChild>
           <Link href={`/login${next ? `?next=${encodeURIComponent(next)}` : ""}`}>Login</Link>
         </Button>
+        {platform !== "unknown" && <div className="text-center text-xs opacity-10">{platform}</div>}
       </div>
     </div>
   )

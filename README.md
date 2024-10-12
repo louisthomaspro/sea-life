@@ -66,7 +66,7 @@ bun ./script/{script_name}.ts
 
 1. Go to: https://www.pwabuilder.com/reportcard?site=https://sea-life.vercel.app/
 2. Click on "Package For Stores" > "Generate Package"
-3. In "All Settings" tab, set "Permitted URLs" to `account.google.com, accounts.google.com,etbfmqkktewuqbpktqvf.supabase.co, www.google.com`
+3. In "All Settings" tab, set "Permitted URLs" to `account.google.com, accounts.google.com,etbfmqkktewuqbpktqvf.supabase.co, www.google.com, appleid.apple.com`
 4. Add the following to "Info.plist"
 
 ```xml

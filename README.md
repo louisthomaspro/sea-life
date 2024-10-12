@@ -61,3 +61,33 @@ pg_restore --schema=public --data-only -d "postgres://postgres.etbfmqkktewuqbpkt
 ```bash
 bun ./script/{script_name}.ts
 ```
+
+## Build package for IOS/Android
+
+1. Go to: https://www.pwabuilder.com/reportcard?site=https://sea-life.vercel.app/
+2. Click on "Package For Stores" > "Generate Package"
+3. In "All Settings" tab, set "Permitted URLs" to `account.google.com, accounts.google.com,etbfmqkktewuqbpktqvf.supabase.co, www.google.com`
+4. Add the following to "Info.plist"
+
+```xml
+<key>GIDClientID</key>
+<string>909644859124-qmpo0hoe8iqkdg0todr9vs3lkloelodj.apps.googleusercontent.com</string>
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>com.googleusercontent.apps.909644859124-qmpo0hoe8iqkdg0todr9vs3lkloelodj</string>
+    </array>
+  </dict>
+</array>
+<key>GIDServerClientID</key>
+<string>909644859124-0s3cavensh8ccuri4ena5okt5koip88g.apps.googleusercontent.com</string>
+```
+
+BUNDLE_ID=app.vercel.sea-life
+
+Issues:
+
+- https://stackoverflow.com/questions/73982121/google-login-after-successfully-auth-not-redirect-to-native-build-of-pwa
+- https://github.com/pwa-builder/PWABuilder/issues/4672

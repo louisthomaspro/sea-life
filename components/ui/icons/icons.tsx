@@ -1,5 +1,4 @@
 import { SVGProps } from "react"
-import GoogleLogo from "@/public/svg/google-logo.svg"
 import LogoWithTextWhite from "@/public/svg/logo-with-text-white.svg"
 import LogoWithText from "@/public/svg/logo-with-text.svg"
 import Logo from "@/public/svg/logo.svg"
@@ -61,6 +60,8 @@ import {
   TuberclesPatternIcon,
   VerticalMarkingIcon,
 } from "@/components/ui/icons/search-icons"
+import Apple from "@/components/ui/icons/svgl.app/apple"
+import Google from "@/components/ui/icons/svgl.app/google"
 
 type Icon = Partial<SVGProps<SVGSVGElement>>
 
@@ -89,7 +90,8 @@ export const Icons = {
   delete: (props: Icon) => <CentralTrashCanFilledOffStroke2Radius2 {...props} />,
   check: (props: Icon) => <CentralCircleCheckFilledOnStroke2Radius2 {...props} />,
   edit: (props: Icon) => <CentralPencilLineFilledOffStroke2Radius2 {...props} />,
-  google: (props: Icon) => <GoogleLogo {...props} />,
+  google: (props: Icon) => <Google {...props} />,
+  apple: (props: Icon) => <Apple {...props} />,
   at: (props: Icon) => <CentralAtFilledOffStroke2Radius2 {...props} />,
   bars: (props: Icon) => <CentralBarsThree2FilledOffStroke2Radius2 {...props} />,
   logout: (props: Icon) => <CentralArrowBoxLeftFilledOffStroke2Radius2 {...props} />,

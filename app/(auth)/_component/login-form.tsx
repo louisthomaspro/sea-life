@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
+import { AppleSignInButton } from "@/components/auth/apple-signin-button"
 import { GoogleSignInButton } from "@/components/auth/google-signin-button"
 import LoginButton from "@/app/(auth)/_component/login-button"
 
@@ -23,7 +24,10 @@ export default function LoginForm() {
       </div>
       {/* Login options */}
       <div className="grid gap-4">
-        <GoogleSignInButton className="w-full" />
+        <div className="flex flex-col gap-2">
+          <GoogleSignInButton className="w-full" />
+          <AppleSignInButton className="w-full" />
+        </div>
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <Separator className="w-full" />

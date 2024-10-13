@@ -91,6 +91,7 @@ Issues:
 
 - https://stackoverflow.com/questions/73982121/google-login-after-successfully-auth-not-redirect-to-native-build-of-pwa
 - https://github.com/pwa-builder/PWABuilder/issues/4672
+- https://forums.developer.apple.com/forums/thread/740376
 
 ## Auth
 

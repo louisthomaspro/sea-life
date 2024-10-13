@@ -50,7 +50,7 @@ let nextConfig = {
   },
 }
 
-if (process.env.VERCEL_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
   nextConfig = withPWA(nextConfig)
 }
 

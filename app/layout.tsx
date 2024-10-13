@@ -10,7 +10,7 @@ import { TailwindIndicator } from "@/components/tailwind-indicator"
 
 export const metadata: Metadata = {
   manifest: "/manifest.json",
-  ...(process.env.VERCEL_ENV === "development"
+  ...(process.env.NODE_ENV === "development"
     ? {
         metadataBase: new URL("http://localhost:3000"),
       }

@@ -11,6 +11,7 @@ import { z } from "zod"
 
 import prisma from "@/lib/prisma"
 import { buildSpeciesOgImageUrl, capitalizeWords } from "@/lib/utils"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Icons } from "@/components/ui/icons/icons"
 import ImageLoader from "@/components/ui/image-loader"
 import {
@@ -123,7 +124,7 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
   let attributes = species.attributes!
 
   return (
-    <div className="mx-auto max-w-screen-md">
+    <div className="mx-auto max-w-screen-md pb-10">
       {/* Carousel */}
       <div className="relative">
         <BackButton />
@@ -203,8 +204,8 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
             )}
           </HighlightAttributes>
         )}
-        <div className="mt-5 flex flex-col gap-4">
-          {process.env.VERCEL_ENV === "development" && (
+        <div className="mt-5 flex flex-col gap-5">
+          {process.env.NODE_ENV === "development" && (
             <Section>
               <SectionTitle>Test</SectionTitle>
               <SectionContent>
@@ -283,7 +284,6 @@ export default async function SpeciesPage({ params }: { params: { speciesId: str
     </div>
   )
 }
-
 const Taxonomy = (ancestors: Taxa[]) => {
   if (ancestors.length === 0) {
     return ""

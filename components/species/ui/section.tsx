@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 
-export const Section = ({ className, ...props }: any) => <div className={cn("py-4", className)} {...props} />
+export const Section = ({ className, ...props }: any) => <div className={cn("", className)} {...props} />
 
 export const SectionTitle = ({ className, ...props }: any) => (
   <div className={cn("mb-2 flex items-center gap-4", className)} {...props}>

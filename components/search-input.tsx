@@ -13,7 +13,7 @@ import ImageLoader from "@/components/ui/image-loader"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import AdvancedSearchButton from "@/components/advanced-search-button/advanced-search-button"
-import { SearchResult } from "@/app/(main)/api/search/route"
+import { SearchResult } from "@/app/api/search/route"
 
 interface SearchInputProps extends React.HTMLProps<HTMLInputElement> {}
 

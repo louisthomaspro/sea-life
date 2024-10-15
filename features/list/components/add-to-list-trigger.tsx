@@ -146,7 +146,7 @@ export default function AddToListDrawerContent({ speciesId }: AddToListDrawerCon
                     </div>
                     {list._count.species > 0 && (
                       <div className="ml-auto">
-                        <Icons.check className="text size-5 text-sealife" />
+                        <Icons.checkCircle className="text size-5 text-sealife" />
                       </div>
                     )}
                   </div>

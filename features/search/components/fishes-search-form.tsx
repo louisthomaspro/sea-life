@@ -1,6 +1,5 @@
 "use client"
 
-import { useRef } from "react"
 import { bodyShapes, caudalFinShapes, colors, patterns } from "@/constants/morphology"
 import { regionsList } from "@/constants/regions_dict"
 import { ColorCheckbox } from "@/features/search/components/ui/color-checkbox"
@@ -8,23 +7,19 @@ import { InputGroup } from "@/features/search/components/ui/form"
 import { SimpleCheckbox } from "@/features/search/components/ui/simple-checkbox"
 import { SearchFilterEnum } from "@/features/search/enum"
 import { useSearch } from "@/features/search/search-provider"
+import { motion } from "framer-motion"
 
 import { cn } from "@/lib/utils"
+import { Icons } from "@/components/ui/icons/icons"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 
 export default function FishesSearchForm() {
   const { setValue, filterState } = useSearch()
 
-  const handleColors = (value: boolean, selectedId: string) => {
-    if (value) {
-      setValue(SearchFilterEnum.Colors, [...(filterState.colors ?? []), selectedId])
-    } else {
-      setValue(
-        SearchFilterEnum.Colors,
-        (filterState.colors ?? []).filter((id) => id !== selectedId)
-      )
-    }
+  const handleColors = (value: string[]) => {
+    setValue(SearchFilterEnum.Colors, value)
   }
 
   const handlePattern = (value: boolean, id: string) => {
@@ -65,13 +60,13 @@ export default function FishesSearchForm() {
             }
           }}
         >
-          <SelectTrigger>
+          <SelectTrigger className="h-11">
             <SelectValue placeholder="Select a region" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               {regionsList.map((region, i) => (
-                <SelectItem key={i} value={region.id}>
+                <SelectItem key={i} value={region.id} className="h-11">
                   {region.name.en}
                 </SelectItem>
               ))}
@@ -82,18 +77,35 @@ export default function FishesSearchForm() {
 
       <InputGroup>
         <Label>Colors</Label>
-        <div className="no-scrollbar flex overflow-auto">
-          {colors.map((color, i) => (
-            <ColorCheckbox
-              color={color.hex}
-              defaultChecked={filterState.colors?.includes(color.id)}
-              key={i}
-              onCheckedChange={(value) => handleColors(!!value, color.id)}
+        <ToggleGroup
+          type="multiple"
+          value={filterState.colors ?? []}
+          onValueChange={handleColors}
+          className="flex flex-wrap justify-start gap-3"
+        >
+          {colors.map((color) => (
+            <ToggleGroupItem
+              key={color.id}
+              value={color.id}
+              className="group relative h-10 w-10 rounded-md border border-black/30 bg-origin-border p-0 shadow-sm focus:outline-none"
+              style={{ backgroundColor: color.hex }}
+              aria-label={color.id}
             >
-              <div className="h-4 w-4 rounded-sm" style={{ backgroundColor: color.hex }} />
-            </ColorCheckbox>
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center"
+                initial={false}
+                animate={{
+                  scale: filterState.colors?.includes(color.id) ? 1 : 0.8,
+                  opacity: filterState.colors?.includes(color.id) ? 1 : 0,
+                }}
+                transition={{ duration: 0.2 }}
+              >
+                <Icons.check className="size-4" />
+              </motion.div>
+              <span className="sr-only">{color.id}</span>
+            </ToggleGroupItem>
           ))}
-        </div>
+        </ToggleGroup>
       </InputGroup>
 
       <InputGroup>

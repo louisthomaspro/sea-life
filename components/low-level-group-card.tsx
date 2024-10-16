@@ -48,7 +48,7 @@ export default function LowLevelGroupCard({ group, className, ...props }: LowLev
   )
 }
 
-async function SpeciesList({ group }: { group: groupWithHighlightedSpecies }) {
+function SpeciesList({ group }: { group: groupWithHighlightedSpecies }) {
   return (
     <div className={"relative -ml-4 -mr-4 flex"}>
       <div className="no-scrollbar space-x-1 overflow-auto whitespace-nowrap">

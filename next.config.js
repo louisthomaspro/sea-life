@@ -52,7 +52,7 @@ let nextConfig = {
 }
 
 if (process.env.NODE_ENV === "production") {
-  // nextConfig = withPWA(nextConfig)
+  nextConfig = withPWA(nextConfig)
 }
 
 module.exports = nextConfig

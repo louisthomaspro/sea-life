@@ -38,6 +38,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    "/((?!api|auth|_next/static|_next/image|favicon.ico|manifest.json|workbox-.*.js|sw.js|swe-worker-.*.js|.well-known|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!api|auth|_next/static|_next/image|favicon.ico|manifest.json|workbox-.*.js|sw.js|swe-worker-.*.js|.well-known|.*\\.(?:svg|png|jpg|jpeg|gif|webp|mp4)$).*)",
   ],
 }

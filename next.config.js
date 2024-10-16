@@ -15,11 +15,12 @@ let nextConfig = {
   //   ppr: true,
   // },
   experimental: {
+    // https://nextjs.org/docs/app/api-reference/next-config-js/turbo#webpack-loaders
     turbo: {
       rules: {
         "*.svg": {
           loaders: ["@svgr/webpack"],
-          as: "*.js", // temporary workaround for https://github.com/vercel/turbo/issues/4832
+          as: "*.js",
         },
       },
     },
@@ -51,7 +52,7 @@ let nextConfig = {
 }
 
 if (process.env.NODE_ENV === "production") {
-  nextConfig = withPWA(nextConfig)
+  // nextConfig = withPWA(nextConfig)
 }
 
 module.exports = nextConfig

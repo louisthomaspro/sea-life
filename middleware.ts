@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
 
   // Check if public route using pathToRegexp
   const regexPatterns = publicRoutes.map((route) => pathToRegexp(route))
-  const isPublicPage = !!regexPatterns.find((pattern) => pattern.test(request.nextUrl.pathname))
+  const isPublicPage = !!regexPatterns.find((pattern) => pattern.regexp.test(request.nextUrl.pathname))
   if (isPublicPage) return response
 
   if (!user) {

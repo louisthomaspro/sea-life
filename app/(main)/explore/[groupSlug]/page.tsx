@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { EditGroupTrigger } from "@/features/admin/components/create-update-group"
@@ -23,9 +24,8 @@ export async function generateStaticParams() {
   }))
 }
 
-export default async function GroupPage({ params }: { params: { groupSlug: string } }) {
-  // get the group details from groups tree variable
-  const group = await prisma.group.findUnique({
+const getGroupData = async (groupSlug: string) => {
+  return prisma.group.findUnique({
     include: {
       parent: {
         select: {
@@ -39,7 +39,6 @@ export default async function GroupPage({ params }: { params: { groupSlug: strin
               medias: {
                 select: {
                   url: true,
-                  blurhashDataUrl: true,
                 },
                 orderBy: {
                   position: "asc",
@@ -61,12 +60,22 @@ export default async function GroupPage({ params }: { params: { groupSlug: strin
       },
     },
     where: {
-      slug: params.groupSlug,
+      slug: groupSlug,
     },
   })
+}
+const getGroupDataCache = unstable_cache(getGroupData, ["group-data"])
+
+const getSpeciesData = async (taxaIds: number[]) => {
+  return getSpeciesByAncestorList(taxaIds)
+}
+const getSpeciesDataCache = unstable_cache(getSpeciesData, ["species-data"])
+
+export default async function GroupPage({ params }: { params: { groupSlug: string } }) {
+  const group = await getGroupDataCache(params.groupSlug)
   if (!group) notFound()
 
-  // sort group by common name en
+  // Sort group by common name en
   group.children.sort((a, b) => (a.commonNames.en ?? "").localeCompare(b.commonNames.en ?? ""))
 
   const showSpecies = group.children.length === 0
@@ -82,9 +91,9 @@ export default async function GroupPage({ params }: { params: { groupSlug: strin
     }
   }>[] = []
 
-  // if the group has no children, get the species
+  // If the group has no children, get the species
   if (showSpecies) {
-    species = await getSpeciesByAncestorList(group.highLevelTaxa.map((taxa) => taxa.id))
+    species = await getSpeciesDataCache(group.highLevelTaxa.map((taxa) => taxa.id))
   }
 
   return (

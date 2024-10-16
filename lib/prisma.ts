@@ -1,6 +1,7 @@
 // lib/prisma.ts
 import { PrismaClient } from "@prisma/client"
-import { withOptimize } from "@prisma/extension-optimize"
+
+// import { withOptimize } from "@prisma/extension-optimize"
 
 let prisma: PrismaClient
 
@@ -40,7 +41,7 @@ if (process.env.NODE_ENV === "production") {
       console.log("Params: " + e.params)
       console.log("Duration: " + e.duration + "ms")
     })
-    prisma.$extends(withOptimize({ apiKey: process.env.OPTIMIZE_API_KEY! }))
+    // prisma.$extends(withOptimize({ apiKey: process.env.OPTIMIZE_API_KEY! }))
   }
 }
 

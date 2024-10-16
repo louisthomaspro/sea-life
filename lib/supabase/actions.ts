@@ -42,7 +42,7 @@ export const signUp = async (formData: FormData) => {
     email,
     password,
     options: {
-      emailRedirectTo: `${origin}/auth/callback`,
+      emailRedirectTo: `${origin}`,
     },
   })
 
@@ -78,5 +78,28 @@ export const signInWithProvider = async ({ provider, next }: { provider: Provide
 
   if (data.url) {
     return redirect(data.url) // use the redirect API for your server framework
+  }
+}
+
+export const resetPassword = async (email: string) => {
+  const supabase = createClient()
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${getURL()}reset-password`,
+  })
+
+  if (error) {
+    throw error.message
+  }
+}
+
+export const updatePassword = async (password: string) => {
+  const supabase = createClient()
+  const { data, error } = await supabase.auth.updateUser({
+    password,
+  })
+
+  if (error) {
+    console.error(error)
+    throw error
   }
 }

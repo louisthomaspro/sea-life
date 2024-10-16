@@ -6,6 +6,8 @@ import { updateSession } from "@/lib/supabase/middleware"
 const publicRoutes = [
   "/login",
   "/register",
+  "/forgot-password",
+  "/reset-password",
   "/contact",
   "/",
   "/species/:speciesId",

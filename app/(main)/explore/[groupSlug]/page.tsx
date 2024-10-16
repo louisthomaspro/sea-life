@@ -13,16 +13,16 @@ import HighLevelGroupCard from "@/components/high-level-group-card"
 import LowLevelGroupCard from "@/components/low-level-group-card"
 import SpeciesCard from "@/components/species-card"
 
-export async function generateStaticParams() {
-  const groups = await prisma.group.findMany({
-    select: {
-      slug: true,
-    },
-  })
-  return groups.map((group) => ({
-    groupSlug: group.slug,
-  }))
-}
+// export async function generateStaticParams() {
+//   const groups = await prisma.group.findMany({
+//     select: {
+//       slug: true,
+//     },
+//   })
+//   return groups.map((group) => ({
+//     groupSlug: group.slug,
+//   }))
+// }
 
 const getGroupData = async (groupSlug: string) => {
   return prisma.group.findUnique({

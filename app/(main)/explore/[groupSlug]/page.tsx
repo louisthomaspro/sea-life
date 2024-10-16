@@ -13,6 +13,8 @@ import HighLevelGroupCard from "@/components/high-level-group-card"
 import LowLevelGroupCard from "@/components/low-level-group-card"
 import SpeciesCard from "@/components/species-card"
 
+export const dynamic = "force-static"
+
 export async function generateStaticParams() {
   const groups = await prisma.group.findMany({
     select: {

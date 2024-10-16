@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import Link from "next/link"
 
 import { Icons } from "@/components/ui/icons/icons"
@@ -11,7 +12,9 @@ export default function Header() {
           <Icons.logoWithText className="hidden h-8 w-auto lg:block" />
           <Icons.logo className="h-8 w-auto lg:hidden" />
         </Link>
-        <UserAccount />
+        <Suspense>
+          <UserAccount />
+        </Suspense>
       </div>
     </header>
   )

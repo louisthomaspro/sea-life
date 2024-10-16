@@ -11,9 +11,9 @@ const withPWA = require("@ducanh2912/next-pwa").default({
 
 /** @type {import('next').NextConfig} */
 let nextConfig = {
-  // experimental: {
-  //   ppr: true,
-  // },
+  experimental: {
+    ppr: true,
+  },
   experimental: {
     // https://nextjs.org/docs/app/api-reference/next-config-js/turbo#webpack-loaders
     turbo: {
